@@ -14,7 +14,6 @@ const Navigation = () => {
               <li className="nav-item">
                 <NavLink className="nav-link" to="/">
                   Home
-                  <span className="sr-only">(current)</span>
                 </NavLink>
               </li>
               <li className="nav-item">

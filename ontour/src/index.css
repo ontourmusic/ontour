@@ -12,13 +12,21 @@ code {
     monospace;
 }
 
+.artist{
+  width: 100%;
+  height: 250px;
+  margin: auto;
+}
 #artist-background{
-  /* background-image: url("https://wallpaperaccess.com/full/276460.jpg"); */
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://wallpaperaccess.com/full/276460.jpg");
   width: 100%;
-  height: 50%;
+  height: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+}
+
+#gallery{
+  height:100px;
 }
