@@ -92,3 +92,8 @@ code {
 .more-upcoming, .more-past {
   display: none;
 }
+
+.social-media-icon{
+  padding-left: 10px;
+  padding-right: 10px;
+}
