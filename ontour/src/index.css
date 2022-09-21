@@ -58,3 +58,37 @@ code {
   top: 50%;
   transform: translateY(-50%);
 }
+
+
+
+.date-btn {
+  width: 9vh;
+  height: 9vh;
+}
+
+.show-location {
+  text-align: left;
+}
+
+.shows {
+  width: 50%;
+}
+
+.shows a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.show {
+  border-bottom: 1.5px solid #999;
+}
+
+#upcoming-btn, #past-btn {
+  border: none;
+  background-color: inherit;
+  text-decoration: underline;
+}
+
+.more-upcoming, .more-past {
+  display: none;
+}
