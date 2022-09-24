@@ -7,6 +7,7 @@ import Carousel from "../components/Carousel";
 import UpcomingSchedule from "../components/UpcomingSchedule";
 import PreviousSchedule from "../components/PreviousSchedule";
 import Review from "../components/Review";
+import WriteReview from "../components/WriteReview";
 
 function Artist() {
 
@@ -33,6 +34,8 @@ function Artist() {
             <Review user="User C" date="9/5/2022" rating="Rating: * * * * * 5/5" text="HE IS SO HOTTT."/>
           </div>
         </div>
+
+        <WriteReview/>
       </div>
 </>
   );
