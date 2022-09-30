@@ -5,7 +5,6 @@ import Home from './pages/Home';
 import Artist from './pages/Artist';
 import Review from './pages/Review';
 import Navigation from './Navigation';
-import Footer from './pages/Footer';
 
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
           <Route path="/artist" element={<Artist />} />
           <Route path="/review" element={<Review />} />
         </Routes>
-        {/* <Footer /> */}
       </Router>
     </div>
   );

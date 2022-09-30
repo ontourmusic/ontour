@@ -216,3 +216,7 @@ code {
     text-align: center;
     font-size: 5em;
   }
+
+  #writebutton{
+    margin-top:20px;
+  }

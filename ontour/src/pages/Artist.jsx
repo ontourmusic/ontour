@@ -11,10 +11,22 @@ import WriteReview from "../components/WriteReview";
 
 function Artist() {
 
+  function handleClick()
+  {
+    console.log("Clicked");
+    // const element = document.getElementById("reviewwrite");
+    // element.scrollIntoView();
+  }
+
   return (
     <>
       <div className="artist">
         <ArtistHeader name="Jack Harlow" rating="Rating *****"/>
+        <div id="goreviewbutton">
+            <a href="#reviewwrite">
+              <button id="writebutton" type="button" class="btn btn-info" onClick={handleClick}>Write a Review</button>
+            </a>
+        </div>
         <div class= "d-flex justify-content-end">
           <ExternalLink mediaLink="https://open.spotify.com/artist/2LIk90788K0zvyj2JJVwkJ?si=ggKw9EM3QlePSkEkRB0o9g" iconLink="images/Spotify_icon.svg.png"/>
           <ExternalLink mediaLink="https://www.stubhub.com/jack-harlow-tickets/category/100275160/" iconLink="images/ticket_icon.png"/>
@@ -35,7 +47,7 @@ function Artist() {
           </div>
         </div>
 
-        <WriteReview/>
+        <WriteReview id="reviewwrite"/>
       </div>
 </>
   );
