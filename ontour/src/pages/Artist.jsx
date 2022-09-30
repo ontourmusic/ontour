@@ -14,8 +14,13 @@ function Artist() {
   function handleClick()
   {
     console.log("Clicked");
-    // const element = document.getElementById("reviewwrite");
-    // element.scrollIntoView();
+    
+    fetchData();
+  }
+  const fetchData = async () => {
+    const response = await fetch("http://localhost:8000/reviews/1")
+    const data = await response.json();
+    console.log(data);
   }
 
   return (

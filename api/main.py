@@ -8,13 +8,31 @@ from schema import Artist
 
 from models import Artist as ModelArtist
 
+from models import Reviews as ModelReviews
+
 import os
 from dotenv import load_dotenv
+
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv('.env')
 
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",
+    "localhost:3000"
+]
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 # to avoid csrftokenError
 app.add_middleware(DBSessionMiddleware, db_url='postgresql://postgres:ontour@3.17.148.99/postgres')
@@ -49,6 +67,28 @@ async def author(author:SchemaArtist, fname: str, lname: str):
 async def author():
     artist = db.session.query(ModelArtist).all()
     return artist
+
+@app.get('/artist/')
+async def author():
+    artist = db.session.query(ModelArtist).all()
+    return artist
+
+@app.get('/artist/{artist_id}')
+async def author(artist_id: int):
+    artist = db.session.query(ModelArtist).filter(ModelArtist.artist_id == artist_id).first()
+    return artist
+
+@app.get('/reviews/{artist_id}')
+async def reviews(artist_id: int):
+    reviews = db.session.query(ModelReviews).filter(ModelReviews.artist_id == artist_id).all()
+    return reviews
+
+@app.post('/reviews/')
+async def reviews(artist_id: int, event_id: int, rating: float, description: str):
+    db_review = ModelReviews(artist_id= artist_id, event_id= event_id, rating=rating, description=description)
+    db.session.add(db_review)
+    db.session.commit()
+    return db_review
 
 
 # To run locally

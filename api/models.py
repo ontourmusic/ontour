@@ -25,3 +25,12 @@ class Artist(Base):
     genre = Column(String)
     alias = Column(String)
 
+
+class Reviews(Base):
+    __tablename__ = 'reviews'
+    review_id = Column(Integer, primary_key=True)
+    artist_id = Column(Integer)
+    event_id = Column(Integer)
+    rating = Column(Float)
+    description = Column(String)
+
