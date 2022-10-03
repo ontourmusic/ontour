@@ -9,8 +9,12 @@ import PreviousSchedule from "../components/PreviousSchedule";
 import Review from "../components/Review";
 import WriteReview from "../components/WriteReview";
 import Sidebar from "../components/Sidebar"
+import { Link, useParams } from 'react-router-dom';
 
-function Artist() {
+function Artist({route, navigation}) {
+
+  const {artist} = useParams();
+  console.log('value is:', artist);
 
   function handleClick()
   {
@@ -27,7 +31,7 @@ function Artist() {
   return (
     <>
       <div className="artist">
-        <ArtistHeader name="Jack Harlow" rating="4.5"/>
+        <ArtistHeader name={JSON.stringify(artist)} rating="4.5"/>
 
         <Sidebar/>
 
