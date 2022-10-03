@@ -11,7 +11,7 @@ export default function Show(props)
                     {props.date}
                 </div>
                 <div class="schedule-subfont">
-                    Sun • 1:00pm
+                    {props.time}
                 </div>
                 </div>
                 <div class="col-7 show-location">
