@@ -24,6 +24,10 @@ function Artist() {
     console.log(data);
   }
 
+  const fetchSpotify = async () => {
+    const response = await fetch("https://api.spotify.com/v1/search?q=Jack%20Harlow&type=artist");
+  }
+
   return (
     <>
       <div className="artist">

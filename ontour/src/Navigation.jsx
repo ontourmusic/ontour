@@ -21,11 +21,6 @@ const Navigation = () => {
                 Artist
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/review">
-                Review
-              </NavLink>
-            </li>
           </ul>
         </div>
       </div>
