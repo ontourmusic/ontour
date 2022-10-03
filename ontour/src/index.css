@@ -234,3 +234,8 @@ code {
     width: 15px;
     margin-left: 3px;
   }
+
+  #arrow {
+    width: 2vh;
+    transform: rotate(270deg);
+  }

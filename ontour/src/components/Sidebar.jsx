@@ -17,6 +17,9 @@ export default function Sidebar(props)
           <ExternalLink mediaLink="https://www.stubhub.com/jack-harlow-tickets/category/100275160/" iconLink="images/ticket_icon.png"/>
           <ExternalLink mediaLink="https://www.jackharlow.us" iconLink="images/store_icon.png"/>
           <UpcomingSchedule/>
+          <a href="#top">
+            <img id="arrow" src="https://assets.sk-static.com/images/nw/furniture/icons/chevron-black.svg"></img>
+          </a>
         </div>
     );
 }
