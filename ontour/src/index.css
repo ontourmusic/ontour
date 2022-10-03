@@ -14,7 +14,7 @@ code {
 
 .artist{
   width: 100%;
-  height: 250px;
+  height: 100%;
   margin: auto;
 }
 #artist-background{
@@ -59,7 +59,7 @@ code {
   transform: translateY(-50%);
 }
 
-
+/* Schedule */
 
 .date-btn {
   width: 9vh;
@@ -71,7 +71,7 @@ code {
 }
 
 .shows {
-  width: 50%;
+  width: 100%;
 }
 
 .shows a {
@@ -96,6 +96,28 @@ code {
 .social-media-icon{
   padding-left: 10px;
   padding-right: 10px;
+}
+
+/* Sidebar */
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  width: 23.5%;
+  float: right;
+  margin-right: 1.5%;
+}
+
+.no-sidebar {
+  width: 75%;
+}
+
+.schedule-font {
+  font-size: 14px;
+}
+
+.schedule-subfont {
+  font-size: 12px;
 }
 
 
@@ -218,5 +240,5 @@ code {
   }
 
   #writebutton{
-    margin-top:20px;
+    margin-bottom: 20px;
   }
