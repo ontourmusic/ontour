@@ -10,18 +10,37 @@ import Review from "../components/Review";
 import WriteReview from "../components/WriteReview";
 import Sidebar from "../components/Sidebar"
 import { useSearchParams } from 'react-router-dom';
+import {useState, useEffect} from 'react';
 
 function Artist() {
 
   const [searchParams] = useSearchParams();
+  const artistName = searchParams.get("artist");
   console.log('value is:', searchParams.get("artist"));
 
-  function handleClick()
-  {
-    console.log("Clicked");
-    
-    fetchData();
+  //set var names here
+  const [fname, setFname] = useState("");
+  const [lname, setLname] = useState("");
+  const [fullName, setFullName] = useState("");
+
+  const performSearch = async () => {
+    const artistResponse = await fetch(`http://localhost:8000/search_artist/${artistName}`);
+    const artistData = await artistResponse.json();
+    console.log(artistData);
+    setFname(artistData[0].fname);
+    setLname(artistData[0].lname);
+    setFullName(fname + " " + lname);
+    const artistId = artistData[0].artist_id;
+
+    const getReviews = await fetch("http://localhost:8000/reviews/1");
+    const reviewData = await getReviews.json();
+    console.log(reviewData);
   }
+
+  useEffect(() => {
+    performSearch();
+  }, [fname]);
+  
   const fetchData = async () => {
     const response = await fetch("http://localhost:8000/reviews/1")
     const data = await response.json();
@@ -34,8 +53,8 @@ function Artist() {
 
   return (
     <>
-      <div className="artist">
-        <ArtistHeader name={searchParams.get("artist")} rating="4.5"/>
+      <div className="artist" >
+        <ArtistHeader name={fullName} rating="4.5"/>
 
         <Sidebar/>
 
