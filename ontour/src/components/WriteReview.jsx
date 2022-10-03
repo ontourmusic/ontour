@@ -8,6 +8,7 @@ export default function WriteReview(props)
   const [eventName, setEvent] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState("");
+  const [date, setDate] = useState("");
 
   const handleWriteReview = event => {
     console.log("in clicked write review");
@@ -16,6 +17,7 @@ export default function WriteReview(props)
     console.log(eventName);
     console.log(description);
     console.log(rating);
+    console.info(date);
   }
 
     return (
@@ -42,15 +44,20 @@ export default function WriteReview(props)
               <div class="col">
                 <input type="text" class="form-control" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event"/>
               </div>
+              <div class="col">
+                <input type="date" class="form-control" id="date" onChange={event => setDate(event.target.value)}  placeholder="Date"/>
+              </div>
             </div>
             <div class="row">
               <div class="col">
                 <textarea class="form-control" id="description" rows="3" onChange={event => setDescription(event.target.value)} value ={description} placeholder="Description"></textarea>
               </div>
             </div>
+            <br></br>
             <div id="reviewbutton">
               <input class="btn btn-dark fw-bold" type="button" onClick={handleWriteReview} value="Submit"></input>
             </div>
+
           </form>
         </div>
     )
