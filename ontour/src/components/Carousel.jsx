@@ -4,8 +4,8 @@ import CarouselItem from "./CarouselItem";
 export default function Carousel(props)
 {
     return (
-        <div class="container py-5">
-            <h2 class="h3 font-weight-bold">Photo Gallery</h2>
+        <div class="container pt-5">
+            <h4 class="fw-bold">Photo Gallery</h4>
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <CarouselItem active="active" image="https://www.rollingstone.com/wp-content/uploads/2022/05/jack-harlow-tour.jpg" text="Card title 1"/>

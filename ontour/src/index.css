@@ -27,10 +27,6 @@ code {
   position: relative;
 }
 
-#gallery{
-  height:100px;
-}
-
 @media (min-width: 768px) {
   .carousel-inner {
     display: flex;
@@ -61,11 +57,6 @@ code {
 
 /* Schedule */
 
-.date-btn {
-  width: 9vh;
-  height: 9vh;
-}
-
 .show-location {
   text-align: left;
 }
@@ -80,7 +71,7 @@ code {
 }
 
 .show {
-  border-bottom: 1.5px solid #999;
+  border-bottom: 1px solid #D9DADB;
 }
 
 #upcoming-btn, #past-btn {
@@ -103,9 +94,9 @@ code {
 .sidebar {
   position: sticky;
   top: 0;
-  width: 23.5%;
+  width: 24%;
   float: right;
-  margin-right: 1.5%;
+  margin-right: 1%;
 }
 
 .no-sidebar {
@@ -120,9 +111,11 @@ code {
   font-size: 12px;
 }
 
+.sidebar img {
+  border-radius: 50%;
+}
 
 /* Rating */
-
 
 .rating {
   display: flex;
@@ -135,7 +128,7 @@ code {
 .rating > label {
   position: relative;
     width: 1em;
-    font-size: 4.5vw;
+    font-size: 4vw;
     color: #FFD600;
     cursor: pointer;
 }
@@ -165,11 +158,6 @@ code {
 
 
 /* Home page search bar */
-
-
-
-
-
 
 .search{
   position: relative;
@@ -204,7 +192,6 @@ code {
   }
 
   .search button{
-
    position: absolute;
    top: 5px;
    right: 5px;
@@ -241,4 +228,9 @@ code {
 
   #writebutton{
     margin-bottom: 20px;
+  }
+
+  #guitar {
+    width: 15px;
+    margin-left: 3px;
   }

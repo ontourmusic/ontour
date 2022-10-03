@@ -3,8 +3,8 @@ import '../index.css';
 export default function WriteReview(props)
 {
     return (
-        <div class="container py-5">
-          <h2 class="h3 font-weight-bold">Leave a Review</h2>
+        <div class="container pb-5" id="review">
+          <h4 class="fw-bold">Write a Review</h4>
           <hr></hr>
           <div class="rating">
             <input type="radio" name="rating" value="5" id="5"/><label for="5">☆</label>
@@ -33,7 +33,7 @@ export default function WriteReview(props)
               </div>
             </div>
             <div id="reviewbutton">
-              <input class="btn btn-primary bg-dark" type="button" value="Submit"></input>
+              <input class="btn btn-dark fw-bold" type="button" value="Submit"></input>
             </div>
           </form>
         </div>
