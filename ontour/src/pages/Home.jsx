@@ -1,17 +1,25 @@
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {createSearchParams, useNavigate} from "react-router-dom";
 import {useState} from 'react';
 
 function Home() {
-  const [artist_name] = useState('')
+  const [artist_name, setName] = useState('')
 
-  let navigate = useNavigate(); 
-  const routeChange = () =>{ 
-    let path = '/artist'; 
-    navigate(path, {
+  const navigate = useNavigate(); 
+  const routeChange = (artist) =>{ 
+    navigate({
+      pathname: '/artist', 
+      search: createSearchParams({
       artist: artist_name,
+      }).toString()
     });
-  }
+  };
+
+  // const handleSearch = event => {
+  //   console.log("in clicked search");
+  //   console.log(artist_name);
+  // }
+
   return (
     <div id="homepage">
       <h1 class="display-4 fw-bold" id="homeheader">OnTour</h1>
@@ -20,7 +28,7 @@ function Home() {
             <div class="col-md-8">
               <div class="search">
                 <i class="fa fa-search"></i>
-                <input type="text" defaultValue={artist_name} class="form-control" placeholder="Search for an artist or venue" />
+                <input type="text" class="form-control" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
                 <button class="btn btn-primary bg-dark" onClick={routeChange}>Search</button>
               </div>
             </div>
@@ -29,5 +37,4 @@ function Home() {
     </div>
   );
 }
-
 export default Home;

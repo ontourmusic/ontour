@@ -9,12 +9,12 @@ import PreviousSchedule from "../components/PreviousSchedule";
 import Review from "../components/Review";
 import WriteReview from "../components/WriteReview";
 import Sidebar from "../components/Sidebar"
-import { Link, useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
-function Artist({route, navigation}) {
+function Artist() {
 
-  const {artist} = useParams();
-  console.log('value is:', artist);
+  const [searchParams] = useSearchParams();
+  console.log('value is:', searchParams.get("artist"));
 
   function handleClick()
   {
@@ -31,7 +31,7 @@ function Artist({route, navigation}) {
   return (
     <>
       <div className="artist">
-        <ArtistHeader name={JSON.stringify(artist)} rating="4.5"/>
+        <ArtistHeader name={searchParams.get("artist")} rating="4.5"/>
 
         <Sidebar/>
 
