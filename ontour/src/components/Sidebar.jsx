@@ -17,7 +17,7 @@ export default function Sidebar(props)
           <ExternalLink mediaLink="https://www.jackharlow.us" iconLink="images/store_icon.png"/>
           <UpcomingSchedule/>
           <a href="#">
-            <img id="arrow" src="https://assets.sk-static.com/images/nw/furniture/icons/chevron-black.svg"></img>
+            <img id="arrow" src="../../images/arrow.png"></img>
           </a>
         </div>
     );

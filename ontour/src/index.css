@@ -69,6 +69,10 @@ code {
   filter: brightness(70%);
 }
 
+#arrow:hover {
+  background-color: #b3b3b3;
+}
+
 #show-row:hover {
   background-color: #f2f2f2;
 }
@@ -193,6 +197,14 @@ code {
   color: white;
 }
 
+.search button img {
+  width: 25%;
+}
+
+.search .form-control {
+  padding-left: 0;
+}
+
 #homepage{
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url("https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?cs=srgb&dl=pexels-sebastian-ervi-1763075.jpg&fm=jpg");
   /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1557787163-1635e2efb160?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGNvbmNlcnR8ZW58MHx8MHx8&w=1000&q=80"); */
@@ -223,8 +235,7 @@ code {
 }
 
 #arrow {
-  width: 2vh;
-  transform: rotate(270deg);
+  width: 6vh;
 }
 
 /* Row Spacing */ 
