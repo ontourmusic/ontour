@@ -61,8 +61,16 @@ code {
   padding-right: 5%;
 }
 
-#reviewbutton:hover, button:hover, .carousel-inner img:hover, .social-media-icon:hover {
-  filter: brightness(50%);
+.card:hover, .list-group-item:hover {
+  filter: brightness(95%);
+}
+
+.social-media-icon:hover, #reviewbutton:hover, #writebutton:hover {
+  filter: brightness(70%);
+}
+
+#show-row:hover {
+  background-color: #f2f2f2;
 }
 
 .carousel-control-prev{

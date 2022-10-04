@@ -2,7 +2,6 @@ import React from "react";
 import "../index.css";
 import UpcomingSchedule from "./UpcomingSchedule";
 import ExternalLink from "./ExternalLink";
-import handleClick from "../pages/Artist"
 
 export default function Sidebar(props)
 {
@@ -10,7 +9,7 @@ export default function Sidebar(props)
         <div class= "sidebar">
           <div>
           <a href="#review">
-            <button id="writebutton" type="button" class="btn btn-dark fw-bold" onClick={handleClick}>Write a Review</button>
+            <button id="writebutton" type="button" class="btn btn-dark fw-bold">Write a Review</button>
           </a>
         </div>
           <ExternalLink mediaLink="https://open.spotify.com/artist/2LIk90788K0zvyj2JJVwkJ?si=ggKw9EM3QlePSkEkRB0o9g" iconLink="images/Spotify_icon.svg.png"/>
