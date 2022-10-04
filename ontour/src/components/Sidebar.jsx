@@ -7,7 +7,7 @@ import handleClick from "../pages/Artist"
 export default function Sidebar(props)
 {
     return(
-        <div class= "sidebar py-5">
+        <div class= "sidebar">
           <div>
           <a href="#review">
             <button id="writebutton" type="button" class="btn btn-dark fw-bold" onClick={handleClick}>Write a Review</button>
@@ -17,7 +17,7 @@ export default function Sidebar(props)
           <ExternalLink mediaLink="https://www.stubhub.com/jack-harlow-tickets/category/100275160/" iconLink="images/ticket_icon.png"/>
           <ExternalLink mediaLink="https://www.jackharlow.us" iconLink="images/store_icon.png"/>
           <UpcomingSchedule/>
-          <a href="#top">
+          <a href="#">
             <img id="arrow" src="https://assets.sk-static.com/images/nw/furniture/icons/chevron-black.svg"></img>
           </a>
         </div>

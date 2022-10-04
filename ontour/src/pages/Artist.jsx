@@ -8,7 +8,7 @@ import UpcomingSchedule from "../components/UpcomingSchedule";
 import PreviousSchedule from "../components/PreviousSchedule";
 import Review from "../components/Review";
 import WriteReview from "../components/WriteReview";
-import Sidebar from "../components/Sidebar"
+import Sidebar from "../components/Sidebar";
 import { useSearchParams } from 'react-router-dom';
 import {useState, useEffect} from 'react';
 

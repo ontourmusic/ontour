@@ -1,10 +1,10 @@
 import React from "react";
 import '../index.css';
 
-export default function CarouselItem(props)
+export default function Item(props)
 {
     return (
-        <div class= {`carousel-item ${props.active}`}>
+        <div>
             <div class="card">
                 <img src={props.image} class="d-block w-100" alt="..."/>
                 <div class="card-body">
