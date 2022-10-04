@@ -4,8 +4,8 @@ import Item from "./Item";
 export default function Carousel(props)
 {
     return (
-        <div class="container pt-4">
-            <h4 class="fw-bold">Photo Gallery</h4>
+        <div class="container">
+            <h4 id="gallery" class="fw-bold">Photo Gallery</h4>
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
