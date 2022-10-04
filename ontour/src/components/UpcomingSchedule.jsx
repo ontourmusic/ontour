@@ -7,7 +7,8 @@ export default function UpcomingSchedule(props)
     return (
         <div class="container shows">
             <div class="row justify-content-center py-3 show">
-                <h4 class="fw-bold">Upcoming Shows</h4>
+                <h4 class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
+                <h4 class="fw-bold d-block d-sm-none">Shows</h4>
             </div>
     
             <Show time = "Fri • 1:00pm" date="Oct 7" event="Primavera Sound LA" location="Los Angeles, California"/>
