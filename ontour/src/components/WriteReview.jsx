@@ -54,8 +54,8 @@ export default function WriteReview(props)
               </div>
             </div>
             <br></br>
-            <div id="reviewbutton">
-              <input class="btn btn-dark fw-bold" type="button" onClick={handleWriteReview} value="Submit"></input>
+            <div>
+              <input id="reviewbutton" class="btn btn-dark fw-bold" type="button" onClick={handleWriteReview} value="Submit"></input>
             </div>
 
           </form>
