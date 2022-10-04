@@ -29,7 +29,7 @@ function Home() {
               <div class="search">
                 <i class="fa fa-search"></i>
                 <input type="text" class="form-control" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
-                <button class="btn btn-primary bg-dark" onClick={routeChange}>Search</button>
+                <button id="searchbutton" class="btn bg-dark fw-bold" onClick={routeChange}>Search</button>
               </div>
             </div>
           </div>
