@@ -2,13 +2,10 @@ import React from "react";
 import "../index.css";
 import "react-multi-carousel/lib/styles.css";
 import ArtistHeader from "../components/ArtistHeader";
-import ExternalLink from "../components/ExternalLink";
 import Carousel from "../components/Carousel";
-import UpcomingSchedule from "../components/UpcomingSchedule";
-import PreviousSchedule from "../components/PreviousSchedule";
 import Review from "../components/Review";
 import WriteReview from "../components/WriteReview";
-import Sidebar from "../components/Sidebar"
+import Sidebar from "../components/Sidebar";
 import { useSearchParams } from 'react-router-dom';
 import {useState, useEffect} from 'react';
 
@@ -79,8 +76,9 @@ function Artist() {
         <div class="no-sidebar">
           <Carousel/>
           
-          <div class="container py-5">
-            <h4 class="fw-bold">Reviews</h4>
+          <div class="container">
+            <hr></hr>
+            <h4 id="reviews" class="fw-bold">Reviews</h4>
             <div class="list-group">
               {allReviews.map(function(review, index) {
                 return <Review user="User A" date=" 9/6/2022" key={index} rating={5} venue = "Barclays Center - Brooklyn, NY" text={review[0]}/>

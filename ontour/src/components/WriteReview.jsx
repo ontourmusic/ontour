@@ -35,9 +35,9 @@ export default function WriteReview(props)
   }
 
     return (
-        <div class="container pb-5" id="review">
-          <h4 class="fw-bold">Write a Review</h4>
+        <div class="container pb-4" id="review">
           <hr></hr>
+          <h4 id="write-review" class="fw-bold">Write a Review</h4>
           <div class="rating" onChange={event => setRating(event.target.value)}>
             <input type="radio" name="rating" value="5" id="5"/><label for="5">☆</label>
             <input type="radio" name="rating" value="4" id="4"/><label for="4">☆</label>
@@ -68,8 +68,8 @@ export default function WriteReview(props)
               </div>
             </div>
             <br></br>
-            <div id="reviewbutton">
-              <input class="btn btn-dark fw-bold" type="button" onClick={handleWriteReview} value="Submit"></input>
+            <div>
+              <input id="reviewbutton" class="btn btn-dark fw-bold" type="button" onClick={handleWriteReview} value="Submit"></input>
             </div>
 
           </form>
