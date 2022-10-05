@@ -9,6 +9,7 @@ export default function WriteReview(props)
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState("");
   const [date, setDate] = useState("");
+  const [artistId, setArtistId] = useState(0);
 
   const handleWriteReview = event => {
     console.log("in clicked write review");
@@ -18,6 +19,19 @@ export default function WriteReview(props)
     console.log(description);
     console.log(rating);
     console.info(date);
+    console.log(props.artistId);
+    setArtistId(props.artistId);
+    console.log(artistId);
+    setDescription(description);
+    setRating(rating);
+    postData();
+  }
+
+  const postData = async () => {
+    console.log("posting the data");
+    const response = await fetch(`http://localhost:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}`,{
+      method: 'POST',
+    });
   }
 
     return (

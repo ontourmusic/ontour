@@ -11,7 +11,7 @@ function ArtistHeader(props)
                 <h1 class="display-4 fw-bold">{props.name}</h1>
                 <Rating
                     name="text-feedback"
-                    value={4.6}
+                    value={props.rating}
                     size = "large"
                     readOnly
                     precision={0.01}
