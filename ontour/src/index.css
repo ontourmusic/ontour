@@ -65,12 +65,8 @@ code {
   filter: brightness(95%);
 }
 
-.social-media-icon:hover, #reviewbutton:hover, #writebutton:hover, #searchbutton:hover {
+.social-media-icon:hover, #reviewbutton:hover, #writebutton:hover, #searchbutton:hover, #arrow:hover {
   filter: brightness(70%);
-}
-
-#arrow:hover {
-  background-color: #b3b3b3;
 }
 
 #show-row:hover {
