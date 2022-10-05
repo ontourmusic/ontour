@@ -25,6 +25,7 @@ export default function WriteReview(props)
     setDescription(description);
     setRating(rating);
     postData();
+    window.location.reload();
   }
 
   const postData = async () => {
