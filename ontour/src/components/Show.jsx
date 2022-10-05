@@ -4,7 +4,7 @@ import '../index.css';
 export default function Show(props)
 {
     return(
-        <a href="/review">
+        <a href="#">
             <div id="show-row" class="row justify-content-center py-3 show">
                 <div class="col-12 col-md-4">
                     <div class="fw-bold schedule-font">
