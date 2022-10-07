@@ -1,16 +1,10 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow-y: scroll;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.logo {
+  font-family: 'Mukta', sans-serif;
 }
 
 .artist{
@@ -18,14 +12,14 @@ code {
   height: 100%;
   margin: auto;
 }
+
 #artist-background{
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://media.npr.org/assets/img/2022/05/19/albumcoverpsdfinal_wide-20ae2b29110acc38cc95a8320801e704e546f4b8-s1600-c85.webp");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("https://media.npr.org/assets/img/2022/05/19/albumcoverpsdfinal_wide-20ae2b29110acc38cc95a8320801e704e546f4b8-s1600-c85.webp");
   width: 100%;
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  position: relative;
 }
 
 /* Schedule */
@@ -48,6 +42,7 @@ code {
 }
 
 #upcoming-btn, #past-btn {
+  font-size: 15px;
   border: none;
   background-color: inherit;
   text-decoration: underline;
@@ -87,14 +82,14 @@ code {
 .sidebar {
   position: sticky;
   top: 8vh;
-  width: 23%;
+  width: 24%;
   float: right;
   margin-right: 3%;
   padding-top: 25px;
 }
 
 .no-sidebar {
-  width: 70%;
+  width: 69%;
   margin-left: 2%;
   margin-right: 2%;
 }
@@ -158,45 +153,27 @@ code {
 
 .search{
   position: relative;
-  box-shadow: 0 0 40px rgba(51, 51, 51, .1);    
+  width: 60%;
+  margin-top: 2%;
+  margin-left: 20%;
 }
 
 .search input{
-  height: 60px;
-  text-indent: 25px;
+  height: 50px;
+  text-indent: 15px;
   border: 2px solid #d9dadb;
-}
-
-.search input:focus{
-  box-shadow: none;
-}
-
-.search .fa-search{
-  position: absolute;
-  top: 20px;
-  left: 16px;
 }
 
 .search button{
   position: absolute;
   top: 5px;
   right: 5px;
-  height: 50px;
-  width: 110px;
-}
-
-#searchbar{
-  position: absolute;
-  top: 50%;
-  left: 7%;
-}
-
-#searchbutton {
-  color: white;
+  height: 40px;
+  width: 15%;
 }
 
 .search button img {
-  width: 25%;
+  height: 50%;
 }
 
 .search .form-control {
@@ -204,7 +181,7 @@ code {
 }
 
 #homepage{
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url("https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?cs=srgb&dl=pexels-sebastian-ervi-1763075.jpg&fm=jpg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?cs=srgb&dl=pexels-sebastian-ervi-1763075.jpg&fm=jpg");
   /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.unsplash.com/photo-1557787163-1635e2efb160?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fGNvbmNlcnR8ZW58MHx8MHx8&w=1000&q=80"); */
   background-size: cover;
   background-repeat: no-repeat;
@@ -214,13 +191,9 @@ code {
 
 #homeheader
 {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  padding-top: 11%;
   color: white;
-  text-align: center;
-  font-size: 5em;
+  font-size: 6.5vw;
 }
 
 #writebutton{
@@ -228,8 +201,14 @@ code {
 }
 
 #guitar {
-  width: 15px;
-  margin-left: 3px;
+  height: 45px;
+  margin-left: 4px;
+  padding-bottom: 12px;
+}
+
+#ontour {
+  padding-top: 12px;
+  font-size: 22px;
 }
 
 #arrow {

@@ -22,19 +22,14 @@ function Home() {
 
   return (
     <div id="homepage">
-      <h1 class="display-4 fw-bold" id="homeheader">OnTour</h1>
-      <div className="container py-5" id="searchbar">
-          <div class="row height d-flex justify-content-center align-items-center">
-            <div class="col-md-8">
-              <div class="search">
-                <i class="fa fa-search"></i>
-                <input type="text" class="form-control" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
-                <button id="searchbutton" class="btn bg-dark fw-bold" onClick={routeChange}>
-                  <img src="../../images/searchicon.png" alt="..."/>
-                </button>
-              </div>
-            </div>
-          </div>
+      <div class="container">
+        <h1 class="fw-bold logo" id="homeheader">OnTour</h1>
+        <div class="search row">
+          <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
+          <button id="searchbutton" class="btn bg-dark" onClick={routeChange}>
+            <img src="../../images/searchicon.png" alt="..."/>
+          </button>
+        </div>
       </div>
     </div>
   );
