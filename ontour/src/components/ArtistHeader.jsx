@@ -7,8 +7,8 @@ function ArtistHeader(props)
 {
     return (
         <div id="artist-background" class="container-fluid jumbotron bg-cover text-white">
-            <div id="text-contain" class="container text-center py-5">
-                <h1 class="display-4 fw-bold">{props.name}</h1>
+            <div id="text-contain" class="container text-center">
+                <h1 class="fw-bold">{props.name}</h1>
                 <Rating
                     name="text-feedback"
                     value={props.rating}

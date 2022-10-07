@@ -24,13 +24,13 @@ export default function Carousel(props)
                     <div class="carousel-item">
                         <div class="row">
                             <div class="col-4">
-                                <Item image="https://www.leoweekly.com/wp-content/uploads/2019/12/Harlow3.jpg" text="Card title 4"/>
+                                <Item image="https://s.hdnux.com/photos/01/22/47/15/21656444/4/rawImage.jpg" text="Card title 4"/>
                             </div>
                             <div class="col-4">
-                                <Item image="https://www.rollingstone.com/wp-content/uploads/2022/05/jack-harlow-tour.jpg" text="Card title 5"/>
+                                <Item image="https://media-cldnry.s-nbcnews.com/image/upload/t_fit-760w,f_auto,q_auto:best/rockcms/2022-08/jack-harlow-superbowl-citi-concert--inline2-jp-081222-08aa15.jpg" text="Card title 5"/>
                             </div>
                             <div class="col-4">
-                                <Item image="https://www.gannett-cdn.com/presto/2021/10/10/NA36/01000ac6-e203-4ed3-96ba-c5382420d8ac-DCQ_ACL21_SAT_010_1.JPG" text="Card title 6"/>
+                                <Item image="https://www.okayplayer.com/wp-content/uploads/2022/06/GettyImages-1405312954.jpg" text="Card title 6"/>
                             </div>
                         </div>
                     </div>
