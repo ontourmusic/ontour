@@ -79,7 +79,7 @@ function Artist() {
           <div class="container">
             <hr></hr>
             <h4 id="reviews" class="fw-bold">Reviews</h4>
-            <div class="list-group">
+            <div id="clear" class="list-group">
               {allReviews.map(function(review, index) {
                 return <Review user="User A" date=" 9/6/2022" key={index} rating={review[1]} venue = "Barclays Center - Brooklyn, NY" text={review[0]}/>
               })}
