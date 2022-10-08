@@ -151,7 +151,11 @@ body {
 
 .rating:hover > input:checked ~ label:before{ opacity: 0.4; }
 
-#review .row{
+#review .top{
+  padding-top: 10px;
+}
+
+#review .bottom{
   padding-top: 30px;
 }
 

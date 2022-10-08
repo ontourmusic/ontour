@@ -47,7 +47,7 @@ export default function WriteReview(props)
             <input type="radio" name="rating" value="1" id="1"/><label for="1">☆</label>
           </div>
           <form id="clear">
-            <div class="row">
+            <div class="row top">
               <div class="col">
                 <input type="text" class="form-control shadow-none" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First name"/>
               </div>
@@ -55,7 +55,7 @@ export default function WriteReview(props)
                 <input type="text" class="form-control shadow-none" onChange={event => setLname(event.target.value)} value ={lname} placeholder="Last name"/>
               </div>
             </div>
-            <div class="row">
+            <div class="row bottom">
               <div class="col">
                 <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Venue"/>
               </div>
@@ -63,7 +63,7 @@ export default function WriteReview(props)
                 <input type="date" class="form-control shadow-none" id="date" onChange={event => setDate(event.target.value)}  placeholder="Date"/>
               </div>
             </div>
-            <div class="row">
+            <div class="row bottom">
               <div class="col">
                 <textarea class="form-control shadow-none" id="description" rows="3" onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?"></textarea>
               </div>
