@@ -7,7 +7,7 @@ export default function Carousel(props)
         <div class="container">
             <div id="gallery" class="row">
                 <div class="col-12 col-sm-9">
-                    <h4 id="" class="fw-bold">Captured Moments</h4>
+                    <h4 class="fw-bold ">Captured Moments</h4>
                 </div>
                 <div class="col-12 col-sm-3">
                     <button id="photobutton" type="button" class="btn btn-outline-light fw-bold m-3 m-sm-0">
