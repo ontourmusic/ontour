@@ -1,6 +1,7 @@
 body {
   font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow-y: scroll;
+  letter-spacing: -0.2px;
 }
 
 .logo {
@@ -76,6 +77,15 @@ body {
   padding-left: 10%;
 }
 
+.card-title {
+  font-size: 1.5vw;
+}
+
+.card-body {
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
 /* Sidebar */
 
 .sidebar {
@@ -83,14 +93,14 @@ body {
   top: 8vh;
   width: 24%;
   float: right;
-  margin-right: 3%;
+  margin-right: 4%;
   padding-top: 25px;
 }
 
 .no-sidebar {
-  width: 69%;
-  margin-left: 2%;
-  margin-right: 2%;
+  width: 67.5%;
+  margin-left: 3%;
+  margin-right: 1.5%;
 }
 
 .schedule-font {
@@ -112,6 +122,8 @@ body {
   display: flex;
   flex-direction: row-reverse;
   justify-content: center;
+  clear: left;
+  float: left;
 }
 
 .rating > input{ display:none;}
@@ -229,6 +241,7 @@ body {
 
 hr {
   margin-top: 7%;
+  clear: left;
 }
 
 #reviews {
@@ -252,4 +265,15 @@ hr {
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+/* Sub-title font size */
+
+h4 {
+  font-size: 23px;
+  float: left;
+}
+
+#clear {
+  clear: left;
 }

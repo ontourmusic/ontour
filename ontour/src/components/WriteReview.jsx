@@ -38,7 +38,7 @@ export default function WriteReview(props)
     return (
         <div class="container pb-4" id="review">
           <hr></hr>
-          <h4 id="write-review" class="fw-bold">Write a Review</h4>
+          <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
           <div class="rating" onChange={event => setRating(event.target.value)}>
             <input type="radio" name="rating" value="5" id="5"/><label for="5">☆</label>
             <input type="radio" name="rating" value="4" id="4"/><label for="4">☆</label>
@@ -46,26 +46,26 @@ export default function WriteReview(props)
             <input type="radio" name="rating" value="2" id="2"/><label for="2">☆</label>
             <input type="radio" name="rating" value="1" id="1"/><label for="1">☆</label>
           </div>
-          <form>
+          <form id="clear">
             <div class="row">
               <div class="col">
-                <input type="text" class="form-control" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First name"/>
+                <input type="text" class="form-control shadow-none" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First name"/>
               </div>
               <div class="col">
-                <input type="text" class="form-control" onChange={event => setLname(event.target.value)} value ={lname} placeholder="Last name"/>
+                <input type="text" class="form-control shadow-none" onChange={event => setLname(event.target.value)} value ={lname} placeholder="Last name"/>
               </div>
             </div>
             <div class="row">
               <div class="col">
-                <input type="text" class="form-control" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event"/>
+                <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Venue"/>
               </div>
               <div class="col">
-                <input type="date" class="form-control" id="date" onChange={event => setDate(event.target.value)}  placeholder="Date"/>
+                <input type="date" class="form-control shadow-none" id="date" onChange={event => setDate(event.target.value)}  placeholder="Date"/>
               </div>
             </div>
             <div class="row">
               <div class="col">
-                <textarea class="form-control" id="description" rows="3" onChange={event => setDescription(event.target.value)} value ={description} placeholder="Description"></textarea>
+                <textarea class="form-control shadow-none" id="description" rows="3" onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?"></textarea>
               </div>
             </div>
             <br></br>
