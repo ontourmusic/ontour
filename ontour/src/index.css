@@ -94,7 +94,7 @@ body {
   width: 24%;
   float: right;
   margin-right: 4%;
-  padding-top: 25px;
+  padding-top: 30px;
 }
 
 .no-sidebar {
@@ -213,7 +213,7 @@ body {
 }
 
 #writebutton{
-  margin-bottom: 9%;
+  margin-bottom: 30px;
   color: white;
 }
 
@@ -230,7 +230,7 @@ body {
 
 #arrow {
   width: 35px;
-  margin-bottom: 45px;
+  margin-bottom: 50px;
   border-radius: 50%;
 }
 
