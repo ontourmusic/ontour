@@ -7,20 +7,18 @@ export default function Sidebar(props)
 {
     return(
         <div class= "sidebar">
-          <div>
-            <a href="#review">
-              <button id="writebutton" type="button" class="btn btn-dark fw-bold">
-                <div class="row">
-                  <div class="col-md-3">
-                    <img id="review-icon" src="../../images/review.png"></img>
-                  </div>
-                  <div id="write-a-review" class="d-none d-md-block col-md-9">
-                    Write a Review
-                  </div>
+          <a href="#review">
+            <button id="writebutton" type="button" class="btn btn-dark fw-bold">
+              <div class="row">
+                <div class="col-md-3">
+                  <img id="review-icon" src="../../images/review.png"></img>
                 </div>
-              </button>
-            </a>
-          </div>
+                <div id="write-a-review" class="d-none d-md-block col-md-9">
+                  Write a Review
+                </div>
+              </div>
+            </button>
+          </a>
           <div class="row justify-content-center">
             <ExternalLink mediaLink="https://open.spotify.com/artist/2LIk90788K0zvyj2JJVwkJ?si=ggKw9EM3QlePSkEkRB0o9g" iconLink="images/Spotify_icon.svg.png"/>
             <ExternalLink mediaLink="https://www.stubhub.com/jack-harlow-tickets/category/100275160/" iconLink="images/ticket_icon.png"/>

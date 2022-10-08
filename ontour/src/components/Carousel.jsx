@@ -10,7 +10,7 @@ export default function Carousel(props)
                     <h4 id="" class="fw-bold">Captured Moments</h4>
                 </div>
                 <div class="col-12 col-sm-3">
-                    <button type="button" class="btn btn-outline-light fw-bold m-3 m-sm-0">
+                    <button id="photobutton" type="button" class="btn btn-outline-light fw-bold m-3 m-sm-0">
                         <div class="row">
                             <div class="col-lg-3">
                                 <img id="camera-icon" src="../../images/camera.png"></img>

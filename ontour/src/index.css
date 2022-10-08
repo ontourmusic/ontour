@@ -62,7 +62,7 @@ body {
 }
 
 .social-media-icon:hover, #reviewbutton:hover, #writebutton:hover, #searchbutton:hover, #arrow:hover {
-  filter: brightness(70%);
+  filter: brightness(80%);
 }
 
 #show-row:hover {
@@ -292,4 +292,8 @@ h4 {
 .btn-outline-light {
   color: black;
   border: 1px solid #c8c9ca;
+}
+
+#photobutton:hover {
+  border-color: #c8c9ca;
 }
