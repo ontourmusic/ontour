@@ -5,7 +5,23 @@ export default function Carousel(props)
 {
     return (
         <div class="container">
-            <h4 id="gallery" class="fw-bold">Captured Moments</h4>
+            <div id="gallery" class="row">
+                <div class="col-12 col-sm-9">
+                    <h4 id="" class="fw-bold">Captured Moments</h4>
+                </div>
+                <div class="col-12 col-sm-3">
+                    <button type="button" class="btn btn-outline-light fw-bold m-3 m-sm-0">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <img id="camera-icon" src="../../images/camera.png"></img>
+                            </div>
+                            <div id="add-photo" class="d-none d-lg-block col-lg-9">
+                                Add Photo
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">

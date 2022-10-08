@@ -38,7 +38,7 @@ body {
 }
 
 .show {
-  border-bottom: 1px solid #d9dadb;
+  border-bottom: 1px solid #c8c9ca;
 }
 
 #upcoming-btn, #past-btn {
@@ -57,7 +57,7 @@ body {
   padding-right: 5%;
 }
 
-.card:hover, .list-group-item:hover {
+.card:hover, .list-group-item:hover, .btn-outline-light:hover {
   filter: brightness(95%);
 }
 
@@ -131,7 +131,7 @@ body {
 .rating > label {
     position: relative;
     width: 1em;
-    font-size: 3.5vw;
+    font-size: 40px;
     color: #FFD600;
     cursor: pointer;
 }
@@ -157,6 +157,7 @@ body {
 
 #reviewbutton{
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 /* Home page search bar */
@@ -171,7 +172,7 @@ body {
 .search input{
   height: 50px;
   text-indent: 15px;
-  border: 2px solid #d9dadb;
+  border: 2px solid #c8c9ca;
 }
 
 .search button{
@@ -223,13 +224,18 @@ body {
 
 #arrow {
   width: 35px;
-  margin-bottom: 10%;
+  margin-bottom: 45px;
   border-radius: 50%;
 }
 
 #review-icon {
-  width: 25px;
+  width: 23px;
   filter: invert(100%);
+}
+
+#camera-icon {
+  width: 25px;
+  padding-bottom: 3px;
 }
 
 /* Row Spacing */ 
@@ -259,6 +265,11 @@ hr {
   padding-left: 0;
 }
 
+#add-photo {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 .navbar {
   min-height: 40px;
   height: 8vh;
@@ -276,4 +287,9 @@ h4 {
 
 #clear {
   clear: left;
+}
+
+.btn-outline-light {
+  color: black;
+  border: 1px solid #c8c9ca;
 }
