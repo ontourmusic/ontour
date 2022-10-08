@@ -8,7 +8,7 @@ export default function Sidebar(props)
     return(
         <div class= "sidebar">
           <a href="#review">
-            <button id="writebutton" type="button" class="btn btn-dark fw-bold">
+            <button id="writebutton" type="button" class="btn bg-dark fw-bold">
               <div class="row">
                 <div class="col-md-3">
                   <img id="review-icon" src="../../images/review.png"></img>
