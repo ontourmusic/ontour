@@ -160,8 +160,6 @@ body {
 }
 
 #reviewbutton{
-  margin-top: 20px;
-  margin-bottom: 20px;
   color: white;
 }
 
@@ -230,8 +228,8 @@ body {
 
 #arrow {
   width: 35px;
-  margin-bottom: 50px;
   border-radius: 50%;
+  margin-bottom: 10%;
 }
 
 #review-icon {
