@@ -12,7 +12,7 @@ const Navigation = () => {
         <div class="navsearch">
           <input id="input" type="text" class="form-control shadow-none" placeholder="Search for an artist or venue"/>
           <button id="searchbutton" class="btn bg-dark">
-            <img src="images/searchicon.png" alt="..."/>
+            <img src="images/search-icon.png" alt="..."/>
           </button>
         </div>
       </div>

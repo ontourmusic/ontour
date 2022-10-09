@@ -20,9 +20,9 @@ export default function Sidebar(props)
             </button>
           </a>
           <div class="row justify-content-center">
-            <ExternalLink mediaLink="https://open.spotify.com/artist/2LIk90788K0zvyj2JJVwkJ?si=ggKw9EM3QlePSkEkRB0o9g" iconLink="images/Spotify_icon.svg.png"/>
-            <ExternalLink mediaLink="https://www.stubhub.com/jack-harlow-tickets/category/100275160/" iconLink="images/ticket_icon.png"/>
-            <ExternalLink mediaLink="https://www.jackharlow.us" iconLink="images/store_icon.png"/>
+            <ExternalLink mediaLink="https://open.spotify.com/artist/2LIk90788K0zvyj2JJVwkJ?si=ggKw9EM3QlePSkEkRB0o9g" iconLink="images/spotify-icon.png"/>
+            <ExternalLink mediaLink="https://www.stubhub.com/jack-harlow-tickets/category/100275160/" iconLink="images/ticket-icon.png"/>
+            <ExternalLink mediaLink="https://www.jackharlow.us" iconLink="images/store-icon.png"/>
           </div>
           <UpcomingSchedule/>
           <a href="#">

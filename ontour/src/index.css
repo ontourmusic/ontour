@@ -303,11 +303,6 @@ hr {
   padding-left: 0;
 }
 
-#add-photo {
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
 .navbar {
   height: 52px;
   position: sticky;
@@ -315,7 +310,7 @@ hr {
   z-index: 1000;
 }
 
-/* Sub-title font size */
+/* Sub-titles */
 
 h4 {
   font-size: 23px;
@@ -324,6 +319,13 @@ h4 {
 
 #clear {
   clear: left;
+}
+
+/* Add photo button */
+
+#add-photo {
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .btn-outline-light {
