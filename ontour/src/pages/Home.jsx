@@ -1,6 +1,7 @@
 import React from "react";
 import {createSearchParams, useNavigate} from "react-router-dom";
-import {useState} from 'react';
+import {useState} from "react";
+import Navigation from "../Navigation";
 
 function Home() {
   const [artist_name, setName] = useState('')
@@ -21,17 +22,20 @@ function Home() {
   // }
 
   return (
-    <div id="homepage">
-      <div class="container">
-        <h1 class="fw-bold logo" id="homeheader">OnTour</h1>
-        <div class="search row">
-          <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
-          <button id="searchbutton" class="btn bg-dark" onClick={routeChange}>
-            <img src="../../images/searchicon.png" alt="..."/>
-          </button>
+    <>
+      <Navigation />
+      <div id="homepage">
+        <div id="homeheader" class="container">
+          <div class="fw-bold logo">OnTour</div>
+          <div class="search row">
+            <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
+            <button id="searchbutton" class="btn bg-dark" onClick={routeChange}>
+              <img src="../../images/searchicon.png" alt="..."/>
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 export default Home;

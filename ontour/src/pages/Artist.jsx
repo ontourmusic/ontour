@@ -6,8 +6,9 @@ import Carousel from "../components/Carousel";
 import Review from "../components/Review";
 import WriteReview from "../components/WriteReview";
 import Sidebar from "../components/Sidebar";
-import { useSearchParams } from 'react-router-dom';
-import {useState, useEffect} from 'react';
+import { useSearchParams } from "react-router-dom";
+import {useState, useEffect} from "react";
+import ArtistNavigation from "../ArtistNavigation"
 
 function Artist() {
 
@@ -68,6 +69,7 @@ function Artist() {
 
   return (
     <>
+      <ArtistNavigation/>
       <div className="artist" >
         <ArtistHeader name={fullName} rating={aggregateRating}/>
 

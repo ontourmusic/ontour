@@ -6,6 +6,7 @@ body {
 
 .logo {
   font-family: 'Mukta', sans-serif;
+  font-size: 60px;
 }
 
 .artist{
@@ -90,7 +91,7 @@ body {
 
 .sidebar {
   position: sticky;
-  top: 8vh;
+  top: 52px;
   width: 24%;
   float: right;
   margin-right: 4%;
@@ -168,7 +169,7 @@ body {
 .search{
   position: relative;
   width: 60%;
-  margin-top: 2%;
+  margin-top: 1%;
   margin-left: 20%;
 }
 
@@ -187,10 +188,40 @@ body {
 }
 
 .search button img {
-  height: 50%;
+  height: 60%;
 }
 
 .search .form-control {
+  padding-left: 0;
+}
+
+.navsearch{
+  position: relative;
+  width: 40%;
+  right: 30%;
+}
+
+.navsearch input{
+  height: 37px;
+  font-size: 15px;
+  text-indent: 12px;
+  border: 2px solid #c8c9ca;
+}
+
+.navsearch button{
+  position: absolute;
+  top: 4.5px;
+  right: 4.5px;
+  height: 28px;
+  width: 50px;
+}
+
+.navsearch button img {
+  height: 90%;
+  margin-bottom: 11px;
+}
+
+.navsearch .form-control {
   padding-left: 0;
 }
 
@@ -200,14 +231,17 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  height: 92vh;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
 }
 
 #homeheader
 {
-  padding-top: 11%;
   color: white;
-  font-size: 6.5vw;
+  position: relative;
+  top: 30%;
 }
 
 #writebutton{
@@ -275,8 +309,7 @@ hr {
 }
 
 .navbar {
-  min-height: 40px;
-  height: 8vh;
+  height: 52px;
   position: sticky;
   top: 0;
   z-index: 1000;
