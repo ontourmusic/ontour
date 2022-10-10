@@ -30,7 +30,7 @@ function Home() {
           <div class="search row">
             <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
             <button id="searchbutton" class="btn bg-dark" onClick={routeChange}>
-              <img src="../../images/search-icon.png" alt="..."/>
+              <img src="../../images/search_icon.png" alt="..."/>
             </button>
           </div>
         </div>
