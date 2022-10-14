@@ -4,10 +4,6 @@ body {
   letter-spacing: -0.2px;
 }
 
-*:focus { 
-  outline: 0; 
-}
-
 .logo {
   font-family: 'Mukta', sans-serif;
   font-size: 11vh;
