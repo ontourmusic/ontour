@@ -10,7 +10,7 @@ body {
 
 .logo {
   font-family: 'Mukta', sans-serif;
-  font-size: 60px;
+  font-size: 11vh;
 }
 
 .artist{
@@ -24,7 +24,8 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 10%;
+  padding: 30vh;
+  position: relative;
 }
 
 /* Schedule */
@@ -178,7 +179,7 @@ body {
 }
 
 .search input{
-  height: 50px;
+  height: 45px;
   text-indent: 15px;
   border: 2px solid #c8c9ca;
 }
@@ -187,12 +188,13 @@ body {
   position: absolute;
   top: 5px;
   right: 5px;
-  height: 40px;
+  height: 35px;
   width: 15%;
 }
 
 .search button img {
   height: 60%;
+  margin-bottom: 3px;
 }
 
 .search .form-control {
@@ -317,7 +319,6 @@ hr {
 /* Sub-titles */
 
 h4 {
-  font-size: 23px;
   float: left;
 }
 
@@ -339,4 +340,18 @@ h4 {
 
 #photobutton:hover {
   border-color: #c8c9ca;
+}
+
+#text-contain {
+  position: absolute;
+  bottom: 15%;
+  left: 8%;
+}
+
+.MuiRating-sizeLarge {
+  font-size: 6.5vh !important;
+}
+
+#artist-name {
+  font-size: 7vh;
 }

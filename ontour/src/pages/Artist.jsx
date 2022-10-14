@@ -71,7 +71,7 @@ function Artist() {
     <>
       <ArtistNavigation/>
       <div className="artist" >
-        <ArtistHeader name={fullName} rating={aggregateRating}/>
+        <ArtistHeader name="Jack Harlow" rating="4.5"/>
 
         <Sidebar/>
 
