@@ -8,10 +8,10 @@ function Result(props)
     return (
         <a href="">
             <div id="result-row" class="row result">
-              <div id="result-img" class="col-3">
+              <div id="result-img" class="col-3 align-self-center">
                 <img src={props.src}></img>
               </div>
-              <div id="result-info" class="col-9 pt-2 pt-lg-4">
+              <div id="result-info" class="col-8 align-self-center">
                 <div id="result-name" class="fw-bold">{props.name}</div>
                 <Rating
                     name="text-feedback"
@@ -22,6 +22,9 @@ function Result(props)
                     emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                 />
               </div>
+              <div class="col-1 align-self-center">
+                    •
+                </div>
             </div>
           </a>
     )
