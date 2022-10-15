@@ -122,39 +122,12 @@ body {
 
 .rating {
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
   clear: left;
   float: left;
 }
 
-.rating > input{ display:none;}
-
-.rating > label {
-    position: relative;
-    width: 1em;
-    font-size: 40px;
-    color: #FFD600;
-    cursor: pointer;
-}
-.rating > label::before{ 
-  content: "\2605";
-  position: absolute;
-  opacity: 0;
-}
-.rating > label:hover:before,
-.rating > label:hover ~ label:before {
-  opacity: 1 !important;
-}
-
-.rating > input:checked ~ label:before{
-  opacity:1;
-}
-
-.rating:hover > input:checked ~ label:before{ opacity: 0.4; }
-
 #review .top{
-  padding-top: 20px;
+  padding-top: 5px;
 }
 
 #review .bottom{
@@ -163,6 +136,10 @@ body {
 
 #reviewbutton{
   color: white;
+}
+
+#review h4 {
+  margin-bottom: 0;
 }
 
 /* Home page search bar */
@@ -196,6 +173,8 @@ body {
 .search .form-control {
   padding-left: 0;
 }
+
+/* Arist page search bar */
 
 .navsearch{
   position: relative;
@@ -386,10 +365,10 @@ h4 {
 }
 
 #result-name {
-  font-size: 22px;
+  font-size: 20px;
 }
 
 #result-info {
   text-align: left;
-  padding-left: 10vh;
+  padding-left: 5vh;
 }

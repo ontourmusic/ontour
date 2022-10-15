@@ -1,6 +1,7 @@
 import React from "react";
 import '../index.css';
 import Item from "./Item";
+
 export default function Carousel(props)
 {
     return (

@@ -15,7 +15,7 @@ function ArtistHeader(props)
                     size = "large"
                     readOnly
                     precision={0.01}
-                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit"/>}
+                    emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                 />
                 {/* <p style={{ marginLeft: 15}}>14 reviews</p> */}
             </div>

@@ -19,7 +19,7 @@ function Result(props)
                     size = "medium"
                     readOnly
                     precision={0.01}
-                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit"/>}
+                    emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                 />
               </div>
             </div>
