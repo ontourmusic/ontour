@@ -59,16 +59,28 @@ body {
   padding-right: 5%;
 }
 
-.card:hover, .list-group-item:hover, .btn-outline-light:hover {
+.btn-outline-light:hover {
   filter: brightness(95%);
+  transition-duration: 0.5s;
 }
 
-.social-media-icon:hover, #reviewbutton:hover, #writebutton:hover, #searchbutton:hover, #arrow:hover {
-  filter: brightness(80%);
+.social-media-icon:hover {
+  filter: brightness(70%);
+  transition-duration: 0.5s;
+}
+
+#arrow:hover {
+  opacity: 0.85;
+  transition-duration: 0.5s;
 }
 
 #show-row:hover, #result-row:hover {
-  background-color: #f2f2f2;
+  background-color: #eceded;
+  transition-duration: 0.5s;
+}
+
+.btn-dark {
+  transition-duration: 0.5s;
 }
 
 .carousel-control-prev{
@@ -340,6 +352,8 @@ h4 {
   text-align: left;
   padding: 0;
   margin: 0;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .result-margin {

@@ -11,7 +11,7 @@ function Results() {
       <div class="result-margin">
         <div class="container">
           <div class="row">
-            <h4 id="results" class="fw-bold py-4 result">Results</h4>
+            <h4 id="results" class="fw-bold result">Results</h4>
           </div>
               
           <Result name={"Jack Harlow"} rating={"4.5"} src={"https://s1.ticketm.net/dam/a/cbd/3d3ab8ef-7a23-4342-9a0f-8c18cad7acbd_1682661_TABLET_LANDSCAPE_LARGE_16_9.jpg"}/>

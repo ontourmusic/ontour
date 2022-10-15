@@ -5,7 +5,7 @@ import {AiOutlineUser} from "react-icons/ai"
 export default function Review(props)
 {
     return (
-        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="list-group-item flex-column align-items-start">
             <div class="d-flex bd-highlight mb-1">
                 <div class="p-2 bd-highlight"><AiOutlineUser size={20}/> </div>
                 <div class="p-2 bd-highlight"><h5 class="mb-1">{props.user}</h5></div>
@@ -42,6 +42,6 @@ export default function Review(props)
             <div class="d-flex w-100 justify-content-start">
                 <p class="mb-2" align = "left">{props.text}</p>
             </div>
-        </a>
+        </div>
     )
 }
