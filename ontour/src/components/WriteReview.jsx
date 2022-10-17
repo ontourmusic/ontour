@@ -38,7 +38,7 @@ export default function WriteReview(props)
   }
 
     return (
-        <div class="container pb-4" id="review">
+        <div class="container" id="review">
           <hr></hr>
           <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
           <div class="rating py-3">

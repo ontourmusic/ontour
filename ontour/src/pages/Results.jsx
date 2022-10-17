@@ -2,6 +2,7 @@ import React from "react";
 import "../index.css";
 import ArtistNavigation from "../ArtistNavigation"
 import Result from "../components/Result"
+import Footer from "../components/Footer"
 
 function Results() {
   return (
@@ -21,6 +22,7 @@ function Results() {
         </div>
       </div>
       
+      <Footer/>
     </>
   );
 }
