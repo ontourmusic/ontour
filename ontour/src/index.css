@@ -59,8 +59,8 @@ body {
   padding-right: 5%;
 }
 
-.btn-outline-light:hover {
-  filter: brightness(95%);
+.btn-outline-light:hover, .btn-outline-light:active {
+  filter: brightness(93%);
   transition-duration: 0.5s;
 }
 
@@ -75,7 +75,7 @@ body {
 }
 
 #show-row:hover, #result-row:hover {
-  background-color: #eceded;
+  background-color: #e7e8e8;
   transition-duration: 0.5s;
 }
 
@@ -238,6 +238,7 @@ body {
 }
 
 #writebutton{
+  padding-top: 5px;
   margin-bottom: 30px;
   color: white;
 }
@@ -265,8 +266,8 @@ body {
 }
 
 #camera-icon {
-  width: 25px;
-  padding-bottom: 3px;
+  width: 27px;
+  padding-bottom: 2px;
 }
 
 /* Row Spacing */ 
@@ -325,7 +326,7 @@ h4 {
   border: 1px solid #c8c9ca;
 }
 
-#photobutton:hover {
+#photobutton:hover, #photobutton:active {
   border-color: #c8c9ca;
 }
 
