@@ -1,6 +1,8 @@
 import React from "react";
 import '../index.css';
 import {useState} from 'react';
+import Rating from '@mui/material/Rating';
+
 export default function WriteReview(props)
 {
   const [fname, setFname] = useState("");
@@ -39,12 +41,8 @@ export default function WriteReview(props)
         <div class="container pb-4" id="review">
           <hr></hr>
           <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
-          <div class="rating" onChange={event => setRating(event.target.value)}>
-            <input type="radio" name="rating" value="5" id="5"/><label for="5">☆</label>
-            <input type="radio" name="rating" value="4" id="4"/><label for="4">☆</label>
-            <input type="radio" name="rating" value="3" id="3"/><label for="3">☆</label>
-            <input type="radio" name="rating" value="2" id="2"/><label for="2">☆</label>
-            <input type="radio" name="rating" value="1" id="1"/><label for="1">☆</label>
+          <div class="rating py-3">
+              <Rating name="rating" size="large" defaultValue={0} precision={1} onChange={(event, newValue) => {setRating(newValue);}} />
           </div>
           <form id="clear">
             <div class="row top">
@@ -70,7 +68,7 @@ export default function WriteReview(props)
             </div>
             <br></br>
             <div>
-              <input id="reviewbutton" class="btn bg-dark fw-bold" type="button" onClick={handleWriteReview} value="Submit"></input>
+              <input id="reviewbutton" class="btn btn-dark fw-bold" type="button" onClick={handleWriteReview} value="Submit"></input>
             </div>
           </form>
         </div>

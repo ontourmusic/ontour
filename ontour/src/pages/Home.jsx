@@ -29,7 +29,7 @@ function Home() {
           <div class="fw-bold logo">OnTour</div>
           <div class="search row">
             <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
-            <button id="searchbutton" class="btn bg-dark" onClick={routeChange}>
+            <button class="btn btn-dark" onClick={routeChange}>
               <img src="../../images/search_icon.png" alt="..."/>
             </button>
           </div>

@@ -1,16 +1,17 @@
 import React from "react";
 import '../index.css';
 import Item from "./Item";
+
 export default function Carousel(props)
 {
     return (
         <div class="container">
             <div id="gallery" class="row">
-                <div class="col-12 col-sm-9">
+                <div class="col-12 col-sm-9 align-self-center">
                     <h4 class="fw-bold ">Captured Moments</h4>
                 </div>
                 <div class="col-12 col-sm-3">
-                    <button id="photobutton" type="button" class="btn btn-outline-light fw-bold m-2 m-sm-0">
+                    <button id="photobutton" type="button" class="btn btn-outline-light fw-bold align-self-center">
                         <div class="row">
                             <div class="col-lg-3">
                                 <img id="camera-icon" src="../../images/camera.png"></img>

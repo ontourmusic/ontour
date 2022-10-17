@@ -4,13 +4,9 @@ body {
   letter-spacing: -0.2px;
 }
 
-*:focus { 
-  outline: 0; 
-}
-
 .logo {
   font-family: 'Mukta', sans-serif;
-  font-size: 60px;
+  font-size: 11vh;
 }
 
 .artist{
@@ -25,7 +21,8 @@ body {
   /* background-position: right; */
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 10%;
+  padding: 30vh;
+  position: relative;
 }
 
 /* Schedule */
@@ -43,7 +40,7 @@ body {
   color: inherit;
 }
 
-.show {
+.show, .result {
   border-bottom: 1px solid #c8c9ca;
 }
 
@@ -63,16 +60,28 @@ body {
   padding-right: 5%;
 }
 
-.card:hover, .list-group-item:hover, .btn-outline-light:hover {
+.btn-outline-light:hover {
   filter: brightness(95%);
+  transition-duration: 0.5s;
 }
 
-.social-media-icon:hover, #reviewbutton:hover, #writebutton:hover, #searchbutton:hover, #arrow:hover {
-  filter: brightness(80%);
+.social-media-icon:hover {
+  filter: brightness(70%);
+  transition-duration: 0.5s;
 }
 
-#show-row:hover {
-  background-color: #f2f2f2;
+#arrow:hover {
+  opacity: 0.85;
+  transition-duration: 0.5s;
+}
+
+#show-row:hover, #result-row:hover {
+  background-color: #eceded;
+  transition-duration: 0.5s;
+}
+
+.btn-dark {
+  transition-duration: 0.5s;
 }
 
 .carousel-control-prev{
@@ -126,39 +135,12 @@ body {
 
 .rating {
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
   clear: left;
   float: left;
 }
 
-.rating > input{ display:none;}
-
-.rating > label {
-    position: relative;
-    width: 1em;
-    font-size: 40px;
-    color: #FFD600;
-    cursor: pointer;
-}
-.rating > label::before{ 
-  content: "\2605";
-  position: absolute;
-  opacity: 0;
-}
-.rating > label:hover:before,
-.rating > label:hover ~ label:before {
-  opacity: 1 !important;
-}
-
-.rating > input:checked ~ label:before{
-  opacity:1;
-}
-
-.rating:hover > input:checked ~ label:before{ opacity: 0.4; }
-
 #review .top{
-  padding-top: 20px;
+  padding-top: 5px;
 }
 
 #review .bottom{
@@ -167,6 +149,10 @@ body {
 
 #reviewbutton{
   color: white;
+}
+
+#review h4 {
+  margin-bottom: 0;
 }
 
 /* Home page search bar */
@@ -179,7 +165,7 @@ body {
 }
 
 .search input{
-  height: 50px;
+  height: 45px;
   text-indent: 15px;
   border: 2px solid #c8c9ca;
 }
@@ -188,17 +174,20 @@ body {
   position: absolute;
   top: 5px;
   right: 5px;
-  height: 40px;
+  height: 35px;
   width: 15%;
 }
 
 .search button img {
   height: 60%;
+  margin-bottom: 3px;
 }
 
 .search .form-control {
   padding-left: 0;
 }
+
+/* Arist page search bar */
 
 .navsearch{
   position: relative;
@@ -318,7 +307,6 @@ hr {
 /* Sub-titles */
 
 h4 {
-  font-size: 23px;
   float: left;
 }
 
@@ -340,4 +328,62 @@ h4 {
 
 #photobutton:hover {
   border-color: #c8c9ca;
+}
+
+/* Artist Header */
+
+#text-contain {
+  position: absolute;
+  bottom: 15%;
+  left: 8%;
+}
+
+.MuiRating-sizeLarge {
+  font-size: 6.5vh !important;
+}
+
+#artist-name {
+  font-size: 7vh;
+}
+
+/* Results */
+
+#results {
+  width: 100%;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.result-margin {
+  margin-left: 8%;
+  margin-right: 8%;
+}
+
+#result-img img {
+  border-radius: 50%;
+  height: 18vh;
+  width: 18vh;
+}
+
+.result-margin a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#result-row {
+  padding-top: 2%;
+  padding-bottom: 2%;
+  height: 100%;
+}
+
+#result-name {
+  font-size: 20px;
+}
+
+#result-info {
+  text-align: left;
+  padding-left: 5vh;
 }
