@@ -22,6 +22,7 @@ body {
 #artist-background{
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)), url("https://s1.ticketm.net/dam/a/cbd/3d3ab8ef-7a23-4342-9a0f-8c18cad7acbd_1682661_TABLET_LANDSCAPE_LARGE_16_9.jpg");
   background-position: center;
+  /* background-position: right; */
   background-repeat: no-repeat;
   background-size: cover;
   padding: 10%;

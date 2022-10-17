@@ -52,12 +52,19 @@ function Artist() {
   function parseReviewData(reviewData) {
     var reviewsArray = [];
     var cumulativeRating = 0;
+    console.log(reviewData);
     for(var i = 0; i < reviewData.length; i++) {
       var review = [];
       var rDescription = reviewData[i].description;
       var rRating = reviewData[i].rating;
+      var reviewFname = reviewData[i].fname;
+      var reviewLname = reviewData[i].lname;
+      var reviewFullName = reviewFname + " " + reviewLname;
+      var reviewEvent = reviewData[i].eventname;
       review.push(rDescription);
       review.push(rRating);
+      review.push(reviewFullName);
+      review.push(reviewEvent);
       reviewsArray.push(review);
       cumulativeRating += rRating;
     }
@@ -83,7 +90,7 @@ function Artist() {
             <h4 id="reviews" class="fw-bold">Reviews</h4>
             <div id="clear" class="list-group">
               {allReviews.map(function(review, index) {
-                return <Review user="User A" date=" 9/6/2022" key={index} rating={review[1]} venue = "Barclays Center - Brooklyn, NY" text={review[0]}/>
+                return <Review user={review[2]} date=" 9/6/2022" key={index} rating={review[1]} venue = "Barclays Center - Brooklyn, NY" text={review[0]}/>
               })}
             </div>
           </div>

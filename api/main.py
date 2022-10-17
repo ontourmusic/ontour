@@ -101,7 +101,7 @@ async def search_artist(search_text: str):
     cur.execute("SELECT * FROM search_artist_text('" + search_text + "');")
     rows = cur.fetchall()
     res_dict = []
-    headers = ["artist_id", "fname", "lname", "genre", "alias"]
+    headers = ["artist_id", "fname", "lname", "genre", "alias", "image_url"]
     for row in rows:
         print(row)
         res_row = dict(zip(headers, row))
