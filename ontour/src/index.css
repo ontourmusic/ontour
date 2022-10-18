@@ -400,6 +400,11 @@ h4 {
   color: #525252;
 }
 
+.home-footer {
+  margin-left: 4%;
+  margin-right: 4%;
+}
+
 footer {
   float: left;
 }

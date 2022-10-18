@@ -106,7 +106,7 @@ function Artist() {
           </div>
         </aside>
 
-        <hr class="footer"></hr>
+        <hr class="home-footer"></hr>
         <Footer/>
       </div>
 </>

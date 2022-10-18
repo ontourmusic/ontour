@@ -10,7 +10,7 @@ function Results() {
       <ArtistNavigation/>
       
       <div class="result-margin">
-        <div class="container">
+        <div class="container p-0">
           <div class="row">
             <h4 id="results" class="fw-bold result">Results</h4>
           </div>
