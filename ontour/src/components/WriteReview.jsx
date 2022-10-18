@@ -47,10 +47,10 @@ export default function WriteReview(props)
           <form id="clear">
             <div class="row top">
               <div class="col">
-                <input type="text" class="form-control shadow-none" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First name"/>
+                <input type="text" class="form-control shadow-none" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First Name"/>
               </div>
               <div class="col">
-                <input type="text" class="form-control shadow-none" onChange={event => setLname(event.target.value)} value ={lname} placeholder="Last name"/>
+                <input type="text" class="form-control shadow-none" onChange={event => setLname(event.target.value)} value ={lname} placeholder="Last Name"/>
               </div>
             </div>
             <div class="row bottom">

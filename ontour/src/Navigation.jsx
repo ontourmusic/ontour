@@ -5,10 +5,9 @@ const Navigation = () => {
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark">
       <div className="container">
-        <NavLink id="ontour" className="fw-bold navbar-brand logo" to="/">
-          OnTour
-          <img id="guitar" src= "images/guitar.png" alt=""/>
-        </NavLink>
+        <a href="/">
+          <img id="nav-logo" src= "images/logo.png" alt=""/>
+        </a>
       </div>
     </nav>
   );

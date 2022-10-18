@@ -26,7 +26,10 @@ function Home() {
       <Navigation />
       <div id="homepage">
         <div id="homeheader" class="container">
-          <div class="fw-bold logo">OnTour</div>
+          <img id="home-logo" src= "images/logo.png" alt=""/>
+          <div class="home-title">
+            Get a vibe of your next live experience.
+          </div>
           <div class="search row">
             <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
             <button class="btn btn-dark" onClick={routeChange}>

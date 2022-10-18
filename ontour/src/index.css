@@ -4,9 +4,10 @@ body {
   letter-spacing: -0.2px;
 }
 
-.logo {
-  font-family: 'Mukta', sans-serif;
-  font-size: 11vh;
+.home-title {
+  font-size: 3.5vh;
+  padding-top: 1vh;
+  padding-bottom: 1vh;
 }
 
 .artist{
@@ -233,7 +234,7 @@ body {
 {
   color: white;
   position: relative;
-  top: 30%;
+  top: 25%;
 }
 
 #writebutton{
@@ -242,10 +243,14 @@ body {
   color: white;
 }
 
-#guitar {
-  height: 50px;
-  margin-left: 3px;
-  padding-bottom: 15px;
+#nav-logo {
+  height: 45px;
+  padding-top: 3px;
+  padding-bottom: 10px;
+}
+
+#home-logo {
+  height: 15vh;
 }
 
 #ontour {
@@ -400,7 +405,10 @@ footer {
 }
 
 #footer-logo {
-  width: 115px;
+  height: 45px;
+  padding-bottom: 10px;
+  padding-right: 20px;
+  filter: invert(1);
 }
 
 small {
