@@ -58,8 +58,8 @@ body {
   padding-right: 5%;
 }
 
-.btn-outline-light:hover {
-  filter: brightness(95%);
+.btn-outline-light:hover, .btn-outline-light:active {
+  filter: brightness(93%);
   transition-duration: 0.5s;
 }
 
@@ -74,7 +74,7 @@ body {
 }
 
 #show-row:hover, #result-row:hover {
-  background-color: #eceded;
+  background-color: #e7e8e8;
   transition-duration: 0.5s;
 }
 
@@ -117,7 +117,7 @@ body {
 }
 
 .schedule-font {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .schedule-subfont {
@@ -237,14 +237,15 @@ body {
 }
 
 #writebutton{
+  padding-top: 5px;
   margin-bottom: 30px;
   color: white;
 }
 
 #guitar {
-  height: 45px;
-  margin-left: 4px;
-  padding-bottom: 12px;
+  height: 50px;
+  margin-left: 3px;
+  padding-bottom: 15px;
 }
 
 #ontour {
@@ -255,7 +256,6 @@ body {
 #arrow {
   width: 35px;
   border-radius: 50%;
-  margin-bottom: 10%;
 }
 
 #review-icon {
@@ -264,8 +264,8 @@ body {
 }
 
 #camera-icon {
-  width: 25px;
-  padding-bottom: 3px;
+  width: 27px;
+  padding-bottom: 2px;
 }
 
 /* Row Spacing */ 
@@ -324,7 +324,7 @@ h4 {
   border: 1px solid #c8c9ca;
 }
 
-#photobutton:hover {
+#photobutton:hover, #photobutton:active {
   border-color: #c8c9ca;
 }
 
@@ -356,8 +356,8 @@ h4 {
 }
 
 .result-margin {
-  margin-left: 8%;
-  margin-right: 8%;
+  margin-left: 4%;
+  margin-right: 4%;
 }
 
 #result-img img {
@@ -384,4 +384,25 @@ h4 {
 #result-info {
   text-align: left;
   padding-left: 5vh;
+}
+
+/* Footer */
+
+.footer {
+  margin-left: 4%;
+  margin-right: 4%;
+  font-size: 14px;
+  color: #525252;
+}
+
+footer {
+  float: left;
+}
+
+#footer-logo {
+  width: 115px;
+}
+
+small {
+  color: #525252;
 }

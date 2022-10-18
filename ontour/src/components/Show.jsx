@@ -6,8 +6,8 @@ export default function Show(props)
     return(
         // <a href="#">
             <div id="show-row" class="row justify-content-center py-3 show">
-                <div class="col-12 col-md-4">
-                    <div class="fw-bold schedule-font align-self-center">
+                <div class="col-12 col-md-4 align-self-center">
+                    <div class="fw-bold schedule-font">
                         {props.date}
                     </div>
                     <div class="schedule-subfont">
