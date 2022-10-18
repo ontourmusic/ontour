@@ -17,30 +17,37 @@ function Artist() {
   const artistName = searchParams.get("artist");
 
   //set var names here
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
   const [fullName, setFullName] = useState("");
   const [allReviews, setAllReviews] = useState([]);
   const [artistIdNumber, setArtistIdNumber] = useState(0);
   const [aggregateRating, setAggregateRating] = useState(0);
+  const [artistImage, setArtistImage] = useState("");
 
   //gets the artist and review data from the database
   const performSearch = async () => {
     const artistResponse = await fetch(`http://localhost:8000/search_artist/${artistName}`);
     const artistData = await artistResponse.json();
-    console.log(artistData);
-    console.log(artistData[0].fname);
-    setFname(artistData[0].fname);
-    setLname(artistData[0].lname);
     setFullName(artistData[0].fname + " " + artistData[0].lname);
-    console.log(fname);
-    console.log(fullName);
     const artistId = artistData[0].artist_id;
+    const imageUrls = artistData[0].image_url;
+    // console.log(imageUrls);
+    setArtistImage(imageUrls);
     setArtistIdNumber(artistId);
 
     const getReviews = await fetch(`http://localhost:8000/reviews/${artistId}`);
     const reviewData = await getReviews.json();
     setAllReviews(parseReviewData(reviewData));
+
+    //gets the tickemaster artist details 
+    // const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`);
+    // const tmData = await tmArtist.json();
+    // console.log(tmData);
+
+ 
+
+    // const eventDetails = await fetch(`https://app.ticketmaster.com/discovery/v2/events/rZ7HnEZ1A3pFp4.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww`)
+    // const eventDetailsData = await eventDetails.json();
+    // console.log(eventDetailsData);
   }
 
   //performs the search when the page loads
@@ -52,7 +59,6 @@ function Artist() {
   function parseReviewData(reviewData) {
     var reviewsArray = [];
     var cumulativeRating = 0;
-    console.log(reviewData);
     for(var i = 0; i < reviewData.length; i++) {
       var review = [];
       var rDescription = reviewData[i].description;
@@ -69,7 +75,6 @@ function Artist() {
       cumulativeRating += rRating;
     }
     cumulativeRating = cumulativeRating / reviewData.length;
-    console.log(cumulativeRating);
     setAggregateRating(cumulativeRating);
     return reviewsArray;
   }
@@ -78,9 +83,9 @@ function Artist() {
     <>
       <ArtistNavigation/>
       <div className="artist" >
-        <ArtistHeader name={fullName} rating={aggregateRating}/>
+        <ArtistHeader name={fullName} rating={aggregateRating} image={artistImage}/>
 
-        <Sidebar/>
+        <Sidebar name={fullName}/>
 
         <div class="no-sidebar">
           <Carousel/>
@@ -90,7 +95,7 @@ function Artist() {
             <h4 id="reviews" class="fw-bold">Reviews</h4>
             <div id="clear" class="list-group">
               {allReviews.map(function(review, index) {
-                return <Review user={review[2]} date=" 9/6/2022" key={index} rating={review[1]} venue = "Barclays Center - Brooklyn, NY" text={review[0]}/>
+                return <Review user={review[2]} date=" 9/6/2022" key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
               })}
             </div>
           </div>

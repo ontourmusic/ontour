@@ -7,7 +7,7 @@ const Navigation = () => {
       <div className="container">
         <NavLink id="ontour" className="fw-bold navbar-brand logo" to="/">
           OnTour
-          <img id="guitar" src= "images/guitar.png"/>
+          <img id="guitar" src= "images/guitar.png" alt=""/>
         </NavLink>
       </div>
     </nav>

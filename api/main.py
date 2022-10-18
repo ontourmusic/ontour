@@ -84,8 +84,8 @@ async def reviews(artist_id: int):
     return reviews
 
 @app.post('/reviews/')
-async def reviews(artist_id: int, event_id: int, rating: float, description: str):
-    db_review = ModelReviews(artist_id= artist_id, event_id= event_id, rating=rating, description=description)
+async def reviews(artist_id: int, event_id: int, rating: float, description: str, fname: str, lname: str, eventname: str):
+    db_review = ModelReviews(artist_id= artist_id, event_id= event_id, rating=rating, description=description, fname=fname, lname=lname, eventname=eventname)
     db.session.add(db_review)
     db.session.commit()
     return db_review

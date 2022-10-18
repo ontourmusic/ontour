@@ -24,6 +24,7 @@ class Artist(Base):
     lname = Column(String)
     genre = Column(String)
     alias = Column(String)
+    image_url= Column(String)
 
 
 class Reviews(Base):
@@ -33,4 +34,7 @@ class Reviews(Base):
     event_id = Column(Integer)
     rating = Column(Float)
     description = Column(String)
+    fname = Column(String)
+    lname = Column(String)
+    eventname = Column(String)
 

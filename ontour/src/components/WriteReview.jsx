@@ -32,7 +32,7 @@ export default function WriteReview(props)
 
   const postData = async () => {
     console.log("posting the data");
-    const response = await fetch(`http://localhost:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}`,{
+    const response = await fetch(`http://localhost:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${eventName}`,{
       method: 'POST',
     });
   }
@@ -55,7 +55,7 @@ export default function WriteReview(props)
             </div>
             <div class="row bottom">
               <div class="col">
-                <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Venue"/>
+                <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event Name"/>
               </div>
               <div class="col">
                 <input type="date" class="form-control shadow-none" id="date" onChange={event => setDate(event.target.value)}  placeholder="Date"/>

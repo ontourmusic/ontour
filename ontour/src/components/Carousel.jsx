@@ -14,7 +14,7 @@ export default function Carousel(props)
                     <button id="photobutton" type="button" class="btn btn-outline-light fw-bold align-self-center">
                         <div class="row">
                             <div class="col-lg-3">
-                                <img id="camera-icon" src="../../images/camera.png"></img>
+                                <img id="camera-icon" src="../../images/camera.png" alt=""></img>
                             </div>
                             <div id="add-photo" class="d-none d-lg-block col-lg-9">
                                 Add Photo

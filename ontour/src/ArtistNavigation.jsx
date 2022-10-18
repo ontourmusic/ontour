@@ -22,7 +22,7 @@ function Navigation()
       <div className="container">
         <NavLink id="ontour" className="fw-bold navbar-brand logo" to="/">
           OnTour
-          <img id="guitar" src= "images/guitar.png"/>
+          <img id="guitar" src= "images/guitar.png" alt=""/>
         </NavLink>
         <div class="navsearch">
           <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>

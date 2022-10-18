@@ -36,7 +36,7 @@ export default function Review(props)
                     <small class="text-muted">{props.date}</small> 
                 </div>
                 <div align = "left"  class="d-flex bd-highlight mb-2">
-                    <small class="text-muted">Venue: {props.venue}</small> 
+                    <small class="text-muted">Event: {props.venue}</small> 
                 </div>
             </div>
             <div class="d-flex w-100 justify-content-start">
