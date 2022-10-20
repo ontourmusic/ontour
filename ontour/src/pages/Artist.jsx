@@ -10,6 +10,8 @@ import { useSearchParams } from "react-router-dom";
 import {useState, useEffect} from "react";
 import ArtistNavigation from "../ArtistNavigation"
 import Footer from "../components/Footer"
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
 
 function Artist() {
 
@@ -86,20 +88,54 @@ function Artist() {
 
       <div className="artist" >
         <aside>
-        <ArtistHeader name={fullName} rating={aggregateRating} image={artistImage}/>
+          <ArtistHeader name={fullName} rating={aggregateRating} image={artistImage}/>
 
-        <Sidebar name={fullName}/>
+          <Sidebar name={fullName}/>
 
-        <div class="no-sidebar">
-          <Carousel/>
-          <div class="container">
-            <hr></hr>
-            <h4 id="reviews" class="fw-bold">Reviews</h4>
-            <div id="clear" class="list-group">
-              {allReviews.map(function(review, index) {
-                return <Review user={review[2]} date=" 9/6/2022" key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
-              })}
-            </div>
+          <div class="no-sidebar">
+            <Carousel/>
+            
+            <div class="container">
+              <hr></hr>
+              <h4 id="reviews" class="fw-bold">Reviews</h4>
+              <div id="clear" class="list-group">
+
+                <div class="row pb-4">
+                  <div class="col-12 col-sm-9 align-self-center">
+                    <div class="rating fw-bold">
+                      Average Rating: {aggregateRating} out of 5
+                    </div>
+                    <div class="rating">
+                      <Rating
+                            name="text-feedback"
+                            value={aggregateRating}
+                            size = "large"
+                            readOnly
+                            precision={0.01}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-sm-3 pt-5">
+                    <div class="dropdown">
+                      <button id="drop-button" class="btn btn-outline-light dropdown-toggle clear fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Recommended 
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item fw-bold" href="#">Newest First</a></li>
+                        <li><a class="dropdown-item fw-bold" href="#">Oldest First</a></li>
+                        <li><a class="dropdown-item fw-bold" href="#">Highest Rated</a></li>
+                        <li><a class="dropdown-item fw-bold" href="#">Lowest Rated</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                {allReviews.map(function(review, index) {
+                  return <Review user={review[2]} date=" 9/6/2022" key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
+                })}
+              </div>
             </div>
 
             <WriteReview artistId={artistIdNumber}/>

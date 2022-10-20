@@ -136,6 +136,11 @@ body {
   display: flex;
   clear: left;
   float: left;
+  font-size: 18px;
+}
+
+.dropdown {
+  float: right;
 }
 
 #review .top{
@@ -219,7 +224,7 @@ body {
 }
 
 #homepage{
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg");
   /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?cs=srgb&dl=pexels-sebastian-ervi-1763075.jpg&fm=jpg"); */
   background-size: cover;
   background-repeat: no-repeat;
@@ -288,7 +293,7 @@ hr {
 
 #reviews {
   margin-top: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 #write-review {
@@ -331,6 +336,10 @@ h4 {
 
 #photobutton:hover, #photobutton:active {
   border-color: #c8c9ca;
+}
+
+.no-text-align {
+  text-align: end;
 }
 
 /* Artist Header */
@@ -418,4 +427,24 @@ footer {
 
 small {
   color: #525252;
+}
+
+.review-user {
+  padding-top: 5px;
+}
+
+#helpful-button, #drop-button {
+  border: 1px solid #c8c9ca;
+}
+
+#helpful {
+  padding: 0;
+  padding-top: 2px;
+  padding-left: 5px;
+  font-size: 15px;
+}
+
+#helpful-icon {
+  width: 22px;
+  padding-bottom: 2px;
 }

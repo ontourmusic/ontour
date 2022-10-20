@@ -10,7 +10,7 @@ export default function Carousel(props)
                 <div class="col-12 col-sm-9 align-self-center">
                     <h4 class="fw-bold ">Captured Moments</h4>
                 </div>
-                <div class="col-12 col-sm-3">
+                <div class="col-12 col-sm-3 no-text-align">
                     <button id="photobutton" type="button" class="btn btn-outline-light fw-bold align-self-center">
                         <div class="row">
                             <div class="col-lg-3">
