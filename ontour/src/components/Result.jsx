@@ -10,18 +10,23 @@ function Result(props)
             <div id="result-row" class="row result">
               <div id="result-img" class="col-3 align-self-center">
                 <img src={props.src}></img>
+                <div id="result-name" class="fw-bold">{props.name}</div>
               </div>
               <div id="result-info" class="col-8 align-self-center">
-                <div id="result-name" class="fw-bold">{props.name}</div>
-                <Rating
-                    name="text-feedback"
-                    value={props.rating}
-                    size = "medium"
-                    readOnly
-                    precision={0.01}
-                    emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                />
-              </div>
+                    <div class="rating fw-bold">
+                      Average Rating: {props.rating} out of 5
+                    </div>
+                    <div class="rating">
+                      <Rating
+                            name="text-feedback"
+                            value={props.rating}
+                            size = "large"
+                            readOnly
+                            precision={0.01}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                      />
+                    </div>
+                  </div>
               <div class="col-1 align-self-center">
                     •
                 </div>

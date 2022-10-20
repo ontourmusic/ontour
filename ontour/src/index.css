@@ -393,11 +393,11 @@ h4 {
 
 #result-name {
   font-size: 20px;
+  padding-top: 10px;
 }
 
 #result-info {
   text-align: left;
-  padding-left: 5vh;
 }
 
 /* Footer */
