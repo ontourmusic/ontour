@@ -102,7 +102,7 @@ function Artist() {
 
                 <div class="row pb-4">
                   <div class="col-12 col-sm-9 align-self-center">
-                    <div class="rating fw-bold">
+                    <div class="rating fw-bold pb-1">
                       Average Rating: {aggregateRating} out of 5
                     </div>
                     <div class="rating">
