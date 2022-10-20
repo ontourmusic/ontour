@@ -74,7 +74,7 @@ body {
   transition-duration: 0.5s;
 }
 
-#show-row:hover, #result-row:hover {
+#show-row:hover, #result-row:hover, .dropdown-item:hover {
   background-color: #e7e8e8;
   transition-duration: 0.5s;
 }
