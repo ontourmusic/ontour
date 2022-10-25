@@ -12,15 +12,10 @@ export default function UpcomingSchedule(props)
     {name: "Loading...", date: "Loading...", eventId: "Loading...", eventURL: "Loading...", timezone: "Loading...", eventTime: "Loading..."}]);
     const [dates, setDates] = useState([]);
     const [show, setShow] = useState(true);
-    console.log(props.name);
     const performSearch = async () => {
-        console.log("in here");
         const tmEvents = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${props.name}&sort=date,asc&size=5`);
         const tmEventData = await tmEvents.json();
         var events = [];
-        console.log(tmEventData);
-        // console.log(tmEventData._embedded.events.length);
-        console.log(tmEventData.page.totalElements);
         if(tmEventData.page.totalElements > 0) {
             for(let i = 0; i < tmEventData._embedded.events.length; i++){
                 if(events.length < 5){
@@ -43,7 +38,6 @@ export default function UpcomingSchedule(props)
                     eventTime: eventTime
                     }
                     events.push(event);
-                    console.log(event.timezone);
                 }
             }
             for(let i = 0; i < events.length; i++){

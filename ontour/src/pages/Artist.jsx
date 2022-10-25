@@ -12,6 +12,7 @@ import ArtistNavigation from "../ArtistNavigation"
 import Footer from "../components/Footer"
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import Form from 'react-bootstrap/Form';
 
 function Artist() {
 
@@ -25,6 +26,7 @@ function Artist() {
   const [artistIdNumber, setArtistIdNumber] = useState(0);
   const [aggregateRating, setAggregateRating] = useState(0);
   const [artistImage, setArtistImage] = useState("");
+  const [sortOption, setSortOption] = useState(0);
 
   //gets the artist and review data from the database
   const performSearch = async () => {
@@ -60,6 +62,7 @@ function Artist() {
   
   //parses the review data from the database
   function parseReviewData(reviewData) {
+    console.log(reviewData);
     var reviewsArray = [];
     var cumulativeRating = 0;
     for(var i = 0; i < reviewData.length; i++) {
@@ -70,10 +73,12 @@ function Artist() {
       var reviewLname = reviewData[i].lname;
       var reviewFullName = reviewFname + " " + reviewLname;
       var reviewEvent = reviewData[i].eventname;
+      var date = reviewData[i].date;
       review.push(rDescription);
       review.push(rRating);
       review.push(reviewFullName);
       review.push(reviewEvent);
+      review.push(date);
       reviewsArray.push(review);
       cumulativeRating += rRating;
     }
@@ -81,6 +86,35 @@ function Artist() {
     setAggregateRating(cumulativeRating);
     return reviewsArray;
   }
+
+  const formChange = (event) => {
+    setSortOption(event.target.value);
+    //sort all reviews array by rating highest to lowest
+    if(event.target.value == 3) {
+      allReviews.sort(function(a, b) {
+        return b[1] > a[1];
+      });
+    }
+    //lowest to highest
+    else if(event.target.value == 4) {
+      allReviews.sort(function(a, b) {
+        return a[1] > b[1];
+      });
+    }
+    //oldest to newest
+    else if(event.target.value == 2) {
+      allReviews.sort(function(a, b) {
+        return new Date(b[4]) < new Date(a[4]);
+      });
+    }
+    //newest to oldest
+    else if(event.target.value == 1) {
+      allReviews.sort(function(a, b) {
+        return new Date(a[4]) < new Date(b[4]);
+      });
+    }
+  }
+
 
   return (
     <>
@@ -103,7 +137,7 @@ function Artist() {
                 <div class="row pb-4">
                   <div class="col-12 col-sm-9 align-self-center">
                     <div class="rating fw-bold">
-                      Average Rating: {aggregateRating} out of 5
+                      Average Rating: {aggregateRating.toFixed(2)} out of 5
                     </div>
                     <div class="rating">
                       <Rating
@@ -119,23 +153,22 @@ function Artist() {
 
                   <div class="col-12 col-sm-3 pt-5">
                     <div class="dropdown">
-                      <button id="drop-button" class="btn btn-outline-light dropdown-toggle clear fw-bold" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Recommended 
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item fw-bold" href="#">Newest First</a></li>
-                        <li><a class="dropdown-item fw-bold" href="#">Oldest First</a></li>
-                        <li><a class="dropdown-item fw-bold" href="#">Highest Rated</a></li>
-                        <li><a class="dropdown-item fw-bold" href="#">Lowest Rated</a></li>
-                      </ul>
+                      <Form.Select onChange={formChange} aria-label="Default select example">
+                          <option>Recommended</option>
+                          <option value="1">Newest First</option>
+                          <option value="2">Oldest First</option>
+                          <option value="3">Highest Rated</option>
+                          <option value="4">Lowest Rated</option>
+                      </Form.Select>
                     </div>
                   </div>
                 </div>
 
                 {allReviews.map(function(review, index) {
-                  return <Review user={review[2]} date=" 9/6/2022" key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
+                  return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
                 })}
               </div>
+              <a>See More</a>
             </div>
 
             <WriteReview artistId={artistIdNumber}/>

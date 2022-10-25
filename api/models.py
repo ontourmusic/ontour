@@ -1,3 +1,4 @@
+from sqlite3 import Date
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -37,4 +38,5 @@ class Reviews(Base):
     fname = Column(String)
     lname = Column(String)
     eventname = Column(String)
+    date = Column(String)
 
