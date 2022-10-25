@@ -26,7 +26,7 @@ export default function Sidebar(props)
           </div>
           <UpcomingSchedule name={props.name}/>
           <a href="#">
-            <img id="arrow" src="../../images/arrow.png" alt=""></img>
+            <img id="arrow" class="mt-4" src="../../images/arrow.png" alt=""></img>
           </a>
         </div>
     );

@@ -96,9 +96,9 @@ export default function UpcomingSchedule(props)
             </div>
             :<p>No Upcoming Shows</p>}
            
-            <div class="row justify-content-center py-3">
+            {/* <div class="row justify-content-center pt-3">
                 <button id="upcoming-btn">See more</button>
-            </div>
+            </div> */}
         </div>
     );
 }
