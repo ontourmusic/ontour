@@ -28,7 +28,7 @@ function Home() {
         <div id="homeheader" class="container">
           <img id="home-logo" src= "images/logo.png" alt=""/>
           <div class="home-title">
-            Get a vibe of your next live experience.
+            Own your next live experience.
           </div>
           <div class="search row">
             <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
