@@ -27,6 +27,9 @@ function Artist() {
   const [aggregateRating, setAggregateRating] = useState(0);
   const [artistImage, setArtistImage] = useState("");
   const [sortOption, setSortOption] = useState(0);
+  const [reviews, setReviews] = useState([]);
+  const [spotifyLink, setSpotifyLink] = useState("");
+  const [ticketLink, setTicketLink] = useState("");
 
   //gets the artist and review data from the database
   const performSearch = async () => {
@@ -35,7 +38,6 @@ function Artist() {
     setFullName(artistData[0].fname + " " + artistData[0].lname);
     const artistId = artistData[0].artist_id;
     const imageUrls = artistData[0].image_url;
-    // console.log(imageUrls);
     setArtistImage(imageUrls);
     setArtistIdNumber(artistId);
 
@@ -44,9 +46,13 @@ function Artist() {
     setAllReviews(parseReviewData(reviewData));
 
     //gets the tickemaster artist details 
-    // const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`);
-    // const tmData = await tmArtist.json();
-    // console.log(tmData);
+    const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`);
+    const tmData = await tmArtist.json();
+    console.log(tmData);
+    var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
+    var tickets = tmData._embedded.attractions[0].url;
+    setTicketLink(tickets);
+    setSpotifyLink(spotify);
 
  
 
@@ -58,11 +64,10 @@ function Artist() {
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-  }, []);
+  }, [artistName]);
   
   //parses the review data from the database
   function parseReviewData(reviewData) {
-    console.log(reviewData);
     var reviewsArray = [];
     var cumulativeRating = 0;
     for(var i = 0; i < reviewData.length; i++) {
@@ -119,12 +124,11 @@ function Artist() {
   return (
     <>
       <ArtistNavigation/>
-
       <div className="artist" >
         <aside>
           <ArtistHeader name={fullName} rating={aggregateRating} image={artistImage}/>
 
-          <Sidebar name={fullName}/>
+          <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink}/>
 
           <div class="no-sidebar">
             <Carousel/>
@@ -132,8 +136,8 @@ function Artist() {
             <div class="container">
               <hr></hr>
               <h4 id="reviews" class="fw-bold">Reviews</h4>
+              {allReviews.length > 0 &&
               <div id="clear" class="list-group">
-
                 <div class="row pb-4">
                   <div class="col-12 col-sm-9 align-self-center">
                     <div class="rating fw-bold">
@@ -150,6 +154,7 @@ function Artist() {
                       />
                     </div>
                   </div>
+                  
 
                   <div class="col-12 col-sm-3 pt-5">
                     <div class="dropdown">
@@ -164,12 +169,15 @@ function Artist() {
                   </div>
                 </div>
 
+
                 {allReviews.map(function(review, index) {
                   return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
                 })}
               </div>
-              <a>See More</a>
+              }
+              {/* <a>See More</a> */}
             </div>
+              
 
             <WriteReview artistId={artistIdNumber}/>
           </div>

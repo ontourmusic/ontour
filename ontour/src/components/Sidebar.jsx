@@ -5,6 +5,7 @@ import ExternalLink from "./ExternalLink";
 
 export default function Sidebar(props)
 {
+  // console.log(props.spotify);
     return(
         <div class= "sidebar">
           <a href="#review">
@@ -20,9 +21,9 @@ export default function Sidebar(props)
             </button>
           </a>
           <div class="row justify-content-center">
-            <ExternalLink mediaLink="https://open.spotify.com/artist/2LIk90788K0zvyj2JJVwkJ?si=ggKw9EM3QlePSkEkRB0o9g" iconLink="images/spotify_icon.png"/>
-            <ExternalLink mediaLink="https://www.stubhub.com/jack-harlow-tickets/category/100275160/" iconLink="images/ticket_icon.png"/>
-            <ExternalLink mediaLink="https://www.jackharlow.us" iconLink="images/store_icon.png"/>
+            <ExternalLink mediaLink={props.spotify} iconLink="images/spotify_icon.png"/>
+            <ExternalLink mediaLink={props.tickets} iconLink="images/ticket_icon.png"/>
+            {/* <ExternalLink mediaLink="https://www.jackharlow.us" iconLink="images/store_icon.png"/> */}
           </div>
           <UpcomingSchedule name={props.name}/>
           <a href="#">
