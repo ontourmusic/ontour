@@ -53,12 +53,6 @@ function Artist() {
     var tickets = tmData._embedded.attractions[0].url;
     setTicketLink(tickets);
     setSpotifyLink(spotify);
-
- 
-
-    // const eventDetails = await fetch(`https://app.ticketmaster.com/discovery/v2/events/rZ7HnEZ1A3pFp4.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww`)
-    // const eventDetailsData = await eventDetails.json();
-    // console.log(eventDetailsData);
   }
 
   //performs the search when the page loads
