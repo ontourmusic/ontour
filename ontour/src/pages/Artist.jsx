@@ -33,7 +33,7 @@ function Artist() {
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    const artistResponse = await fetch(`http://localhost:8000/search_artist/${artistName}`);
+    const artistResponse = await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com/search_artist/${artistName}`);
     const artistData = await artistResponse.json();
     setFullName(artistData[0].fname + " " + artistData[0].lname);
     const artistId = artistData[0].artist_id;
@@ -41,7 +41,7 @@ function Artist() {
     setArtistImage(imageUrls);
     setArtistIdNumber(artistId);
 
-    const getReviews = await fetch(`http://localhost:8000/reviews/${artistId}`);
+    const getReviews = await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com/reviews/${artistId}`);
     const reviewData = await getReviews.json();
     setAllReviews(parseReviewData(reviewData));
 

@@ -36,7 +36,7 @@ export default function WriteReview(props)
 
   const postData = async () => {
     console.log("posting the data");
-    const response = await fetch(`http://localhost:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${eventName}&date=${date}`,{
+    const response = await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${eventName}&date=${date}`,{
       method: 'POST',
     });
   }
