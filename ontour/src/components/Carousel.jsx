@@ -1,9 +1,17 @@
 import React from "react";
 import '../index.css';
 import Item from "./Item";
+import CarouselImage from "./CarouselImage";
+import {useState, useEffect} from "react";
 
 export default function Carousel(props)
 {
+    const [images, setImages] = useState([]);
+    useEffect(() => {
+        console.log(props.images);
+        setImages(props.images);
+    }, [props.images]);
+
     return (
         <div class="container">
             <div id="gallery" class="row">
@@ -31,30 +39,50 @@ export default function Carousel(props)
                     </button>
                     <div class="carousel-item active">
                         <div class="row">
-                            <div class="col-4">
-                                <Item image="https://www.leoweekly.com/wp-content/uploads/2019/12/Harlow3.jpg" text="Card title 1"/>
-                            </div>
-                            <div class="col-4">
-                                <Item image="https://www.rollingstone.com/wp-content/uploads/2022/05/jack-harlow-tour.jpg" text="Card title 2"/>
-                            </div>
-                            <div class="col-4">
-                                <Item image="https://www.gannett-cdn.com/presto/2021/10/10/NA36/01000ac6-e203-4ed3-96ba-c5382420d8ac-DCQ_ACL21_SAT_010_1.JPG" text="Card title 3"/>
-                            </div>
+                            {/* <CarouselImage image="https://www.leoweekly.com/wp-content/uploads/2019/12/Harlow3.jpg" text="Card title 1"/>
+                            <CarouselImage image="https://www.rollingstone.com/wp-content/uploads/2022/05/jack-harlow-tour.jpg" text="Card title 2"/>
+                            <CarouselImage image="https://www.gannett-cdn.com/presto/2021/10/10/NA36/01000ac6-e203-4ed3-96ba-c5382420d8ac-DCQ_ACL21_SAT_010_1.JPG" text="Card title 3"/> */}
+                            {images.map((image, index) => {
+                                while(index < 3) {
+                                    return <CarouselImage image={image} text="Card title 1"/>
+                                }
+                            })}
                         </div>
                     </div>
                     <div class="carousel-item">
                         <div class="row">
-                            <div class="col-4">
-                                <Item image="https://s.hdnux.com/photos/01/22/47/15/21656444/4/rawImage.jpg" text="Card title 4"/>
-                            </div>
-                            <div class="col-4">
-                                <Item image="https://media-cldnry.s-nbcnews.com/image/upload/t_fit-760w,f_auto,q_auto:best/rockcms/2022-08/jack-harlow-superbowl-citi-concert--inline2-jp-081222-08aa15.jpg" text="Card title 5"/>
-                            </div>
-                            <div class="col-4">
-                                <Item image="https://www.okayplayer.com/wp-content/uploads/2022/06/GettyImages-1405312954.jpg" text="Card title 6"/>
-                            </div>
+                            <CarouselImage image="https://s.hdnux.com/photos/01/22/47/15/21656444/4/rawImage.jpg" text="Card title 5"/>
+                            <CarouselImage image="https://media-cldnry.s-nbcnews.com/image/upload/t_fit-760w,f_auto,q_auto:best/rockcms/2022-08/jack-harlow-superbowl-citi-concert--inline2-jp-081222-08aa15.jpg" text="Card title 5"/>
+                            <CarouselImage image="https://www.okayplayer.com/wp-content/uploads/2022/06/GettyImages-1405312954.jpg" text="Card title 6"/>
                         </div>
                     </div>
+                    {/* {images.map((image, index) => {
+                        console.log(index);
+                        console.log(images.length - 2);
+                        if(index >= 3 && index + 3 <= images.length-2) {
+                            return (
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        {index <= images.length-1 ? <CarouselImage image={images[index]} text="Card title 5"/> : null}
+                                        {index+1 <= images.length-1 ? <CarouselImage image={images[index+1]} text="Card title 5"/> : null}
+                                        {index+2 <= images.length-1 ? <CarouselImage image={images[index+2]} text="Card title 5"/> : null}
+                                    </div>
+                                </div>
+                            );
+                        }
+                    }
+                    )} */}
+                    {/* {images.map((image, index) => {
+                        return (
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    <CarouselImage image={image} text="Card title 1"/>
+                                    <CarouselImage image={image} text="Card title 2"/>
+                                    <CarouselImage image={image} text="Card title 3"/>
+                                </div>
+                            </div>
+                        );
+                    })} */}
                     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>

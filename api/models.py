@@ -1,5 +1,6 @@
+from multiprocessing.dummy import Array
 from sqlite3 import Date
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Float
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Float, ARRAY
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -26,6 +27,7 @@ class Artist(Base):
     genre = Column(String)
     alias = Column(String)
     image_url= Column(String)
+    images = Column(ARRAY(String))
 
 
 class Reviews(Base):

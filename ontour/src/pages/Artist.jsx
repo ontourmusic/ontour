@@ -30,16 +30,20 @@ function Artist() {
   const [reviews, setReviews] = useState([]);
   const [spotifyLink, setSpotifyLink] = useState("");
   const [ticketLink, setTicketLink] = useState("");
+  const [imageArray, setImageArray] = useState([]);
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    const artistResponse = await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`);
+    const artistResponse = await fetch(`http://localhost:8000/search_artist/${artistName}`);
     const artistData = await artistResponse.json();
+    console.log(artistData);
     setFullName(artistData[0].fname + " " + artistData[0].lname);
     const artistId = artistData[0].artist_id;
     const imageUrls = artistData[0].image_url;
     setArtistImage(imageUrls);
     setArtistIdNumber(artistId);
+    const imageGallery = artistData[0].images;
+    setImageArray(imageGallery);
 
     const getReviews = await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`);
     const reviewData = await getReviews.json();
@@ -121,11 +125,10 @@ function Artist() {
       <div className="artist" >
         <aside>
           <ArtistHeader name={fullName} rating={aggregateRating} image={artistImage}/>
-
           <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink}/>
 
           <div class="no-sidebar">
-            <Carousel/>
+            <Carousel images={imageArray}/>
             
             <div class="container">
               <hr></hr>
@@ -172,7 +175,6 @@ function Artist() {
               {/* <a>See More</a> */}
             </div>
               
-
             <WriteReview artistId={artistIdNumber}/>
           </div>
         </aside>
