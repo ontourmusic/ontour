@@ -23,12 +23,12 @@ function Navigation()
         <a href="/">
           <img id="nav-logo" src= "images/logo.png" alt=""/>
         </a>
-        <div class="navsearch">
+        {/* <div class="navsearch">
           <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
           <button class="btn btn-dark" onClick={routeChange}>
             <img src="images/search_icon.png" alt="..."/>
           </button>
-        </div>
+        </div> */}
       </div>
     </nav>
   );

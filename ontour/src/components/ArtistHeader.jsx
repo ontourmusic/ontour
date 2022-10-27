@@ -6,7 +6,7 @@ import StarIcon from '@mui/icons-material/Star';
 function ArtistHeader(props)
 {
     return (
-        <div id="artist-background" class="container-fluid jumbotron bg-cover text-white" style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.7)), url("${props.image}")`}}>
+        <div id="artist-background" class="container-fluid jumbotron bg-cover text-white" style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)), url("${props.image}")`}}>
             <div id="text-contain">
                 <h1 id="artist-name" class="fw-bold">{props.name}</h1>
                 <div class="rating">

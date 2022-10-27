@@ -11,6 +11,6 @@ export default function Item(props)
                     <h5 class="card-title">{props.text}</h5>
                 </div>
             </div>
-      </div>
+        </div>
     )
 }
