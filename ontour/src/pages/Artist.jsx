@@ -152,7 +152,7 @@ function Artist() {
                     </div>
                   </div>
 
-                  <div class="col-12 col-sm-3 pt-5">
+                  <div class="col-12 col-sm-3 pt-5 align-self-center">
                     <div class="dropdown">
                       <Form.Select onChange={formChange} aria-label="Default select example">
                           <option>Recommended</option>
