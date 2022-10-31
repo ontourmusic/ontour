@@ -134,10 +134,9 @@ function Artist() {
               <hr></hr>
               <h4 id="reviews" class="fw-bold">Reviews</h4>
               {allReviews.length > 0 &&
-              <div id="clear" class="list-group">
-                <div class="row pb-4">
-                  <div class="col-7 align-self-center">
-                    <div class="rating">
+              <div id="clear">
+                <div class="row align-self-center">
+                    <div class="col-7 rating">
                       <Rating
                             name="text-feedback"
                             value={aggregateRating}
@@ -150,22 +149,16 @@ function Artist() {
                     <div class="col-5 fw-bold rating-text align-self-center">
                       Overall Rating: {aggregateRating} out of 5
                     </div>
-                  </div>
-                  
-
-                  <div class="col-12 col-sm-3 pt-5 align-self-center">
-                    <div class="dropdown">
-                      <Form.Select onChange={formChange} aria-label="Default select example">
-                          <option>Recommended</option>
-                          <option value="1">Newest First</option>
-                          <option value="2">Oldest First</option>
-                          <option value="3">Highest Rated</option>
-                          <option value="4">Lowest Rated</option>
-                      </Form.Select>
-                    </div>
-                  </div>
                 </div>
-
+                <div class="row dropdown pt-3">
+                  <Form.Select onChange={formChange} aria-label="Default select example">
+                      <option>Recommended</option>
+                      <option value="1">Newest First</option>
+                      <option value="2">Oldest First</option>
+                      <option value="3">Highest Rated</option>
+                      <option value="4">Lowest Rated</option>
+                  </Form.Select>
+                </div>
 
                 {allReviews.map(function(review, index) {
                   return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
