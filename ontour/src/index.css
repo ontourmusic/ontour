@@ -135,7 +135,10 @@ body {
   display: flex;
   clear: left;
   float: left;
-  font-size: 18px;
+}
+
+.rating-text {
+  text-align: right;
 }
 
 .dropdown {

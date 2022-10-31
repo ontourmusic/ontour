@@ -136,10 +136,7 @@ function Artist() {
               {allReviews.length > 0 &&
               <div id="clear" class="list-group">
                 <div class="row pb-4">
-                  <div class="col-12 col-sm-9 align-self-center">
-                    <div class="rating fw-bold">
-                      Average Rating: {aggregateRating.toFixed(2)} out of 5
-                    </div>
+                  <div class="col-7 align-self-center">
                     <div class="rating">
                       <Rating
                             name="text-feedback"
@@ -150,10 +147,13 @@ function Artist() {
                             emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                       />
                     </div>
+                    <div class="col-5 fw-bold rating-text align-self-center">
+                      Overall Rating: {aggregateRating} out of 5
+                    </div>
                   </div>
                   
 
-                  <div class="col-12 col-sm-3 pt-5">
+                  <div class="col-12 col-sm-3 pt-5 align-self-center">
                     <div class="dropdown">
                       <Form.Select onChange={formChange} aria-label="Default select example">
                           <option>Recommended</option>
