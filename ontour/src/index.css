@@ -477,3 +477,7 @@ select:focus {
 option {
   font-weight: bold;
 }
+
+.padding-bottom {
+  padding-bottom: 70px;
+}
