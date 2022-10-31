@@ -62,7 +62,7 @@ export default function Carousel(props)
                                     return (
                                         <div class="carousel-item">
                                             <div class="row">
-                                                {index <= images.length-1 ? <CarouselImage image={images[index + incrementor]} text="Card title 5"/> : null}
+                                                {index <= images.length-1 ? <CarouselImage image={images[index]} text="Card title 5"/> : null}
                                                 {index + 1 <= images.length-1 ? <CarouselImage image={images[index+ 1]} text="Card title 5"/> : null}
                                                 {index + 2 <= images.length-1 ? <CarouselImage image={images[index+ 2]} text="Card title 5"/> : null}
                                             </div>
