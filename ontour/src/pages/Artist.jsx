@@ -134,7 +134,7 @@ function Artist() {
               <hr></hr>
               <h4 id="reviews" class="fw-bold">Reviews</h4>
               {allReviews.length > 0 &&
-              <div id="clear" class="list-group">
+              <div id="clear">
                 <div class="row align-self-center">
                     <div class="col-7 rating">
                       <Rating
@@ -147,7 +147,7 @@ function Artist() {
                       />
                     </div>
                     <div class="col-5 fw-bold rating-text align-self-center">
-                      Overall Rating: {aggregateRating} out of 5
+                      Overall Rating: {aggregateRating.toFixed(1)} out of 5
                     </div>
                 </div>
                 <div class="row dropdown pt-3">
@@ -160,9 +160,11 @@ function Artist() {
                   </Form.Select>
                 </div>
 
-                {allReviews.map(function(review, index) {
-                  return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
-                })}
+                <div class="list-group">
+                  {allReviews.map(function(review, index) {
+                    return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
+                  })}
+                </div>
               </div>
               }
               {/* <a>See More</a> */}
