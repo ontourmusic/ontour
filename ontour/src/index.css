@@ -135,6 +135,7 @@ body {
   display: flex;
   clear: left;
   float: left;
+  font-size: 19px;
 }
 
 .rating-text {
