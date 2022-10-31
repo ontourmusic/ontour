@@ -134,7 +134,7 @@ function Artist() {
               <hr></hr>
               <h4 id="reviews" class="fw-bold">Reviews</h4>
               {allReviews.length > 0 &&
-              <div id="clear">
+              <div id="clear" class="list-group">
                 <div class="row align-self-center">
                     <div class="col-7 rating">
                       <Rating
