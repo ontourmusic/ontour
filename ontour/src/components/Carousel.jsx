@@ -49,7 +49,7 @@ export default function Carousel(props)
                             {imageLoad ? images.map((image, index) => {
                                 while(index < 3) {
                                     if(index <= images.length-1){
-                                        return <CarouselImage image={image} text="Card title 1"/>
+                                        return <CarouselImage image={image} />
                                     }
                                 }
                             }): console.log("howdy")}
@@ -62,9 +62,9 @@ export default function Carousel(props)
                                     return (
                                         <div class="carousel-item">
                                             <div class="row">
-                                                {index <= images.length-1 ? <CarouselImage image={images[index]} text="Card title 5"/> : null}
-                                                {index + 1 <= images.length-1 ? <CarouselImage image={images[index+ 1]} text="Card title 5"/> : null}
-                                                {index + 2 <= images.length-1 ? <CarouselImage image={images[index+ 2]} text="Card title 5"/> : null}
+                                                {index <= images.length-1 ? <CarouselImage image={images[index]}/> : null}
+                                                {index + 1 <= images.length-1 ? <CarouselImage image={images[index+ 1]} /> : null}
+                                                {index + 2 <= images.length-1 ? <CarouselImage image={images[index+ 2]} /> : null}
                                             </div>
                                         </div>
                                     );
