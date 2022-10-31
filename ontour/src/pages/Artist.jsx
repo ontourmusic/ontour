@@ -134,11 +134,11 @@ function Artist() {
               <hr></hr>
               <h4 id="reviews" class="fw-bold">Reviews</h4>
               {allReviews.length > 0 &&
-              <div id="clear" class="list-group">
+              <div id="clear">
                 <div class="row pb-4">
                   <div class="col-12 col-sm-9 align-self-center">
                     <div class="rating fw-bold">
-                      Average Rating: {aggregateRating.toFixed(2)} out of 5
+                      Overall Rating: {aggregateRating.toFixed(1)} out of 5
                     </div>
                     <div class="rating">
                       <Rating
@@ -151,9 +151,8 @@ function Artist() {
                       />
                     </div>
                   </div>
-                  
 
-                  <div class="col-12 col-sm-3 pt-5">
+                  <div class="col-12 col-sm-3 pt-5 align-self-center">
                     <div class="dropdown">
                       <Form.Select onChange={formChange} aria-label="Default select example">
                           <option>Recommended</option>
@@ -166,10 +165,11 @@ function Artist() {
                   </div>
                 </div>
 
-
-                {allReviews.map(function(review, index) {
-                  return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
-                })}
+                <div class="list-group">
+                  {allReviews.map(function(review, index) {
+                    return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
+                  })}
+                </div>
               </div>
               }
               {/* <a>See More</a> */}
