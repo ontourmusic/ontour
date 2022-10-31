@@ -135,30 +135,33 @@ function Artist() {
               <h4 id="reviews" class="fw-bold">Reviews</h4>
               {allReviews.length > 0 &&
               <div id="clear">
-                <div class="padding-bottom">
-                  <div class="row align-self-center">
-                      <div class="col-12 col-sm-5 rating">
-                        <Rating
-                              name="text-feedback"
-                              value={aggregateRating}
-                              size = "large"
-                              readOnly
-                              precision={0.01}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                        />
-                      </div>
-                      <div class="col-12 col-sm-7 pt-2 pt-sm-0 fw-bold rating-text align-self-center">
-                        Overall Rating: {aggregateRating.toFixed(1)} out of 5
-                      </div>
+                <div class="row pb-4">
+                  <div class="col-12 col-sm-9 align-self-center">
+                    <div class="rating fw-bold">
+                      Overall Rating: {aggregateRating.toFixed(1)} out of 5
+                    </div>
+                    <div class="rating">
+                      <Rating
+                            name="text-feedback"
+                            value={aggregateRating}
+                            size = "large"
+                            readOnly
+                            precision={0.01}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                      />
+                    </div>
                   </div>
-                  <div class="dropdown pt-2">
-                    <Form.Select onChange={formChange} aria-label="Default select example">
-                        <option>Recommended</option>
-                        <option value="1">Newest First</option>
-                        <option value="2">Oldest First</option>
-                        <option value="3">Highest Rated</option>
-                        <option value="4">Lowest Rated</option>
-                    </Form.Select>
+
+                  <div class="col-12 col-sm-3 pt-5">
+                    <div class="dropdown">
+                      <Form.Select onChange={formChange} aria-label="Default select example">
+                          <option>Recommended</option>
+                          <option value="1">Newest First</option>
+                          <option value="2">Oldest First</option>
+                          <option value="3">Highest Rated</option>
+                          <option value="4">Lowest Rated</option>
+                      </Form.Select>
+                    </div>
                   </div>
                 </div>
 
