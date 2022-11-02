@@ -6,7 +6,7 @@ export default function CarouselImage(props)
 {
     return (
         <div class="col-4">
-            <Item image={props.image} text="Card title "/>
+            <Item image={props.image}/>
         </div>
     );
 }
