@@ -64,7 +64,7 @@ body {
   transition-duration: 0.5s;
 }
 
-.social-media-icon:hover, .carousel img:hover, #homepage img:hover {
+.social-media-icon:hover, .card img:hover {
   filter: brightness(70%);
   transition-duration: 0.5s;
 }
