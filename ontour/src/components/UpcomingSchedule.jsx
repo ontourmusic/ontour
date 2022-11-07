@@ -66,6 +66,7 @@ export default function UpcomingSchedule(props)
         <div class="container shows">
             <div class="row justify-content-center show">
                 <h4 id="upcoming" class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
+                <h4 id="upcoming-shows" class="fw-bold d-block d-sm-none">Shows</h4>
             </div>
 
             {show
