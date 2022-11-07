@@ -57,7 +57,7 @@ export default function Carousel(props)
                             {imageLoad ? images.map((image, index) => {
                                 while(index < 3) {
                                     if(index <= images.length-1){
-                                        return <div class="col-4" onClick={() => getImg(images[index])}><Item image={image} /></div>
+                                        return <div class="col-4" onClick={() => getImg(image)}><Item image={image} /></div>
                                     }
                                 }
                             }): console.log("howdy")}
