@@ -34,12 +34,12 @@ export default function Carousel(props)
                     <h4 class="fw-bold ">Captured Moments</h4>
                 </div>
                 <div class="col-12 col-sm-3 no-text-align">
-                    <button id="photobutton" type="button" class="btn btn-outline-light fw-bold align-self-center">
+                    <button id="photobutton" type="button" class="btn btn-outline-light fw-bold align-self-center" onClick={() => {alert('Feature Coming Soon!')}}>
                         <div class="row">
                             <div class="col-lg-3">
                                 <img id="camera-icon" src="../../images/camera.png" alt=""></img>
                             </div>
-                            <div id="add-photo" class="d-none d-lg-block col-lg-9" onClick={() => {alert('Feature Coming Soon!')}}>
+                            <div id="add-photo" class="d-none d-lg-block col-lg-9">
                                 Add Photo
                             </div>
                         </div>
