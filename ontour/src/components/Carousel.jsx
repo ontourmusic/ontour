@@ -1,7 +1,6 @@
 import React from "react";
 import '../index.css';
 import Item from "./Item";
-import CarouselImage from "./CarouselImage";
 import {useState, useEffect} from "react";
 
 export default function Carousel(props)
@@ -9,6 +8,12 @@ export default function Carousel(props)
     const [images, setImages] = useState([]);
     const [incrementor , setIncrementor] = useState(-3);
     const [imageLoad, setImageLoad] = useState(false);
+    const [model, setModel] = useState(false);
+    const [tempImg, setTemp] = useState('');
+    const getImg = (img) => {
+        setTemp(img);
+        setModel(true);
+    } 
     useEffect(() => {
         console.log(props.images);
         console.log(images.length);
@@ -21,6 +26,9 @@ export default function Carousel(props)
 
     return (
         <div class="container">
+            <div class={model ? "model" : "hide"} onClick={() => setModel(false)}>
+                <img src={tempImg} />
+            </div>
             <div id="gallery" class="row">
                 <div class="col-12 col-sm-9 align-self-center">
                     <h4 class="fw-bold ">Captured Moments</h4>
@@ -31,7 +39,7 @@ export default function Carousel(props)
                             <div class="col-lg-3">
                                 <img id="camera-icon" src="../../images/camera.png" alt=""></img>
                             </div>
-                            <div id="add-photo" class="d-none d-lg-block col-lg-9">
+                            <div id="add-photo" class="d-none d-lg-block col-lg-9" onClick={() => {alert('Feature Coming Soon!')}}>
                                 Add Photo
                             </div>
                         </div>
@@ -49,7 +57,7 @@ export default function Carousel(props)
                             {imageLoad ? images.map((image, index) => {
                                 while(index < 3) {
                                     if(index <= images.length-1){
-                                        return <CarouselImage image={image} />
+                                        return <div class="col-4" onClick={() => getImg(images[index])}><Item image={image} /></div>
                                     }
                                 }
                             }): console.log("howdy")}
@@ -62,9 +70,9 @@ export default function Carousel(props)
                                     return (
                                         <div class="carousel-item">
                                             <div class="row">
-                                                {index <= images.length-1 ? <CarouselImage image={images[index]}/> : null}
-                                                {index + 1 <= images.length-1 ? <CarouselImage image={images[index+ 1]} /> : null}
-                                                {index + 2 <= images.length-1 ? <CarouselImage image={images[index+ 2]} /> : null}
+                                                {index <= images.length-1 ? <div class="col-4" onClick={() => getImg(images[index])}><Item image={images[index]} /></div> : null}
+                                                {index + 1 <= images.length-1 ? <div class="col-4" onClick={() => getImg(images[index + 1])}><Item image={images[index+ 1]} /></div> : null}
+                                                {index + 2 <= images.length-1 ? <div class="col-4" onClick={() => getImg(images[index + 2])}><Item image={images[index+ 2]} /></div> : null}
                                             </div>
                                         </div>
                                     );
