@@ -135,7 +135,7 @@ function Artist() {
               <h4 id="reviews" class="fw-bold">Reviews</h4>
               {allReviews.length > 0 &&
               <div id="clear">
-                <div class="row pb-4">
+                <div id="reviews-margin" class="row">
                   <div class="col-12 col-sm-9 align-self-center">
                     <div class="rating fw-bold">
                       Overall Rating: {aggregateRating.toFixed(1)} out of 5
@@ -152,7 +152,7 @@ function Artist() {
                     </div>
                   </div>
 
-                  <div class="col-12 col-sm-3 pt-5 align-self-center">
+                  <div class="col-12 col-sm-3 align-self-center">
                     <div class="dropdown">
                       <Form.Select onChange={formChange} aria-label="Default select example">
                           <option>Recommended</option>
@@ -179,7 +179,7 @@ function Artist() {
           </div>
         </aside>
 
-        <hr class="home-footer"></hr>
+        <hr id="hr-footer" class="home-footer"></hr>
         <Footer/>
       </div>
 </>

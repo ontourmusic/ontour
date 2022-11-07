@@ -44,7 +44,7 @@ export default function WriteReview(props)
         <div class="container" id="review">
           <hr></hr>
           <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
-          <div class="rating py-3">
+          <div id="stars" class="rating">
               <Rating name="rating" size="large" defaultValue={0} precision={1} onChange={(event, newValue) => {setRating(newValue);}} />
           </div>
           <form id="clear" onSubmit={handleWriteReview}>

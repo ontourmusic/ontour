@@ -64,9 +64,8 @@ export default function UpcomingSchedule(props)
 
     return (
         <div class="container shows">
-            <div class="row justify-content-center py-3 show">
-                <h4 class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
-                <h4 class="fw-bold d-block d-sm-none">Shows</h4>
+            <div class="row justify-content-center show">
+                <h4 id="upcoming" class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
             </div>
 
             {show

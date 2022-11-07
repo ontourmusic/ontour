@@ -108,13 +108,18 @@ body {
   width: 24%;
   float: right;
   margin-right: 4%;
-  padding-top: 30px;
+  padding-top: 25px;
 }
 
 .no-sidebar {
   width: 67.5%;
   margin-left: 3%;
   margin-right: 1.5%;
+}
+
+#upcoming {
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
 
 .schedule-font {
@@ -139,12 +144,18 @@ body {
   font-size: 19px;
 }
 
+#stars {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
 .rating-text {
   text-align: right;
 }
 
 .dropdown {
   float: right;
+  padding-top: 30px;
 }
 
 .form-select {
@@ -161,6 +172,7 @@ body {
 
 #reviewbutton{
   color: white;
+  margin-top: 5px;
 }
 
 #review h4 {
@@ -274,6 +286,7 @@ body {
 #arrow {
   width: 35px;
   border-radius: 50%;
+  margin-top: 25px;
 }
 
 #review-icon {
@@ -289,8 +302,12 @@ body {
 /* Row Spacing */ 
 
 #gallery {
-  margin-top: 30px;
-  margin-bottom: 20px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+h4 {
+  margin: 0;
 }
 
 hr {
@@ -304,9 +321,12 @@ hr {
   margin-bottom: 20px;
 }
 
+#reviews-margin {
+  margin-bottom: 25px;
+}
+
 #write-review {
   margin-top: 30px;
-  padding-bottom: 0;
 }
 
 #write-a-review {
@@ -431,6 +451,10 @@ footer {
   padding-bottom: 17px;
   padding-right: 20px;
   filter: invert(1);
+}
+
+#hr-footer {
+  margin-top: 25px;
 }
 
 small {
