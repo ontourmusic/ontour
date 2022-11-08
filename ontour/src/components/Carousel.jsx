@@ -6,7 +6,6 @@ import {useState, useEffect} from "react";
 export default function Carousel(props)
 {
     const [images, setImages] = useState([]);
-    const [incrementor , setIncrementor] = useState(-3);
     const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
     const [tempImg, setTemp] = useState('');
@@ -15,8 +14,6 @@ export default function Carousel(props)
         setModel(true);
     } 
     useEffect(() => {
-        console.log(props.images);
-        console.log(images.length);
         if(images.length)
         {
             setImageLoad(true);
@@ -27,7 +24,7 @@ export default function Carousel(props)
     return (
         <div class="container">
             <div class={model ? "model" : "hide"} onClick={() => setModel(false)}>
-                <img src={tempImg} />
+                <img src={tempImg} alt=""/>
             </div>
             <div id="gallery" class="row">
                 <div class="col-12 col-sm-9 align-self-center">
@@ -60,13 +57,12 @@ export default function Carousel(props)
                                         return <div class="col-4" onClick={() => getImg(image)}><Item image={image} /></div>
                                     }
                                 }
-                            }): console.log("howdy")}
+                            }): <div></div>}
                         </div>
                     </div>
                     { imageLoad ? images.map((image, index) => {
-                            if(index != 0 && index % 3 == 0){
+                            if(index !== 0 && index % 3 === 0){
                                 if(index <= images.length) {
-                                    console.log(index);
                                     return (
                                         <div class="carousel-item">
                                             <div class="row">
@@ -79,7 +75,7 @@ export default function Carousel(props)
                                 }
                             }
                         }
-                    ): console.log("ciao")}
+                    ): <div></div>}
                     <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>

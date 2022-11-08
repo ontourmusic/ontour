@@ -26,8 +26,6 @@ function Artist() {
   const [artistIdNumber, setArtistIdNumber] = useState(0);
   const [aggregateRating, setAggregateRating] = useState(0);
   const [artistImage, setArtistImage] = useState("");
-  const [sortOption, setSortOption] = useState(0);
-  const [reviews, setReviews] = useState([]);
   const [spotifyLink, setSpotifyLink] = useState("");
   const [ticketLink, setTicketLink] = useState("");
   const [imageArray, setImageArray] = useState([]);
@@ -36,7 +34,6 @@ function Artist() {
   const performSearch = async () => {
     const artistResponse = await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`);
     const artistData = await artistResponse.json();
-    console.log(artistData);
     setFullName(artistData[0].fname + " " + artistData[0].lname);
     const artistId = artistData[0].artist_id;
     const imageUrls = artistData[0].image_url;
@@ -52,7 +49,6 @@ function Artist() {
     //gets the tickemaster artist details 
     const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`);
     const tmData = await tmArtist.json();
-    console.log(tmData);
     var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
     var tickets = tmData._embedded.attractions[0].url;
     setTicketLink(tickets);
@@ -91,27 +87,26 @@ function Artist() {
   }
 
   const formChange = (event) => {
-    setSortOption(event.target.value);
     //sort all reviews array by rating highest to lowest
-    if(event.target.value == 3) {
+    if(event.target.value === 3) {
       allReviews.sort(function(a, b) {
         return b[1] > a[1];
       });
     }
     //lowest to highest
-    else if(event.target.value == 4) {
+    else if(event.target.value === 4) {
       allReviews.sort(function(a, b) {
         return a[1] > b[1];
       });
     }
     //oldest to newest
-    else if(event.target.value == 2) {
+    else if(event.target.value === 2) {
       allReviews.sort(function(a, b) {
         return new Date(b[4]) < new Date(a[4]);
       });
     }
     //newest to oldest
-    else if(event.target.value == 1) {
+    else if(event.target.value === 1) {
       allReviews.sort(function(a, b) {
         return new Date(a[4]) < new Date(b[4]);
       });
@@ -174,8 +169,7 @@ function Artist() {
               }
               {/* <a>See More</a> */}
             </div>
-              
-            <WriteReview artistId={artistIdNumber}/>
+            {fullName !== "" && <WriteReview artistId={artistIdNumber} name = {fullName}/> }
           </div>
         </aside>
 

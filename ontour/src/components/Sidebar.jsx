@@ -23,12 +23,11 @@ export default function Sidebar(props)
           <div class="row justify-content-center">
             <ExternalLink mediaLink={props.spotify} iconLink="images/spotify_icon.png"/>
             <ExternalLink mediaLink={props.tickets} iconLink="images/ticket_icon.png"/>
-            {/* <ExternalLink mediaLink="https://www.jackharlow.us" iconLink="images/store_icon.png"/> */}
           </div>
           <UpcomingSchedule name={props.name}/>
-          <a href="#">
+          {/* <a href="#">
             <img id="arrow" src="../../images/arrow.png" alt=""></img>
-          </a>
+          </a> */}
         </div>
     );
 }

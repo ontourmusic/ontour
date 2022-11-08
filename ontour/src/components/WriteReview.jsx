@@ -1,7 +1,8 @@
 import React from "react";
 import '../index.css';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Rating from '@mui/material/Rating';
+import Form from 'react-bootstrap/Form';
 
 export default function WriteReview(props)
 {
@@ -12,6 +13,8 @@ export default function WriteReview(props)
   const [rating, setRating] = useState("");
   const [date, setDate] = useState("");
   const [artistId, setArtistId] = useState(0);
+  const [reviews, setPastReviews] = useState([]);
+  const [reviewsSet, setReviewsSet] = useState(false);
 
   const handleWriteReview = event => {
     event.preventDefault();
@@ -34,8 +37,35 @@ export default function WriteReview(props)
     window.location.reload();
   }
 
+  useEffect(() => {
+    GetPastReviews();
+  }, []);
+
+  const GetPastReviews = async () => {
+    const pastReviews = await fetch(`https://rest.bandsintown.com/artists/${props.name}/events?app_id=dce6df6b60d8613b98183dd0b3ac36a3&date=past`);
+    const pastData = await pastReviews.json();
+    pastData.reverse();
+    for(var i = 0; i < 10; i++)
+    {
+      if(reviews.length < 10)
+      {
+        reviews.push(pastData[i]);
+      }
+    }
+    console.log(reviews);
+    if(reviews.length > 0)
+    {
+      setReviewsSet(true);
+      setEvent(`${reviews[0].venue.name} ---- ${reviews[0].datetime.split("T")[0]}`);
+    }
+  }
+
   const postData = async () => {
-    const response = await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${eventName}&date=${date}`,{
+    console.log(eventName);
+    var event = eventName.split(" ---- ")[0];
+    var eventDate = eventName.split(" ---- ")[1];
+    console.log(event);
+    await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${event}&date=${eventDate}`,{
       method: 'POST',
     });
   }
@@ -58,11 +88,47 @@ export default function WriteReview(props)
             </div>
             <div class="row bottom">
               <div class="col">
-                <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event Name" required/>
+                {/* <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event Name" required/> */}
+                {reviews.length > 0 &&  
+                <>
+                <Form.Label style={{textAlign: "left"}}>Select an Event</Form.Label>
+                <Form.Select aria-label="Default select example" required onChange={event => setEvent(event.target.value)}>
+                  {/* <option>Select an Event</option> */}
+                  <option value={`${reviews[0].venue.name} ---- ${reviews[0].datetime.split("T")[0]}`}>
+                    {reviews[0].venue.name} ---- {reviews[0].datetime.split("T")[0]}
+                    </option>
+                  <option value={`${reviews[1].venue.name} ---- ${reviews[1].datetime.split("T")[0]}`}>
+                    {reviews[1].venue.name} ---- {reviews[1].datetime.split("T")[0]}
+                    </option>
+                  <option value={`${reviews[2].venue.name} ---- ${reviews[2].datetime.split("T")[0]}`}>
+                    {reviews[2].venue.name} ---- {reviews[2].datetime.split("T")[0]}
+                    </option>
+                  <option value={`${reviews[3].venue.name} ---- ${reviews[3].datetime.split("T")[0]}`}>
+                    {reviews[3].venue.name} ---- {reviews[3].datetime.split("T")[0]}
+                  </option>
+                  <option value={`${reviews[4].venue.name} ---- ${reviews[4].datetime.split("T")[0]}`}>
+                    {reviews[4].venue.name} ---- {reviews[4].datetime.split("T")[0]}
+                  </option>
+                  <option value={`${reviews[5].venue.name} ---- ${reviews[5].datetime.split("T")[0]}`}>
+                    {reviews[5].venue.name} ---- {reviews[5].datetime.split("T")[0]}
+                  </option>
+                  <option value={`${reviews[6].venue.name} ---- ${reviews[6].datetime.split("T")[0]}`}>
+                    {reviews[6].venue.name} ---- {reviews[6].datetime.split("T")[0]}
+                  </option>
+                  <option value={`${reviews[7].venue.name} ---- ${reviews[7].datetime.split("T")[0]}`}>
+                    {reviews[7].venue.name} ---- {reviews[7].datetime.split("T")[0]}
+                  </option>
+                  <option value={`${reviews[8].venue.name} ---- ${reviews[8].datetime.split("T")[0]}`}>
+                    {reviews[8].venue.name} ---- {reviews[8].datetime.split("T")[0]}
+                  </option>
+                  <option value={`${reviews[9].venue.name} ---- ${reviews[9].datetime.split("T")[0]}`}>
+                    {reviews[9].venue.name} ---- {reviews[9].datetime.split("T")[0]}
+                  </option>
+                </Form.Select> </>}
               </div>
-              <div class="col">
+              {/* <div class="col">
                 <input type="date" class="form-control shadow-none" id="date" onChange={event => setDate(event.target.value)}  placeholder="Date" required/>
-              </div>
+              </div> */}
             </div>
             <div class="row bottom">
               <div class="col">
