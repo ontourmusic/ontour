@@ -21,6 +21,12 @@ function Artist() {
   const artistName = searchParams.get("artist");
 
   //set var names here
+  const [artistData, setArtistData] = useState({
+    fullName: "",
+    allReviews: [],
+    artistIdNumber: 0,
+  });
+
   const [fullName, setFullName] = useState("");
   const [allReviews, setAllReviews] = useState([]);
   const [artistIdNumber, setArtistIdNumber] = useState(0);
@@ -34,6 +40,7 @@ function Artist() {
   const performSearch = async () => {
     const artistResponse = await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`);
     const artistData = await artistResponse.json();
+    console.log(artistData);
     setFullName(artistData[0].fname + " " + artistData[0].lname);
     const artistId = artistData[0].artist_id;
     const imageUrls = artistData[0].image_url;
@@ -123,7 +130,7 @@ function Artist() {
           <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink}/>
 
           <div class="no-sidebar">
-            <Carousel images={imageArray}/>
+            {imageArray.length > 0 && <Carousel images={imageArray}/>}
             
             <div class="container">
               <hr></hr>

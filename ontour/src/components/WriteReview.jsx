@@ -126,9 +126,6 @@ export default function WriteReview(props)
                   </option>
                 </Form.Select> </>}
               </div>
-              {/* <div class="col">
-                <input type="date" class="form-control shadow-none" id="date" onChange={event => setDate(event.target.value)}  placeholder="Date" required/>
-              </div> */}
             </div>
             <div class="row bottom">
               <div class="col">
