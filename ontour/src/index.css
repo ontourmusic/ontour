@@ -118,12 +118,11 @@ body {
 }
 
 #upcoming {
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #upcoming-shows {
-  margin-top: 5px;
   margin-bottom: 20px;
 }
 
@@ -138,6 +137,10 @@ body {
 .social-media-icon img {
   border-radius: 50%;
   width: 35px;
+}
+
+#upcoming-list {
+  margin-bottom: 62px;
 }
 
 /* Rating */
@@ -163,7 +166,7 @@ body {
   padding-top: 30px;
 }
 
-.form-select {
+.dropdown .form-select {
   font-weight: bold;
 }
 
@@ -268,7 +271,7 @@ body {
 
 #writebutton{
   padding-top: 5px;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
   color: white;
 }
 
@@ -469,7 +472,7 @@ small {
   padding-top: 5px;
 }
 
-#helpful-button, .form-select {
+#helpful-button, .dropdown .form-select {
   border: 1px solid #c8c9ca !important;
 }
 
@@ -504,7 +507,7 @@ select:focus {
   color: black;
 }
 
-option {
+.dropdown option {
   font-weight: bold;
 }
 
@@ -541,4 +544,14 @@ option {
   line-height: 0;
   box-sizing: 20px 0 20px;
   margin: 0 auto;
+}
+
+/* Event Dropdown */
+
+select:invalid {
+  color: #6c757d;
+}
+
+select:invalid option:not(:disabled) {
+  color: black;
 }

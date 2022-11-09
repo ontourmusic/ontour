@@ -91,9 +91,8 @@ export default function WriteReview(props)
                 {/* <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event Name" required/> */}
                 {reviews.length > 0 &&  
                 <>
-                <Form.Label style={{textAlign: "left"}}>Select an Event</Form.Label>
                 <Form.Select aria-label="Default select example" required onChange={event => setEvent(event.target.value)}>
-                  {/* <option>Select an Event</option> */}
+                  <option value="" disabled selected hidden>Select an Event</option>
                   <option value={`${reviews[0].venue.name} ---- ${reviews[0].datetime.split("T")[0]}`}>
                     {reviews[0].venue.name} ---- {reviews[0].datetime.split("T")[0]}
                     </option>
