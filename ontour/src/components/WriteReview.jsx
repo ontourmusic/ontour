@@ -131,7 +131,6 @@ export default function WriteReview(props)
                 <textarea class="form-control shadow-none" id="description" rows="3" onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea>
               </div>
             </div>
-            <br></br>
             <div>
               <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" >Submit</button>
             </div>
