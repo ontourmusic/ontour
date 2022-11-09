@@ -59,28 +59,28 @@ body {
   padding-right: 5%;
 }
 
-.btn-outline-light:hover, .btn-outline-light:active {
+.btn-outline-light:hover, .btn-outline-light:active, .dropdown:hover, .dropdown:active {
   filter: brightness(93%);
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 .social-media-icon:hover, .card img:hover {
   filter: brightness(70%);
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 #arrow:hover {
   opacity: 0.85;
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 #show-row:hover, #result-row:hover {
   background-color: #e7e8e8;
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 .btn-dark {
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 .carousel-control-prev{
@@ -140,7 +140,7 @@ body {
 }
 
 #upcoming-list {
-  margin-bottom: 62.5px;
+  margin-bottom: 63px;
 }
 
 /* Rating */
