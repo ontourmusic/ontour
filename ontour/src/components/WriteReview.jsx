@@ -56,7 +56,7 @@ export default function WriteReview(props)
     if(reviews.length > 0)
     {
       setReviewsSet(true);
-      setEvent(`${reviews[0].venue.name} • ${reviews[0].datetime.split("T")[0]}`);
+      setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
     }
   }
 
@@ -93,35 +93,35 @@ export default function WriteReview(props)
                 <>
                 <Form.Select aria-label="Default select example" required onChange={event => setEvent(event.target.value)}>
                   <option value="" disabled selected hidden>Select an Event</option>
-                  <option value={`${reviews[0].venue.name} • ${reviews[0].datetime.split("T")[0]}`}>
-                    {reviews[0].venue.name} • {reviews[0].datetime.split("T")[0]}
+                  <option value={`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name} `}>
+                    {reviews[0].datetime.split("T")[0]} • {reviews[0].venue.name}
                     </option>
-                  <option value={`${reviews[1].venue.name} • ${reviews[1].datetime.split("T")[0]}`}>
-                    {reviews[1].venue.name} • {reviews[1].datetime.split("T")[0]}
+                  <option value={`${reviews[1].datetime.split("T")[0]} • ${reviews[1].venue.name} `}>
+                    {reviews[1].datetime.split("T")[0]} • {reviews[1].venue.name}
                     </option>
-                  <option value={`${reviews[2].venue.name} • ${reviews[2].datetime.split("T")[0]}`}>
-                    {reviews[2].venue.name} • {reviews[2].datetime.split("T")[0]}
+                  <option value={`${reviews[2].datetime.split("T")[0]} • ${reviews[2].venue.name}`}>
+                    {reviews[2].datetime.split("T")[0]} • {reviews[2].venue.name} 
                     </option>
-                  <option value={`${reviews[3].venue.name} • ${reviews[3].datetime.split("T")[0]}`}>
-                    {reviews[3].venue.name} • {reviews[3].datetime.split("T")[0]}
+                  <option value={`${reviews[3].datetime.split("T")[0]} • ${reviews[3].venue.name}`}>
+                    {reviews[3].datetime.split("T")[0]} • {reviews[3].venue.name}
                   </option>
                   <option value={`${reviews[4].venue.name} • ${reviews[4].datetime.split("T")[0]}`}>
-                    {reviews[4].venue.name} • {reviews[4].datetime.split("T")[0]}
+                    {reviews[4].datetime.split("T")[0]} • {reviews[4].venue.name} 
                   </option>
                   <option value={`${reviews[5].venue.name} • ${reviews[5].datetime.split("T")[0]}`}>
-                    {reviews[5].venue.name} • {reviews[5].datetime.split("T")[0]}
+                    {reviews[5].datetime.split("T")[0]} • {reviews[5].venue.name}
                   </option>
-                  <option value={`${reviews[6].venue.name} • ${reviews[6].datetime.split("T")[0]}`}>
-                    {reviews[6].venue.name} • {reviews[6].datetime.split("T")[0]}
+                  <option value={` ${reviews[6].datetime.split("T")[0]} • ${reviews[6].venue.name}`}>
+                    {reviews[6].datetime.split("T")[0]} • {reviews[6].venue.name}
                   </option>
-                  <option value={`${reviews[7].venue.name} • ${reviews[7].datetime.split("T")[0]}`}>
-                    {reviews[7].venue.name} • {reviews[7].datetime.split("T")[0]}
+                  <option value={`${reviews[7].datetime.split("T")[0]} • ${reviews[7].venue.name}`}>
+                    {reviews[7].datetime.split("T")[0]} • {reviews[7].venue.name} 
                   </option>
-                  <option value={`${reviews[8].venue.name} • ${reviews[8].datetime.split("T")[0]}`}>
-                    {reviews[8].venue.name} • {reviews[8].datetime.split("T")[0]}
+                  <option value={`${reviews[8].datetime.split("T")[0]} • ${reviews[8].venue.name}`}>
+                    {reviews[8].datetime.split("T")[0]} • {reviews[8].venue.name}
                   </option>
-                  <option value={`${reviews[9].venue.name} • ${reviews[9].datetime.split("T")[0]}`}>
-                    {reviews[9].venue.name} • {reviews[9].datetime.split("T")[0]}
+                  <option value={`${reviews[9].datetime.split("T")[0]} • ${reviews[9].venue.name}`}>
+                    {reviews[9].datetime.split("T")[0]} • {reviews[9].venue.name} 
                   </option>
                 </Form.Select> </>}
               </div>

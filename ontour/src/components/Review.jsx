@@ -16,15 +16,13 @@ export default function Review(props)
 
     return (
         <div class="list-group-item flex-column align-items-start">
-            <div class="d-flex bd-highlight mb-1">
-                <div class="p-2 bd-highlight"><AiOutlineUser size={23}/> </div>
-                <div class="p-2 bd-highlight"><h6 class="review-user">{props.user}</h6></div>
+            <div class="d-flex bd-highlight">
+                <div class="p-1 bd-highlight"><AiOutlineUser size={23}/> </div>
+                <div class="p-1 bd-highlight"><h6 class="review-user">{props.user}</h6></div>
                 <br></br>
             </div>
             <div>
                 <div class="d-flex bd-highlight mb-2">
-                    <small>Concert Rating:</small> 
-                    {' '}
                     {[...Array(props.rating)].map(star => {
                         return(
                             <RiStarFill
@@ -45,7 +43,7 @@ export default function Review(props)
                     })}
                 </div>
                 <div align = "left"  class="d-flex bd-highlight mb-2">
-                    <small>Venue: {props.venue} • {props.date}</small> 
+                    <small>{props.date} • {props.venue}</small> 
                 </div>
             </div>
             <div class="d-flex w-100 justify-content-start">
@@ -57,7 +55,7 @@ export default function Review(props)
                         <div class="col-3">
                             <img id="helpful-icon" src={isActive? "../../images/helpful.png" : "../../images/helpful_selected.png"} alt=""></img>
                         </div>
-                        <div id="helpful" class="col-9">
+                        <div id="helpful" class="col-7">
                             Helpful
                         </div>
                     </div>
