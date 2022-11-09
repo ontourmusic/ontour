@@ -45,7 +45,7 @@ export default function Review(props)
                     })}
                 </div>
                 <div align = "left"  class="d-flex bd-highlight mb-2">
-                    <small>Venue: {props.venue} - {props.date}</small> 
+                    <small>Venue: {props.venue} • {props.date}</small> 
                 </div>
             </div>
             <div class="d-flex w-100 justify-content-start">
