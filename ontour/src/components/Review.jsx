@@ -47,7 +47,7 @@ export default function Review(props)
                 </div>
             </div>
             <div class="d-flex w-100 justify-content-start">
-                <p class="mb-2" align = "left">{props.text}</p>
+                <p id="rating-text" class="mb-2" align = "left">{props.text}</p>
             </div>
             <div class="d-flex w-100 justify-content-start pb-1">
                 <button onClick={handleHelpful} style={{backgroundColor: isActive? '' : '#e7e8e8'}} id="helpful-button" type="button" class="btn btn-outline-light align-self-center">

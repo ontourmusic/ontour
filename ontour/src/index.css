@@ -157,8 +157,8 @@ body {
   margin-bottom: 15px;
 }
 
-.rating-text {
-  text-align: right;
+#rating-text {
+  font-size: 15px;
 }
 
 .dropdown {
