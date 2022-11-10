@@ -52,10 +52,10 @@ export default function Review(props)
             <div class="d-flex w-100 justify-content-start pb-1">
                 <button onClick={handleHelpful} style={{backgroundColor: isActive? '' : '#e7e8e8'}} id="helpful-button" type="button" class="btn btn-outline-light align-self-center">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-1">
                             <img id="helpful-icon" src={isActive? "../../images/helpful.png" : "../../images/helpful_selected.png"} alt=""></img>
                         </div>
-                        <div id="helpful" class="col-7">
+                        <div id="helpful" class="col-1">
                             Helpful
                         </div>
                     </div>
