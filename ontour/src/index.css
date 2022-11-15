@@ -102,6 +102,14 @@ body {
 
 /* Sidebar */
 
+@media(max-width: 576px) {
+  #no-sidebar-sm {
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+}
+
 .sidebar {
   position: sticky;
   top: 52px;
@@ -274,6 +282,16 @@ body {
   padding-top: 5px;
   margin-bottom: 30px;
   color: white;
+}
+
+#write-sm{
+  margin-top: 25px;
+  padding-top: 5px;
+  color: white;
+}
+
+#icon-sm {
+  margin-top: 25px;
 }
 
 #nav-logo {
