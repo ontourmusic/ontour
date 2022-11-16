@@ -43,7 +43,19 @@ export default function Carousel(props)
                     </button>
                 </div>
             </div>
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="d-block d-sm-none">
+                {imageLoad ? images.map((image, index) => {
+                        if(index <= images.length-1) {
+                            return (
+                                <div id="icon-sm" class="row">
+                                    {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
+                                </div>
+                            );
+                        }
+                    }
+                ): <div></div>}
+            </div>
+            <div id="carouselExampleControls" class="carousel slide d-none d-sm-block" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -60,7 +72,7 @@ export default function Carousel(props)
                             }): <div></div>}
                         </div>
                     </div>
-                    { imageLoad ? images.map((image, index) => {
+                    {imageLoad ? images.map((image, index) => {
                             if(index !== 0 && index % 3 === 0){
                                 if(index <= images.length) {
                                     return (

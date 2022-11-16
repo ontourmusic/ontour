@@ -145,11 +145,6 @@ function Artist() {
           <div id="no-sidebar-sm" class="no-sidebar">
             <div class="d-block d-sm-none">
               <div class="row">
-                <div class="col-4">
-                  <button id="write-sm" type="button" class="btn btn-dark fw-bold">
-                    <img id="review-icon" src="../../images/review.png" alt=""></img>
-                  </button>
-                </div>
                 <div id="icon-sm" class="col-4">
                     <a href={spotifyLink} class = "social-media-icon" target="_blank" rel="noopener noreferrer">
                         <img src= "../../images/spotify_icon.png" alt="link"/>
@@ -159,6 +154,13 @@ function Artist() {
                     <a href={ticketLink} class = "social-media-icon" target="_blank" rel="noopener noreferrer">
                         <img src= "../../images/ticket_icon.png" alt="link"/>
                     </a>
+                </div>
+                <div class="col-4">
+                  <a href="#review">
+                    <button id="write-sm" type="button" class="btn btn-dark fw-bold">
+                      <img id="review-icon" src="../../images/review.png" alt=""></img>
+                    </button>
+                  </a>
                 </div>
               </div>
             </div>

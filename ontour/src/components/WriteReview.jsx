@@ -82,7 +82,7 @@ export default function WriteReview(props)
                </div>
               </div>
             </div>
-            <div class="row top">
+            <div id="clear" class="row top">
               <div class="col">
                 <input type="text" class="form-control shadow-none" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First Name" required/>
               </div>
