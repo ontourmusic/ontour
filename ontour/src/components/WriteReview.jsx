@@ -74,15 +74,11 @@ export default function WriteReview(props)
         <div class="container" id="review">
           <hr></hr>
           <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
+          <div id="stars" class="rating">
+            <Rating name="rating" size="large"required defaultValue={0} precision={1} onChange={(event, newValue) => {setRating(newValue);}} />
+          </div>
           <form id="clear" onSubmit={handleWriteReview}>
-            <div>
-              <div>
-              <div id="stars" class="rating">
-                <Rating name="rating" size="large"required defaultValue={0} precision={1} onChange={(event, newValue) => {setRating(newValue);}} />
-               </div>
-              </div>
-            </div>
-            <div id="clear" class="row top">
+            <div class="row top">
               <div class="col">
                 <input type="text" class="form-control shadow-none" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First Name" required/>
               </div>
