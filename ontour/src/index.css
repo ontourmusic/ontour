@@ -26,11 +26,11 @@ body {
 
 @media(max-width: 576px) {
   #home-logo {
-    height: 13vh !important;
+    height: 14vh !important;
   }
 
   .home-title {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   #no-sidebar-sm {
