@@ -25,29 +25,34 @@ function Home() {
 
   //gets the artist rating data from the database
   const performSearch = async () => {
-    var artists = ["jack_harlow", "elton_john", "harry_styles", "dominic_fike", "post_malone"];
+    var artists = ["post_malone", "jack_harlow", "elton_john", "harry_styles", "dominic_fike"];
     for (var i = 0; i < 5; i++) {
-      var artistResponse = await fetch(`http://ec2-3-142-141-33.us-east-2.compute.amazonaws.com:8000/search_artist/${artists[i]}`);
-      var artistData = await artistResponse.json();
-      var artistId = artistData[0].artist_id;
-      var getReviews = await fetch(`http://ec2-3-142-141-33.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`);
-      var reviewData = await getReviews.json();
+      try {
+        var artistResponse = await fetch(`http://ec2-3-142-141-33.us-east-2.compute.amazonaws.com:8000/search_artist/${artists[i]}`);
+        var artistData = await artistResponse.json();
+        var artistId = artistData[0].artist_id;
+        var getReviews = await fetch(`http://ec2-3-142-141-33.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`);
+        var reviewData = await getReviews.json();
+      }
+      catch (error){
+        reviewData = 0;
+      }
 
       switch (i) {
         case 0: 
-          setJack(parseReviewData(reviewData));
+          setPost(parseReviewData(reviewData));
           break;
         case 1: 
-          setElton(parseReviewData(reviewData));
+          setJack(parseReviewData(reviewData));
           break;
         case 2: 
-          setHarry(parseReviewData(reviewData));
+          setElton(parseReviewData(reviewData));
           break;
         case 3: 
-          setDominic(parseReviewData(reviewData));
+          setHarry(parseReviewData(reviewData));
           break;
         case 4: 
-          setPost(parseReviewData(reviewData));
+          setDominic(parseReviewData(reviewData));
           break;
       }
     }
