@@ -15,14 +15,15 @@ export default function WriteReview(props)
   const [artistId, setArtistId] = useState(0);
   const [reviews, setPastReviews] = useState([]);
   const [reviewsSet, setReviewsSet] = useState(false);
-  const [canSubmit, setCanSubmit] = useState(true);
 
   const handleWriteReview = event => {
     event.preventDefault();
+    console.log(rating);
     if(!rating)
     {
-      setCanSubmit(false);
-      return false;
+      console.log("rating is null");
+      var rate = 0;
+      setRating(rate);
     }
     else
     {
@@ -32,7 +33,6 @@ export default function WriteReview(props)
     console.log(artistId);
     console.log(rating);
     setDescription(description);
-    setCanSubmit(true);
     postData();
     window.location.reload();
   }
@@ -74,14 +74,10 @@ export default function WriteReview(props)
         <div class="container" id="review">
           <hr></hr>
           <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
+          <div id="stars" class="rating">
+              <Rating name="rating" size="large" defaultValue={0} precision={1} onChange={(event, newValue) => {setRating(newValue);}} />
+          </div>
           <form id="clear" onSubmit={handleWriteReview}>
-            <div>
-              <div>
-              <div id="stars" class="rating">
-                <Rating name="rating" size="large"required defaultValue={0} precision={1} onChange={(event, newValue) => {setRating(newValue);}} />
-               </div>
-              </div>
-            </div>
             <div class="row top">
               <div class="col">
                 <input type="text" class="form-control shadow-none" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First Name" required/>
@@ -132,14 +128,13 @@ export default function WriteReview(props)
             </div>
             <div class="row bottom">
               <div class="col">
-                <textarea class="form-control shadow-none" id="description" rows="3" maxLength={300} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea>
+                <textarea class="form-control shadow-none" id="description" rows="3" onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea>
               </div>
             </div>
             <div>
               <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" >Submit</button>
             </div>
           </form>
-          {!canSubmit && <div className="alert alert-danger" role="alert" style={{marginTop: "20px"}}>Please leave a rating</div>}
         </div>
     )
 }

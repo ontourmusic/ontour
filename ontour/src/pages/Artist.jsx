@@ -35,8 +35,6 @@ function Artist() {
   const [spotifyLink, setSpotifyLink] = useState("");
   const [ticketLink, setTicketLink] = useState("");
   const [imageArray, setImageArray] = useState([]);
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   //gets the artist and review data from the database
   const performSearch = async () => {
@@ -97,40 +95,29 @@ function Artist() {
 
   const formChange = (event) => {
     //sort all reviews array by rating highest to lowest
-    console.log("in here");
-    console.log(event.target.value);
-    var tempArray = allReviews;
-    if(event.target.value == 3) {
-      tempArray.sort(function(a, b) {
-        return b[1] > a[1] ? 1 : -1;
+    if(event.target.value === 3) {
+      allReviews.sort(function(a, b) {
+        return b[1] > a[1];
       });
     }
     //lowest to highest
-    else if(event.target.value == 4) {
-      console.log("in lowest to highest");
-      tempArray.sort(function(a, b) {
-        return a[1] > b[1] ? 1 : -1;
+    else if(event.target.value === 4) {
+      allReviews.sort(function(a, b) {
+        return a[1] > b[1];
       });
     }
     //oldest to newest
-    else if(event.target.value == 2) {
-      tempArray.sort(function(a, b) {
-        return new Date(b[4]) < new Date(a[4]) ? 1 : -1;
+    else if(event.target.value === 2) {
+      allReviews.sort(function(a, b) {
+        return new Date(b[4]) < new Date(a[4]);
       });
     }
     //newest to oldest
-    else if(event.target.value == 1) {
-      tempArray.sort(function(a, b) {
-        return new Date(a[4]) < new Date(b[4]) ? 1 : -1;
+    else if(event.target.value === 1) {
+      allReviews.sort(function(a, b) {
+        return new Date(a[4]) < new Date(b[4]);
       });
     }
-
-    //print all reviews array
-    for(var i = 0; i < allReviews.length; i++) {
-      console.log(allReviews[i]);
-    }
-    setAllReviews(tempArray);
-    forceUpdate();
   }
 
 
@@ -201,7 +188,6 @@ function Artist() {
 
                 <div class="list-group">
                   {allReviews.map(function(review, index) {
-                    console.log("rendering now");
                     return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
                   })}
                 </div>
