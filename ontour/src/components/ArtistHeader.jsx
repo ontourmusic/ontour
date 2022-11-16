@@ -15,7 +15,7 @@ function ArtistHeader(props)
                         value={props.rating}
                         size = "large"
                         readOnly
-                        precision={0.01}
+                        precision={0.1}
                         emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                     />
                 </div>

@@ -130,6 +130,11 @@ body {
   padding-bottom: 5%;
 }
 
+#homepage .card-body {
+  padding-top: 2.5%;
+  padding-bottom: 2.5%;
+}
+
 /* Sidebar */
 
 .sidebar {

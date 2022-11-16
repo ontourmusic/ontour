@@ -1,10 +1,17 @@
 import React from "react";
 import {createSearchParams, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import Navigation from "../Navigation";
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
 
 function Home() {
   const [artist_name, setName] = useState('')
+  const [post_malone, setPost] = useState(0);
+  const [jack_harlow, setJack] = useState(0);
+  const [elton_john, setElton] = useState(0);
+  const [harry_styles, setHarry] = useState(0);
+  const [dominic_fike, setDominic] = useState(0);
 
   const navigate = useNavigate(); 
   const routeChange = (artist) =>{ 
@@ -15,6 +22,51 @@ function Home() {
       }).toString()
     });
   };
+
+  //gets the artist rating data from the database
+  const performSearch = async () => {
+    var artists = ["jack_harlow", "elton_john", "harry_styles", "dominic_fike", "post_malone"];
+    for (var i = 0; i < 5; i++) {
+      var artistResponse = await fetch(`http://ec2-3-142-141-33.us-east-2.compute.amazonaws.com:8000/search_artist/${artists[i]}`);
+      var artistData = await artistResponse.json();
+      var artistId = artistData[0].artist_id;
+      var getReviews = await fetch(`http://ec2-3-142-141-33.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`);
+      var reviewData = await getReviews.json();
+
+      switch (i) {
+        case 0: 
+          setJack(parseReviewData(reviewData));
+          break;
+        case 1: 
+          setElton(parseReviewData(reviewData));
+          break;
+        case 2: 
+          setHarry(parseReviewData(reviewData));
+          break;
+        case 3: 
+          setDominic(parseReviewData(reviewData));
+          break;
+        case 4: 
+          setPost(parseReviewData(reviewData));
+          break;
+      }
+    }
+  }
+
+  function parseReviewData(reviewData) {
+    var cumulativeRating = 0;
+    for(var i = 0; i < reviewData.length; i++) {
+      var rRating = reviewData[i].rating;
+      cumulativeRating += rRating;
+    }
+    cumulativeRating = cumulativeRating / reviewData.length;
+    return cumulativeRating;
+  }
+
+  //performs the search when the page loads
+  useEffect(() => {
+    performSearch();
+  });
 
   // const handleSearch = event => {
   //   console.log("in clicked search");
@@ -49,6 +101,14 @@ function Home() {
                       <img src="https://www.syracuse.com/resizer/Gho2h8t584_ZoNDxKzM1zOIiVk4=/arc-anglerfish-arc2-prod-advancelocal/public/ZZ2V33SVNREKLF6ROTZJ32GZXI.jpeg" class="d-block w-100" alt="..."/>
                       <div class="card-body">
                           <h5 class="card-title fw-bold">Post Malone</h5>
+                          <Rating
+                                name="text-feedback"
+                                value={post_malone}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                       </div>
                   </div>
                 </a>
@@ -59,6 +119,14 @@ function Home() {
                       <img src="https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/jack-harlow-superbowl-citi-concert--inline2-jp-081222-08aa15.jpg" class="d-block w-100" alt="..."/>
                       <div class="card-body">
                           <h5 class="card-title fw-bold">Jack Harlow</h5>
+                          <Rating
+                                name="text-feedback"
+                                value={jack_harlow}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                       </div>
                   </div>
                 </a>
@@ -69,6 +137,14 @@ function Home() {
                     <img src="https://www.99images.com/download-image/933920/1920x1280" class="d-block w-100" alt="..."/>
                     <div class="card-body">
                       <h5 class="card-title fw-bold">Elton John</h5>
+                      <Rating
+                                name="text-feedback"
+                                value={elton_john}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                     </div>
                 </div>
               </a>
@@ -79,6 +155,14 @@ function Home() {
                   <img src="https://www.billboard.com/wp-content/uploads/2021/12/harry-styles-2021-billboard-1548.jpg" class="d-block w-100" alt="..."/>
                   <div class="card-body">
                      <h5 class="card-title fw-bold">Harry Styles</h5>
+                     <Rating
+                                name="text-feedback"
+                                value={harry_styles}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                   </div>
                 </div>
               </a>
@@ -89,6 +173,14 @@ function Home() {
                   <img src="https://headlineplanet.com/home/wp-content/uploads/2022/02/Dominic-Fike-on-Fallon-4.jpg" class="d-block w-100" alt="..."/>
                   <div class="card-body">
                     <h5 class="card-title fw-bold">Dominic Fike</h5>
+                    <Rating
+                                name="text-feedback"
+                                value={dominic_fike}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                   </div>
                 </div>
               </a>
@@ -108,6 +200,14 @@ function Home() {
                         <img src="https://www.syracuse.com/resizer/Gho2h8t584_ZoNDxKzM1zOIiVk4=/arc-anglerfish-arc2-prod-advancelocal/public/ZZ2V33SVNREKLF6ROTZJ32GZXI.jpeg" class="d-block w-100" alt="..."/>
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Post Malone</h5>
+                            <Rating
+                                name="text-feedback"
+                                value={post_malone}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                         </div>
                     </div>
                   </a>
@@ -118,6 +218,14 @@ function Home() {
                         <img src="https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/jack-harlow-superbowl-citi-concert--inline2-jp-081222-08aa15.jpg" class="d-block w-100" alt="..."/>
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Jack Harlow</h5>
+                            <Rating
+                                name="text-feedback"
+                                value={jack_harlow}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                         </div>
                     </div>
                   </a>
@@ -128,6 +236,14 @@ function Home() {
                         <img src="https://www.99images.com/download-image/933920/1920x1280" class="d-block w-100" alt="..."/>
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Elton John</h5>
+                            <Rating
+                                name="text-feedback"
+                                value={elton_john}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                         </div>
                     </div>
                   </a>
@@ -140,6 +256,14 @@ function Home() {
                         <img src="https://www.billboard.com/wp-content/uploads/2021/12/harry-styles-2021-billboard-1548.jpg" class="d-block w-100" alt="..."/>
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Harry Styles</h5>
+                            <Rating
+                                name="text-feedback"
+                                value={harry_styles}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                         </div>
                     </div>
                   </a>
@@ -150,6 +274,14 @@ function Home() {
                         <img src="https://headlineplanet.com/home/wp-content/uploads/2022/02/Dominic-Fike-on-Fallon-4.jpg" class="d-block w-100" alt="..."/>
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Dominic Fike</h5>
+                            <Rating
+                                name="text-feedback"
+                                value={dominic_fike}
+                                size = "medium"
+                                readOnly
+                                precision={0.1}
+                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
                         </div>
                     </div>
                   </a>
