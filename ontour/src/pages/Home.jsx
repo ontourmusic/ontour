@@ -109,7 +109,7 @@ function Home() {
                           <Rating
                                 name="text-feedback"
                                 value={post_malone}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
@@ -127,7 +127,7 @@ function Home() {
                           <Rating
                                 name="text-feedback"
                                 value={jack_harlow}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
@@ -145,7 +145,7 @@ function Home() {
                       <Rating
                                 name="text-feedback"
                                 value={elton_john}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
@@ -163,7 +163,7 @@ function Home() {
                      <Rating
                                 name="text-feedback"
                                 value={harry_styles}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
@@ -181,7 +181,7 @@ function Home() {
                     <Rating
                                 name="text-feedback"
                                 value={dominic_fike}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
@@ -208,7 +208,7 @@ function Home() {
                             <Rating
                                 name="text-feedback"
                                 value={post_malone}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
@@ -226,7 +226,7 @@ function Home() {
                             <Rating
                                 name="text-feedback"
                                 value={jack_harlow}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
@@ -244,7 +244,7 @@ function Home() {
                             <Rating
                                 name="text-feedback"
                                 value={elton_john}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
@@ -264,7 +264,7 @@ function Home() {
                             <Rating
                                 name="text-feedback"
                                 value={harry_styles}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
@@ -282,7 +282,7 @@ function Home() {
                             <Rating
                                 name="text-feedback"
                                 value={dominic_fike}
-                                size = "medium"
+                                size = "small"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
