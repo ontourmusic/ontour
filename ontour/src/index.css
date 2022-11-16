@@ -25,6 +25,14 @@ body {
 }
 
 @media(max-width: 576px) {
+  #home-logo {
+    height: 13vh !important;
+  }
+
+  .home-title {
+    font-size: 12px;
+  }
+
   #no-sidebar-sm {
     width: 96%;
     margin-left: 2%;
@@ -36,7 +44,7 @@ body {
   }
 
   #homepage{
-    top: -85px !important;
+    top: -70px !important;
     height: 325% !important;
   }
 
