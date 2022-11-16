@@ -16,15 +16,13 @@ export default function Review(props)
 
     return (
         <div class="list-group-item flex-column align-items-start">
-            <div class="d-flex bd-highlight mb-1">
-                <div class="p-2 bd-highlight"><AiOutlineUser size={23}/> </div>
-                <div class="p-2 bd-highlight"><h6 class="review-user">{props.user}</h6></div>
+            <div class="d-flex bd-highlight">
+                <div class="p-1 bd-highlight"><AiOutlineUser size={23}/> </div>
+                <div class="p-1 bd-highlight"><h6 class="review-user">{props.user}</h6></div>
                 <br></br>
             </div>
             <div>
                 <div class="d-flex bd-highlight mb-2">
-                    <small>Concert Rating:</small> 
-                    {' '}
                     {[...Array(props.rating)].map(star => {
                         return(
                             <RiStarFill
@@ -45,19 +43,19 @@ export default function Review(props)
                     })}
                 </div>
                 <div align = "left"  class="d-flex bd-highlight mb-2">
-                    <small>Venue: {props.venue} - {props.date}</small> 
+                    <small>{props.date} • {props.venue}</small> 
                 </div>
             </div>
             <div class="d-flex w-100 justify-content-start">
-                <p class="mb-2" align = "left">{props.text}</p>
+                <p id="rating-text" class="mb-2" align = "left">{props.text}</p>
             </div>
             <div class="d-flex w-100 justify-content-start pb-1">
                 <button onClick={handleHelpful} style={{backgroundColor: isActive? '' : '#e7e8e8'}} id="helpful-button" type="button" class="btn btn-outline-light align-self-center">
                     <div class="row">
-                        <div class="col-3">
+                        <div class="col-1">
                             <img id="helpful-icon" src={isActive? "../../images/helpful.png" : "../../images/helpful_selected.png"} alt=""></img>
                         </div>
-                        <div id="helpful" class="col-9">
+                        <div id="helpful" class="col-1">
                             Helpful
                         </div>
                     </div>

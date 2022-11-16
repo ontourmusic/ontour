@@ -30,12 +30,12 @@ function Home() {
           <div class="home-title">
             Own your next live experience.
           </div>
-          {/* <div class="search row">
+          <div class="search row">
             <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
-            <button class="btn btn-dark" onClick={routeChange}>
+            <button class="btn btn-dark" onClick={() => {alert('Feature Coming Soon (See Artists Below)!')}}>
               <img src="../../images/search_icon.png" alt="..."/>
             </button>
-          </div> */}
+          </div>
 
           <div class="container">
             <div id="gallery" class="row">

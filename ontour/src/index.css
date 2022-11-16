@@ -59,28 +59,28 @@ body {
   padding-right: 5%;
 }
 
-.btn-outline-light:hover, .btn-outline-light:active {
+.btn-outline-light:hover, .btn-outline-light:active, .dropdown:hover, .dropdown:active {
   filter: brightness(93%);
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 .social-media-icon:hover, .card img:hover {
   filter: brightness(70%);
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 #arrow:hover {
   opacity: 0.85;
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 #show-row:hover, #result-row:hover {
   background-color: #e7e8e8;
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 .btn-dark {
-  transition-duration: 0.5s;
+  transition-duration: 0.4s;
 }
 
 .carousel-control-prev{
@@ -102,6 +102,14 @@ body {
 
 /* Sidebar */
 
+@media(max-width: 576px) {
+  #no-sidebar-sm {
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+  }
+}
+
 .sidebar {
   position: sticky;
   top: 52px;
@@ -118,12 +126,11 @@ body {
 }
 
 #upcoming {
-  margin-top: 25px;
-  margin-bottom: 25px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #upcoming-shows {
-  margin-top: 5px;
   margin-bottom: 20px;
 }
 
@@ -140,6 +147,10 @@ body {
   width: 35px;
 }
 
+#upcoming-list {
+  margin-bottom: 63px;
+}
+
 /* Rating */
 
 .rating {
@@ -154,8 +165,8 @@ body {
   margin-bottom: 15px;
 }
 
-.rating-text {
-  text-align: right;
+#rating-text {
+  font-size: 15px;
 }
 
 .dropdown {
@@ -163,7 +174,7 @@ body {
   padding-top: 30px;
 }
 
-.form-select {
+.dropdown .form-select {
   font-weight: bold;
 }
 
@@ -176,6 +187,7 @@ body {
 }
 
 #reviewbutton{
+  margin-top: 25px;
   color: white;
 }
 
@@ -188,7 +200,7 @@ body {
 .search{
   position: relative;
   width: 60%;
-  margin-top: 1%;
+  margin-top: 25px;
   margin-left: 20%;
 }
 
@@ -203,11 +215,11 @@ body {
   top: 5px;
   right: 5px;
   height: 35px;
-  width: 15%;
+  width: 13%;
 }
 
 .search button img {
-  height: 60%;
+  height: 65%;
   margin-bottom: 3px;
 }
 
@@ -253,7 +265,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  height: 170%;
+  height: 187.5%;
   width: 100%;
   position: absolute;
   top: 0;
@@ -268,8 +280,18 @@ body {
 
 #writebutton{
   padding-top: 5px;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
   color: white;
+}
+
+#write-sm{
+  margin-top: 25px;
+  padding-top: 5px;
+  color: white;
+}
+
+#icon-sm {
+  margin-top: 25px;
 }
 
 #nav-logo {
@@ -307,6 +329,11 @@ body {
 
 #gallery {
   margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#homepage #gallery {
+  margin-top: 50px;
   margin-bottom: 25px;
 }
 
@@ -467,22 +494,28 @@ small {
 
 .review-user {
   padding-top: 5px;
-}
-
-#helpful-button, .form-select {
-  border: 1px solid #c8c9ca !important;
-}
-
-#helpful {
-  padding: 0;
-  padding-top: 2px;
   padding-left: 5px;
   font-size: 15px;
 }
 
+#helpful-button, .dropdown .form-select {
+  border: 1px solid #c8c9ca !important;
+}
+
+#helpful-button {
+  width: 93px;
+  height: 35px;
+}
+
+#helpful {
+  padding-top: 2px;
+  padding-left: 15px;
+  font-size: 13px;
+}
+
 #helpful-icon {
-  width: 22px;
-  padding-bottom: 2px;
+  width: 20px;
+  padding-bottom: 6px;
 }
 
 /* Home page artists */
@@ -490,10 +523,6 @@ small {
 #homepage a {
   text-decoration: none;
   color: white;
-}
-
-#homepage .card img {
-  height: 18vw;
 }
 
 select:focus {
@@ -504,7 +533,7 @@ select:focus {
   color: black;
 }
 
-option {
+.dropdown option {
   font-weight: bold;
 }
 
@@ -541,4 +570,14 @@ option {
   line-height: 0;
   box-sizing: 20px 0 20px;
   margin: 0 auto;
+}
+
+/* Event Dropdown */
+
+select:invalid {
+  color: #6c757d;
+}
+
+select:invalid option:not(:disabled) {
+  color: black;
 }
