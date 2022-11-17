@@ -28,10 +28,13 @@ function Home() {
     var artists = ["post_malone", "jack_harlow", "elton_john", "harry_styles", "dominic_fike"];
     for (var i = 0; i < 5; i++) {
       try {
-        var artistResponse = await fetch(`http://ec2-3-142-141-33.us-east-2.compute.amazonaws.com:8000/search_artist/${artists[i]}`);
+        var artistResponse = await fetch(`localhost:8000/search_artist/${artists[i]}`, {mode: 'cors'});
+
+        // var artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artists[i]}`, {mode: 'cors'});
         var artistData = await artistResponse.json();
         var artistId = artistData[0].artist_id;
-        var getReviews = await fetch(`http://ec2-3-142-141-33.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`);
+        // var getReviews = await fetch(`ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
+        var getReviews = await fetch(`localhost:8000/reviews/${artistId}`, {mode: 'cors'});
         var reviewData = await getReviews.json();
       }
       catch (error){
