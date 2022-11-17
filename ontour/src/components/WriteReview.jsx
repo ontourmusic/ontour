@@ -128,7 +128,7 @@ export default function WriteReview(props)
             </div>
             <div class="row bottom">
               <div class="col">
-                <textarea class="form-control shadow-none" id="description" rows="3" maxLength={300} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea>
+                <textarea class="form-control shadow-none" id="description" rows="3" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea>
               </div>
             </div>
             <div>
