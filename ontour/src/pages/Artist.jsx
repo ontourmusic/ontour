@@ -40,7 +40,9 @@ function Artist() {
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    const artistResponse = await fetch(`127.0.0.1:8000/search_artist/${artistName}`, {mode: 'cors'});
+    console.log('IN EHREHREHREH');
+    console.log(artistName);
+    const artistResponse = await fetch(`http://127.0.0.1:8000/search_artist/${artistName}`, {mode: 'cors'});
 
     // const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, {mode: 'cors'});
     const artistData = await artistResponse.json();
@@ -54,8 +56,9 @@ function Artist() {
     setImageArray(imageGallery);
 
     // const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
-    const getReviews = await fetch(`127.0.0.1:8000/reviews/${artistId}`, {mode: 'cors'});
+    const getReviews = await fetch(`http://127.0.0.1:8000/reviews/${artistId}`, {mode: 'cors'});
     const reviewData = await getReviews.json();
+    console.log(reviewData);
     setAllReviews(parseReviewData(reviewData));
 
     //gets the tickemaster artist details 

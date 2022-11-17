@@ -7,7 +7,8 @@ import {useState} from 'react';
 export default function Review(props)
 {
     const [isActive, setIsActive] = useState(true);
-
+    console.log(props.rating);
+    console.log(props.user);
     const handleHelpful = event => {
         event.currentTarget.classList.toggle('fw-bold');
         event.currentTarget.classList.toggle('btn-outline-light');
