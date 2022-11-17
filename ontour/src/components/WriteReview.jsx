@@ -42,7 +42,7 @@ export default function WriteReview(props)
   }, []);
 
   const GetPastReviews = async () => {
-    const pastReviews = await fetch(`https://rest.bandsintown.com/artists/${props.name}/events?app_id=dce6df6b60d8613b98183dd0b3ac36a3&date=past`);
+    const pastReviews = await fetch(`https://rest.bandsintown.com/artists/${props.name}/events?app_id=dce6df6b60d8613b98183dd0b3ac36a3&date=past`, {mode: 'cors'});
     const pastData = await pastReviews.json();
     pastData.reverse();
     for(var i = 0; i < 10; i++)
@@ -65,7 +65,7 @@ export default function WriteReview(props)
     var event = eventName.split(" • ")[0];
     var eventDate = eventName.split(" • ")[1];
     console.log(event);
-    await fetch(`http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${event}&date=${eventDate}`,{
+    await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${event}&date=${eventDate}`, {mode: 'cors'} ,{
       method: 'POST',
     });
   }

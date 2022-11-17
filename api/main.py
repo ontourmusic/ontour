@@ -27,7 +27,10 @@ app = FastAPI()
 origins = [
     "http://localhost:3000",
     "localhost:3000",
-    "http://ec2-3-17-148-99.us-east-2.compute.amazonaws.com:3000"
+    "http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:3000",
+    "ec2-3-129-52-41.us-east-2.compute.amazonaws.com:3000",
+    "http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:",
+    "ec2-3-129-52-41.us-east-2.compute.amazonaws.com:"
 ]
 
 
@@ -40,7 +43,7 @@ app.add_middleware(
 )
 
 # to avoid csrftokenError
-app.add_middleware(DBSessionMiddleware, db_url='postgresql://postgres:ontour@3.17.148.99/postgres')
+app.add_middleware(DBSessionMiddleware, db_url='postgresql://postgres:ontour@3.129.52.41/postgres')
 
 @app.get("/")
 async def root():
@@ -95,7 +98,7 @@ async def reviews(artist_id: int, event_id: int, rating: float, description: str
 @app.get('/search_artist/{search_text}')
 async def search_artist(search_text: str):
     print(search_text)
-    conn = psycopg2.connect(user="postgres", password="ontour", host="ec2-3-17-148-99.us-east-2.compute.amazonaws.com", port="5432", database="postgres")
+    conn = psycopg2.connect(user="postgres", password="ontour", host="ec2-3-129-52-41.us-east-2.compute.amazonaws.com", port="5432", database="postgres")
     cur = conn.cursor()
     print("Database opened successfully")
     print(conn.get_dsn_parameters(), "\n")
