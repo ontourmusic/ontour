@@ -62,12 +62,10 @@ export default function WriteReview(props)
 
   const postData = async () => {
     console.log(eventName);
-    var event = eventName.split(" • ")[0];
-    var eventDate = eventName.split(" • ")[1];
+    var eventDate = eventName.split(" • ")[0];
+    var event = eventName.split(" • ")[1];
     console.log(event);
-    await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${event}&date=${eventDate}`, {mode: 'cors'} ,{
-      method: 'POST',
-    });
+    await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${eventDate}&date=${event}`, {method: 'POST'});
   }
 
     return (
