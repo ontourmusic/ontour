@@ -30,12 +30,11 @@ function Home() {
       try {
         var artistResponse = await fetch(`localhost:8000/search_artist/${artists[i]}`, {mode: 'cors'});
 
-        // var artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artists[i]}`, {mode: 'cors'});
+        var artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artists[i]}`, {mode: 'cors'});
         var artistData = await artistResponse.json();
         console.log(artistData);
         var artistId = artistData[0].artist_id;
-        // var getReviews = await fetch(`ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
-        var getReviews = await fetch(`localhost:8000/reviews/${artistId}`, {mode: 'cors'});
+        var getReviews = await fetch(`ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
         var reviewData = await getReviews.json();
       }
       catch (error){
