@@ -28,7 +28,7 @@ function Home() {
     var artists = ["post_malone", "jack_harlow", "elton_john", "harry_styles", "dominic_fike"];
     for (var i = 0; i < 5; i++) {
       try {
-        var artistResponse = await fetch(`http://127.0.0.1:8000/reviews/${artists[i]}`, {mode: 'cors'});
+        var artistResponse = await fetch(`http://127.0.0.1:8000/search_artists/${artists[i]}`, {mode: 'cors'});
         var artistData = await artistResponse.json();
         console.log(artistData);
         var artistId = artistData[0].artist_id;
