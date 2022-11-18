@@ -34,7 +34,7 @@ export default function WriteReview(props)
     setDescription(description);
     setCanSubmit(true);
     postData();
-    // window.location.reload();
+    window.location.reload();
   }
 
   useEffect(() => {
@@ -103,10 +103,10 @@ export default function WriteReview(props)
                   <option value={`${reviews[3].datetime.split("T")[0]} • ${reviews[3].venue.name}`}>
                     {reviews[3].datetime.split("T")[0]} • {reviews[3].venue.name}
                   </option>
-                  <option value={`${reviews[4].venue.name} • ${reviews[4].datetime.split("T")[0]}`}>
+                  <option value={`${reviews[4].datetime.split("T")[0]} • ${reviews[4].venue.name}`}>
                     {reviews[4].datetime.split("T")[0]} • {reviews[4].venue.name} 
-                  </option>
-                  <option value={`${reviews[5].venue.name} • ${reviews[5].datetime.split("T")[0]}`}>
+                    </option>
+                  <option value={`${reviews[5].datetime.split("T")[0]} • ${reviews[5].venue.name}`}>
                     {reviews[5].datetime.split("T")[0]} • {reviews[5].venue.name}
                   </option>
                   <option value={` ${reviews[6].datetime.split("T")[0]} • ${reviews[6].venue.name}`}>
