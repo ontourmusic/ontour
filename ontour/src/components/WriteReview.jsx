@@ -34,7 +34,7 @@ export default function WriteReview(props)
     setDescription(description);
     setCanSubmit(true);
     postData();
-    window.location.reload();
+    // window.location.reload();
   }
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function WriteReview(props)
     var eventDate = eventName.split(" • ")[0];
     var event = eventName.split(" • ")[1];
     console.log(event);
-    await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${eventDate}&date=${event}`, {method: 'POST'});
+    await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${event}&date=${eventDate}`, {method: 'POST', mode: 'cors'});
   }
 
     return (
