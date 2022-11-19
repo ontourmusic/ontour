@@ -142,89 +142,91 @@ function Artist() {
 
   return (
     <>
-      <ArtistNavigation/>
-      <div className="artist" >
-        <aside>
-          <ArtistHeader name={fullName} rating={aggregateRating} image={artistImage}/>
-          <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink}/>
+      <div id="mobile-wrapper">
+        <ArtistNavigation/>
+        <div className="artist" >
+          <aside>
+            <ArtistHeader name={fullName} rating={aggregateRating} image={artistImage}/>
+            <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink}/>
 
-          <div id="no-sidebar-sm" class="no-sidebar">
-            <div class="d-block d-sm-none">
-              <div class="row">
-                <div id="icon-sm" class="col-4">
-                    <a href={spotifyLink} class = "social-media-icon" target="_blank" rel="noopener noreferrer">
-                        <img src= "../../images/spotify_icon.png" alt="link"/>
+            <div id="no-sidebar-sm" class="no-sidebar">
+              <div class="d-block d-sm-none">
+                <div class="row">
+                  <div id="icon-sm" class="col-4">
+                      <a href={spotifyLink} class = "social-media-icon" target="_blank" rel="noopener noreferrer">
+                          <img src= "../../images/spotify_icon.png" alt="link"/>
+                      </a>
+                  </div>
+                  <div id="icon-sm" class="col-4">
+                      <a href={ticketLink} class = "social-media-icon" target="_blank" rel="noopener noreferrer">
+                          <img src= "../../images/ticket_icon.png" alt="link"/>
+                      </a>
+                  </div>
+                  <div class="col-4">
+                    <a href="#review">
+                      <button id="write-sm" type="button" class="btn btn-dark fw-bold">
+                        <img id="review-icon" src="../../images/review.png" alt=""></img>
+                      </button>
                     </a>
-                </div>
-                <div id="icon-sm" class="col-4">
-                    <a href={ticketLink} class = "social-media-icon" target="_blank" rel="noopener noreferrer">
-                        <img src= "../../images/ticket_icon.png" alt="link"/>
-                    </a>
-                </div>
-                <div class="col-4">
-                  <a href="#review">
-                    <button id="write-sm" type="button" class="btn btn-dark fw-bold">
-                      <img id="review-icon" src="../../images/review.png" alt=""></img>
-                    </button>
-                  </a>
+                  </div>
                 </div>
               </div>
-            </div>
-            {imageArray.length > 0 && <Carousel images={imageArray}/>}
-            
-            <div class="container">
-              <hr></hr>
-              <h4 id="reviews" class="fw-bold">Reviews</h4>
-              {allReviews.length > 0 &&
-              <div id="clear">
-                <div id="reviews-margin" class="row">
-                  <div class="col-12 col-sm-9 align-self-center">
-                    <div class="rating fw-bold">
-                      Overall Rating: {aggregateRating.toFixed(1)} out of 5
+              {imageArray.length > 0 && <Carousel images={imageArray}/>}
+              
+              <div class="container">
+                <hr></hr>
+                <h4 id="reviews" class="fw-bold">Reviews</h4>
+                {allReviews.length > 0 &&
+                <div id="clear">
+                  <div id="reviews-margin" class="row">
+                    <div class="col-12 col-sm-9 align-self-center">
+                      <div class="rating fw-bold">
+                        Overall Rating: {aggregateRating.toFixed(1)} out of 5
+                      </div>
+                      <div class="rating">
+                        <Rating
+                              name="text-feedback"
+                              value={aggregateRating}
+                              size = "large"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                      </div>
                     </div>
-                    <div class="rating">
-                      <Rating
-                            name="text-feedback"
-                            value={aggregateRating}
-                            size = "large"
-                            readOnly
-                            precision={0.1}
-                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                      />
+
+                    <div class="col-12 col-sm-3 align-self-center">
+                      <div class="dropdown">
+                        <Form.Select onChange={formChange} aria-label="Default select example">
+                            <option>Recommended</option>
+                            <option value="1">Newest First</option>
+                            <option value="2">Oldest First</option>
+                            <option value="3">Highest Rated</option>
+                            <option value="4">Lowest Rated</option>
+                        </Form.Select>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="col-12 col-sm-3 align-self-center">
-                    <div class="dropdown">
-                      <Form.Select onChange={formChange} aria-label="Default select example">
-                          <option>Recommended</option>
-                          <option value="1">Newest First</option>
-                          <option value="2">Oldest First</option>
-                          <option value="3">Highest Rated</option>
-                          <option value="4">Lowest Rated</option>
-                      </Form.Select>
-                    </div>
+                  <div class="list-group">
+                    {allReviews.map(function(review, index) {
+                      console.log("rendering now");
+                      return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
+                    })}
                   </div>
                 </div>
-
-                <div class="list-group">
-                  {allReviews.map(function(review, index) {
-                    console.log("rendering now");
-                    return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
-                  })}
-                </div>
+                }
+                {/* <a>See More</a> */}
               </div>
-              }
-              {/* <a>See More</a> */}
+              {fullName !== "" && <WriteReview artistId={artistIdNumber} name = {fullName}/> }
             </div>
-            {fullName !== "" && <WriteReview artistId={artistIdNumber} name = {fullName}/> }
-          </div>
-        </aside>
+          </aside>
 
-        <hr id="hr-footer" class="home-footer"></hr>
-        <Footer/>
+          <hr id="hr-footer" class="home-footer"></hr>
+          <Footer/>
+        </div>
       </div>
-</>
+    </>
   );
 }
 export default Artist;

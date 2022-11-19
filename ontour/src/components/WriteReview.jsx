@@ -133,7 +133,7 @@ export default function WriteReview(props)
               <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" >Submit</button>
             </div>
           </form>
-          {!canSubmit && <div className="alert alert-danger" role="alert" style={{marginTop: "20px"}}>Please leave a rating</div>}
+          {!canSubmit && <div className="alert alert-danger fw-bold" role="alert" style={{marginTop: "25px"}}>Please leave a rating</div>}
         </div>
     )
 }

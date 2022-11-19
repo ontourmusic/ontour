@@ -36,7 +36,7 @@ export default function UpcomingSchedule(props)
                         const event = {
                         name: name,
                         date: date,
-                        timezone: timezone,
+                        timezone: timezone.replace('_', ' '),
                         eventId: eventId,
                         eventURL: eventURL,
                         eventTime: eventTime

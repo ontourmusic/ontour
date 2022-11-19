@@ -2,7 +2,11 @@ body {
   font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
   overflow-y: scroll;
   letter-spacing: -0.2px;
+}
+
+#mobile-wrapper {
   overflow-x: hidden;
+  position: relative;
 }
 
 .home-title {
@@ -44,13 +48,25 @@ body {
   }
 
   #homepage{
-    top: -70px !important;
+    top: -80px !important;
     height: 350% !important;
   }
 
   .search{
     width: 70% !important;
     margin-left: 15% !important;
+  }
+
+  .search button img {
+    margin-bottom: 5px !important;
+  }
+
+  .home-title {
+    font-size: 3.3vh;
+  }
+
+  .social-media-icon img {
+    width: 38px !important;
   }
 }
 
