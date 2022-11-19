@@ -90,7 +90,7 @@ function Home() {
           </div>
           <div class="search row">
             <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
-            <button class="btn btn-dark" onClick={() => {alert('Feature Coming Soon (See Artists Below)!')}}>
+            <button class="btn btn-dark" onClick={() => {alert('Feature coming soon! (see artists below)')}}>
               <img src="../../images/search_icon.png" alt="..."/>
             </button>
           </div>
