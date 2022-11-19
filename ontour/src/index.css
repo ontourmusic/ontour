@@ -64,6 +64,10 @@ body {
   .social-media-icon img {
     width: 38px !important;
   }
+
+  #artist-background{
+    background-position: -500px 0 !important;
+  }
 }
 
 /* Schedule */
