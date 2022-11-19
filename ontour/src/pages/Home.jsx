@@ -108,13 +108,13 @@ function Home() {
                       <div class="card-body">
                           <h5 class="card-title fw-bold">Post Malone</h5>
                           <Rating
-                                name="text-feedback"
-                                value={post_malone}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
+                            name="text-feedback"
+                            value={post_malone}
+                            size = "small"
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                          />
                       </div>
                   </div>
                 </a>
@@ -126,13 +126,13 @@ function Home() {
                       <div class="card-body">
                           <h5 class="card-title fw-bold">Jack Harlow</h5>
                           <Rating
-                                name="text-feedback"
-                                value={jack_harlow}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
+                            name="text-feedback"
+                            value={jack_harlow}
+                            size = "small"
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                          />
                       </div>
                   </div>
                 </a>
@@ -144,13 +144,13 @@ function Home() {
                     <div class="card-body">
                       <h5 class="card-title fw-bold">Elton John</h5>
                       <Rating
-                                name="text-feedback"
-                                value={elton_john}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
+                        name="text-feedback"
+                        value={elton_john}
+                        size = "small"
+                        readOnly
+                        precision={0.1}
+                        emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                      />
                     </div>
                 </div>
               </a>
@@ -160,15 +160,15 @@ function Home() {
                 <div class="card bg-dark">
                   <img src="https://www.billboard.com/wp-content/uploads/2021/12/harry-styles-2021-billboard-1548.jpg" class="d-block w-100" alt="..."/>
                   <div class="card-body">
-                     <h5 class="card-title fw-bold">Harry Styles</h5>
-                     <Rating
-                                name="text-feedback"
-                                value={harry_styles}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
+                      <h5 class="card-title fw-bold">Harry Styles</h5>
+                      <Rating
+                        name="text-feedback"
+                        value={harry_styles}
+                        size = "small"
+                        readOnly
+                        precision={0.1}
+                        emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                      />
                   </div>
                 </div>
               </a>
@@ -180,13 +180,13 @@ function Home() {
                   <div class="card-body">
                     <h5 class="card-title fw-bold">Dominic Fike</h5>
                     <Rating
-                                name="text-feedback"
-                                value={dominic_fike}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
+                      name="text-feedback"
+                      value={dominic_fike}
+                      size = "small"
+                      readOnly
+                      precision={0.1}
+                      emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                    />
                   </div>
                 </div>
               </a>
@@ -207,12 +207,12 @@ function Home() {
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Post Malone</h5>
                             <Rating
-                                name="text-feedback"
-                                value={post_malone}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                              name="text-feedback"
+                              value={post_malone}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                             />
                         </div>
                     </div>
@@ -225,12 +225,12 @@ function Home() {
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Jack Harlow</h5>
                             <Rating
-                                name="text-feedback"
-                                value={jack_harlow}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                              name="text-feedback"
+                              value={jack_harlow}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                             />
                         </div>
                     </div>
@@ -243,12 +243,12 @@ function Home() {
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Elton John</h5>
                             <Rating
-                                name="text-feedback"
-                                value={elton_john}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                              name="text-feedback"
+                              value={elton_john}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                             />
                         </div>
                     </div>
@@ -263,12 +263,12 @@ function Home() {
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Harry Styles</h5>
                             <Rating
-                                name="text-feedback"
-                                value={harry_styles}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                              name="text-feedback"
+                              value={harry_styles}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                             />
                         </div>
                     </div>
@@ -281,12 +281,12 @@ function Home() {
                         <div class="card-body">
                             <h5 class="card-title fw-bold">Dominic Fike</h5>
                             <Rating
-                                name="text-feedback"
-                                value={dominic_fike}
-                                size = "small"
-                                readOnly
-                                precision={0.1}
-                                emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                              name="text-feedback"
+                              value={dominic_fike}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                             />
                         </div>
                     </div>
