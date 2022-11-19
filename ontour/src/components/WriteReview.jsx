@@ -85,10 +85,10 @@ export default function WriteReview(props)
           <form id="clear" onSubmit={handleWriteReview}>
             <div class="row top">
               <div class="col">
-                <input type="text" class="form-control shadow-none" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First Name" required/>
+                <input type="text" class="form-control shadow-none" onChange={event => setFname(event.target.value)} value ={fname} placeholder="First name" required/>
               </div>
               <div class="col">
-                <input type="text" class="form-control shadow-none" onChange={event => setLname(event.target.value)} value ={lname} placeholder="Last Name" required/>
+                <input type="text" class="form-control shadow-none" onChange={event => setLname(event.target.value)} value ={lname} placeholder="Last name" required/>
               </div>
             </div>
             <div class="row bottom">
@@ -97,7 +97,7 @@ export default function WriteReview(props)
                 {reviews.length > 0 &&  
                 <>
                 <Form.Select aria-label="Default select example" required onChange={event => setEvent(event.target.value)}>
-                  <option value="" disabled selected hidden>Select an Event</option>
+                  <option value="" disabled selected hidden>Select an event</option>
                   <option value={`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name} `}>
                     {reviews[0].datetime} • {reviews[0].venue.name}
                     </option>
