@@ -30,16 +30,26 @@ export default function UpcomingSchedule(props)
                         {
                             timezone = " ";
                         }
+                        else {
+                            timezone = timezone.split('/')[1];
+                            timezone = timezone.replace('_', ' ');
+                        }
                         var eventId = tmEventData._embedded.events[i].id;
                         var eventURL = tmEventData._embedded.events[i].url;
                         var eventTime = tmEventData._embedded.events[i].dates.start.localTime;
+                        eventTime = eventTime.split(':');
+                        var hours = eventTime[0];
+                        var minutes = eventTime[1];
+                        var time = (hours > 12) ? hours-12 : hours;
+                        time += ':' + minutes;
+                        time += (hours >= 12) ? " pm" : " am";
                         const event = {
                         name: name,
                         date: date,
-                        timezone: timezone.replace('_', ' '),
+                        timezone: timezone,
                         eventId: eventId,
                         eventURL: eventURL,
-                        eventTime: eventTime
+                        eventTime: time
                         }
                         events.push(event);
                     }
@@ -51,7 +61,12 @@ export default function UpcomingSchedule(props)
                     var weekday = newData.toString().split(" ")[0];
                     var monthStr = newData.toString().split(" ")[1];
                     var dayStr = newData.toString().split(" ")[2];
-                    var fullDate = weekday + " " + monthStr + " " + dayStr;
+                    
+                    if(dayStr.charAt(0) == '0') {
+                        dayStr = dayStr.slice(1);
+                    }
+
+                    var fullDate = weekday + ", " + monthStr + " " + dayStr;
                     dates[i] = fullDate;
                 }
             }
@@ -77,19 +92,19 @@ export default function UpcomingSchedule(props)
             ?
             <div id="upcoming-list">
                 <a href={eventArray[0].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[0].eventTime} date={dates[0]} event={eventArray[0].name} location={eventArray[0].timezone.split('/')[1]}/>
+                    <Show time = {eventArray[0].eventTime} date={dates[0]} event={eventArray[0].name} location={eventArray[0].timezone}/>
                 </a>
                 <a href={eventArray[1].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[1].eventTime} date={dates[1]} event={eventArray[1].name} location={eventArray[1].timezone.split('/')[1]}/>  
+                    <Show time = {eventArray[1].eventTime} date={dates[1]} event={eventArray[1].name} location={eventArray[1].timezone}/>  
                 </a>
                 <a href={eventArray[2].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[2].eventTime} date={dates[2]} event={eventArray[2].name} location={eventArray[2].timezone.split('/')[1]}/>
+                    <Show time = {eventArray[2].eventTime} date={dates[2]} event={eventArray[2].name} location={eventArray[2].timezone}/>
                 </a>
                 <a href={eventArray[3].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[3].eventTime} date={dates[3]} event={eventArray[3].name} location={eventArray[3].timezone.split('/')[1]}/>
+                    <Show time = {eventArray[3].eventTime} date={dates[3]} event={eventArray[3].name} location={eventArray[3].timezone}/>
                 </a>
                 <a href={eventArray[4].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[4].eventTime} date={dates[4]} event={eventArray[4].name} location={eventArray[4].timezone.split('/')[1]}/>
+                    <Show time = {eventArray[4].eventTime} date={dates[4]} event={eventArray[4].name} location={eventArray[4].timezone}/>
                 </a>
             </div>
             :<p>No Upcoming Shows</p>}
