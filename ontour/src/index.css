@@ -4,11 +4,6 @@ body {
   letter-spacing: -0.2px;
 }
 
-#mobile-wrapper {
-  overflow-x: hidden;
-  position: relative;
-}
-
 .home-title {
   font-size: 3.25vh;
   padding-top: 1vh;
@@ -26,6 +21,7 @@ body {
   background-size: cover;
   padding: 33vh;
   position: relative;
+  filter: brightness(80%);
 }
 
 @media(max-width: 576px) {
@@ -67,6 +63,11 @@ body {
 
   #artist-background{
     background-position: -150px 0 !important;
+  }
+
+  #mobile-wrapper {
+    overflow-x: hidden !important;
+    position: relative !important;
   }
 }
 
