@@ -463,62 +463,19 @@ h4 {
 
 /* Results */
 
-#results {
-  width: 100%;
-  text-align: left;
-  padding: 0;
-  margin: 0;
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
-.result-margin {
-  margin-left: 4%;
-  margin-right: 4%;
-}
-
-#result-img img {
-  border-radius: 50%;
-  height: 18vh;
-  width: 18vh;
-}
-
-.result-margin a {
+#result-wrapper a, #result-wrapper:hover {
   text-decoration: none;
-  color: inherit;
-}
-
-#result-row {
-  padding-top: 2%;
-  padding-bottom: 2%;
-  height: 100%;
-}
-
-#result-name {
-  font-size: 20px;
-  padding-top: 10px;
-}
-
-#result-info {
-  text-align: left;
+  color: black;
 }
 
 /* Footer */
 
-.footer {
+footer {
+  float: left;
   margin-left: 4%;
   margin-right: 4%;
   font-size: 14px;
   color: #525252;
-}
-
-.home-footer {
-  margin-left: 4%;
-  margin-right: 4%;
-}
-
-footer {
-  float: left;
 }
 
 #footer-logo {
@@ -528,8 +485,15 @@ footer {
   filter: invert(1);
 }
 
-#hr-footer {
+#artist-footer {
   margin-top: 25px;
+  margin-left: 4%;
+  margin-right: 4%;
+}
+
+#results-footer {
+  margin-left: 4%;
+  margin-right: 4%;
 }
 
 small {
@@ -581,11 +545,7 @@ select:focus {
   font-weight: bold;
 }
 
-.padding-bottom {
-  padding-bottom: 70px;
-}
-
-/* model */
+/* Model */
 
 .model {
   width: 100%;

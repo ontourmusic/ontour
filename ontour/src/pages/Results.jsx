@@ -1,27 +1,219 @@
 import React from "react";
 import "../index.css";
 import ArtistNavigation from "../ArtistNavigation"
-import Result from "../components/Result"
 import Footer from "../components/Footer"
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
 
 function Results() {
   return (
     <>
       <ArtistNavigation/>
       
-      <div class="result-margin">
-        <div class="container p-0">
-          <div class="row">
-            <h4 id="results" class="fw-bold result">Results</h4>
+      {/* Mobile */}
+      <div id="result-wrapper">
+        <div class="container d-block d-sm-none">
+          <div id="gallery" class="row">
+              <div class="col-12 col-sm-9 align-self-center">
+                  <h4 class="fw-bold ">Results</h4>
+              </div>
           </div>
-              
-          <Result name={"Jack Harlow"} rating={"4.5"} src={"https://s1.ticketm.net/dam/a/cbd/3d3ab8ef-7a23-4342-9a0f-8c18cad7acbd_1682661_TABLET_LANDSCAPE_LARGE_16_9.jpg"}/>
-          <Result name={"Doja Cat"} rating={"4.6"} src={"https://i.scdn.co/image/ab6761610000e5eb727a2ac15afe659be999beba"}/>
-          <Result name={"Tame Impala"} rating={"4.8"} src={"https://i1.sndcdn.com/avatars-yHA8nds2mqg4uYtr-kyxTzw-t500x500.jpg"}/>
-
+          <div class="row mb-4">
+              <a href="/artist?artist=post_malone">
+                <div class="card">
+                    <img src="https://www.syracuse.com/resizer/Gho2h8t584_ZoNDxKzM1zOIiVk4=/arc-anglerfish-arc2-prod-advancelocal/public/ZZ2V33SVNREKLF6ROTZJ32GZXI.jpeg" class="d-block w-100" alt="..."/>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Post Malone</h5>
+                        <Rating
+                          name="text-feedback"
+                          value={5}
+                          size = "small"
+                          readOnly
+                          precision={0.1}
+                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                    </div>
+                </div>
+              </a>
+          </div>
+          <div class="row mb-4">
+            <a href="/artist?artist=jack_harlow">
+                <div class="card">
+                    <img src="https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/jack-harlow-superbowl-citi-concert--inline2-jp-081222-08aa15.jpg" class="d-block w-100" alt="..."/>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Jack Harlow</h5>
+                        <Rating
+                          name="text-feedback"
+                          value={5}
+                          size = "small"
+                          readOnly
+                          precision={0.1}
+                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                    </div>
+                </div>
+              </a>
+          </div>
+          <div class="row mb-4">
+            <a href="/artist?artist=elton_john">
+              <div class="card">
+                  <img src="https://www.99images.com/download-image/933920/1920x1280" class="d-block w-100" alt="..."/>
+                  <div class="card-body">
+                    <h5 class="card-title fw-bold">Elton John</h5>
+                    <Rating
+                      name="text-feedback"
+                      value={5}
+                      size = "small"
+                      readOnly
+                      precision={0.1}
+                      emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                    />
+                  </div>
+              </div>
+            </a>
+          </div>      
+          <div class="row mb-4">
+            <a href="/artist?artist=harry_styles">
+              <div class="card">
+                <img src="https://www.billboard.com/wp-content/uploads/2021/12/harry-styles-2021-billboard-1548.jpg" class="d-block w-100" alt="..."/>
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">Harry Styles</h5>
+                    <Rating
+                      name="text-feedback"
+                      value={5}
+                      size = "small"
+                      readOnly
+                      precision={0.1}
+                      emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                    />
+                </div>
+              </div>
+            </a>
+          </div>  
+          <div class="row mb-4">
+            <a href="/artist?artist=dominic_fike">
+              <div class="card">
+                <img src="https://headlineplanet.com/home/wp-content/uploads/2022/02/Dominic-Fike-on-Fallon-4.jpg" class="d-block w-100" alt="..."/>
+                <div class="card-body">
+                  <h5 class="card-title fw-bold">Dominic Fike</h5>
+                  <Rating
+                    name="text-feedback"
+                    value={5}
+                    size = "small"
+                    readOnly
+                    precision={0.1}
+                    emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                  />
+                </div>
+              </div>
+            </a>
+          </div>    
         </div>
+
+        <div class="container d-none d-sm-block">
+          <div id="gallery" class="row">
+              <div class="col-12 col-sm-9 align-self-center">
+                  <h4 class="fw-bold ">Results</h4>
+              </div>
+          </div>
+          <div class="row mb-5">
+              <div class="col-4">
+                <a href="/artist?artist=post_malone">
+                  <div class="card">
+                      <img src="https://www.syracuse.com/resizer/Gho2h8t584_ZoNDxKzM1zOIiVk4=/arc-anglerfish-arc2-prod-advancelocal/public/ZZ2V33SVNREKLF6ROTZJ32GZXI.jpeg" class="d-block w-100" alt="..."/>
+                      <div class="card-body">
+                          <h5 class="card-title fw-bold">Post Malone</h5>
+                          <Rating
+                            name="text-feedback"
+                            value={5}
+                            size = "small"
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                          />
+                      </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-4">
+                <a href="/artist?artist=jack_harlow">
+                  <div class="card">
+                      <img src="https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/jack-harlow-superbowl-citi-concert--inline2-jp-081222-08aa15.jpg" class="d-block w-100" alt="..."/>
+                      <div class="card-body">
+                          <h5 class="card-title fw-bold">Jack Harlow</h5>
+                          <Rating
+                            name="text-feedback"
+                            value={5}
+                            size = "small"
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                          />
+                      </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-4">
+                <a href="/artist?artist=elton_john">
+                  <div class="card">
+                      <img src="https://www.99images.com/download-image/933920/1920x1280" class="d-block w-100" alt="..."/>
+                      <div class="card-body">
+                          <h5 class="card-title fw-bold">Elton John</h5>
+                          <Rating
+                            name="text-feedback"
+                            value={5}
+                            size = "small"
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                          />
+                      </div>
+                  </div>
+                </a>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-4">
+                <a href="/artist?artist=harry_styles">
+                  <div class="card">
+                      <img src="https://www.billboard.com/wp-content/uploads/2021/12/harry-styles-2021-billboard-1548.jpg" class="d-block w-100" alt="..."/>
+                      <div class="card-body">
+                          <h5 class="card-title fw-bold">Harry Styles</h5>
+                          <Rating
+                            name="text-feedback"
+                            value={5}
+                            size = "small"
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                          />
+                      </div>
+                  </div>
+                </a>
+              </div>
+              <div class="col-4">
+                <a href="/artist?artist=dominic_fike">
+                  <div class="card">
+                      <img src="https://headlineplanet.com/home/wp-content/uploads/2022/02/Dominic-Fike-on-Fallon-4.jpg" class="d-block w-100" alt="..."/>
+                      <div class="card-body">
+                          <h5 id="hi"class="card-title fw-bold">Dominic Fike</h5>
+                          <Rating
+                            name="text-feedback"
+                            value={5}
+                            size = "small"
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                          />
+                      </div>
+                  </div>
+                </a>
+              </div>
+          </div>
+        </div> 
       </div>
       
+      <hr id="results-footer"></hr>
       <Footer/>
     </>
   );

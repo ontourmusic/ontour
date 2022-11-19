@@ -95,6 +95,7 @@ function Home() {
             </button>
           </div>
 
+          {/* Mobile */}
           <div class="container d-block d-sm-none">
             <div id="gallery" class="row">
                 <div class="col-12 col-sm-9 align-self-center">

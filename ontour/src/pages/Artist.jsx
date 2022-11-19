@@ -222,7 +222,7 @@ function Artist() {
             </div>
           </aside>
 
-          <hr id="hr-footer" class="home-footer"></hr>
+          <hr id="artist-footer"></hr>
           <Footer/>
         </div>
       </div>
