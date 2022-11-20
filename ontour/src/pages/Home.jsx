@@ -83,7 +83,7 @@ function Home() {
     <>
       <Navigation />
       <div id="homepage">
-        <div id="homeheader" class="container">
+        <div id="homeheader">
           <img id="home-logo" src= "images/logo.png" alt=""/>
           <div class="home-title">
             Own your next live experience.
@@ -96,7 +96,7 @@ function Home() {
           </div>
 
           {/* Mobile */}
-          <div class="container d-block d-sm-none">
+          <div class="d-block d-sm-none">
             <div id="gallery" class="row">
                 <div class="col-12 col-sm-9 align-self-center">
                     <h4 class="fw-bold ">Recently Added Artists</h4>
@@ -194,7 +194,7 @@ function Home() {
             </div>    
           </div>
 
-          <div class="container d-none d-sm-block">
+          <div class="d-none d-sm-block">
             <div id="gallery" class="row">
                 <div class="col-12 col-sm-9 align-self-center">
                     <h4 class="fw-bold ">Recently Added Artists</h4>

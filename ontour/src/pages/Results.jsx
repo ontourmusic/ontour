@@ -1,6 +1,6 @@
 import React from "react";
 import "../index.css";
-import ArtistNavigation from "../ArtistNavigation"
+import Navigation from "../Navigation"
 import Footer from "../components/Footer"
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
@@ -8,11 +8,11 @@ import StarIcon from '@mui/icons-material/Star';
 function Results() {
   return (
     <>
-      <ArtistNavigation/>
+      <Navigation/>
       
       {/* Mobile */}
       <div id="result-wrapper">
-        <div class="container d-block d-sm-none">
+        <div class="results d-block d-sm-none">
           <div id="gallery" class="row">
               <div class="col-12 col-sm-9 align-self-center">
                   <h4 class="fw-bold ">Results</h4>
@@ -110,7 +110,7 @@ function Results() {
           </div>    
         </div>
 
-        <div class="container d-none d-sm-block">
+        <div class="results d-none d-sm-block">
           <div id="gallery" class="row">
               <div class="col-12 col-sm-9 align-self-center">
                   <h4 class="fw-bold ">Results</h4>
