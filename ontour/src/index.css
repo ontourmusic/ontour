@@ -80,11 +80,11 @@ body {
   }
 
   .carousel-control-prev{
-    padding-right: 5% !important;
+    padding-right: 2.5% !important;
   }
   
   .carousel-control-next{
-    padding-left: 5% !important;
+    padding-left: 2.5% !important;
   } 
 }
 
