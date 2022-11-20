@@ -76,6 +76,10 @@ body {
     padding-left: 4%;
     padding-right: 30%;
   }
+
+  #artist-name {
+    margin-bottom: 0 !important;
+  }
 }
 
 /* Schedule */
