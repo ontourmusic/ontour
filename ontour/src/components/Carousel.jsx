@@ -45,7 +45,7 @@ export default function Carousel(props)
             </div>
             {/* Mobile Carousel */}
             <div id="mobileCarousel" class="carousel slide d-block d-sm-none" data-bs-ride="carousel">
-                <div class="carousel-inner">
+                <div id="icon-sm" class="carousel-inner">
                     <button class="carousel-control-prev" type="button" data-bs-target="#mobileCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
@@ -53,14 +53,14 @@ export default function Carousel(props)
                     {imageLoad ? images.map((image, index) => {
                         if(index == 0) {
                             return (
-                                <div id="icon-sm" class="carousel-item active">
+                                <div class="carousel-item active">
                                     {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
                                 </div>
                             );
                         }
                         else if(index <= images.length) {
                             return (
-                                <div id="icon-sm" class="carousel-item">
+                                <div class="carousel-item">
                                     {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
                                 </div>
                             )
