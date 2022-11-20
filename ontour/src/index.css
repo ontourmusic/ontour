@@ -78,6 +78,10 @@ body {
     width: 150%;
     text-align: left;
   }
+
+  .carousel-item {
+    margin-right: 0 !important;
+  }
 }
 
 /* Schedule */
