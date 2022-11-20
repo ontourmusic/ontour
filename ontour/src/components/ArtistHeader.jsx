@@ -35,7 +35,7 @@ function ArtistHeader(props)
 
     return (
         <div id="artist-background" class="container-fluid jumbotron bg-cover text-white" style={{backgroundImage: isMobile? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`}}>
-            <div id="text-contain" style={{backgroundColor: isMobile ? 'rgba(0, 0, 0, 0.5)' : ''}}>
+            <div id="text-contain" style={{background: isMobile ? 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))' : ''}}>
                 <h1 id="artist-name" class="fw-bold">{props.name}</h1>
                 <div class="rating">
                     <Rating
