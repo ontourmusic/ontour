@@ -85,7 +85,7 @@ function Artist() {
       var rRating = reviewData[i].rating;
       var reviewFname = reviewData[i].fname;
       var reviewLname = reviewData[i].lname;
-      var reviewFullName = reviewFname + " " + reviewLname;
+      var reviewFullName = reviewFname + " " + reviewLname[0] + ".";
       var reviewEvent = reviewData[i].eventname;
       var date = reviewData[i].date;
       review.push(rDescription);
