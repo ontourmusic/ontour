@@ -72,7 +72,9 @@ export default function WriteReview(props)
     var eventDate = eventName.split(" • ")[0];
     var event = eventName.split(" • ")[1];
     console.log(event);
-    await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${fname}&lname=${lname}&eventname=${event}&date=${eventDate}`, {method: 'POST', mode: 'cors'});
+    var first = fname.charAt(0).toUpperCase() + fname.slice(1).toLowerCase();
+    var last = lname.charAt(0).toUpperCase() + lname.slice(1).toLowerCase();
+    await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${first}&lname=${last}&eventname=${event}&date=${eventDate}`, {method: 'POST', mode: 'cors'});
   }
 
     return (
