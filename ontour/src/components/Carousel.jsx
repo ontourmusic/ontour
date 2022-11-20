@@ -43,17 +43,34 @@ export default function Carousel(props)
                     </button>
                 </div>
             </div>
-            <div class="d-block d-sm-none">
-                {imageLoad ? images.map((image, index) => {
-                        if(index <= images.length-1) {
+            {/* Mobile Carousel */}
+            <div id="carouselExampleControls" class="carousel slide d-block d-sm-none" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    {imageLoad ? images.map((image, index) => {
+                        if(index == 0) {
                             return (
-                                <div id="icon-sm" class="row">
+                                <div id="icon-sm carousel-item active" class="row">
                                     {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
                                 </div>
                             );
                         }
-                    }
-                ): <div></div>}
+                        else if(index <= images.length) {
+                            return (
+                                <div id="icon-sm carousel-item" class="row">
+                                    {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
+                                </div>
+                            )
+                        }
+                    }): <div></div>}
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
             <div id="carouselExampleControls" class="carousel slide d-none d-sm-block" data-bs-ride="carousel">
                 <div class="carousel-inner">
