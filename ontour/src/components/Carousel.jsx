@@ -27,10 +27,10 @@ export default function Carousel(props)
                 <img src={tempImg} alt=""/>
             </div>
             <div id="gallery" class="row">
-                <div class="col-9 align-self-center">
+                <div class="col-8 align-self-center">
                     <h4 class="fw-bold ">Captured Moments</h4>
                 </div>
-                <div class="col-3 m-0 no-text-align">
+                <div class="col-4 m-0 no-text-align">
                     <button id="photobutton" type="button" class="btn btn-outline-light fw-bold align-self-center" onClick={() => {alert('Feature coming soon!')}}>
                         <div class="row">
                             <div class="col-lg-3">
