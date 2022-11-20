@@ -78,7 +78,7 @@ body {
   }
 
   #artist-name {
-    margin-bottom: 0 !important;
+    margin: 0 auto !important;
     text-align: center !important;
   }
 }
