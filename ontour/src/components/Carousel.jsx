@@ -53,7 +53,7 @@ export default function Carousel(props)
                     {imageLoad ? images.map((image, index) => {
                         if(index == 0) {
                             return (
-                                <div id="icon-sm" class="row carousel-item active">
+                                <div id="icon-sm" class="carousel-item active">
                                     {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
                                 </div>
                             );
