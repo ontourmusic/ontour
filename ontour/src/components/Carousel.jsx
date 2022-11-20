@@ -58,13 +58,13 @@ export default function Carousel(props)
                                 </div>
                             );
                         }
-                        // else if(index <= images.length) {
-                        //     return (
-                        //         <div id="icon-sm" class="row carousel-item">
-                        //             {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
-                        //         </div>
-                        //     )
-                        // }
+                        else if(index <= images.length) {
+                            return (
+                                <div id="icon-sm" class="carousel-item">
+                                    {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
+                                </div>
+                            )
+                        }
                     }): <div></div>}
                     <button class="carousel-control-next" type="button" data-bs-target="#mobileCarousel" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>

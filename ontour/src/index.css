@@ -78,6 +78,18 @@ body {
     width: 150%;
     text-align: left;
   }
+
+  .carousel-control-prev{
+    padding-right: 5%;
+  }
+  
+  .carousel-control-next{
+    padding-left: 5%;
+  }
+
+  .carousel-control-next-icon, .carousel-control-next-icon{
+    width: 3rem;
+  }
 }
 
 /* Schedule */
