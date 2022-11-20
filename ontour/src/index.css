@@ -80,15 +80,15 @@ body {
   }
 
   .carousel-control-prev{
-    padding-right: 5%;
+    padding-right: 5% !important;
   }
   
   .carousel-control-next{
-    padding-left: 5%;
-  }
+    padding-left: 5% !important;
+  } 
 
   .carousel-control-next-icon, .carousel-control-next-icon{
-    width: 3rem;
+    width: 3rem !important;
   }
 }
 
