@@ -623,7 +623,11 @@ select:invalid option:not(:disabled) {
 
 /* Pagination */
 
-.item {
+#page ul {
+  margin-bottom: 0 !important;
+}
+
+#page .item {
   align-items: center;
   color: #FFF;
   cursor: pointer;
@@ -634,21 +638,20 @@ select:invalid option:not(:disabled) {
   width: 40px;
 }
 
-.disabled-page {
-  color: #808e9b;
+#page .disabled-page {
+  color: red;
 }
 
-.active {
-  border: solid 1px #808e9b;
+#page .active {
+  border: solid 1px red;
   border-radius: 40px;
-  color: #808e9b;
+  color: red;
 }
 
-.break-me {
+#page .break-me {
 }
 
-.next {
-  border-left: solid 1px #808e9b;
+#page .next {
   font-size: 4px;
   height: 60px;
   position: absolute;
@@ -656,9 +659,8 @@ select:invalid option:not(:disabled) {
   width: 150px;
 }
 
-.pagination {
+#page .pagination {
   align-items: center;
-  background-color: #282828;
   display: flex;
   flex-direction: row;
   height: 60px;
@@ -668,12 +670,11 @@ select:invalid option:not(:disabled) {
   width: 100%;
 }
 
-.pagination-page {
+#page .pagination-page {
   font-weight: 700;
 }
 
-.previous {
-  border-right: solid 1px #808e9b;
+#page .previous {
   font-size: 4px;
   height: 60px;
   left: 0;
