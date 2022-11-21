@@ -92,7 +92,7 @@ body {
   }
 }
 
-@media(max-width: 992px) {
+@media(max-width: 1200px) {
   #page .next {
     margin-right: 0 !important;
   }
