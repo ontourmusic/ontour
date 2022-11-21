@@ -100,17 +100,6 @@ body {
   }
 }
 
-@media(max-width: 992px) {
-  #page .next {
-    margin-right: 100px !important;
-  }
-
-  #page .previous {
-    margin-left: 100px !important;
-  }
-
-}
-
 /* Schedule */
 
 .show-location {
@@ -658,7 +647,7 @@ select:invalid option:not(:disabled) {
 }
 
 #page .disabled-page {
-  color: #c8c9ca;
+  color: #525252;
 }
 
 #page .active {
