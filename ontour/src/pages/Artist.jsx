@@ -194,14 +194,14 @@ function Artist() {
           disabledClassName={'disabled-page'}
           marginPagesDisplayed={2}
           nextClassName={"item next "}
-          nextLabel={<ArrowForwardIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
+          nextLabel={<ArrowForwardIosIcon style={{ fontSize: 18, width: 20, color: "black" }} />}
           breakLabel="..."
           onPageChange={handlePageClick}
           pageRangeDisplayed={2}
           pageClassName={'item pagination-page '}
           pageCount={pageCount}
           previousClassName={"item previous"}
-          previousLabel={<ArrowBackIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
+          previousLabel={<ArrowBackIosIcon style={{ fontSize: 18, width: 20, color: "black" }} />}
           renderOnZeroPageCount={null}
         />
         </div>
