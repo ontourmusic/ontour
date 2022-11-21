@@ -182,7 +182,6 @@ function Artist() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: 20,
         boxSizing: 'border-box',
         width: '100%',
         height: '100%',
@@ -195,14 +194,14 @@ function Artist() {
           disabledClassName={'disabled-page'}
           marginPagesDisplayed={2}
           nextClassName={"item next "}
-          nextLabel={<ArrowForwardIosIcon style={{ fontSize: 18, width: 150, color: "white" }} />}
+          nextLabel={<ArrowForwardIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
           breakLabel="..."
           onPageChange={handlePageClick}
           pageRangeDisplayed={2}
           pageClassName={'item pagination-page '}
           pageCount={pageCount}
           previousClassName={"item previous"}
-          previousLabel={<ArrowBackIosIcon style={{ fontSize: 18, width: 150, color: "white" }} />}
+          previousLabel={<ArrowBackIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
           renderOnZeroPageCount={null}
         />
         </div>
@@ -279,11 +278,11 @@ function Artist() {
                     </div>
                   </div>
 
-                  <div class="list-group">
+                  <div id="page" class="list-group">
                     {/* {allReviews && allReviews.map(function(review, index) {
                       return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
                     })} */}
-                    <PaginatedItems itemsPerPage={5} />
+                    <PaginatedItems itemsPerPage={1} />
                   </div>
                 </div>
                 }
