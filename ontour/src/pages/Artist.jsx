@@ -230,7 +230,7 @@ function Artist() {
                   </div>
                   <div id="icon-sm" class="col-4">
                       <a href={ticketLink} class = "social-media-icon" target="_blank" rel="noopener noreferrer">
-                          <img src= "https://logos-world.net/wp-content/uploads/2021/03/Ticketmaster-Emblem.png" alt="link"/>
+                          <img src= "https://play-lh.googleusercontent.com/1anA3PdRvMigQEkd6aokgtuqHPiZgyfNJWouQ7h2tfaLrzZ48pf7nlvhTa3VsaBjlQAx" alt="link"/>
                       </a>
                   </div>
                   <div class="col-4">
