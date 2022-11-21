@@ -13,6 +13,9 @@ import Footer from "../components/Footer"
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
 import Form from 'react-bootstrap/Form';
+import ReactPaginate from 'react-paginate';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 function Artist() {
 
@@ -139,6 +142,74 @@ function Artist() {
     forceUpdate();
   }
 
+  function Items({currentItems})
+  {
+    return(
+      <>
+        {currentItems && currentItems.map(function(review, index) {
+            return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
+          })}
+      </>
+    )
+  }
+
+
+  function PaginatedItems({ itemsPerPage }) {
+    // Here we use item offsets; we could also use page offsets
+    // following the API or data you're working with.
+    const [itemOffset, setItemOffset] = useState(0);
+  
+    // Simulate fetching items from another resources.
+    // (This could be items from props; or items loaded in a local state
+    // from an API endpoint with useEffect and useState)
+    const endOffset = itemOffset + itemsPerPage;
+    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    const currentItems = allReviews.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(allReviews.length / itemsPerPage);
+  
+    // Invoke when user click to request another page.
+    const handlePageClick = (event) => {
+      const newOffset = (event.selected * itemsPerPage) % allReviews.length;
+      console.log(
+        `User requested page number ${event.selected}, which is offset ${newOffset}`
+      );
+      setItemOffset(newOffset);
+    };
+  
+    return (
+      <>
+        <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: 20,
+        boxSizing: 'border-box',
+        width: '100%',
+        height: '100%',
+      }}>
+        <Items currentItems={currentItems} />
+        <ReactPaginate
+          activeClassName={'item active '}
+          breakClassName={'item break-me '}
+          containerClassName={'pagination'}
+          disabledClassName={'disabled-page'}
+          marginPagesDisplayed={2}
+          nextClassName={"item next "}
+          nextLabel={<ArrowForwardIosIcon style={{ fontSize: 18, width: 150, color: "white" }} />}
+          breakLabel="..."
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={2}
+          pageClassName={'item pagination-page '}
+          pageCount={pageCount}
+          previousClassName={"item previous"}
+          previousLabel={<ArrowBackIosIcon style={{ fontSize: 18, width: 150, color: "white" }} />}
+          renderOnZeroPageCount={null}
+        />
+        </div>
+      </>
+    );
+  }
+
 
   return (
     <>
@@ -209,14 +280,13 @@ function Artist() {
                   </div>
 
                   <div class="list-group">
-                    {allReviews.map(function(review, index) {
-                      console.log("rendering now");
+                    {/* {allReviews && allReviews.map(function(review, index) {
                       return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
-                    })}
+                    })} */}
+                    <PaginatedItems itemsPerPage={5} />
                   </div>
                 </div>
                 }
-                {/* <a>See More</a> */}
               </div>
               {fullName !== "" && <WriteReview artistId={artistIdNumber} name = {fullName}/> }
             </div>
