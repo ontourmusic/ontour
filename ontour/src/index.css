@@ -90,14 +90,6 @@ body {
   #gallery {
     margin-top: 30px !important;
   }
-
-  #page .next {
-    margin-right: 0 !important;
-  }
-
-  #page .previous {
-    margin-left: 0 !important;
-  }
 }
 
 /* Schedule */
@@ -637,7 +629,7 @@ select:invalid option:not(:disabled) {
 
 #page .item {
   align-items: center;
-  color: #FFF;
+  color: #c8c9ca;
   cursor: pointer;
   display: flex;
   font-size: 14px;
@@ -658,8 +650,7 @@ select:invalid option:not(:disabled) {
   font-size: 4px;
   height: 60px;
   position: absolute;
-  right: 0;
-  margin-right: 200px;
+  margin-left: 50px;
 }
 
 #page .pagination {
@@ -684,6 +675,5 @@ select:invalid option:not(:disabled) {
   font-size: 4px;
   height: 60px;
   position: absolute;
-  left: 0;
-  margin-left: 200px;
+  margin-right: 50px;
 }
