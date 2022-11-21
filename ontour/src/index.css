@@ -639,13 +639,13 @@ select:invalid option:not(:disabled) {
 }
 
 #page .disabled-page {
-  color: red;
+  color: #c8c9ca;
 }
 
 #page .active {
-  border: solid 1px red;
+  border: solid 1px black;
   border-radius: 40px;
-  color: red;
+  color: black;
 }
 
 #page .break-me {
@@ -668,6 +668,8 @@ select:invalid option:not(:disabled) {
   list-style-type: none;
   position: relative;
   width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 #page .pagination-page {
