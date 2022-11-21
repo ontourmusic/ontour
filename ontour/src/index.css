@@ -92,11 +92,11 @@ body {
   }
 
   #page .next {
-    padding-right: 0 !important;
+    margin-right: 0 !important;
   }
 
   #page .previous {
-    padding-left: 0 !important;
+    margin-left: 0 !important;
   }
 }
 
@@ -659,7 +659,7 @@ select:invalid option:not(:disabled) {
   height: 60px;
   position: absolute;
   right: 0;
-  padding-right: 150px;
+  margin-right: 200px;
 }
 
 #page .pagination {
@@ -676,7 +676,7 @@ select:invalid option:not(:disabled) {
 
 #page .pagination-page {
   font-weight: 700;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 #page .previous {
@@ -684,5 +684,5 @@ select:invalid option:not(:disabled) {
   height: 60px;
   left: 0;
   position: absolute;
-  padding-left: 150px;
+  margin-left: 200px;
 }
