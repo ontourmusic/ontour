@@ -90,6 +90,14 @@ body {
   #gallery {
     margin-top: 30px !important;
   }
+
+  #page .next {
+    padding-right: 10px;
+  }
+
+  #page .previous {
+    padding-left: 10px;
+  }
 }
 
 /* Schedule */
@@ -643,12 +651,7 @@ select:invalid option:not(:disabled) {
 }
 
 #page .active {
-  border: solid 1px black;
-  border-radius: 40px;
   color: black;
-}
-
-#page .break-me {
 }
 
 #page .next {
@@ -656,7 +659,7 @@ select:invalid option:not(:disabled) {
   height: 60px;
   position: absolute;
   right: 0;
-  width: 150px;
+  padding-right: 150px;
 }
 
 #page .pagination {
@@ -668,8 +671,7 @@ select:invalid option:not(:disabled) {
   list-style-type: none;
   position: relative;
   width: 100%;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 10px;
 }
 
 #page .pagination-page {
@@ -681,5 +683,5 @@ select:invalid option:not(:disabled) {
   height: 60px;
   left: 0;
   position: absolute;
-  width: 150px;
+  padding-left: 150px;
 }

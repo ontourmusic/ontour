@@ -282,7 +282,7 @@ function Artist() {
                     {/* {allReviews && allReviews.map(function(review, index) {
                       return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
                     })} */}
-                    <PaginatedItems itemsPerPage={5} />
+                    <PaginatedItems itemsPerPage={10} />
                   </div>
                 </div>
                 }
