@@ -658,6 +658,8 @@ select:invalid option:not(:disabled) {
   font-size: 4px;
   height: 60px;
   position: absolute;
+  right: 0;
+  margin-right: 200px;
 }
 
 #page .pagination {
@@ -682,4 +684,6 @@ select:invalid option:not(:disabled) {
   font-size: 4px;
   height: 60px;
   position: absolute;
+  left: 0;
+  margin-left: 200px;
 }
