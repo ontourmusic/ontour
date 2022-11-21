@@ -90,7 +90,9 @@ body {
   #gallery {
     margin-top: 30px !important;
   }
+}
 
+@media(max-width: 992px) {
   #page .next {
     margin-right: 0 !important;
   }
@@ -659,7 +661,7 @@ select:invalid option:not(:disabled) {
   height: 60px;
   position: absolute;
   right: 0;
-  margin-right: 200px;
+  margin-right: 250px;
 }
 
 #page .pagination {
@@ -685,5 +687,5 @@ select:invalid option:not(:disabled) {
   height: 60px;
   position: absolute;
   left: 0;
-  margin-left: 200px;
+  margin-left: 250px;
 }
