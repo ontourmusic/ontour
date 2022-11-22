@@ -688,8 +688,15 @@ select:invalid option:not(:disabled) {
 #page .pagination-page {
   font-weight: 700;
   font-size: 18px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.break-me {
+  font-weight: 700;
+  font-size: 18px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 #page .previous {
