@@ -674,9 +674,6 @@ select:invalid option:not(:disabled) {
   list-style-type: none;
   position: relative;
   width: 100%;
-  border-left: 1px solid #c8c9ca;
-  border-right: 1px solid #c8c9ca;
-  border-bottom: 1px solid #c8c9ca;
 }
 
 #page .pagination-page {
