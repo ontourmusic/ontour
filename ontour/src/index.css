@@ -639,13 +639,17 @@ select:invalid option:not(:disabled) {
 
 #page .item {
   align-items: center;
-  color: #c8c9ca;
+  color: #525252;
   cursor: pointer;
   display: flex;
   font-size: 14px;
   height: 40px;
   justify-content: center;
   width: 40px;
+}
+
+#page .item a {
+  width: 100%;
 }
 
 #page .disabled-page {
