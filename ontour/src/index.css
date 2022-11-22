@@ -657,6 +657,7 @@ select:invalid option:not(:disabled) {
 }
 
 #page .next {
+  display: none;
   font-size: 4px;
   height: 60px;
   position: absolute;
@@ -673,7 +674,9 @@ select:invalid option:not(:disabled) {
   list-style-type: none;
   position: relative;
   width: 100%;
-  border: 1px solid #c8c9ca;
+  border-left: 1px solid #c8c9ca;
+  border-right: 1px solid #c8c9ca;
+  border-bottom: 1px solid #c8c9ca;
 }
 
 #page .pagination-page {
@@ -683,6 +686,7 @@ select:invalid option:not(:disabled) {
 }
 
 #page .previous {
+  display: none;
   font-size: 4px;
   height: 60px;
   position: absolute;
