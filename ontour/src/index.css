@@ -689,14 +689,12 @@ select:invalid option:not(:disabled) {
   font-weight: 700;
   font-size: 18px;
   padding-top: 10px;
-  padding-bottom: 10px;
 }
 
 .break-me {
   font-weight: 700;
   font-size: 18px;
   padding-top: 10px;
-  padding-bottom: 10px;
 }
 
 #page .previous {
