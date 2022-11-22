@@ -423,6 +423,10 @@ hr {
   clear: left;
 }
 
+#review hr {
+  margin-top: 20px;
+}
+
 #reviews {
   margin-top: 30px;
   margin-bottom: 20px;
@@ -684,7 +688,7 @@ select:invalid option:not(:disabled) {
 #page .pagination-page {
   font-weight: 700;
   font-size: 18px;
-  padding-top: 2px;
+  padding-top: 20px;
 }
 
 #page .previous {
