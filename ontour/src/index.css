@@ -654,7 +654,7 @@ select:invalid option:not(:disabled) {
 
 #page .item a {
   width: 100%;
-  height: 67%;
+  height: 100%;
 }
 
 #page .disabled-page {
@@ -688,8 +688,8 @@ select:invalid option:not(:disabled) {
 #page .pagination-page {
   font-weight: 700;
   font-size: 18px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 #page .previous {
