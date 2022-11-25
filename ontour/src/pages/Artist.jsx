@@ -254,7 +254,7 @@ function Artist() {
                         <Rating
                               name="text-feedback"
                               value={aggregateRating}
-                              size = "small"
+                              size = "large"
                               readOnly
                               precision={0.1}
                               emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
