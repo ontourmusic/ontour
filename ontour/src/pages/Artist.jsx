@@ -250,6 +250,9 @@ function Artist() {
                 <div id="clear">
                   <div id="reviews-margin" class="row">
                     <div class="col-12 col-sm-9 align-self-center">
+                      <div class="rating fw-bold">
+                        Overall Rating: {aggregateRating.toFixed(1)} out of 5
+                      </div>
                       <div class="rating">
                         <Rating
                               name="text-feedback"
@@ -259,9 +262,6 @@ function Artist() {
                               precision={0.1}
                               emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                         />
-                      </div>
-                      <div class="rating fw-bold">
-                        Overall Rating: {aggregateRating.toFixed(1)} out of 5
                       </div>
                     </div>
 
