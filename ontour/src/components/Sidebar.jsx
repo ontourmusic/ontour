@@ -22,7 +22,7 @@ export default function Sidebar(props)
           </a>
           <div class="row justify-content-center">
             <ExternalLink mediaLink={props.spotify} iconLink="images/spotify_icon.png"/>
-            <ExternalLink mediaLink={props.tickets} iconLink="https://play-lh.googleusercontent.com/1anA3PdRvMigQEkd6aokgtuqHPiZgyfNJWouQ7h2tfaLrzZ48pf7nlvhTa3VsaBjlQAx"/>
+            <ExternalLink mediaLink={props.tickets} iconLink="images/ticketmaster_icon.png"/>
           </div>
           <UpcomingSchedule name={props.name}/>
           {/* <a href="#">
