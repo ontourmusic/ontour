@@ -30,7 +30,7 @@ export default function UpcomingSchedule(props)
                         // Parse event name
                         var nameParse = name.split(" ");
                         for (let j = 0; j < nameParse.length; j++) {
-                            nameParse[j] = nameParse[j].charAt(0).toUpperCase() + nameParse[j].slice(1).toLowerCase;
+                            nameParse[j] = nameParse[j].charAt(0).toUpperCase() + nameParse[j].slice(1).toLowerCase();
                         }
                         var eventName = nameParse.join(" ");
 
