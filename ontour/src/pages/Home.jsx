@@ -7,6 +7,13 @@ import StarIcon from '@mui/icons-material/Star';
 
 function Home() {
   const [artist_name, setName] = useState('')
+  const [billie_eilish, setBillie] = useState(0);
+  const [adele, setAdele] = useState(0);
+  const [the_chainsmokers, setChainsmokers] = useState(0);
+  const [andrea_bocelli, setAndrea] = useState(0);
+  const [yung_gravy, setYung] = useState(0);
+  const [billy_joel, setBilly] = useState(0);
+  const [old_dominion, setOld] = useState(0);
   const [post_malone, setPost] = useState(0);
   const [jack_harlow, setJack] = useState(0);
   const [elton_john, setElton] = useState(0);
@@ -25,7 +32,10 @@ function Home() {
 
   //gets the artist rating data from the database
   const performSearch = async () => {
-    var artists = ["post_malone", "jack_harlow", "elton_john", "harry_styles", "dominic_fike"];
+    var artists = ["billie_eilish", "adele", "the_chainsmokers",
+      "andrea_bocelli", "yung_gravy", "billy_joel",
+      "old_dominion", "post_malone", "jack_harlow", 
+      "elton_john", "harry_styles", "dominic_fike"];
     for (var i = 0; i < 5; i++) {
       try {
         var artistResponse = await fetch(`http://127.0.0.1:8000/search_artist/${artists[i]}`, {mode: 'cors'});
@@ -41,18 +51,39 @@ function Home() {
 
       switch (i) {
         case 0: 
-          setPost(parseReviewData(reviewData));
+          setBillie(parseReviewData(reviewData));
           break;
         case 1: 
-          setJack(parseReviewData(reviewData));
+          setAdele(parseReviewData(reviewData));
           break;
         case 2: 
-          setElton(parseReviewData(reviewData));
+          setChainsmokers(parseReviewData(reviewData));
           break;
         case 3: 
-          setHarry(parseReviewData(reviewData));
+          setAndrea(parseReviewData(reviewData));
           break;
         case 4: 
+          setYung(parseReviewData(reviewData));
+          break;
+        case 5: 
+          setBilly(parseReviewData(reviewData));
+          break;
+        case 6: 
+          setOld(parseReviewData(reviewData));
+          break;
+        case 7: 
+          setPost(parseReviewData(reviewData));
+          break;
+        case 8: 
+          setJack(parseReviewData(reviewData));
+          break;
+        case 9: 
+          setElton(parseReviewData(reviewData));
+          break;
+        case 10: 
+          setHarry(parseReviewData(reviewData));
+          break;
+        case 11: 
           setDominic(parseReviewData(reviewData));
           break;
       }
@@ -101,6 +132,132 @@ function Home() {
                 <div class="col-12 col-sm-9 align-self-center">
                     <h4 class="fw-bold ">Recently Added Artists</h4>
                 </div>
+            </div>
+            <div class="row mb-4">
+              <a href="/artist?artist=billie_eilish">
+                <div class="card bg-dark">
+                    <img src="https://hips.hearstapps.com/hmg-prod/images/billie-eilish-performs-onstage-during-the-62nd-annual-news-photo-1580094746.jpg" class="d-block w-100" alt="..."/>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Billie Eilish</h5>
+                        <Rating
+                          name="text-feedback"
+                          value={billie_eilish}
+                          size = "small"
+                          readOnly
+                          precision={0.1}
+                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                    </div>
+                </div>
+              </a>
+            </div>
+            <div class="row mb-4">
+              <a href="/artist?artist=adele">
+                <div class="card bg-dark">
+                    <img src="https://nypost.com/wp-content/uploads/sites/2/2022/11/adele-089.jpg" class="d-block w-100" alt="..."/>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Adele</h5>
+                        <Rating
+                          name="text-feedback"
+                          value={adele}
+                          size = "small"
+                          readOnly
+                          precision={0.1}
+                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                    </div>
+                </div>
+              </a>
+            </div>
+            <div class="row mb-4">
+              <a href="/artist?artist=the_chainsmokers">
+                <div class="card bg-dark">
+                    <img src="https://www.billboard.com/wp-content/uploads/media/The-chainsmokers-onstage-during-thier-2016-vma-performance-billboard-1548-aa.jpg?w=1024" class="d-block w-100" alt="..."/>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">The Chainsmokers</h5>
+                        <Rating
+                          name="text-feedback"
+                          value={the_chainsmokers}
+                          size = "small"
+                          readOnly
+                          precision={0.1}
+                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                    </div>
+                </div>
+              </a>
+            </div>
+            <div class="row mb-4">
+              <a href="/artist?artist=andrea_bocelli">
+                <div class="card bg-dark">
+                    <img src="https://www.travelandleisure.com/thmb/KJ_1XFYBsdturkAi7rqza1OCf9c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/andrea-bocelli-preforming-BOCELLIXMAS1121-576758e713504afdafbce641b3a64286.jpg" class="d-block w-100" alt="..."/>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Andrea Bocelli</h5>
+                        <Rating
+                          name="text-feedback"
+                          value={andrea_bocelli}
+                          size = "small"
+                          readOnly
+                          precision={0.1}
+                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                    </div>
+                </div>
+              </a>
+            </div>
+            <div class="row mb-4">
+              <a href="/artist?artist=yung_gravy">
+                <div class="card bg-dark">
+                    <img src="https://www.usmagazine.com/wp-content/uploads/2022/08/Yung-Gravys-Past-With-Addison-Raes-Family-Explained-2.jpg?quality=86&strip=all" class="d-block w-100" alt="..."/>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Yung Gravy</h5>
+                        <Rating
+                          name="text-feedback"
+                          value={yung_gravy}
+                          size = "small"
+                          readOnly
+                          precision={0.1}
+                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                    </div>
+                </div>
+              </a>
+            </div>
+            <div class="row mb-4">
+              <a href="/artist?artist=billy_joel">
+                <div class="card bg-dark">
+                    <img src="https://www.billboard.com/wp-content/uploads/media/billy-joel-performance-smile-2014-a-billboard-1548.jpg" class="d-block w-100" alt="..."/>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Billy Joel</h5>
+                        <Rating
+                          name="text-feedback"
+                          value={billy_joel}
+                          size = "small"
+                          readOnly
+                          precision={0.1}
+                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                    </div>
+                </div>
+              </a>
+            </div>
+            <div class="row mb-4">
+              <a href="/artist?artist=old_dominion">
+                <div class="card bg-dark">
+                    <img src="https://www.gannett-cdn.com/presto/2022/06/13/PNAS/afe4fd5b-1f1c-4f90-b68f-be1f156fa003-CMA_Fest_day_3_1693.jpg" class="d-block w-100" alt="..."/>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">Old Dominion</h5>
+                        <Rating
+                          name="text-feedback"
+                          value={old_dominion}
+                          size = "small"
+                          readOnly
+                          precision={0.1}
+                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        />
+                    </div>
+                </div>
+              </a>
             </div>
             <div class="row mb-4">
                 <a href="/artist?artist=post_malone">
@@ -202,6 +359,136 @@ function Home() {
             </div>
             <div class="row mb-5">
                 <div class="col-4">
+                  <a href="/artist?artist=billie_eilish">
+                    <div class="card bg-dark">
+                        <img src="https://hips.hearstapps.com/hmg-prod/images/billie-eilish-performs-onstage-during-the-62nd-annual-news-photo-1580094746.jpg" class="d-block w-100" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Billie Eilish</h5>
+                            <Rating
+                              name="text-feedback"
+                              value={billie_eilish}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
+                        </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4">
+                  <a href="/artist?artist=adele">
+                    <div class="card bg-dark">
+                        <img src="https://nypost.com/wp-content/uploads/sites/2/2022/11/adele-089.jpg" class="d-block w-100" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Adele</h5>
+                            <Rating
+                              name="text-feedback"
+                              value={adele}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
+                        </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4">
+                  <a href="/artist?artist=the_chainsmokers">
+                    <div class="card bg-dark">
+                        <img src="https://www.billboard.com/wp-content/uploads/media/The-chainsmokers-onstage-during-thier-2016-vma-performance-billboard-1548-aa.jpg?w=1024" class="d-block w-100" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">The Chainsmokers</h5>
+                            <Rating
+                              name="text-feedback"
+                              value={the_chainsmokers}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
+                        </div>
+                    </div>
+                  </a>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-4">
+                  <a href="/artist?artist=andrea_bocelli">
+                    <div class="card bg-dark">
+                        <img src="https://www.travelandleisure.com/thmb/KJ_1XFYBsdturkAi7rqza1OCf9c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/andrea-bocelli-preforming-BOCELLIXMAS1121-576758e713504afdafbce641b3a64286.jpg" class="d-block w-100" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Andrea Bocelli</h5>
+                            <Rating
+                              name="text-feedback"
+                              value={andrea_bocelli}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
+                        </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4">
+                  <a href="/artist?artist=yung_gravy">
+                    <div class="card bg-dark">
+                        <img src="https://www.usmagazine.com/wp-content/uploads/2022/08/Yung-Gravys-Past-With-Addison-Raes-Family-Explained-2.jpg?quality=86&strip=all" class="d-block w-100" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Yung Gravy</h5>
+                            <Rating
+                              name="text-feedback"
+                              value={yung_gravy}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
+                        </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4">
+                  <a href="/artist?artist=billy_joel">
+                    <div class="card bg-dark">
+                        <img src="https://www.billboard.com/wp-content/uploads/media/billy-joel-performance-smile-2014-a-billboard-1548.jpg" class="d-block w-100" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Billy Joel</h5>
+                            <Rating
+                              name="text-feedback"
+                              value={billy_joel}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
+                        </div>
+                    </div>
+                  </a>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-4">
+                  <a href="/artist?artist=old_dominion">
+                    <div class="card bg-dark">
+                        <img src="https://www.gannett-cdn.com/presto/2022/06/13/PNAS/afe4fd5b-1f1c-4f90-b68f-be1f156fa003-CMA_Fest_day_3_1693.jpg" class="d-block w-100" alt="..."/>
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">Old Dominion</h5>
+                            <Rating
+                              name="text-feedback"
+                              value={old_dominion}
+                              size = "small"
+                              readOnly
+                              precision={0.1}
+                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                            />
+                        </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-4">
                   <a href="/artist?artist=post_malone">
                     <div class="card bg-dark">
                         <img src="https://www.syracuse.com/resizer/Gho2h8t584_ZoNDxKzM1zOIiVk4=/arc-anglerfish-arc2-prod-advancelocal/public/ZZ2V33SVNREKLF6ROTZJ32GZXI.jpeg" class="d-block w-100" alt="..."/>
@@ -237,6 +524,8 @@ function Home() {
                     </div>
                   </a>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-4">
                   <a href="/artist?artist=elton_john">
                     <div class="card bg-dark">
@@ -255,8 +544,6 @@ function Home() {
                     </div>
                   </a>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-4">
                   <a href="/artist?artist=harry_styles">
                     <div class="card bg-dark">

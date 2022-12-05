@@ -26,6 +26,15 @@ export default function UpcomingSchedule(props)
                         var name = tmEventData._embedded.events[i].name;
                         var date = tmEventData._embedded.events[i].dates.start.localDate;
                         var timezone = tmEventData._embedded.events[i].dates.timezone;
+                        
+                        // Parse event name
+                        var nameParse = name.split(" ");
+                        for (let j = 0; j < nameParse.length; j++) {
+                            nameParse[j] = nameParse[j].charAt(0) + nameParse[j].slice(1).toLowerCase();
+                        }
+                        var eventName = nameParse.join(" ");
+
+                        // Parse time
                         if(!timezone)
                         {
                             timezone = " ";
@@ -44,7 +53,7 @@ export default function UpcomingSchedule(props)
                         time += ':' + minutes;
                         time += (hours >= 12) ? " pm" : " am";
                         const event = {
-                        name: name,
+                        name: eventName,
                         date: date,
                         timezone: timezone,
                         eventId: eventId,
