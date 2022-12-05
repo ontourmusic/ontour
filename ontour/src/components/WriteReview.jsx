@@ -10,6 +10,8 @@ export default function WriteReview(props)
   const [lname, setLname] = useState("");
   const [eventName, setEvent] = useState("");
   const [description, setDescription] = useState("");
+  const [rawMedia, setRawMedia] = useState([]);
+  const [media, setMedia] = useState("");
   const [rating, setRating] = useState("");
   const [date, setDate] = useState("");
   const [artistId, setArtistId] = useState(0);
@@ -29,8 +31,14 @@ export default function WriteReview(props)
       setRating(rating);
     }
     setArtistId(props.artistId);
-    console.log(artistId);
-    console.log(rating);
+    console.log(rawMedia.files[0].name);
+    var fReader = new FileReader();
+    fReader.readAsDataURL(rawMedia.files[0]);
+    fReader.onloadend = function(event){
+      var img = event.target.result;
+      console.log(img);
+      setMedia(img);
+    }
     setDescription(description);
     setCanSubmit(true);
     postData();
@@ -59,7 +67,6 @@ export default function WriteReview(props)
         reviews.push(pastData[i]);
       }
     }
-    console.log(reviews);
     if(reviews.length > 0)
     {
       setReviewsSet(true);
@@ -68,17 +75,18 @@ export default function WriteReview(props)
   }
 
   const postData = async () => {
-    console.log(eventName);
     var eventDate = eventName.split(" • ")[0];
     var event = eventName.split(" • ")[1];
-    console.log(event);
     var first = fname.charAt(0).toUpperCase() + fname.slice(1).toLowerCase();
     var last = lname.charAt(0).toUpperCase() + lname.slice(1).toLowerCase();
     await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${first}&lname=${last}&eventname=${event}&date=${eventDate}`, {method: 'POST', mode: 'cors'});
   }
 
     return (
+      
         <div class="container" id="review">
+          {/* {media && <img src={media} class="d-block w-100" alt="..."/>} */}
+          {/* // <img src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/concert-photography/thumbnail.jpeg" class="d-block w-100" alt="..."/> */}
           <hr></hr>
           <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
           <div id="stars" class="rating">
@@ -135,7 +143,12 @@ export default function WriteReview(props)
             </div>
             <div class="row bottom">
               <div class="col">
-                <textarea class="form-control shadow-none" id="description" rows="3" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea>
+              <input type="file" id="myFile" name="filename" onChange={event => setRawMedia(event.target)}/>
+              </div>
+            </div>
+            <div class="row bottom">
+              <div class="col">
+                <textarea class="form-control shadow-none"  rows="5" cols="100" id="description" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea>
               </div>
             </div>
             <div>
