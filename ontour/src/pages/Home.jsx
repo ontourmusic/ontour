@@ -45,8 +45,7 @@ function Home() {
         var getReviews = await fetch(`http://127.0.0.1:8000/reviews/${artistId}`, {mode: 'cors'});
         var reviewData = await getReviews.json();
       }
-      catch (error){
-        reviewData = 0;
+      catch (error) {
       }
 
       switch (i) {
