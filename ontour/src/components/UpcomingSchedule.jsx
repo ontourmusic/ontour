@@ -17,8 +17,17 @@ export default function UpcomingSchedule(props)
         var tmEventData;
         if(props.name)
         {
-            tmEvents = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${props.name}&sort=date,asc&size=5`);
+            console.log(props.name);
+            var name = props.name;
+            var newname = name.replace(" ", "%20");
+            console.log(newname);
+            var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5&classificationName=music`;
+            url.replace(" ", "%20");
+            console.log(url)
+            tmEvents = await fetch(url);
             tmEventData = await tmEvents.json();
+            console.log("TM EVENT DATA")
+            console.log(tmEventData);
             var events = [];
             if(tmEventData.page.totalElements > 0) {
                 for(let i = 0; i < tmEventData._embedded.events.length; i++){
@@ -46,12 +55,22 @@ export default function UpcomingSchedule(props)
                         var eventId = tmEventData._embedded.events[i].id;
                         var eventURL = tmEventData._embedded.events[i].url;
                         var eventTime = tmEventData._embedded.events[i].dates.start.localTime;
-                        eventTime = eventTime.split(':');
-                        var hours = eventTime[0];
-                        var minutes = eventTime[1];
-                        var time = (hours > 12) ? hours-12 : hours;
-                        time += ':' + minutes;
-                        time += (hours >= 12) ? " pm" : " am";
+                        console.log(eventTime)
+                        var hours;
+                        var minutes
+                        var time;
+                        if(eventTime)
+                        {
+                            eventTime = eventTime.split(':');
+                            hours = eventTime[0];
+                            minutes = eventTime[1];
+                            time = (hours > 12) ? hours-12 : hours;
+                            time += ':' + minutes;
+                            time += (hours >= 12) ? " pm" : " am";
+                        }
+                        else{
+                            time = " ";
+                        }
                         const event = {
                         name: eventName,
                         date: date,

@@ -31,15 +31,18 @@ export default function WriteReview(props)
       setRating(rating);
     }
     setArtistId(props.artistId);
-    console.log(rawMedia.files[0].name);
-    var fReader = new FileReader();
-    fReader.readAsDataURL(rawMedia.files[0]);
-    fReader.onloadend = function(event){
-      var img = event.target.result;
-      console.log(img);
-      setMedia(img);
-    }
-    setDescription(description);
+    
+    // console.log(rawMedia.files[0].name);
+    // var fReader = new FileReader();
+    // fReader.readAsDataURL(rawMedia.files[0]);
+    // fReader.onloadend = function(event){
+    //   var img = event.target.result;
+    //   console.log(img);
+    //   setMedia(img);
+    // }
+    // setDescription(description);
+    console.log("description before submit")
+    console.log(description);
     setCanSubmit(true);
     postData();
     window.location.reload();
@@ -50,8 +53,23 @@ export default function WriteReview(props)
   }, []);
 
   const GetPastReviews = async () => {
-    const pastReviews = await fetch(`https://rest.bandsintown.com/artists/${props.name}/events?app_id=dce6df6b60d8613b98183dd0b3ac36a3&date=past`, {mode: 'cors'});
+    console.log(props.name)
+    var adele = " ";
+    var url = " ";
+    if(props.name.includes("Adele"))
+    {
+      adele = "Adele";
+      url = `https://rest.bandsintown.com/artists/Adele/events?app_id=dce6df6b60d8613b98183dd0b3ac36a3&date=past`;
+    }
+    else{
+      var name = props.name.replace(" ", "%20");
+      url =  `https://rest.bandsintown.com/artists/${name}/events?app_id=dce6df6b60d8613b98183dd0b3ac36a3&date=past`;
+    }
+
+    console.log(url);
+    const pastReviews = await fetch(url);
     const pastData = await pastReviews.json();
+    console.log(pastData);
     pastData.reverse();
     for(var i = 0; i < 10; i++)
     {
@@ -80,6 +98,13 @@ export default function WriteReview(props)
     var first = fname.charAt(0).toUpperCase() + fname.slice(1).toLowerCase();
     var last = lname.charAt(0).toUpperCase() + lname.slice(1).toLowerCase();
     await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${description}&fname=${first}&lname=${last}&eventname=${event}&date=${eventDate}`, {method: 'POST', mode: 'cors'});
+  }
+
+  const HandleDescription = event => {
+    var word = event.target.value;
+    word.replace(/\n\r?/g, '<br />');
+    console.log(word)
+    setDescription(word);
   }
 
     return (
@@ -148,7 +173,8 @@ export default function WriteReview(props)
             </div>
             <div class="row bottom">
               <div class="col">
-                <textarea class="form-control shadow-none"  rows="5" cols="100" id="description" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea>
+                {/* <textarea class="form-control shadow-none" style={{whiteSpace: "pre-wrap"}}  rows="5" cols="100" id="description" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea> */}
+                <textarea class="form-control shadow-none" style={{whiteSpace: "pre-wrap"}}  rows="5" cols="100" id="description" maxLength={5000} onChange={HandleDescription} value ={description} placeholder="How was your experience?" required></textarea>
               </div>
             </div>
             <div>
