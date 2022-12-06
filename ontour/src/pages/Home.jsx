@@ -36,7 +36,7 @@ function Home() {
       "andrea_bocelli", "yung_gravy", "billy_joel",
       "old_dominion", "post_malone", "jack_harlow", 
       "elton_john", "harry_styles", "dominic_fike"];
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 11; i++) {
       try {
         var artistResponse = await fetch(`http://127.0.0.1:8000/search_artist/${artists[i]}`, {mode: 'cors'});
         var artistData = await artistResponse.json();
