@@ -117,7 +117,7 @@ export default function WriteReview(props)
           <hr></hr>
           <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
           <div class="rating row">
-            <div id="stars" class="col-3">
+            <div class="col-3">
               <Rating name="rating" size="large"required defaultValue={0} precision={1} onChange={(event, newValue) => {setRating(newValue);}} />
             </div>
             <div class="col-9 no-text-align file">

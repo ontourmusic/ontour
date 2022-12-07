@@ -241,10 +241,6 @@ h4 {
   float: none;
 }
 
-#stars {
-  padding-top: 5px;
-}
-
 #rating-text {
   font-size: 15px;
 }
@@ -438,7 +434,7 @@ hr {
 
 #write-review {
   margin-top: 30px;
-  margin-bottom: 10px !important; 
+  margin-bottom: 15px !important; 
 }
 
 #write-a-review {
