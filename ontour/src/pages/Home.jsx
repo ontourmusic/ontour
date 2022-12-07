@@ -351,6 +351,7 @@ function Home() {
             </div> 
           </div>
 
+          {/* Web */}
           <div class="d-none d-sm-block">
             <div id="gallery" class="row">
                 <div class="col-12 col-sm-9 align-self-center">

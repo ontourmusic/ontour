@@ -116,8 +116,23 @@ export default function WriteReview(props)
           {/* // <img src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/concert-photography/thumbnail.jpeg" class="d-block w-100" alt="..."/> */}
           <hr></hr>
           <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
-          <div id="stars" class="rating">
-            <Rating name="rating" size="large"required defaultValue={0} precision={1} onChange={(event, newValue) => {setRating(newValue);}} />
+          <div class="rating row">
+            <div id="stars" class="col-3">
+              <Rating name="rating" size="large"required defaultValue={0} precision={1} onChange={(event, newValue) => {setRating(newValue);}} />
+            </div>
+            <div class="col-9 no-text-align file">
+                <input type="file" id="myFile" class="hidden" name="filename" onChange={event => setRawMedia(event.target)}/>
+                <label for="myFile" id="photobutton" class="btn btn-outline-light fw-bold align-self-center">
+                  <div class="row">
+                      <div class="col-lg-3">
+                          <img id="camera-icon" src="../../images/camera.png" alt=""></img>
+                      </div>
+                      <div id="add-photo" class="d-none d-lg-block col-lg-9">
+                          Add Media
+                      </div>
+                  </div>
+                </label>
+            </div>
           </div>
           <form id="clear" onSubmit={handleWriteReview}>
             <div class="row top">
@@ -166,11 +181,6 @@ export default function WriteReview(props)
                     {reviews[9].datetime} • {reviews[9].venue.name} 
                   </option>
                 </Form.Select> </>}
-              </div>
-            </div>
-            <div class="row bottom">
-              <div class="col">
-              <input type="file" id="myFile" name="filename" onChange={event => setRawMedia(event.target)}/>
               </div>
             </div>
             <div class="row bottom">

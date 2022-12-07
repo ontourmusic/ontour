@@ -37,7 +37,7 @@ export default function Carousel(props)
                                 <img id="camera-icon" src="../../images/camera.png" alt=""></img>
                             </div>
                             <div id="add-photo" class="d-none d-lg-block col-lg-9">
-                                Add Photo
+                                Add Media
                             </div>
                         </div>
                     </button>
