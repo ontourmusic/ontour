@@ -7,8 +7,8 @@ import {useState} from 'react';
 export default function Review(props)
 {
     const [isActive, setIsActive] = useState(true);
-    console.log(props.rating);
-    console.log(props.user);
+    console.log(decodeURIComponent(props.text));
+    
     const handleHelpful = event => {
         event.currentTarget.classList.toggle('fw-bold');
         event.currentTarget.classList.toggle('btn-outline-light');
@@ -48,7 +48,7 @@ export default function Review(props)
                 </div>
             </div>
             <div class="d-flex w-100 justify-content-start">
-                <p id="rating-text" class="mb-2" align = "left">{props.text}</p>
+                <p id="rating-text" style={{whiteSpace: "pre"}} class="mb-2" align = "left">{decodeURIComponent(props.text)}</p>
             </div>
             <div class="d-flex w-100 justify-content-start pb-1">
                 <button onClick={handleHelpful} style={{backgroundColor: isActive? '' : '#e7e8e8'}} id="helpful-button" type="button" class="btn btn-outline-light align-self-center">
