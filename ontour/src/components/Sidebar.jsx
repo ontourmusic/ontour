@@ -8,7 +8,7 @@ export default function Sidebar(props)
   // console.log(props.spotify);
     return(
         <div class="sidebar d-none d-sm-block">
-          <a href="#rate">
+          <a href="#review">
             <button id="writebutton" type="button" class="btn btn-dark fw-bold">
               <div class="row">
                 <div class="col-md-3">

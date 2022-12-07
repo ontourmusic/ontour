@@ -284,7 +284,6 @@ function Artist() {
                     })} */}
                     <PaginatedItems itemsPerPage={10} />
                   </div>
-                  <div id="rate"></div>
                 </div>
                 }
               </div>
