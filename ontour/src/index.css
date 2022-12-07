@@ -98,14 +98,8 @@ h4 {
     margin-top: 40px !important;
   }
 
-  #write-review {
-    margin-bottom: 0px !important;
-  }
-
   .file {
     padding-top: 3px;
-    padding-bottom: 0px !important;
-    margin-bottom: 20px !important;
   }
 }
 
@@ -235,10 +229,16 @@ h4 {
 }
 
 /* Rating */
-
 .rating {
+  display: flex;
   clear: left;
+  float: left;
   font-size: 18px;
+}
+
+#review .rating {
+  margin-bottom: 15px;
+  float: none;
 }
 
 #stars {
@@ -712,8 +712,4 @@ select:invalid option:not(:disabled) {
 
 .hidden {
   display: none;
-}
-
-.file {
-  padding-bottom: 25px;
 }
