@@ -237,7 +237,7 @@ h4 {
 }
 
 #review .rating {
-  margin-bottom: 15px;
+  margin-bottom: 13px;
   float: none;
 }
 
@@ -434,7 +434,7 @@ hr {
 
 #write-review {
   margin-top: 30px;
-  margin-bottom: 15px !important; 
+  margin-bottom: 10px !important; 
 }
 
 #write-a-review {
@@ -708,4 +708,8 @@ select:invalid option:not(:disabled) {
 
 .hidden {
   display: none;
+}
+
+#stars {
+  padding-top: 5px;
 }
