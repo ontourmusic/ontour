@@ -36,7 +36,7 @@ function Home() {
       "andrea_bocelli", "yung_gravy", "billy_joel",
       "old_dominion", "post_malone", "jack_harlow", 
       "elton_john", "harry_styles", "dominic_fike"];
-    for (var i = 0; i < 11; i++) {
+    for (var i = 0; i < 12; i++) {
       try {
         var artistResponse = await fetch(`http://127.0.0.1:8000/search_artist/${artists[i]}`, {mode: 'cors'});
         var artistData = await artistResponse.json();
@@ -351,6 +351,7 @@ function Home() {
             </div> 
           </div>
 
+          {/* Web */}
           <div class="d-none d-sm-block">
             <div id="gallery" class="row">
                 <div class="col-12 col-sm-9 align-self-center">

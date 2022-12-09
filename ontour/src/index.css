@@ -97,6 +97,10 @@ h4 {
   #homepage #gallery {
     margin-top: 40px !important;
   }
+
+  .file {
+    padding-top: 3px;
+  }
 }
 
 /* Schedule */
@@ -225,7 +229,6 @@ h4 {
 }
 
 /* Rating */
-
 .rating {
   display: flex;
   clear: left;
@@ -233,9 +236,9 @@ h4 {
   font-size: 18px;
 }
 
-#stars {
-  margin-top: 15px;
-  margin-bottom: 15px;
+#review .rating {
+  margin-bottom: 13px;
+  float: none;
 }
 
 #rating-text {
@@ -249,10 +252,6 @@ h4 {
 
 .dropdown .form-select {
   font-weight: bold;
-}
-
-#review .top{
-  padding-top: 5px;
 }
 
 #review .bottom{
@@ -435,6 +434,7 @@ hr {
 
 #write-review {
   margin-top: 30px;
+  margin-bottom: 10px !important; 
 }
 
 #write-a-review {
@@ -704,4 +704,12 @@ select:invalid option:not(:disabled) {
   position: absolute;
   left: 0;
   margin-left: 250px;
+}
+
+.hidden {
+  display: none;
+}
+
+#stars {
+  padding-top: 5px;
 }
