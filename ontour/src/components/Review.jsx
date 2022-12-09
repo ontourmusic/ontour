@@ -48,7 +48,7 @@ export default function Review(props)
                 </div>
             </div>
             <div class="d-flex w-100 justify-content-start">
-                <p id="rating-text" style={{whiteSpace: "pre"}} class="mb-2" align = "left">{decodeURIComponent(props.text)}</p>
+                <p id="rating-text" style={{whiteSpace: "pre-wrap"}} class="mb-2" align = "left">{decodeURIComponent(props.text)}</p>
             </div>
             <div class="d-flex w-100 justify-content-start pb-1">
                 <button onClick={handleHelpful} style={{backgroundColor: isActive? '' : '#e7e8e8'}} id="helpful-button" type="button" class="btn btn-outline-light align-self-center">
