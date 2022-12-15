@@ -43,7 +43,7 @@ export default function WriteReview(props)
     // setDescription(description);
     setCanSubmit(true);
     postData();
-    // window.location.reload();
+    window.location.reload();
   }
 
   useEffect(() => {
