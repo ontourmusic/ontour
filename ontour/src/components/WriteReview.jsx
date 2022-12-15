@@ -32,7 +32,7 @@ export default function WriteReview(props)
     }
     setArtistId(props.artistId);
     
-    // console.log(rawMedia.files[0].name);
+    // f.log(rawMedia.files[0].name);
     // var fReader = new FileReader();
     // fReader.readAsDataURL(rawMedia.files[0]);
     // fReader.onloadend = function(event){
@@ -41,11 +41,9 @@ export default function WriteReview(props)
     //   setMedia(img);
     // }
     // setDescription(description);
-    console.log("description before submit")
-    console.log(description);
     setCanSubmit(true);
     postData();
-    window.location.reload();
+    // window.location.reload();
   }
 
   useEffect(() => {
@@ -53,7 +51,6 @@ export default function WriteReview(props)
   }, []);
 
   const GetPastReviews = async () => {
-    console.log(props.name)
     var adele = " ";
     var url = " ";
     if(props.name.includes("Adele"))
@@ -66,10 +63,8 @@ export default function WriteReview(props)
       url =  `https://rest.bandsintown.com/artists/${name}/events?app_id=dce6df6b60d8613b98183dd0b3ac36a3&date=past`;
     }
 
-    console.log(url);
     const pastReviews = await fetch(url);
     const pastData = await pastReviews.json();
-    console.log(pastData);
     pastData.reverse();
     for(var i = 0; i < 10; i++)
     {
@@ -98,14 +93,12 @@ export default function WriteReview(props)
     var first = fname.charAt(0).toUpperCase() + fname.slice(1).toLowerCase();
     var last = lname.charAt(0).toUpperCase() + lname.slice(1).toLowerCase();
     var encodedDescription = encodeURIComponent(description);
-    console.log("encoded description: " + encodedDescription);
     await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${encodedDescription}&fname=${first}&lname=${last}&eventname=${event}&date=${eventDate}`, {method: 'POST', mode: 'cors'});
   }
 
   const HandleDescription = event => {
     var word = event.target.value;
     word.replace(/\n\r?/g, '<br />');
-    console.log(word)
     setDescription(word);
   }
 
