@@ -3,14 +3,88 @@ import '../index.css';
 import Show from "./Show";
 import {useState, useEffect} from "react";
 
+class UpcomingEvent {
+    constructor(name, date, eventId, eventURL, timezone, eventTime) {
+        this.name = name;
+        this.date = date;
+        this.eventId = eventId;
+        this.eventURL = eventURL;
+        this.eventTime = eventTime;
+    }
+}
+
+function parseDate(date){
+    const[year, month, day] = date.split("-");
+    const newData = new Date(+year, month - 1, +day);
+    var weekday = newData.toString().split(" ")[0];
+    var monthStr = newData.toString().split(" ")[1];
+    var dayStr = newData.toString().split(" ")[2];
+    
+    if(dayStr.charAt(0) == '0') {
+        dayStr = dayStr.slice(1);
+    }
+
+    var fullDate = weekday + ", " + monthStr + " " + dayStr;
+    return fullDate;
+}
+
+function parseName(name){
+    var nameParse = name.split(" ");
+    for (let j = 0; j < nameParse.length; j++) {
+        nameParse[j] = nameParse[j].charAt(0) + nameParse[j].slice(1).toLowerCase();
+    }
+    var eventName = nameParse.join(" ");
+    return eventName;
+}
+
+function parseTime(eventTime){
+    var hours;
+    var minutes
+    var time;
+    if(eventTime)
+    {
+        eventTime = eventTime.split(':');
+        hours = eventTime[0];
+        minutes = eventTime[1];
+        time = (hours > 12) ? hours-12 : hours;
+        time += ':' + minutes;
+        time += (hours >= 12) ? " pm" : " am";
+    }
+    else{
+        time = " ";
+    }
+    return time;
+}
+
+function parseTimezone(timezone){
+    if(!timezone)
+    {
+        timezone = " ";
+    }
+    else {
+        timezone = timezone.split('/')[1];
+        timezone = timezone.replace('_', ' ');
+    }
+    return timezone;
+}
+
+function createEvent(eventInfo){
+    var name = eventInfo.name;
+    var date = eventInfo.dates.start.localDate;
+    var fullDate = parseDate(date);
+    var timezone = parseTimezone(eventInfo.dates.timezone);
+    var eventId = eventInfo.id;
+    var eventURL = eventInfo.url;
+    var eventName = parseName(name);
+    var time = parseTime(eventInfo.dates.start.localTime);
+
+    var event = new UpcomingEvent(eventName, fullDate, timezone, eventId, eventURL, time);
+    return event;
+}
+
 export default function UpcomingSchedule(props)
 {
-    const [eventArray, setEventArray] = useState([{name: "Loading...", date: "Loading...", eventId: "Loading...", eventURL: "Loading...", timezone: "Loading...", eventTime: "Loading..."},
-    {name: "Loading...", date: "Loading...", eventId: "Loading...", eventURL: "Loading...", timezone: "Loading...", eventTime: "Loading..."},
-    {name: "Loading...", date: "Loading...", eventId: "Loading...", eventURL: "Loading...", timezone: "Loading...", eventTime: "Loading..."},
-    {name: "Loading...", date: "Loading...", eventId: "Loading...", eventURL: "Loading...", timezone: "Loading...", eventTime: "Loading..."},
-    {name: "Loading...", date: "Loading...", eventId: "Loading...", eventURL: "Loading...", timezone: "Loading...", eventTime: "Loading..."}]);
-    const [dates, setDates] = useState([]);
+    const [eventArray, setEventArray] = useState([]);
     const performSearch = async () => {
         var tmEvents;
         var tmEventData;
@@ -26,70 +100,11 @@ export default function UpcomingSchedule(props)
             if(tmEventData.page.totalElements > 0) {
                 for(let i = 0; i < tmEventData._embedded.events.length; i++){
                     if(events.length < 5){
-                        var name = tmEventData._embedded.events[i].name;
-                        var date = tmEventData._embedded.events[i].dates.start.localDate;
-                        var timezone = tmEventData._embedded.events[i].dates.timezone;
-                        
-                        // Parse event name
-                        var nameParse = name.split(" ");
-                        for (let j = 0; j < nameParse.length; j++) {
-                            nameParse[j] = nameParse[j].charAt(0) + nameParse[j].slice(1).toLowerCase();
-                        }
-                        var eventName = nameParse.join(" ");
-
-                        // Parse time
-                        if(!timezone)
-                        {
-                            timezone = " ";
-                        }
-                        else {
-                            timezone = timezone.split('/')[1];
-                            timezone = timezone.replace('_', ' ');
-                        }
-                        var eventId = tmEventData._embedded.events[i].id;
-                        var eventURL = tmEventData._embedded.events[i].url;
-                        var eventTime = tmEventData._embedded.events[i].dates.start.localTime;
-                        var hours;
-                        var minutes
-                        var time;
-                        if(eventTime)
-                        {
-                            eventTime = eventTime.split(':');
-                            hours = eventTime[0];
-                            minutes = eventTime[1];
-                            time = (hours > 12) ? hours-12 : hours;
-                            time += ':' + minutes;
-                            time += (hours >= 12) ? " pm" : " am";
-                        }
-                        else{
-                            time = " ";
-                        }
-                        const event = {
-                        name: eventName,
-                        date: date,
-                        timezone: timezone,
-                        eventId: eventId,
-                        eventURL: eventURL,
-                        eventTime: time
-                        }
+                        var event = createEvent(tmEventData._embedded.events[i]);
                         events.push(event);
                     }
                 }
-                for(let i = 0; i < events.length; i++){
-                    eventArray[i] = events[i];
-                    const[year, month, day] = events[i].date.split("-");
-                    const newData = new Date(+year, month - 1, +day);
-                    var weekday = newData.toString().split(" ")[0];
-                    var monthStr = newData.toString().split(" ")[1];
-                    var dayStr = newData.toString().split(" ")[2];
-                    
-                    if(dayStr.charAt(0) == '0') {
-                        dayStr = dayStr.slice(1);
-                    }
-
-                    var fullDate = weekday + ", " + monthStr + " " + dayStr;
-                    dates[i] = fullDate;
-                }
+                setEventArray(events);
             }
         }
     
@@ -106,14 +121,13 @@ export default function UpcomingSchedule(props)
                 <h4 id="upcoming-shows" class="fw-bold d-block d-sm-none">Shows</h4>
             </div>
 
-            {eventArray[0].name != "Loading..."
+            {eventArray.length > 0
             ?
             <div id="upcoming-list">
 
                 {eventArray.map((item, index)=>{
-                        if(item.name != "Loading...")
                         return <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
-                            <Show time = {eventArray[index].eventTime} date={dates[index]} event={eventArray[index].name} location={eventArray[index].timezone}/>
+                            <Show time = {eventArray[index].eventTime} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone}/>
                         </a>
                     })
                 }
