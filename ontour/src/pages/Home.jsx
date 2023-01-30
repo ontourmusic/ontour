@@ -1,9 +1,11 @@
 import React from "react";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
+import HomePageArtist from "../components/HomePageArtist";
 import Navigation from "../Navigation";
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+
 
 function Home() {
   const [artist_name, setName] = useState('')
@@ -313,228 +315,24 @@ function Home() {
                 </div>
             </div>
             <div class="row mb-5">
-              <div class="col-4">
-                  <a href="/artist?artist=adele">
-                    <div class="card bg-light">
-                        <img src="https://nypost.com/wp-content/uploads/sites/2/2022/11/adele-089.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold" style={{color: 'black'}}>Adele</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["adele"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/artist?artist=andrea_bocelli">
-                    <div class="card bg-light">
-                        <img src="https://www.travelandleisure.com/thmb/KJ_1XFYBsdturkAi7rqza1OCf9c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/andrea-bocelli-preforming-BOCELLIXMAS1121-576758e713504afdafbce641b3a64286.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold" style={{color: 'black'}}>Andrea Bocelli</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["andrea_bocelli"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/artist?artist=billie_eilish">
-                    <div class="card bg-light">
-                        <img src="https://hips.hearstapps.com/hmg-prod/images/billie-eilish-performs-onstage-during-the-62nd-annual-news-photo-1580094746.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold" style={{color: 'black'}}>Billie Eilish</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["billie_eilish"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
+                <HomePageArtist artist="adele" rating={ratings["adele"]}></HomePageArtist>
+                <HomePageArtist artist="andrea_bocelli" rating={ratings["andrea_bocelli"]}></HomePageArtist>
+                <HomePageArtist artist="billie_eilish" rating={ratings["billie_eilish"]}></HomePageArtist>
             </div>
             <div class="row mb-5">
-                <div class="col-4">
-                  <a href="/artist?artist=billy_joel">
-                    <div class="card bg-dark">
-                        <img src="https://www.billboard.com/wp-content/uploads/media/billy-joel-performance-smile-2014-a-billboard-1548.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Billy Joel</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["billy_joel"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/artist?artist=the_chainsmokers">
-                    <div class="card bg-dark">
-                        <img src="https://static.onecms.io/wp-content/uploads/sites/6/2017/03/gettyimages-657906732-2000.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">The Chainsmokers</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["the_chainsmokers"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/artist?artist=dominic_fike">
-                    <div class="card bg-dark">
-                        <img src="https://headlineplanet.com/home/wp-content/uploads/2022/02/Dominic-Fike-on-Fallon-4.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Dominic Fike</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["dominic_fike"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
+                <HomePageArtist artist="billy_joel" rating={ratings["billy_joel"]}></HomePageArtist>
+                <HomePageArtist artist="the_chainsmokers" rating={ratings["the_chainsmokers"]}></HomePageArtist>
+                <HomePageArtist artist="dominic_fike" rating={ratings["dominic_fike"]}></HomePageArtist>
             </div>
             <div class="row mb-5">
-                <div class="col-4">
-                  <a href="/artist?artist=elton_john">
-                    <div class="card bg-dark">
-                        <img src="https://www.99images.com/download-image/933920/1920x1280" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Elton John</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["elton_john"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/artist?artist=harry_styles">
-                    <div class="card bg-dark">
-                        <img src="https://www.billboard.com/wp-content/uploads/2021/12/harry-styles-2021-billboard-1548.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Harry Styles</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["harry_styles"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/artist?artist=jack_harlow">
-                    <div class="card bg-dark">
-                        <img src="https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/jack-harlow-superbowl-citi-concert--inline2-jp-081222-08aa15.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Jack Harlow</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["jack_harlow"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
+                <HomePageArtist artist="elton_john" rating={ratings["elton_john"]}></HomePageArtist>
+                <HomePageArtist artist="harry_styles" rating={ratings["harry_styles"]}></HomePageArtist>
+                <HomePageArtist artist="jack_harlow" rating={ratings["jack_harlow"]}></HomePageArtist>
             </div>
             <div class="row">
-                <div class="col-4">
-                  <a href="/artist?artist=old_dominion">
-                    <div class="card bg-dark">
-                        <img src="https://www.gannett-cdn.com/presto/2022/06/13/PNAS/afe4fd5b-1f1c-4f90-b68f-be1f156fa003-CMA_Fest_day_3_1693.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Old Dominion</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["old_dominion"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/artist?artist=post_malone">
-                    <div class="card bg-dark">
-                        <img src="https://www.syracuse.com/resizer/Gho2h8t584_ZoNDxKzM1zOIiVk4=/arc-anglerfish-arc2-prod-advancelocal/public/ZZ2V33SVNREKLF6ROTZJ32GZXI.jpeg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Post Malone</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["post_malone"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
-                <div class="col-4">
-                  <a href="/artist?artist=yung_gravy">
-                    <div class="card bg-dark">
-                        <img src="https://www.party-guru.com/wp-content/uploads/2022/01/8R6A5144-scaled.jpg" class="d-block w-100" alt="..."/>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Yung Gravy</h5>
-                            <Rating
-                              name="text-feedback"
-                              value={ratings["yung_gravy"] || 0}
-                              size = "small"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                            />
-                        </div>
-                    </div>
-                  </a>
-                </div>
+                <HomePageArtist artist="old_dominion" rating={ratings["old_dominion"]}></HomePageArtist>
+                <HomePageArtist artist="post_malone" rating={ratings["post_malone"]}></HomePageArtist>
+                <HomePageArtist artist="yung_gravy" rating={ratings["yung_gravy"]}></HomePageArtist>
             </div>
           </div> 
         </div>
