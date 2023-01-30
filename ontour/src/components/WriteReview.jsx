@@ -115,12 +115,9 @@ export default function WriteReview(props) {
     setUnparsedName(name);
     var first = "";
     var last = "";
-
-    // if name includes a space
     if (name) {
       if (name.includes(" ")) {
         var nameArray = name.split(" ");
-        // loop through array
         for (var i = 0; i < nameArray.length - 1; i++) {
           if (first === "") first = nameArray[i];
           else first += " " + nameArray[i];
@@ -130,16 +127,11 @@ export default function WriteReview(props) {
       else {
         first = name;
       }
-
     }
-    // console.log(`first: ${first} last: ${last}`);
-    // setFname(first);
-    // setLname(last);
     setParsedName([first, last])
   }
 
   return (
-
     <div class="container" id="review">
       {/* {media && <img src={media} class="d-block w-100" alt="..."/>} */}
       {/* // <img src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/concert-photography/thumbnail.jpeg" class="d-block w-100" alt="..."/> */}
@@ -155,9 +147,6 @@ export default function WriteReview(props) {
           <div class="col">
             <input type="text" class="form-control shadow-none" onChange={handleNameChange} value={unparsedName} placeholder="Name" required />
           </div>
-          {/* <div class="col">
-                <input type="text" class="form-control shadow-none" onChange={event => setLname(event.target.value)} value ={lname} placeholder="Last name" required/>
-              </div>  */}
         </div>
         <div class="row bottom">
           <div class="col">
