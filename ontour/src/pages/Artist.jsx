@@ -16,6 +16,7 @@ import Form from 'react-bootstrap/Form';
 import ReactPaginate from 'react-paginate';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useSlotProps } from "@mui/base";
 
 function Artist() {
 
@@ -34,6 +35,7 @@ function Artist() {
   const [allReviews, setAllReviews] = useState([]);
   const [artistIdNumber, setArtistIdNumber] = useState(0);
   const [aggregateRating, setAggregateRating] = useState(0);
+  const [totalReviews, setTotalReviews] = useState(0);
   const [artistImage, setArtistImage] = useState("");
   const [spotifyLink, setSpotifyLink] = useState("");
   const [ticketLink, setTicketLink] = useState("");
@@ -46,8 +48,6 @@ function Artist() {
     console.log('IN EHREHREHREH');
     console.log(artistName);
     const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, {mode: 'cors'});
-
-    // const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, {mode: 'cors'});
     const artistData = await artistResponse.json();
     console.log(artistData);
     setFullName(artistData[0].fname + " " + artistData[0].lname);
@@ -58,7 +58,6 @@ function Artist() {
     const imageGallery = artistData[0].images;
     setImageArray(imageGallery);
 
-    // const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
     const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
     const reviewData = await getReviews.json();
     console.log(reviewData);
@@ -101,6 +100,7 @@ function Artist() {
     }
     cumulativeRating = cumulativeRating / reviewData.length;
     setAggregateRating(cumulativeRating);
+    setTotalReviews(reviewData.length);
     return reviewsArray;
   }
 
@@ -216,7 +216,7 @@ function Artist() {
         <ArtistNavigation/>
         <div className="artist" >
           <aside>
-            <ArtistHeader name={fullName} rating={aggregateRating} image={artistImage}/>
+            <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage}/>
             <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink}/>
 
             <div id="no-sidebar-sm" class="no-sidebar">
@@ -245,7 +245,7 @@ function Artist() {
               
               <div class="container">
                 <hr></hr>
-                <h4 id="reviews" class="fw-bold">Reviews</h4>
+                <h4 id="reviews" class="fw-bold">Reviews ({totalReviews})</h4>
                 {allReviews.length > 0 &&
                 <div id="clear">
                   <div id="reviews-margin" class="row">

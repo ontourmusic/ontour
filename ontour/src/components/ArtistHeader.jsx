@@ -46,6 +46,7 @@ function ArtistHeader(props)
                         precision={0.1}
                         emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                     />
+                    <h1 class="fw-bold" style={{paddingTop: "6px"}}>({props.total})</h1>
                 </div>
                 {/* <p style={{ marginLeft: 15}}>14 reviews</p> */}
             </div>

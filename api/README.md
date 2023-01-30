@@ -13,7 +13,6 @@
 11. run the app using 'python3 -m uvicorn main:app --reload
 12. in web browser, go to '127.0.0.1:8000/api/docs
 
-
 ### Creating a new Table
 
 1. Edit models.py

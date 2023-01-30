@@ -157,14 +157,14 @@ function Home() {
                     <img src="https://www.travelandleisure.com/thmb/KJ_1XFYBsdturkAi7rqza1OCf9c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/andrea-bocelli-preforming-BOCELLIXMAS1121-576758e713504afdafbce641b3a64286.jpg" class="d-block w-100" alt="..."/>
                     <div class="card-body">
                         <h5 class="card-title fw-bold">Andrea Bocelli</h5>
-                        <Rating
-                          name="text-feedback"
-                          value={andrea_bocelli}
-                          size = "small"
-                          readOnly
-                          precision={0.1}
-                          emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                        />
+                          <Rating
+                            name="text-feedback"
+                            value={andrea_bocelli}
+                            size = "small"
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                          />
                     </div>
                 </div>
               </a>
@@ -361,10 +361,10 @@ function Home() {
             <div class="row mb-5">
               <div class="col-4">
                   <a href="/artist?artist=adele">
-                    <div class="card bg-dark">
+                    <div class="card bg-light">
                         <img src="https://nypost.com/wp-content/uploads/sites/2/2022/11/adele-089.jpg" class="d-block w-100" alt="..."/>
                         <div class="card-body">
-                            <h5 class="card-title fw-bold">Adele</h5>
+                            <h5 class="card-title fw-bold" style={{color: 'black'}}>Adele</h5>
                             <Rating
                               name="text-feedback"
                               value={adele}
@@ -379,10 +379,10 @@ function Home() {
                 </div>
                 <div class="col-4">
                   <a href="/artist?artist=andrea_bocelli">
-                    <div class="card bg-dark">
+                    <div class="card bg-light">
                         <img src="https://www.travelandleisure.com/thmb/KJ_1XFYBsdturkAi7rqza1OCf9c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/andrea-bocelli-preforming-BOCELLIXMAS1121-576758e713504afdafbce641b3a64286.jpg" class="d-block w-100" alt="..."/>
                         <div class="card-body">
-                            <h5 class="card-title fw-bold">Andrea Bocelli</h5>
+                            <h5 class="card-title fw-bold" style={{color: 'black'}}>Andrea Bocelli</h5>
                             <Rating
                               name="text-feedback"
                               value={andrea_bocelli}
@@ -397,10 +397,10 @@ function Home() {
                 </div>
                 <div class="col-4">
                   <a href="/artist?artist=billie_eilish">
-                    <div class="card bg-dark">
+                    <div class="card bg-light">
                         <img src="https://hips.hearstapps.com/hmg-prod/images/billie-eilish-performs-onstage-during-the-62nd-annual-news-photo-1580094746.jpg" class="d-block w-100" alt="..."/>
                         <div class="card-body">
-                            <h5 class="card-title fw-bold">Billie Eilish</h5>
+                            <h5 class="card-title fw-bold" style={{color: 'black'}}>Billie Eilish</h5>
                             <Rating
                               name="text-feedback"
                               value={billie_eilish}
