@@ -7,18 +7,7 @@ import StarIcon from '@mui/icons-material/Star';
 
 function Home() {
   const [artist_name, setName] = useState('')
-  const [billie_eilish, setBillie] = useState(0);
-  const [adele, setAdele] = useState(0);
-  const [the_chainsmokers, setChainsmokers] = useState(0);
-  const [andrea_bocelli, setAndrea] = useState(0);
-  const [yung_gravy, setYung] = useState(0);
-  const [billy_joel, setBilly] = useState(0);
-  const [old_dominion, setOld] = useState(0);
-  const [post_malone, setPost] = useState(0);
-  const [jack_harlow, setJack] = useState(0);
-  const [elton_john, setElton] = useState(0);
-  const [harry_styles, setHarry] = useState(0);
-  const [dominic_fike, setDominic] = useState(0);
+  const [ratings, setRatings] = useState({});
 
   const navigate = useNavigate(); 
   const routeChange = (artist) =>{ 
@@ -36,11 +25,11 @@ function Home() {
       "andrea_bocelli", "yung_gravy", "billy_joel",
       "old_dominion", "post_malone", "jack_harlow", 
       "elton_john", "harry_styles", "dominic_fike"];
+    var starsResults = {};
     for (var i = 0; i < 12; i++) {
       try {
         var artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artists[i]}`, {mode: 'cors'});
         var artistData = await artistResponse.json();
-        console.log(artistData);
         var artistId = artistData[0].artist_id;
         var getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
         var reviewData = await getReviews.json();
@@ -48,46 +37,11 @@ function Home() {
       catch (error){
         reviewData = 0;
       }
-
-      switch (i) {
-        case 0: 
-          setBillie(parseReviewData(reviewData));
-          break;
-        case 1: 
-          setAdele(parseReviewData(reviewData));
-          break;
-        case 2: 
-          setChainsmokers(parseReviewData(reviewData));
-          break;
-        case 3: 
-          setAndrea(parseReviewData(reviewData));
-          break;
-        case 4: 
-          setYung(parseReviewData(reviewData));
-          break;
-        case 5: 
-          setBilly(parseReviewData(reviewData));
-          break;
-        case 6: 
-          setOld(parseReviewData(reviewData));
-          break;
-        case 7: 
-          setPost(parseReviewData(reviewData));
-          break;
-        case 8: 
-          setJack(parseReviewData(reviewData));
-          break;
-        case 9: 
-          setElton(parseReviewData(reviewData));
-          break;
-        case 10: 
-          setHarry(parseReviewData(reviewData));
-          break;
-        case 11: 
-          setDominic(parseReviewData(reviewData));
-          break;
-      }
+      starsResults[artists[i]]=parseReviewData(reviewData);
     }
+    setRatings(previousState=> {
+      return starsResults
+    });
   }
 
   function parseReviewData(reviewData) {
@@ -141,7 +95,7 @@ function Home() {
                         <h5 class="card-title fw-bold">Adele</h5>
                         <Rating
                           name="text-feedback"
-                          value={adele}
+                          value={ratings["adele"] || 0}
                           size = "small"
                           readOnly
                           precision={0.1}
@@ -159,7 +113,7 @@ function Home() {
                         <h5 class="card-title fw-bold">Andrea Bocelli</h5>
                           <Rating
                             name="text-feedback"
-                            value={andrea_bocelli}
+                            value={ratings["andrea_bocelli"] || 0}
                             size = "small"
                             readOnly
                             precision={0.1}
@@ -177,7 +131,7 @@ function Home() {
                         <h5 class="card-title fw-bold">Billie Eilish</h5>
                         <Rating
                           name="text-feedback"
-                          value={billie_eilish}
+                          value={ratings["billie_eilish"] || 0}
                           size = "small"
                           readOnly
                           precision={0.1}
@@ -195,7 +149,7 @@ function Home() {
                         <h5 class="card-title fw-bold">Billy Joel</h5>
                         <Rating
                           name="text-feedback"
-                          value={billy_joel}
+                          value={ratings["billy_joel"] || 0}
                           size = "small"
                           readOnly
                           precision={0.1}
@@ -213,7 +167,7 @@ function Home() {
                         <h5 class="card-title fw-bold">The Chainsmokers</h5>
                         <Rating
                           name="text-feedback"
-                          value={the_chainsmokers}
+                          value={ratings["the_chainsmokers"] || 0}
                           size = "small"
                           readOnly
                           precision={0.1}
@@ -231,7 +185,7 @@ function Home() {
                     <h5 class="card-title fw-bold">Dominic Fike</h5>
                     <Rating
                       name="text-feedback"
-                      value={dominic_fike}
+                      value={ratings["dominic_fike"] || 0}
                       size = "small"
                       readOnly
                       precision={0.1}
@@ -249,7 +203,7 @@ function Home() {
                       <h5 class="card-title fw-bold">Elton John</h5>
                       <Rating
                         name="text-feedback"
-                        value={elton_john}
+                        value={ratings["elton_john"] || 0}
                         size = "small"
                         readOnly
                         precision={0.1}
@@ -267,7 +221,7 @@ function Home() {
                       <h5 class="card-title fw-bold">Harry Styles</h5>
                       <Rating
                         name="text-feedback"
-                        value={harry_styles}
+                        value={ratings["harry_styles"] || 0}
                         size = "small"
                         readOnly
                         precision={0.1}
@@ -285,7 +239,7 @@ function Home() {
                           <h5 class="card-title fw-bold">Jack Harlow</h5>
                           <Rating
                             name="text-feedback"
-                            value={jack_harlow}
+                            value={ratings["jack_harlow"] || 0}
                             size = "small"
                             readOnly
                             precision={0.1}
@@ -303,7 +257,7 @@ function Home() {
                         <h5 class="card-title fw-bold">Old Dominion</h5>
                         <Rating
                           name="text-feedback"
-                          value={old_dominion}
+                          value={ratings["old_dominion"] || 0}
                           size = "small"
                           readOnly
                           precision={0.1}
@@ -321,7 +275,7 @@ function Home() {
                           <h5 class="card-title fw-bold">Post Malone</h5>
                           <Rating
                             name="text-feedback"
-                            value={post_malone}
+                            value={ratings["post_malone"] || 0}
                             size = "small"
                             readOnly
                             precision={0.1}
@@ -339,7 +293,7 @@ function Home() {
                         <h5 class="card-title fw-bold">Yung Gravy</h5>
                         <Rating
                           name="text-feedback"
-                          value={yung_gravy}
+                          value={ratings["yung_gravy"] || 0}
                           size = "small"
                           readOnly
                           precision={0.1}
@@ -367,7 +321,7 @@ function Home() {
                             <h5 class="card-title fw-bold" style={{color: 'black'}}>Adele</h5>
                             <Rating
                               name="text-feedback"
-                              value={adele}
+                              value={ratings["adele"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -385,7 +339,7 @@ function Home() {
                             <h5 class="card-title fw-bold" style={{color: 'black'}}>Andrea Bocelli</h5>
                             <Rating
                               name="text-feedback"
-                              value={andrea_bocelli}
+                              value={ratings["andrea_bocelli"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -403,7 +357,7 @@ function Home() {
                             <h5 class="card-title fw-bold" style={{color: 'black'}}>Billie Eilish</h5>
                             <Rating
                               name="text-feedback"
-                              value={billie_eilish}
+                              value={ratings["billie_eilish"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -423,7 +377,7 @@ function Home() {
                             <h5 class="card-title fw-bold">Billy Joel</h5>
                             <Rating
                               name="text-feedback"
-                              value={billy_joel}
+                              value={ratings["billy_joel"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -441,7 +395,7 @@ function Home() {
                             <h5 class="card-title fw-bold">The Chainsmokers</h5>
                             <Rating
                               name="text-feedback"
-                              value={the_chainsmokers}
+                              value={ratings["the_chainsmokers"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -459,7 +413,7 @@ function Home() {
                             <h5 class="card-title fw-bold">Dominic Fike</h5>
                             <Rating
                               name="text-feedback"
-                              value={dominic_fike}
+                              value={ratings["dominic_fike"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -479,7 +433,7 @@ function Home() {
                             <h5 class="card-title fw-bold">Elton John</h5>
                             <Rating
                               name="text-feedback"
-                              value={elton_john}
+                              value={ratings["elton_john"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -497,7 +451,7 @@ function Home() {
                             <h5 class="card-title fw-bold">Harry Styles</h5>
                             <Rating
                               name="text-feedback"
-                              value={harry_styles}
+                              value={ratings["harry_styles"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -515,7 +469,7 @@ function Home() {
                             <h5 class="card-title fw-bold">Jack Harlow</h5>
                             <Rating
                               name="text-feedback"
-                              value={jack_harlow}
+                              value={ratings["jack_harlow"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -535,7 +489,7 @@ function Home() {
                             <h5 class="card-title fw-bold">Old Dominion</h5>
                             <Rating
                               name="text-feedback"
-                              value={old_dominion}
+                              value={ratings["old_dominion"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -553,7 +507,7 @@ function Home() {
                             <h5 class="card-title fw-bold">Post Malone</h5>
                             <Rating
                               name="text-feedback"
-                              value={post_malone}
+                              value={ratings["post_malone"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
@@ -571,7 +525,7 @@ function Home() {
                             <h5 class="card-title fw-bold">Yung Gravy</h5>
                             <Rating
                               name="text-feedback"
-                              value={yung_gravy}
+                              value={ratings["yung_gravy"] || 0}
                               size = "small"
                               readOnly
                               precision={0.1}
