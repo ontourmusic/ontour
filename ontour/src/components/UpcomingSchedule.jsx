@@ -11,7 +11,6 @@ export default function UpcomingSchedule(props)
     {name: "Loading...", date: "Loading...", eventId: "Loading...", eventURL: "Loading...", timezone: "Loading...", eventTime: "Loading..."},
     {name: "Loading...", date: "Loading...", eventId: "Loading...", eventURL: "Loading...", timezone: "Loading...", eventTime: "Loading..."}]);
     const [dates, setDates] = useState([]);
-    const [show, setShow] = useState(true);
     const performSearch = async () => {
         var tmEvents;
         var tmEventData;
@@ -92,9 +91,6 @@ export default function UpcomingSchedule(props)
                     dates[i] = fullDate;
                 }
             }
-            else{
-                setShow(false);
-            }
         }
     
     }
@@ -110,24 +106,18 @@ export default function UpcomingSchedule(props)
                 <h4 id="upcoming-shows" class="fw-bold d-block d-sm-none">Shows</h4>
             </div>
 
-            {show
+            {eventArray[0].name != "Loading..."
             ?
             <div id="upcoming-list">
-                <a href={eventArray[0].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[0].eventTime} date={dates[0]} event={eventArray[0].name} location={eventArray[0].timezone}/>
-                </a>
-                <a href={eventArray[1].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[1].eventTime} date={dates[1]} event={eventArray[1].name} location={eventArray[1].timezone}/>  
-                </a>
-                <a href={eventArray[2].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[2].eventTime} date={dates[2]} event={eventArray[2].name} location={eventArray[2].timezone}/>
-                </a>
-                <a href={eventArray[3].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[3].eventTime} date={dates[3]} event={eventArray[3].name} location={eventArray[3].timezone}/>
-                </a>
-                <a href={eventArray[4].eventURL} target="_blank" rel="noopener noreferrer">
-                    <Show time = {eventArray[4].eventTime} date={dates[4]} event={eventArray[4].name} location={eventArray[4].timezone}/>
-                </a>
+
+                {eventArray.map((item, index)=>{
+                        if(item.name != "Loading...")
+                        return <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
+                            <Show time = {eventArray[index].eventTime} date={dates[index]} event={eventArray[index].name} location={eventArray[index].timezone}/>
+                        </a>
+                    })
+                }
+
             </div>
             :<p>No Upcoming Shows</p>}
            
