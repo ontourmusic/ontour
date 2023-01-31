@@ -17,6 +17,7 @@ function splitArtistsToRows(artists, rowLength){
 function Home() {
   const [artist_name, setName] = useState('')
   const [ratings, setRatings] = useState({});
+  const [loading, setLoading] = useState(true);
 
   var artistRows = splitArtistsToRows(artistIDs,3);
 
@@ -49,6 +50,7 @@ function Home() {
     setRatings(()=> {
       return starsResults
     });
+    setLoading(false);
   }
 
   function parseReviewData(reviewData) {
@@ -64,7 +66,7 @@ function Home() {
   function generateRow(rowItems){
     var row = [];
     rowItems.map((artist) => {
-      row.push(<HomePageArtist artist={artist} rating={ratings[artist]}></HomePageArtist>);
+      row.push(<HomePageArtist artist={artist} rating={ratings[artist]} loading={loading}></HomePageArtist>);
     })
     return row;
   }

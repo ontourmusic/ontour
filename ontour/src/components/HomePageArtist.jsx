@@ -1,8 +1,8 @@
 import React from "react";
 import '../index.css';
 import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
 import { artistList } from "../ArtistInfo";
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 
 export default function HomePageArtist(props)
 {
@@ -15,11 +15,11 @@ export default function HomePageArtist(props)
                     <h5 class="card-title fw-bold" style={{color: 'black'}}>{artistList[props.artist].name}</h5>
                     <Rating
                         name="text-feedback"
-                        value={props.rating || 0}
+                        value={props.loading ? 0 : (props.rating || 0)}
                         size = "small"
                         readOnly
                         precision={0.1}
-                        emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                     />
                 </div>
             </div>

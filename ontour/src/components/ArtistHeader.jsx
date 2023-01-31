@@ -1,8 +1,8 @@
 import React from "react";
 import '../index.css';
 import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
 import {useState, useEffect} from "react";
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 
 function ArtistHeader(props)
 {
@@ -44,7 +44,7 @@ function ArtistHeader(props)
                         size = "large"
                         readOnly
                         precision={0.1}
-                        emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                     />
                     <h1 class="fw-bold" style={{paddingTop: "6px"}}>({props.total})</h1>
                 </div>
