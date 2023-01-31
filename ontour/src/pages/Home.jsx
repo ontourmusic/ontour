@@ -6,10 +6,19 @@ import Navigation from "../Navigation";
 import { artistIDs } from "../ArtistInfo";
 import MobileHomePageArtist from "../components/MobileHomePageArtist";
 
+function splitArtistsToRows(artists, rowLength){
+  var splitArray = [];
+  for(var i=0; i<artists.length; i+=(rowLength)){
+    splitArray.push(artists.slice(i, i+(rowLength)));
+  }
+  return splitArray;
+}
 
 function Home() {
   const [artist_name, setName] = useState('')
   const [ratings, setRatings] = useState({});
+
+  var artistRows = splitArtistsToRows(artistIDs,3);
 
   const navigate = useNavigate(); 
   const routeChange = (artist) =>{ 
@@ -52,11 +61,18 @@ function Home() {
     return cumulativeRating;
   }
 
+  function generateRow(rowItems){
+    var row = [];
+    rowItems.map((artist) => {
+      row.push(<HomePageArtist artist={artist} rating={ratings[artist]}></HomePageArtist>);
+    })
+    return row;
+  }
+
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
   });
-
   return (
     <>
       <Navigation />
@@ -93,26 +109,13 @@ function Home() {
                     <h4 class="fw-bold ">Recently Added Artists</h4>
                 </div>
             </div>
-            <div class="row mb-5">
-                <HomePageArtist artist="adele" rating={ratings["adele"]}></HomePageArtist>
-                <HomePageArtist artist="andrea_bocelli" rating={ratings["andrea_bocelli"]}></HomePageArtist>
-                <HomePageArtist artist="billie_eilish" rating={ratings["billie_eilish"]}></HomePageArtist>
-            </div>
-            <div class="row mb-5">
-                <HomePageArtist artist="billy_joel" rating={ratings["billy_joel"]}></HomePageArtist>
-                <HomePageArtist artist="the_chainsmokers" rating={ratings["the_chainsmokers"]}></HomePageArtist>
-                <HomePageArtist artist="dominic_fike" rating={ratings["dominic_fike"]}></HomePageArtist>
-            </div>
-            <div class="row mb-5">
-                <HomePageArtist artist="elton_john" rating={ratings["elton_john"]}></HomePageArtist>
-                <HomePageArtist artist="harry_styles" rating={ratings["harry_styles"]}></HomePageArtist>
-                <HomePageArtist artist="jack_harlow" rating={ratings["jack_harlow"]}></HomePageArtist>
-            </div>
-            <div class="row">
-                <HomePageArtist artist="old_dominion" rating={ratings["old_dominion"]}></HomePageArtist>
-                <HomePageArtist artist="post_malone" rating={ratings["post_malone"]}></HomePageArtist>
-                <HomePageArtist artist="yung_gravy" rating={ratings["yung_gravy"]}></HomePageArtist>
-            </div>
+            {
+              artistRows.map((item)=>{
+                return <div class="row mb-5">
+                      {generateRow(item)}
+                  </div> 
+              })
+            }
           </div> 
         </div>
       </div>
