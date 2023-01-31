@@ -17,6 +17,7 @@ import ReactPaginate from 'react-paginate';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useSlotProps } from "@mui/base";
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 
 function Artist() {
 
@@ -260,7 +261,7 @@ function Artist() {
                               size = "large"
                               readOnly
                               precision={0.1}
-                              emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                              emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                         />
                       </div>
                     </div>
