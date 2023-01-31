@@ -2,7 +2,7 @@ export const artistIDs = [
     "adele", "andrea_bocelli", "billie_eilish",
     "billy_joel", "the_chainsmokers", "dominic_fike",
     "elton_john", "harry_styles", "jack_harlow", 
-    "old_dominion", "post_malone", "yung_gravy", "yung_gravy", "yung_gravy"
+    "old_dominion", "post_malone", "yung_gravy",
 ]
 
 export const artistList = {
