@@ -78,7 +78,7 @@ function createEvent(eventInfo){
     var eventName = parseName(name);
     var time = parseTime(eventInfo.dates.start.localTime);
 
-    var event = new UpcomingEvent(eventName, fullDate, timezone, eventId, eventURL, time);
+    var event = new UpcomingEvent(eventName, fullDate, eventId, eventURL, timezone, time);
     return event;
 }
 
