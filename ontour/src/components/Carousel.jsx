@@ -57,7 +57,7 @@ export default function Carousel(props) {
           </button>
           {imageLoad ? (
             images.map((image, index) => {
-              if (index == 0) {
+              if (index === 0) {
                 return (
                   <div className="carousel-item active">
                     {

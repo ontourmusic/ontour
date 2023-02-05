@@ -116,26 +116,26 @@ function Artist() {
     console.log('in here')
     console.log(event.target.value)
     var tempArray = allReviews
-    if (event.target.value == 3) {
+    if (event.target.value === 3) {
       tempArray.sort(function (a, b) {
         return b[1] > a[1] ? 1 : -1
       })
     }
     //lowest to highest
-    else if (event.target.value == 4) {
+    else if (event.target.value === 4) {
       console.log('in lowest to highest')
       tempArray.sort(function (a, b) {
         return a[1] > b[1] ? 1 : -1
       })
     }
     //oldest to newest
-    else if (event.target.value == 2) {
+    else if (event.target.value === 2) {
       tempArray.sort(function (a, b) {
         return new Date(b[4]) < new Date(a[4]) ? 1 : -1
       })
     }
     //newest to oldest
-    else if (event.target.value == 1) {
+    else if (event.target.value === 1) {
       tempArray.sort(function (a, b) {
         return new Date(a[4]) < new Date(b[4]) ? 1 : -1
       })

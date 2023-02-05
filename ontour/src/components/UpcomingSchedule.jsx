@@ -19,7 +19,7 @@ function parseDate(date) {
   var monthStr = newData.toString().split(' ')[1]
   var dayStr = newData.toString().split(' ')[2]
 
-  if (dayStr.charAt(0) == '0') {
+  if (dayStr.charAt(0) === '0') {
     dayStr = dayStr.slice(1)
   }
 
