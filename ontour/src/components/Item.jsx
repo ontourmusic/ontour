@@ -1,16 +1,15 @@
-import React from "react";
-import '../index.css';
+import React, { useEffect, useState } from 'react'
+import '../index.css'
 
-export default function Item(props)
-{
-    return (
-        <div>
-            <div class="card">
-                <img src={props.image} class="d-block w-100" alt="..."/>
-                <div class="card-body">
-                    <h5 class="card-title">{props.text}</h5>
-                </div>
-            </div>
+export default function Item(props) {
+  return (
+    <div>
+      <div className="card">
+        <img src={props.image} className="d-block w-100" alt="..." />
+        <div className="card-body">
+          <h5 className="card-title">{props.text}</h5>
         </div>
-    )
+      </div>
+    </div>
+  )
 }

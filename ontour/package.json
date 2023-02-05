@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@mui/base": "^5.0.0-alpha.116",
     "@mui/icons-material": "^5.10.14",
     "@mui/material": "^5.10.14",
     "@testing-library/jest-dom": "^5.16.5",
@@ -27,7 +28,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "format": "prettier --config .prettierrc -w '**/*.{ts,tsx,json,md,mdx,css,scss}' >> format.log"
   },
   "eslintConfig": {
     "extends": [

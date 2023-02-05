@@ -21,4 +21,3 @@
 4. edit new migration under versions (green in vscode)
 5. Add table here
 6. alembic upgrade head
-

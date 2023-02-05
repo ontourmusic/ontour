@@ -1,18 +1,17 @@
-import React from "react";
-import '../index.css';
+import React, { useEffect, useState } from 'react'
+import '../index.css'
 
-function Footer()
-{
-    return (
-        <footer class="py-4">
-          <div class="row">
-            <div class="align-self-center">
-              <img id="footer-logo" src= "images/logo.png" alt=""/>
-              &copy; 2022 OnTour. All rights reserved.
-            </div>
-          </div>
-        </footer> 
-    )
+function Footer() {
+  return (
+    <footer className="py-4">
+      <div className="row">
+        <div className="align-self-center">
+          <img id="footer-logo" src="images/logo.png" alt="" />
+          &copy; 2022 OnTour. All rights reserved.
+        </div>
+      </div>
+    </footer>
+  )
 }
 
-export default Footer;
+export default Footer
