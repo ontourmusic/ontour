@@ -3,6 +3,7 @@ import '../index.css';
 import Item from "./Item";
 import { useState, useEffect } from "react";
 import { Polaroid } from "./Polaroid";
+import { AddMediaButton } from "./Buttons";
 
 export default function Carousel(props) {
     const [images, setImages] = useState([]);
@@ -34,16 +35,7 @@ export default function Carousel(props) {
                     <h4 class="fw-bold ">Captured Moments</h4>
                 </div>
                 <div class="col-3 m-0 no-text-align">
-                    <button id="photobutton" type="button" class="btn btn-outline-light fw-bold align-self-center" onClick={() => { alert('Feature coming soon!') }}>
-                        <div class="row">
-                            <div class="col-lg-3">
-                                <img id="camera-icon" src="../../images/camera.png" alt=""></img>
-                            </div>
-                            <div id="add-photo" class="d-none d-lg-block col-lg-9">
-                                Add Media
-                            </div>
-                        </div>
-                    </button>
+                    <AddMediaButton />
                 </div>
             </div>
             {/* Mobile Carousel */}

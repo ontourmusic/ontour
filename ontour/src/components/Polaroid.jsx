@@ -1,7 +1,6 @@
 import React from "react";
 import '../index.css';
 import styles from '../Styles/styles';
-import Item from "./Item";
 
 /* 
 expected props:
