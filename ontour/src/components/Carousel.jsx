@@ -2,21 +2,23 @@ import React from "react";
 import '../index.css';
 import Item from "./Item";
 import { useState, useEffect } from "react";
-import { CarouselPolaroid } from "./Polaroid";
+import { Polaroid } from "./Polaroid";
 
 export default function Carousel(props) {
     const [images, setImages] = useState([]);
     const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
     const [tempImg, setTemp] = useState('');
-    const getImg = (img) => {
-        setTemp(img);
+
+    const handleImageClick = (e) => {
+        console.log("handleImageClick: ", e.target.src);
+        setTemp(e.target.src);
         setModel(true);
     }
+
+
     useEffect(() => {
-        console.log("props.images: ", props.images, " - length: ", props.images.length);
         if (props.images.length > 0) {
-            console.log("number of images ")
             setImageLoad(true);
             setImages(props.images);
         }
@@ -55,14 +57,14 @@ export default function Carousel(props) {
                         if(index == 0) {
                             return (
                                 <div class="carousel-item active">
-                                    {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
+                                    {<div onClick={handleImageClick}><Item image={images[index]} /></div>}
                                 </div>
                             );
                         }
                         else if(index <= images.length) {
                             return (
                                 <div class="carousel-item">
-                                    {<div onClick={() => getImg(images[index])}><Item image={images[index]} /></div>}
+                                    {<div onClick={handleImageClick}><Item image={images[index]} /></div>}
                                 </div>
                             )
                         }
@@ -84,7 +86,7 @@ export default function Carousel(props) {
                             {imageLoad ? images.map((image, index) => {
                                 while (index < 3) {
                                     if (index <= images.length - 1) {
-                                        return <CarouselPolaroid onClick={() => getImg(image)} image={image} />
+                                        return <Polaroid key={index} onPress={handleImageClick} imageURL={image} />
                                     }
                                 }
                             }) : <div></div>}
@@ -96,9 +98,9 @@ export default function Carousel(props) {
                                 return (
                                     <div class="carousel-item">
                                         <div class="row">
-                                            {index <= images.length - 1 ? <CarouselPolaroid onClick={() => getImg(images[index])} image={images[index]} /> : null}
-                                            {index + 1 <= images.length - 1 ? <CarouselPolaroid onClick={() => getImg(images[index])} image={images[index + 1]} /> : null}
-                                            {index + 2 <= images.length - 1 ? <CarouselPolaroid onClick={() => getImg(images[index])} image={images[index + 2]} /> : null}
+                                            {index <= images.length - 1 ? <Polaroid key={index} onPress={handleImageClick} imageURL={images[index]} /> : null}
+                                            {index + 1 <= images.length - 1 ? <Polaroid key={index} onPress={handleImageClick} imageURL={images[index + 1]} /> : null}
+                                            {index + 2 <= images.length - 1 ? <Polaroid key={index} onPress={handleImageClick} imageURL={images[index + 2]} /> : null}
                                         </div>
                                     </div>
                                 );

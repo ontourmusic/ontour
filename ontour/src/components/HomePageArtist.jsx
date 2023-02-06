@@ -3,13 +3,13 @@ import '../index.css';
 import Rating from '@mui/material/Rating';
 import { artistList } from "../ArtistInfo";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import { HomePagePolaroid } from "./Polaroid";
+import { Polaroid } from "./Polaroid";
 
 import styles from '../Styles/styles';
 
 export default function HomePageArtist(props) {
     return (
-        <HomePagePolaroid imageURL={artistList[props.artist].imageURL} link={"/artist?artist=" + props.artist} bottomComponent={
+        <Polaroid imageURL={artistList[props.artist].imageURL} link={"/artist?artist=" + props.artist} bottomComponent={
             <>
                 <h5 class="card-title fw-bold" style={{ color: 'black' }}>{artistList[props.artist].name}</h5>
                 <Rating

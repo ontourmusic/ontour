@@ -9,9 +9,9 @@ expected props:
     - link (optional): string (if not provided, the polaroid will not be clickable
     - bottomComponent (optional): JSX.Element
 */
-const HomePagePolaroid = (props) => {
+const Polaroid = (props) => {
     return (
-        <div class="col-4">
+        <div class="col-4" onClick={props.onPress}>
             <a href={props.link} >
                 <div class="card bg-light">
                     <img src={props.imageURL} class="d-block w-100" style={styles.polaroid_image} alt="..." />
@@ -23,21 +23,5 @@ const HomePagePolaroid = (props) => {
         </div>
     )
 }
-const CarouselPolaroid = (props) => {
-    return (
-        <div class="col-4">
-            <div>
-                <div class="card">
-                    <img src={props.image} class="d-block w-100" style={styles.polaroid_image} alt="..." />
-                    <div class="card-body">
-                        <h1 class="card-title">{props.text}</h1>
-                    </div>
-                </div>
-            </div>
-            {/* <Item image={props.image} /> */}
-        </div>
-    )
-}
 
-
-export { HomePagePolaroid, CarouselPolaroid };
+export { Polaroid };
