@@ -7,7 +7,7 @@ import Review from "../components/Review";
 import WriteReview from "../components/WriteReview";
 import Sidebar from "../components/Sidebar";
 import { useSearchParams } from "react-router-dom";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import ArtistNavigation from "../ArtistNavigation"
 import Footer from "../components/Footer"
 import Rating from '@mui/material/Rating';
@@ -48,7 +48,7 @@ function Artist() {
   const performSearch = async () => {
     console.log('IN EHREHREHREH');
     console.log(artistName);
-    const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, {mode: 'cors'});
+    const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, { mode: 'cors' });
     const artistData = await artistResponse.json();
     console.log(artistData);
     setFullName(artistData[0].fname + " " + artistData[0].lname);
@@ -57,15 +57,16 @@ function Artist() {
     setArtistImage(imageUrls);
     setArtistIdNumber(artistId);
     const imageGallery = artistData[0].images;
+    console.log("IMAGE GALLERY: " + imageGallery)
     setImageArray(imageGallery);
 
-    const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
+    const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
     const reviewData = await getReviews.json();
     console.log(reviewData);
     setAllReviews(parseReviewData(reviewData));
 
     //gets the tickemaster artist details 
-    const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, {mode: 'cors'});
+    const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
     const tmData = await tmArtist.json();
     var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
     var tickets = tmData._embedded.attractions[0].url;
@@ -77,12 +78,12 @@ function Artist() {
   useEffect(() => {
     performSearch();
   }, [artistName]);
-  
+
   //parses the review data from the database
   function parseReviewData(reviewData) {
     var reviewsArray = [];
     var cumulativeRating = 0;
-    for(var i = 0; i < reviewData.length; i++) {
+    for (var i = 0; i < reviewData.length; i++) {
       var review = [];
       var rDescription = reviewData[i].description;
       var rRating = reviewData[i].rating;
@@ -110,46 +111,45 @@ function Artist() {
     console.log("in here");
     console.log(event.target.value);
     var tempArray = allReviews;
-    if(event.target.value == 3) {
-      tempArray.sort(function(a, b) {
+    if (event.target.value == 3) {
+      tempArray.sort(function (a, b) {
         return b[1] > a[1] ? 1 : -1;
       });
     }
     //lowest to highest
-    else if(event.target.value == 4) {
+    else if (event.target.value == 4) {
       console.log("in lowest to highest");
-      tempArray.sort(function(a, b) {
+      tempArray.sort(function (a, b) {
         return a[1] > b[1] ? 1 : -1;
       });
     }
     //oldest to newest
-    else if(event.target.value == 2) {
-      tempArray.sort(function(a, b) {
+    else if (event.target.value == 2) {
+      tempArray.sort(function (a, b) {
         return new Date(b[4]) < new Date(a[4]) ? 1 : -1;
       });
     }
     //newest to oldest
-    else if(event.target.value == 1) {
-      tempArray.sort(function(a, b) {
+    else if (event.target.value == 1) {
+      tempArray.sort(function (a, b) {
         return new Date(a[4]) < new Date(b[4]) ? 1 : -1;
       });
     }
 
     //print all reviews array
-    for(var i = 0; i < allReviews.length; i++) {
+    for (var i = 0; i < allReviews.length; i++) {
       console.log(allReviews[i]);
     }
     setAllReviews(tempArray);
     forceUpdate();
   }
 
-  function Items({currentItems})
-  {
-    return(
+  function Items({ currentItems }) {
+    return (
       <>
-        {currentItems && currentItems.map(function(review, index) {
-            return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
-          })}
+        {currentItems && currentItems.map(function (review, index) {
+          return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue={review[3]} text={review[0]} />
+        })}
       </>
     )
   }
@@ -159,7 +159,7 @@ function Artist() {
     // Here we use item offsets; we could also use page offsets
     // following the API or data you're working with.
     const [itemOffset, setItemOffset] = useState(0);
-  
+
     // Simulate fetching items from another resources.
     // (This could be items from props; or items loaded in a local state
     // from an API endpoint with useEffect and useState)
@@ -167,7 +167,7 @@ function Artist() {
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = allReviews.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(allReviews.length / itemsPerPage);
-  
+
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
       const newOffset = (event.selected * itemsPerPage) % allReviews.length;
@@ -176,35 +176,35 @@ function Artist() {
       );
       setItemOffset(newOffset);
     };
-  
+
     return (
       <>
         <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        boxSizing: 'border-box',
-        width: '100%',
-        height: '100%',
-      }}>
-        <Items currentItems={currentItems} />
-        <ReactPaginate
-          activeClassName={'item active '}
-          breakClassName={'item break-me '}
-          containerClassName={'pagination'}
-          disabledClassName={'disabled-page'}
-          marginPagesDisplayed={2}
-          nextClassName={"item next "}
-          nextLabel={<ArrowForwardIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
-          breakLabel="..."
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={2}
-          pageClassName={'item pagination-page '}
-          pageCount={pageCount}
-          previousClassName={"item previous"}
-          previousLabel={<ArrowBackIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
-          renderOnZeroPageCount={null}
-        />
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          boxSizing: 'border-box',
+          width: '100%',
+          height: '100%',
+        }}>
+          <Items currentItems={currentItems} />
+          <ReactPaginate
+            activeClassName={'item active '}
+            breakClassName={'item break-me '}
+            containerClassName={'pagination'}
+            disabledClassName={'disabled-page'}
+            marginPagesDisplayed={2}
+            nextClassName={"item next "}
+            nextLabel={<ArrowForwardIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
+            breakLabel="..."
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={2}
+            pageClassName={'item pagination-page '}
+            pageCount={pageCount}
+            previousClassName={"item previous"}
+            previousLabel={<ArrowBackIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
+            renderOnZeroPageCount={null}
+          />
         </div>
       </>
     );
@@ -214,24 +214,24 @@ function Artist() {
   return (
     <>
       <div id="mobile-wrapper">
-        <ArtistNavigation/>
+        <ArtistNavigation />
         <div className="artist" >
           <aside>
-            <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage}/>
-            <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink}/>
+            <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} />
+            <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink} />
 
             <div id="no-sidebar-sm" class="no-sidebar">
               <div class="d-block d-sm-none">
                 <div class="row">
                   <div id="icon-sm" class="col-4">
-                      <a href={spotifyLink} class = "social-media-icon" target="_blank" rel="noopener noreferrer">
-                          <img src= "../../images/spotify_icon.png" alt="link"/>
-                      </a>
+                    <a href={spotifyLink} class="social-media-icon" target="_blank" rel="noopener noreferrer">
+                      <img src="../../images/spotify_icon.png" alt="link" />
+                    </a>
                   </div>
                   <div id="icon-sm" class="col-4">
-                      <a href={ticketLink} class = "social-media-icon" target="_blank" rel="noopener noreferrer">
-                          <img src= "../../images/ticketmaster_icon.png" alt="link"/>
-                      </a>
+                    <a href={ticketLink} class="social-media-icon" target="_blank" rel="noopener noreferrer">
+                      <img src="../../images/ticketmaster_icon.png" alt="link" />
+                    </a>
                   </div>
                   <div class="col-4">
                     <a href="#review">
@@ -242,58 +242,58 @@ function Artist() {
                   </div>
                 </div>
               </div>
-              {imageArray.length > 0 && <Carousel images={imageArray}/>}
-              
+              <Carousel images={imageArray} />
+
               <div class="container">
                 <hr></hr>
                 <h4 id="reviews" class="fw-bold">Reviews ({totalReviews})</h4>
                 {allReviews.length > 0 &&
-                <div id="clear">
-                  <div id="reviews-margin" class="row">
-                    <div class="col-12 col-sm-9 align-self-center">
-                      <div class="rating fw-bold">
-                        Overall Rating: {aggregateRating.toFixed(1)} out of 5
+                  <div id="clear">
+                    <div id="reviews-margin" class="row">
+                      <div class="col-12 col-sm-9 align-self-center">
+                        <div class="rating fw-bold">
+                          Overall Rating: {aggregateRating.toFixed(1)} out of 5
+                        </div>
+                        <div class="rating">
+                          <Rating
+                            name="text-feedback"
+                            value={aggregateRating}
+                            size="large"
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
+                          />
+                        </div>
                       </div>
-                      <div class="rating">
-                        <Rating
-                              name="text-feedback"
-                              value={aggregateRating}
-                              size = "large"
-                              readOnly
-                              precision={0.1}
-                              emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit"/>}
-                        />
-                      </div>
-                    </div>
 
-                    <div class="col-12 col-sm-3 align-self-center">
-                      <div class="dropdown">
-                        <Form.Select onChange={formChange} aria-label="Default select example">
+                      <div class="col-12 col-sm-3 align-self-center">
+                        <div class="dropdown">
+                          <Form.Select onChange={formChange} aria-label="Default select example">
                             <option>Recommended</option>
                             <option value="1">Newest First</option>
                             <option value="2">Oldest First</option>
                             <option value="3">Highest Rated</option>
                             <option value="4">Lowest Rated</option>
-                        </Form.Select>
+                          </Form.Select>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div id="page" class="list-group">
-                    {/* {allReviews && allReviews.map(function(review, index) {
+                    <div id="page" class="list-group">
+                      {/* {allReviews && allReviews.map(function(review, index) {
                       return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
                     })} */}
-                    <PaginatedItems itemsPerPage={10} />
+                      <PaginatedItems itemsPerPage={10} />
+                    </div>
                   </div>
-                </div>
                 }
               </div>
-              {fullName !== "" && <WriteReview artistId={artistIdNumber} name = {fullName}/> }
+              {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
             </div>
           </aside>
 
           <hr id="artist-footer"></hr>
-          <Footer/>
+          <Footer />
         </div>
       </div>
     </>
