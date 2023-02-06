@@ -8,50 +8,51 @@ export const artistIDs = [
 export const artistList = {
     "adele": {
         "name": "Adele",
-        "imageURL": "https://nypost.com/wp-content/uploads/sites/2/2022/11/adele-089.jpg"
+        "imageURL": "images/adele.webp"
     },
     "andrea_bocelli": {
         "name": "Andrea Bocelli",
-        "imageURL": "https://www.travelandleisure.com/thmb/KJ_1XFYBsdturkAi7rqza1OCf9c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/andrea-bocelli-preforming-BOCELLIXMAS1121-576758e713504afdafbce641b3a64286.jpg"
+        "imageURL": "images/andrea_bocelli.jpeg"
     },
     "billie_eilish": {
         "name": "Billie Eilish",
-        "imageURL": "https://hips.hearstapps.com/hmg-prod/images/billie-eilish-performs-onstage-during-the-62nd-annual-news-photo-1580094746.jpg"
+        "imageURL": "images/billie_eilish.jpeg"
+
     },
     "the_chainsmokers": {
         "name": "The Chainsmokers",
-        "imageURL": "https://static.onecms.io/wp-content/uploads/sites/6/2017/03/gettyimages-657906732-2000.jpg"
+        "imageURL": "images/chainsmokers.jpeg"
     },
     "yung_gravy": {
         "name": "Yung Gravy",
-        "imageURL": "https://www.party-guru.com/wp-content/uploads/2022/01/8R6A5144-scaled.jpg"
+        "imageURL": "images/yung_gravy.jpeg"
     }, 
     "billy_joel": {
         "name": "Billy Joel",
-        "imageURL": "https://www.billboard.com/wp-content/uploads/media/billy-joel-performance-smile-2014-a-billboard-1548.jpg"
+        "imageURL": "images/billy_joel.webp"
     },
     "old_dominion": {
         "name": "Old Dominion",
-        "imageURL": "https://www.gannett-cdn.com/presto/2022/06/13/PNAS/afe4fd5b-1f1c-4f90-b68f-be1f156fa003-CMA_Fest_day_3_1693.jpg"
+        "imageURL": "images/old_dominion.webp"
     }, 
     "post_malone": {
         "name": "Post Malone",
-        "imageURL": "https://www.syracuse.com/resizer/Gho2h8t584_ZoNDxKzM1zOIiVk4=/arc-anglerfish-arc2-prod-advancelocal/public/ZZ2V33SVNREKLF6ROTZJ32GZXI.jpeg"
+        "imageURL": "images/post_malone.avif"
     }, 
     "jack_harlow": {
         "name": "Jack Harlow",
-        "imageURL": "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/jack-harlow-superbowl-citi-concert--inline2-jp-081222-08aa15.jpg"
+        "imageURL": "images/jack_harlow.jpeg"
     }, 
     "elton_john": {
         "name": "Elton John",
-        "imageURL": "https://www.99images.com/download-image/933920/1920x1280"
+        "imageURL": "images/elton_john.jpg"
     }, 
     "harry_styles": {
         "name": "Harry Styles",
-        "imageURL": "https://www.billboard.com/wp-content/uploads/2021/12/harry-styles-2021-billboard-1548.jpg"
+        "imageURL": "images/harry_styles.webp"
     }, 
     "dominic_fike": {
         "name": "Dominic Fike",
-        "imageURL": "https://headlineplanet.com/home/wp-content/uploads/2022/02/Dominic-Fike-on-Fallon-4.jpg"
+        "imageURL": "images/dominic_fike.jpeg"
     },
 };
