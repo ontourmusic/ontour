@@ -3,7 +3,7 @@ import '../index.css';
 
 const TwoColumnButton = (props) => {
     return (
-        <div class="d-flex w-100 justify-content-start pb-1">
+        <div class="d-flex w-100 justify-content-end pb-1">
             <button
                 type="button"
                 class="btn btn-outline-light fw-bold"
