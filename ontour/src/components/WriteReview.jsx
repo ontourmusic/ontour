@@ -58,34 +58,38 @@ export default function WriteReview(props) {
   const GetPastReviews = async () => {
     var adele = " ";
     var url = " ";
-    if (props.name.includes("Adele")) {
-      adele = "Adele";
-      url = `https://rest.bandsintown.com/artists/Adele/events?app_id=958313646c7db923871b501a616498a9&date=past`;
-    }
-    else {
-      var name = props.name.replace(" ", "%20");
-      url = `https://rest.bandsintown.com/artists/${name}/events?app_id=958313646c7db923871b501a616498a9&date=past`;
-    }
-
-    const pastReviews = await fetch(url);
-    const pastData = await pastReviews.json();
-    pastData.reverse();
-    for (var i = 0; i < 10; i++) {
-      if (reviews.length < 10) {
-        var date = pastData[i].datetime.split("T")[0];
-        date = date.split("-");
-        var year = date[0];
-        var month = date[1];
-        var day = date[2];
-        var mmddyyyy = month + "/" + day + "/" + year;
-        pastData[i].datetime = mmddyyyy;
-        reviews.push(pastData[i]);
+    try{
+      if (props.name.includes("Adele")) {
+        adele = "Adele";
+        url = `https://rest.bandsintown.com/artists/Adele/events?app_id=dce6df6b60d8613b98183dd0b3ac36a3&date=past`;
+      }
+      else {
+        var name = props.name.replace(" ", "%20");
+        url = `https://rest.bandsintown.com/artists/${name}/events?app_id=dce6df6b60d8613b98183dd0b3ac36a3&date=past`;
+      }
+      const pastReviews = await fetch(url);
+      const pastData = await pastReviews.json();
+      pastData.reverse();
+      for (var i = 0; i < 10; i++) {
+        if (reviews.length < 10) {
+          var date = pastData[i].datetime.split("T")[0];
+          date = date.split("-");
+          var year = date[0];
+          var month = date[1];
+          var day = date[2];
+          var mmddyyyy = month + "/" + day + "/" + year;
+          pastData[i].datetime = mmddyyyy;
+          reviews.push(pastData[i]);
+        }
+      }
+      if (reviews.length > 0) {
+        setReviewsSet(true);
+        setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
       }
     }
-    if (reviews.length > 0) {
-      setReviewsSet(true);
-      setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
-    }
+    catch(err){
+      console.log('API Error');
+    }    
   }
 
   const postData = async () => {
