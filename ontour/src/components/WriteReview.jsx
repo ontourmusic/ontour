@@ -188,7 +188,16 @@ export default function WriteReview(props) {
         <div class="row bottom">
           <div class="col">
             {/* <textarea class="form-control shadow-none" style={{whiteSpace: "pre-wrap"}}  rows="5" cols="100" id="description" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea> */}
-            <textarea class="form-control shadow-none" style={{ whiteSpace: "pre-wrap" }} rows="5" cols="100" id="description" maxLength={5000} onChange={HandleDescription} value={description} placeholder="How was your experience?" required></textarea>
+            <textarea
+              class="form-control shadow-none"
+              style={{ whiteSpace: "pre-wrap" }}
+              rows="5" cols="100"
+              id="description"
+              maxLength={5000}
+              onChange={HandleDescription}
+              value={description}
+              placeholder="How was your experience?" required
+            />
           </div>
         </div>
         <div>
