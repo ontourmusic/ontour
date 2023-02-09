@@ -44,7 +44,7 @@ function ArtistHeader(props)
                         size = "large"
                         readOnly
                         precision={0.1}
-                        emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit"/>}
+                        emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit"/>}
                     />
                     <h1 class="fw-bold" style={{paddingTop: "6px"}}>({props.total})</h1>
                 </div>
