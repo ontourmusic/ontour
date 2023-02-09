@@ -37,7 +37,7 @@ export const artistList = {
     }, 
     "post_malone": {
         "name": "Post Malone",
-        "imageURL": "images/post_malone.avif"
+        "imageURL": "images/post_malone.jpg"
     }, 
     "jack_harlow": {
         "name": "Jack Harlow",
