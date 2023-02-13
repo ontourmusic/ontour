@@ -12,10 +12,10 @@ function ArtistHeader(props) {
     const totalReviewTextRef = useRef(null);
 
     const handleResize = () => {
+        console.log("Resize event triggered");
         if (starBoxRef.current) {
             const starBoxHeight = starBoxRef.current.offsetHeight;
             const starBoxWidth = starBoxRef.current.offsetWidth;
-            console.log("starBoxHeight: ", starBoxHeight);
             totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.65}px`;
             totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
         }
