@@ -1,14 +1,24 @@
 import React from "react";
 import '../index.css';
 import Rating from '@mui/material/Rating';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { Divider, Box } from "@mui/material";
 
 function ArtistHeader(props) {
     const [isMobile, setIsMobile] = useState(false)
 
+    const starBoxRef = useRef(null);
+    const totalReviewTextRef = useRef(null);
+
     const handleResize = () => {
+        if (starBoxRef.current) {
+            const starBoxHeight = starBoxRef.current.offsetHeight;
+            const starBoxWidth = starBoxRef.current.offsetWidth;
+            console.log("starBoxHeight: ", starBoxHeight);
+            totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.65}px`;
+            totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
+        }
         if (window.innerWidth <= 576) {
             setIsMobile(true)
         } else {
@@ -29,9 +39,17 @@ function ArtistHeader(props) {
 
     useBeforeRender(() => handleResize(), []);
 
+    // useEffect(() => {
+    //     window.addEventListener("resize", handleResize)
+    // })
+
     useEffect(() => {
-        window.addEventListener("resize", handleResize)
-    })
+        console.log("adding event listener for resize");
+        window.addEventListener("resize", handleResize);
+        // const starBoxHeight = starBoxRef.current.offsetHeight;
+        // console.log("starBoxHeight: ", starBoxHeight);
+        // totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.5}px`;
+    }, [])
 
     return (
         <div id="artist-background" class="container-fluid jumbotron bg-cover text-white" style={{ backgroundImage: isMobile ? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")` }}>
@@ -40,17 +58,17 @@ function ArtistHeader(props) {
                 <Divider style={styles.Divider} />
                 <div style={styles.RatingRow}>
                     <Rating
+                        ref={starBoxRef}
                         name="text-feedback"
                         value={props.rating}
-                        // size="large"
+                        size="large"
                         readOnly
                         precision={0.1}
                         emptyIcon={<StarBorderOutlinedIcon style={styles.StarsIcon} fontSize="inherit" />}
                     />
-                    {/* <Box sx={{ ml: 2 }}>{props.total}</Box> */}
-                    {/* <div style={styles.ReviewCountBox}>
-                        <h1 class="fw-bold">({props.total})</h1>
-                    </div> */}
+                    {/* <div style={{ height: "100%" }}> */}
+                    <h1 ref={totalReviewTextRef} style={styles.TotalReviewsText}>({props.total})</h1>
+                    {/* </div> */}
                 </div>
             </div>
         </div>
@@ -73,10 +91,6 @@ const styles = {
         flexDirection: "row",
         alignItems: "center",
         // justifyContent: "center",
-        fontSize: "1.5rem",
-    },
-    ReviewCountBox: {
-        paddingLeft: "0.5rem",
     },
     Divider: {
         backgroundColor: "white",
@@ -85,6 +99,12 @@ const styles = {
         margin: "auto",
         marginTop: "0.4rem",
         marginBottom: "0.4rem",
+    },
+    TotalReviewsText: {
+        height: "100%",
+        color: "white",
+        position: "center",
+        // margin: "auto",
     },
 
 }
