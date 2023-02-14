@@ -5,6 +5,7 @@ import HomePageArtist from "../components/HomePageArtist";
 import Navigation from "../Navigation";
 import { artistIDs } from "../ArtistInfo";
 import MobileHomePageArtist from "../components/MobileHomePageArtist";
+import SearchBar from "../components/SearchBar";
 
 function splitArtistsToRows(artists, rowLength){
   var splitArray = [];
@@ -79,16 +80,18 @@ function Home() {
     <>
       <Navigation />
       <div id="homepage">
+      
         <div id="homeheader">
           <img id="home-logo" src= "images/logo.png" alt=""/>
           <div class="home-title">
             Own your next live experience.
           </div>
           <div class="search row">
-            <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
+          <SearchBar></SearchBar>
+            {/* <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
             <button class="btn btn-dark" onClick={() => {alert('Feature coming soon! (see artists below)')}}>
               <img src="../../images/search_icon.png" alt="..."/>
-            </button>
+            </button> */}
           </div>
 
           {/* Mobile */}

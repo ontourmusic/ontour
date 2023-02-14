@@ -1,0 +1,78 @@
+.container {
+    position: relative;
+    font-size: 20px;
+    font-family: sans-serif;
+    padding: 0px;
+    width: 60%;
+    margin-top: 15px;
+  }
+  .input {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 100%;
+    font-size: 20px;
+    padding: 10px;
+    outline: none;
+    border-radius: 5px;
+    text-indent: 25px;
+  }
+  .typeahead {
+    color: #a3b4a9;
+    padding: 10px;
+  }
+  .listbox {
+    border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 5px 10px;
+    background-color: #fff;
+    width: 100%;
+  }
+  .groupHeading {
+    border-bottom: 1px solid #ddd;
+    margin: 5px 0;
+    padding: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #005a1c;
+  }
+  .item {
+    cursor: pointer;
+    padding: 5px;
+    color: black;
+  }
+  .highlightedItem {
+    cursor: pointer;
+    background-color: #deebe2;
+    color: black;
+    padding: 5px;
+  }
+  .clearButton {
+    display: block;
+    width: 4rem;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    position: absolute;
+    color: #a8a8a8;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding:0;
+  }
+  .containerFocus {
+    color: teal !important;
+  }
+  .conatinerNoFocus {
+    color: black; 
+  }
+  .iconStyle {
+    position: absolute;
+    display: inline;
+    z-index: 1;
+    left: 23px;
+    top: 17px;
+    color: black; 
+  }
+  
+  
