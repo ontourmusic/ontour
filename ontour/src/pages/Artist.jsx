@@ -3,24 +3,21 @@ import "../index.css";
 import "react-multi-carousel/lib/styles.css";
 import ArtistHeader from "../components/ArtistHeader";
 import Carousel from "../components/Carousel";
-import Review from "../components/Review";
 import WriteReview from "../components/WriteReview";
-import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
+
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ArtistNavigation from "../ArtistNavigation"
-import Footer from "../components/Footer"
-import Rating from '@mui/material/Rating';
-import StarIcon from '@mui/icons-material/Star';
-import Form from 'react-bootstrap/Form';
-import ReactPaginate from 'react-paginate';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { useSlotProps } from "@mui/base";
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+
+
+// Testing
+import { Grid } from "@mui/material";
+import ArtistSidebar from "../components/ArtistSidebar";
+import ArtistContent from "../components/ArtistContent";
+
 
 function Artist() {
-
     //gets the name from the artist that was searched for on the home page
     const [searchParams] = useSearchParams();
     const artistName = searchParams.get("artist");
@@ -142,159 +139,38 @@ function Artist() {
         forceUpdate();
     }
 
-    function Items({ currentItems }) {
-        return (
-            <>
-                {currentItems && currentItems.map(function (review, index) {
-                    return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue={review[3]} text={review[0]} />
-                })}
-            </>
-        )
-    }
-
-
-    function PaginatedItems({ itemsPerPage }) {
-        // Here we use item offsets; we could also use page offsets
-        // following the API or data you're working with.
-        const [itemOffset, setItemOffset] = useState(0);
-
-        // Simulate fetching items from another resources.
-        // (This could be items from props; or items loaded in a local state
-        // from an API endpoint with useEffect and useState)
-        const endOffset = itemOffset + itemsPerPage;
-        console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-        const currentItems = allReviews.slice(itemOffset, endOffset);
-        const pageCount = Math.ceil(allReviews.length / itemsPerPage);
-
-        // Invoke when user click to request another page.
-        const handlePageClick = (event) => {
-            const newOffset = (event.selected * itemsPerPage) % allReviews.length;
-            console.log(
-                `User requested page number ${event.selected}, which is offset ${newOffset}`
-            );
-            setItemOffset(newOffset);
-        };
-
-        return (
-            <>
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    boxSizing: 'border-box',
-                    width: '100%',
-                    height: '100%',
-                }}>
-                    <Items currentItems={currentItems} />
-                    <ReactPaginate
-                        activeClassName={'item active '}
-                        breakClassName={'item break-me '}
-                        containerClassName={'pagination'}
-                        disabledClassName={'disabled-page'}
-                        marginPagesDisplayed={2}
-                        nextClassName={"item next "}
-                        nextLabel={<ArrowForwardIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
-                        breakLabel="..."
-                        onPageChange={handlePageClick}
-                        pageRangeDisplayed={2}
-                        pageClassName={'item pagination-page '}
-                        pageCount={pageCount}
-                        previousClassName={"item previous"}
-                        previousLabel={<ArrowBackIosIcon style={{ fontSize: 18, width: 50, color: "black" }} />}
-                        renderOnZeroPageCount={null}
-                    />
-                </div>
-            </>
-        );
-    }
-
-
     return (
-        <>
-            <div id="mobile-wrapper">
+        <Grid container spacing={0}>
+            <Grid item xs={12}>
                 <ArtistNavigation />
-                <div className="artist" >
-                    <aside>
-                        <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} />
-                        <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink} />
+            </Grid>
+            <Grid item xs={12}>
+                <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} />
+            </Grid>
+            <Grid container spacing={1} style={styles.BodyContainer}>
+                <Grid item xs={12} md={8}>
+                    <Carousel images={imageArray} />
+                    <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
+                    {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <ArtistSidebar name={fullName} spotify={spotifyLink} tickets={ticketLink} />
+                </Grid>
+            </Grid>
+            <Grid item xs={12}>
+                <hr id="artist-footer"></hr>
+                <Footer />
+            </Grid>
+        </Grid >
 
-                        <div id="no-sidebar-sm" class="no-sidebar">
-                            {/* <div class="d-block d-sm-none">
-                                <div class="row">
-                                    <div id="icon-sm" class="col-4">
-                                        <a href={spotifyLink} class="social-media-icon" target="_blank" rel="noopener noreferrer">
-                                            <img src="../../images/spotify_icon.png" alt="link" />
-                                        </a>
-                                    </div>
-                                    <div id="icon-sm" class="col-4">
-                                        <a href={ticketLink} class="social-media-icon" target="_blank" rel="noopener noreferrer">
-                                            <img src="../../images/ticketmaster_icon.png" alt="link" />
-                                        </a>
-                                    </div>
-                                    <div class="col-4">
-                                        <a href="#review">
-                                            <button id="write-sm" type="button" class="btn btn-dark fw-bold">
-                                                <img id="review-icon" src="../../images/review.png" alt=""></img>
-                                            </button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div> */}
-                            <Carousel images={imageArray} />
-
-                            <div class="container">
-                                <hr></hr>
-                                <h4 id="reviews" class="fw-bold">Reviews ({totalReviews})</h4>
-                                {allReviews.length > 0 &&
-                                    <div id="clear">
-                                        <div id="reviews-margin" class="row">
-                                            <div class="col-12 col-sm-9 align-self-center">
-                                                <div class="rating fw-bold">
-                                                    Overall Rating: {aggregateRating.toFixed(1)} out of 5
-                                                </div>
-                                                <div class="rating">
-                                                    <Rating
-                                                        name="text-feedback"
-                                                        value={aggregateRating}
-                                                        size="large"
-                                                        readOnly
-                                                        precision={0.1}
-                                                        emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 col-sm-3 align-self-center">
-                                                <div class="dropdown">
-                                                    <Form.Select onChange={formChange} aria-label="Default select example">
-                                                        <option>Recommended</option>
-                                                        <option value="1">Newest First</option>
-                                                        <option value="2">Oldest First</option>
-                                                        <option value="3">Highest Rated</option>
-                                                        <option value="4">Lowest Rated</option>
-                                                    </Form.Select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div id="page" class="list-group">
-                                            {/* {allReviews && allReviews.map(function(review, index) {
-                      return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
-                    })} */}
-                                            <PaginatedItems itemsPerPage={10} />
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                            {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
-                        </div>
-                    </aside>
-
-                    <hr id="artist-footer"></hr>
-                    <Footer />
-                </div>
-            </div>
-        </>
     );
+
 }
+
+const styles = {
+    BodyContainer: {
+        margin: "10px 1vw 0 1vw",
+    }
+}
+
 export default Artist;

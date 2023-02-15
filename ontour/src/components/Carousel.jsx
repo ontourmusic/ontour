@@ -26,11 +26,11 @@ export default function Carousel(props) {
     }, [props.images]);
 
     return (
-        <div class="container">
+        <div class="container" >
             <div class={model ? "model" : "hide"} onClick={() => setModel(false)}>
                 <img src={tempImg} alt="" />
             </div>
-            <div id="gallery" class="row">
+            <div id="gallery" class="row" style={{ marginTop: "0" }}>
                 <div class="col-9 align-self-center">
                     <h4 class="fw-bold ">Captured Moments</h4>
                 </div>

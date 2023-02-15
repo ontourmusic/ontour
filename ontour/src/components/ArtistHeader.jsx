@@ -11,6 +11,7 @@ function ArtistHeader(props) {
     const starBoxRef = useRef(null);
     const totalReviewTextRef = useRef(null);
 
+
     const handleResize = () => {
         console.log("Resize event triggered");
         if (starBoxRef.current) {
