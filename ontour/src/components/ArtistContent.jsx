@@ -78,7 +78,7 @@ const ArtistContent = (props) => {
 
     return (<div class="container">
         <hr></hr>
-        <h4 id="reviews" class="fw-bold">Reviews ({props.totalReviews})</h4>
+        <h4 id="reviews" class="fw-bold">Reviews ({props.allReviews.length})</h4>
         {props.allReviews.length > 0 &&
             <div id="clear">
                 <div id="reviews-margin" class="row">
