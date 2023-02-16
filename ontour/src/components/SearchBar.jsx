@@ -8,7 +8,6 @@ import {createSearchParams, useNavigate} from "react-router-dom";
 
 
 const styles = {
-    // container: 'container',
     input: 'input',
     typeahead: 'typeahead',
     listbox: 'listbox',

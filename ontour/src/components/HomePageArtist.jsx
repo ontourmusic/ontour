@@ -15,7 +15,7 @@ export default function HomePageArtist(props) {
                 <Rating
                     name="text-feedback"
                     value={props.loading ? 0 : (props.rating || 0)}
-                    size="small"
+                    size="medium"
                     readOnly
                     precision={0.1}
                     emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
