@@ -8,7 +8,7 @@ export const artistIDs = [
 export const artistList = {
     "adele": {
         "name": "Adele",
-        "imageURL": "images/adele.webp"
+        "imageURL": "images/adele.jpg"
     },
     "andrea_bocelli": {
         "name": "Andrea Bocelli",
@@ -29,11 +29,11 @@ export const artistList = {
     }, 
     "billy_joel": {
         "name": "Billy Joel",
-        "imageURL": "images/billy_joel.webp"
+        "imageURL": "images/billy_joel.jpg"
     },
     "old_dominion": {
         "name": "Old Dominion",
-        "imageURL": "images/old_dominion.webp"
+        "imageURL": "images/old_dominion.jpg"
     }, 
     "post_malone": {
         "name": "Post Malone",
@@ -49,7 +49,7 @@ export const artistList = {
     }, 
     "harry_styles": {
         "name": "Harry Styles",
-        "imageURL": "images/harry_styles.webp"
+        "imageURL": "images/harry_styles.jpg"
     }, 
     "dominic_fike": {
         "name": "Dominic Fike",
