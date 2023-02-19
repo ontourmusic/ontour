@@ -83,10 +83,10 @@ export default function SearchBar(){
             }
             else if(venues.some( venue => venue['name'] === textEntry )){
                 navigate({
-                    pathname: '/artist', 
-                    search: createSearchParams({
-                    artist: "billie_eilish",
-                    }).toString()
+                    pathname: '/venue', 
+                    // search: createSearchParams({
+                    // artist: "billie_eilish",
+                    // }).toString()
                 });
             } 
             if(typeof selectedItem.text !== undefined){
@@ -100,10 +100,10 @@ export default function SearchBar(){
                 }
                 else if(venues.some( venue => venue['name'] === selectedItem.text)){
                     navigate({
-                        pathname: '/artist', 
-                        search: createSearchParams({
-                        artist: "billie_eilish",
-                        }).toString()
+                        pathname: '/venue', 
+                        // search: createSearchParams({
+                        // artist: "billie_eilish",
+                        // }).toString()
                     });
                 }
             }
