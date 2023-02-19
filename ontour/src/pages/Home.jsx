@@ -18,6 +18,7 @@ function splitArtistsToRows(artists, rowLength){
 function Home() {
   const [artist_name, setName] = useState('')
   const [ratings, setRatings] = useState({});
+  const [reviewCount, setReviewCount] = useState({});
   const [loading, setLoading] = useState(true);
 
   var artistRows = splitArtistsToRows(artistIDs,3);
@@ -35,6 +36,7 @@ function Home() {
   //gets the artist rating data from the database
   const performSearch = async () => {
     var starsResults = {};
+    var ratingCount = {};
     for (var i = 0; i < artistIDs.length; i++) {
       try {
         var artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistIDs[i]}`, {mode: 'cors'});
@@ -46,11 +48,16 @@ function Home() {
       catch (error){
         reviewData = 0;
       }
-      starsResults[artistIDs[i]]=parseReviewData(reviewData);
+      var ratings = parseReviewData(reviewData);
+      starsResults[artistIDs[i]]=ratings.score;
+      ratingCount[artistIDs[i]]=ratings.numRatings;
     }
     setRatings(()=> {
       return starsResults
     });
+    setReviewCount(()=>{
+      return ratingCount
+    })
     setLoading(false);
   }
 
@@ -61,13 +68,13 @@ function Home() {
       cumulativeRating += rRating;
     }
     cumulativeRating = cumulativeRating / reviewData.length;
-    return cumulativeRating;
+    return {"score": cumulativeRating, "numRatings": reviewData.length};
   }
 
   function generateRow(rowItems){
     var row = [];
     rowItems.map((artist) => {
-      row.push(<HomePageArtist artist={artist} rating={ratings[artist]} loading={loading}></HomePageArtist>);
+      row.push(<HomePageArtist artist={artist} rating={ratings[artist]} loading={loading} reviewCount={reviewCount[artist]}></HomePageArtist>);
     })
     return row;
   }
@@ -102,7 +109,7 @@ function Home() {
                 </div>
             </div>
             {artistIDs.map((item)=>{
-                    return <MobileHomePageArtist artist={item} rating={ratings[item]}></MobileHomePageArtist>
+                    return <MobileHomePageArtist artist={item} rating={ratings[item]} reviewCount={reviewCount[item]}></MobileHomePageArtist>
                 })
             }
           </div>

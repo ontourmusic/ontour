@@ -5,6 +5,7 @@ import '../Styles/turnstone.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faSearch, faXmark } from '@fortawesome/free-solid-svg-icons';
 import {createSearchParams, useNavigate} from "react-router-dom";
+import SearchBarItem from "./SearchBarItem";
 
 
 const styles = {
@@ -23,44 +24,26 @@ const artists = [
     "Elton John", "Harry Styles", "Jack Harlow", 
     "Old Dominion", "Post Malone", "Yung Gravy",
   ];
-
-//   const artistIDs = {
-//     "Adele" : "adele", 
-//     "Andrea Bocelli" : "andrea_bocelli",
-//     "Billie Eilish" : "billie_eilish",
-//     "Billy Joel" :,
-//     "The Chainsmokers", 
-//     "Dominic Fike",
-//     "Elton John", 
-//     "Harry Styles", 
-//     "Jack Harlow", 
-//     "Old Dominion", 
-//     "Post Malone", 
-//     "Yung Gravy",
-// };
   
 const venues = [
-    "Kia Forum",
-    "The Shrine",
-    "Walt Disney Concert Hall",
-    "Dolby Theater",
-    "Crypto.com Arena",
-    "Troubadour",
-    "Madison Square Garden",
-    "Dodger Stadium",
-    "Hollywood Bowl",
+    {"name": "Kia Forum",
+     "city": "Los Angeles, CA"
+    }
   ];
 
   // Set up listbox contents.
   const listbox = [
     {
+      id: "artists",
       name: "Artists",
       data: artists,
       searchType: "startswith"
     },
     {
+      id: "venues",
       name: "Venues",
       data: venues,
+      displayField: 'name',
       searchType: "contains"
     }
   ];
@@ -71,6 +54,7 @@ function GetSearchTerm(name) {
     let lower = name.toLowerCase();
     return lower.replace(" ", "_");
 }
+
 
 
   
@@ -97,7 +81,7 @@ export default function SearchBar(){
                     }).toString()
                 });
             }
-            else if(venues.includes(textEntry)){
+            else if(venues.some( venue => venue['name'] === textEntry )){
                 navigate({
                     pathname: '/artist', 
                     search: createSearchParams({
@@ -114,7 +98,7 @@ export default function SearchBar(){
                         }).toString()
                     });
                 }
-                else if(venues.includes(selectedItem.text)){
+                else if(venues.some( venue => venue['name'] === selectedItem.text)){
                     navigate({
                         pathname: '/artist', 
                         search: createSearchParams({
@@ -147,6 +131,7 @@ export default function SearchBar(){
                 onFocus={onFocus}
                 onEnter={searchNavigate}
                 onTab={searchNavigate}
+                Item={SearchBarItem}
             />
         </div>
     );

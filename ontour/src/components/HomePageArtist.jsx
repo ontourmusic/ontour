@@ -20,6 +20,10 @@ export default function HomePageArtist(props) {
                     precision={0.1}
                     emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
                 />
+                {
+                    props.loading ? <span></span>:
+                    <div style={{color: 'black', display: 'inline-block', position: 'absolute', bottom: '15px'}}>({props.reviewCount})</div>
+                }
             </>
         } />
     )
