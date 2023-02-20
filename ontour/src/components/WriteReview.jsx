@@ -3,6 +3,7 @@ import '../index.css';
 import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
+import Reaptcha from 'reaptcha';
 
 export default function WriteReview(props) {
   const [unparsedName, setUnparsedName] = useState("");
@@ -14,6 +15,7 @@ export default function WriteReview(props) {
   const [rating, setRating] = useState("");
   const [reviews, setPastReviews] = useState([]);
   const [canSubmit, setCanSubmit] = useState(true);
+  const [captchaVerified, setCaptcha] = useState(false);
 
 
   // only set is used
@@ -24,6 +26,11 @@ export default function WriteReview(props) {
   // const [rawMedia, setRawMedia] = useState([]);
   // const [media, setMedia] = useState("");
   // const [date, setDate] = useState("");
+
+  const onVerify = recaptchaResponse => {
+    console.log(recaptchaResponse);
+    setCaptcha(true);
+  };
 
 
   const handleWriteReview = event => {
@@ -205,7 +212,8 @@ export default function WriteReview(props) {
           </div>
         </div>
         <div>
-          <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" >Submit</button>
+          <Reaptcha sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify}/>
+          <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" disabled={!captchaVerified} >Submit</button>
         </div>
       </form>
       {!canSubmit && <div className="alert alert-danger fw-bold" role="alert" style={{ marginTop: "25px" }}>Please leave a rating.</div>}
