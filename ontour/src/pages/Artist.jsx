@@ -107,11 +107,9 @@ function Artist() {
                 reviewData[i].eventname,                                    // review event
                 reviewData[i].date,                                         // review date
             ]);
-
             cumulativeRating += reviewData[i].rating;
         }
-        cumulativeRating = cumulativeRating / reviewData.length;
-        setAggregateRating(cumulativeRating);
+        setAggregateRating(cumulativeRating / reviewData.length);
         setTotalReviews(reviewData.length);
         return reviewsArray;
     }
