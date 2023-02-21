@@ -79,21 +79,36 @@ function Artist() {
         var reviewsArray = [];
         var cumulativeRating = 0;
         for (var i = 0; i < reviewData.length; i++) {
-            var review = [];
-            var rDescription = reviewData[i].description;
-            var rRating = reviewData[i].rating;
-            var reviewFname = reviewData[i].fname;
-            var reviewLname = reviewData[i].lname;
-            var reviewFullName = reviewFname + " " + reviewLname[0] + ".";
-            var reviewEvent = reviewData[i].eventname;
-            var date = reviewData[i].date;
-            review.push(rDescription);
-            review.push(rRating);
-            review.push(reviewFullName);
-            review.push(reviewEvent);
-            review.push(date);
-            reviewsArray.push(review);
-            cumulativeRating += rRating;
+            // var review = [];
+            // var rDescription = reviewData[i].description;
+            // var rRating = reviewData[i].rating;
+            // var reviewFname = reviewData[i].fname;
+            // var reviewLname = reviewData[i].lname;
+            // var reviewFullName = reviewFname + " " + reviewLname[0] + ".";
+            // var reviewEvent = reviewData[i].eventname;
+            // var date = reviewData[i].date;
+            // review.push(rDescription);
+            // review.push(rRating);
+            // review.push(reviewFullName);
+            // review.push(reviewEvent);
+            // review.push(date);
+            // reviewsArray.push(review);
+
+            // review.push(reviewData[i].description); // review description
+            // review.push(reviewData[i].rating); // review rating
+            // review.push(reviewData[i].fname + " " + reviewData[i].lname[0] + "."); // review author
+            // review.push(reviewData[i].eventname); // review event
+            // review.push(reviewData[i].date); // review date
+
+            reviewsArray.push([
+                reviewData[i].description,                                  // review description
+                reviewData[i].rating,                                       // review rating
+                reviewData[i].fname + " " + reviewData[i].lname[0] + ".",   // review author
+                reviewData[i].eventname,                                    // review event
+                reviewData[i].date,                                         // review date
+            ]);
+
+            cumulativeRating += reviewData[i].rating;
         }
         cumulativeRating = cumulativeRating / reviewData.length;
         setAggregateRating(cumulativeRating);
