@@ -72,7 +72,7 @@ function Artist() {
       setSpotifyLink(spotify);
     }
     catch{
-      alert('Webpage error. Please reload the page.');
+      console.log('Webpage error. Please reload the page.');
     }
   }
 
