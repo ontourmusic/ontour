@@ -21,8 +21,6 @@ function Home() {
   const [reviewCount, setReviewCount] = useState({});
   const [loading, setLoading] = useState(true);
 
-  var artistRows = splitArtistsToRows(artistIDs,3);
-
   const navigate = useNavigate(); 
   const routeChange = (artist) =>{ 
     navigate({
@@ -60,7 +58,7 @@ function Home() {
     })
     setLoading(false);
   }
-
+  
   function parseReviewData(reviewData) {
     var cumulativeRating = 0;
     for(var i = 0; i < reviewData.length; i++) {
@@ -82,7 +80,9 @@ function Home() {
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-  });
+  }, [artistRows]);
+  var artistRows = splitArtistsToRows(artistIDs,3);
+
   return (
     <>
       <Navigation />
