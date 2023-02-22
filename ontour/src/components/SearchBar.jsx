@@ -113,6 +113,29 @@ export default function SearchBar(){
         }
         
     }
+
+    const onSelect = (selectedItem, displayField) => {
+        console.log(selectedItem, displayField);
+        if(artists.includes(selectedItem)){
+            navigate({
+                pathname: '/artist', 
+                search: createSearchParams({
+                artist: GetSearchTerm(selectedItem),
+                }).toString()
+            });
+        }
+        else if(displayField != undefined && selectedItem != undefined){
+            if(venues.some( venue => venue['name'] === selectedItem.name)){
+                navigate({
+                    pathname: '/venue', 
+                    // search: createSearchParams({
+                    // artist: "billie_eilish",
+                    // }).toString()
+                });
+            }
+        }
+        
+    }
     
 
     return (
@@ -132,6 +155,7 @@ export default function SearchBar(){
                 onEnter={searchNavigate}
                 onTab={searchNavigate}
                 Item={SearchBarItem}
+                onSelect={onSelect}
             />
         </div>
     );
