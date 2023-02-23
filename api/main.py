@@ -31,7 +31,8 @@ origins = [
     "ec2-3-129-52-41.us-east-2.compute.amazonaws.com:3000",
     "http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com",
     "ec2-3-129-52-41.us-east-2.compute.amazonaws.com:",
-    "ontour.tech"
+    "ontour.tech",
+    "www.ontour.tech"
 ]
 
 
