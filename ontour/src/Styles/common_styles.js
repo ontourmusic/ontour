@@ -1,6 +1,7 @@
 const borderRadius = {
   default: "10px",
   large: "20px",
+  button: "5px",
 };
 
 const list_group_vars = {

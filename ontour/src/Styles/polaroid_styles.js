@@ -7,7 +7,7 @@ const polaroid_image = {
   borderRadius: common_styles.borderRadius.default,
 };
 const polaroid_background = {
-  backgroundColor: OnTourColors.colors.surface,
+  backgroundColor: OnTourColors.colors.background,
   borderRadius: common_styles.borderRadius.default,
 };
 

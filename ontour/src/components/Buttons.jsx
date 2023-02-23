@@ -1,22 +1,32 @@
 import React from "react";
 import '../index.css';
+import Button from '@mui/material/Button';
+import { CameraAlt } from "@mui/icons-material";
+
+import button_style from "../Styles/button_styles";
+const two_column_button_style = button_style.two_column_button;
+
 
 const TwoColumnButton = (props) => {
     return (
-        <div class="d-flex w-100 justify-content-end pb-1">
-            <button
-                type="button"
-                class="btn btn-outline-light fw-bold"
-                onClick={props.onPress}
-                style={ResponsiveButtonStyle.button}
-            >
-                <div class="row" style={ResponsiveButtonStyle.div}>
-                    {props.left}
-                    {props.right}
-                </div>
-            </button>
-        </div>
-    )
+        // <div class="d-flex w-100 justify-content-end pb-1">
+        //     <button
+        //         type="button"
+        //         class="btn btn-outline-light fw-bold"
+        //         onClick={props.onPress}
+        //         style={ResponsiveButtonStyle.button}
+        //     >
+        //         <div class="row" style={ResponsiveButtonStyle.div}>
+        //             {props.left}
+        //             {props.right}
+        //         </div>
+        //     </button>
+        // </div>
+        <button style={two_column_button_style.container} onClick={props.onPress}>
+            <div style={two_column_button_style.icon}> {props.left} </div>
+            <div style={two_column_button_style.text}> {props.right} </div>
+        </button>
+    );
 };
 
 const AddMediaButton = (props) => {
@@ -26,9 +36,19 @@ const AddMediaButton = (props) => {
     return (
         <TwoColumnButton
             onPress={handleButtonPress}
-            left={<img id="camera-icon" style={ResponsiveButtonStyle.img} src="../../images/camera.png" alt=""></img>}
-            right={<div id="add-photo" style={ResponsiveButtonStyle.text} >Add Media</div>}
+            // left={<img id="camera-icon" style={ResponsiveButtonStyle.img} src="../../images/camera.png" alt=""></img>}
+            left={<CameraAlt />}
+            right={"Add Media"}
         />
+        // <Button
+        //     onClick={handleButtonPress}
+        //     variant="outlined"
+        //     size="small"
+        //     startIcon={<CameraAlt />}
+        // >
+        //     Add Media
+        // </Button>
+
     )
 };
 
