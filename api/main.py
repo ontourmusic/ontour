@@ -32,22 +32,26 @@ origins = [
     "http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com",
     "ec2-3-129-52-41.us-east-2.compute.amazonaws.com:",
     "ontour.tech",
-    "www.ontour.tech"
+    "www.ontour.tech",
+    "3.129.52.41",
+    "http://3.129.52.41",
+    "http://ontour.tech",
+    "http://www.ontour.tech"
 ]
 
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"]
-# )
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"]
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
 )
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"]
+# )
 
 # to avoid csrftokenError
 app.add_middleware(DBSessionMiddleware, db_url='postgresql://postgres:ontour@3.129.52.41/postgres')
