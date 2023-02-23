@@ -14,6 +14,8 @@ from models import Artist as ModelArtist
 
 from models import Reviews as ModelReviews
 
+from models import Venue_Reviews as ModelVenue_Reviews
+
 import os
 from dotenv import load_dotenv
 
@@ -129,6 +131,35 @@ async def search_artist(search_text: str):
 
 
     return res_dict
+
+@app.get('/search_venue/{search_text}')
+async def search_venue(search_text: str):
+    conn = psycopg2.connect(user="postgres", password="ontour", host="ec2-3-129-52-41.us-east-2.compute.amazonaws.com", port="5432", database="postgres")
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM public.venues WHERE venue_name='" + search_text +"';")
+    rows = cur.fetchall()
+    res_dict = []
+    headers = ["venue_id", "venue_name", "image_url", "images"]
+    for row in rows:
+        res_row = dict(zip(headers, row))
+        res_dict.append(res_row)
+    
+    #jsonify(rows)
+    res = dict(zip(headers, rows[0]))
+    # res_json = json.dumps(res, indent = 4) 
+    return res_dict
+
+@app.get('/venue_reviews/{venue_id}')
+async def reviews(venue_id: int):
+    reviews = db.session.query(ModelVenue_Reviews).filter(ModelVenue_Reviews.venue_id == venue_id).all()
+    return reviews
+
+@app.post('/venue_reviews/')
+async def reviews(venue_id: int, rating: float, description: str, name: str, artistname: str, date: str):
+    db_review = ModelVenue_Reviews(venue_id= venue_id, rating=rating, description=description, name=name, artistname=artistname, date=date)
+    db.session.add(db_review)
+    db.session.commit()
+    return db_review
 
 
 # To run locally
