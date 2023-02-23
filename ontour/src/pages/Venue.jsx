@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import ArtistHeader from "../components/ArtistHeader";
 import Carousel from "../components/Carousel";
 import Review from "../components/Review";
-import WriteReview from "../components/WriteReview";
+import WriteVenueReview from "../components/WriteVenueReview";
 import Sidebar from "../components/Sidebar";
 import { useSearchParams } from "react-router-dom";
 import {useState, useEffect} from "react";
@@ -21,22 +21,22 @@ function Venue() {
 
   //gets the name from the artist that was searched for on the home page
   const [searchParams] = useSearchParams();
-  //const venueName = searchParams.get("venue");
-  const venueName = "The Kia Forum";
+  const venueNameGet = searchParams.get("venue");
+  const venueName = venueNameGet.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 
   //set var names here
-  const [artistData, setArtistData] = useState({
-    fullName: "",
+  const [venueData, setVenueData] = useState({
+    venue_name: "",
     allReviews: [],
-    artistIdNumber: 0,
+    venueIdNumber: 0,
   });
 
-  const [fullName, setFullName] = useState("");
+  const [venue_name, setVenueName] = useState("");
   const [allReviews, setAllReviews] = useState([]);
-  const [artistIdNumber, setArtistIdNumber] = useState(0);
+  const [venueIdNumber, setVenueIdNumber] = useState(0);
   const [aggregateRating, setAggregateRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
-  const [artistImage, setArtistImage] = useState("");
+  const [artistImage, setVenueImage] = useState("");
   const [spotifyLink, setSpotifyLink] = useState("");
   const [ticketLink, setTicketLink] = useState("");
   const [imageArray, setImageArray] = useState([]);
@@ -46,25 +46,24 @@ function Venue() {
   //gets the artist and review data from the database
   const performSearch = async () => {
     //const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
-    const venueResponse = await fetch(`http://localhost:3000/search_venue/${venueName}`, {mode: 'cors'});
+    const venueResponse = await fetch(`http://127.0.0.1:8000/search_venue/${venueName}`, {mode: 'cors'});
     const venueData = await venueResponse.json();
     console.log("VENUE DATA: ");
     console.log(venueData);
-    // setFullName(artistData[0].fname + " " + artistData[0].lname);
-    // const artistId = artistData[0].artist_id;
-    const venueId = 0;
-    // const imageUrls = artistData[0].image_url;
-    // setArtistImage(imageUrls);
-    // setArtistIdNumber(artistId);
-    // const imageGallery = artistData[0].images;
-    // setImageArray(imageGallery);
+    setVenueName(venueData[0].venue_name);
+    const venueId = venueData[0].venue_id;
+    const imageUrls = venueData[0].image_url;
+    setVenueImage(imageUrls);
+    setVenueIdNumber(venueId);
+    const imageGallery = venueData[0].images;
+    setImageArray(imageGallery);
 
     //const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
-    const getReviews = await fetch(`http://localhost:3000/venue_reviews/${venueId}`);
+    const getReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/${venueId}`);
     const reviewData = await getReviews.json();
     console.log("REVIEW DATA: ");
     console.log(reviewData);
-    // setAllReviews(parseReviewData(reviewData));
+    setAllReviews(parseReviewData(reviewData));
 
     //gets the tickemaster artist details 
     // const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, {mode: 'cors'});
@@ -96,15 +95,13 @@ function Venue() {
       var review = [];
       var rDescription = reviewData[i].description;
       var rRating = reviewData[i].rating;
-      var reviewFname = reviewData[i].fname;
-      var reviewLname = reviewData[i].lname;
-      var reviewFullName = reviewFname + " " + reviewLname[0] + ".";
-      var reviewEvent = reviewData[i].eventname;
+      var reviewName = reviewData[i].name; 
+      var reviewArtist = reviewData[i].artistname;
       var date = reviewData[i].date;
       review.push(rDescription);
       review.push(rRating);
-      review.push(reviewFullName);
-      review.push(reviewEvent);
+      review.push(reviewName);
+      review.push(reviewArtist);
       review.push(date);
       reviewsArray.push(review);
       cumulativeRating += rRating;
@@ -215,9 +212,8 @@ function Venue() {
         <ArtistNavigation/>
         <div className="artist" >
           <aside>
-            {/* <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage}/> */}
-            <ArtistHeader name={"The Kia Forum"} rating={4.25} total={12} image={"https://www.discoverlosangeles.com/sites/default/files/business/the-forum/h_2000-crm-la-forum-exterior-not-yuri-2-138172ef5056a36_13817427-5056-a36f-23b107d654c8d0d1.jpg"}/>
-            <Sidebar name={"The Kia Forum"} tickets={ticketLink} venueFlag={1}/>
+            <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage}/>
+            <Sidebar name={venue_name} tickets={ticketLink} venueFlag={1}/>
 
             <div id="no-sidebar-sm" class="no-sidebar">
               <div class="d-block d-sm-none">
@@ -282,7 +278,7 @@ function Venue() {
                 </div>
                 }
               </div>
-              {fullName !== "" && <WriteReview artistId={artistIdNumber} name = {fullName}/> }
+              {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name = {venue_name}/> }
             </div>
           </aside>
 

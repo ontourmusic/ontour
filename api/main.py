@@ -143,6 +143,13 @@ async def reviews(venue_id: int):
     reviews = db.session.query(ModelVenue_Reviews).filter(ModelVenue_Reviews.venue_id == venue_id).all()
     return reviews
 
+@app.post('/venue_reviews/')
+async def reviews(venue_id: int, rating: float, description: str, name: str, artistname: str, date: str):
+    db_review = ModelVenue_Reviews(venue_id= venue_id, rating=rating, description=description, name=name, artistname=artistname, date=date)
+    db.session.add(db_review)
+    db.session.commit()
+    return db_review
+
 
 # To run locally
 if __name__ == '__main__':
