@@ -5,7 +5,7 @@ import { artistList } from "../ArtistInfo";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { Polaroid } from "./Polaroid";
 
-import styles from '../Styles/styles';
+// import styles from '../Styles/styles';
 
 export default function HomePageArtist(props) {
     return (
