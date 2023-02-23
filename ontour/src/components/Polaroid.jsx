@@ -1,6 +1,7 @@
 import React from "react";
 import '../index.css';
-import styles from '../Styles/styles';
+
+import polaroid_styles from "../Styles/polaroid_styles";
 
 /* 
 expected props:
@@ -12,8 +13,8 @@ const Polaroid = (props) => {
     return (
         <div class="col-4" onClick={props.onPress} >
             <a href={props.link} >
-                <div class="card" style={styles.polaroid_background}>
-                    <img src={props.imageURL} class="d-block w-100" style={styles.polaroid_image} alt="..." />
+                <div class="card" style={polaroid_styles.polaroid_background}>
+                    <img src={props.imageURL} class="d-block w-100" style={polaroid_styles.polaroid_image} alt="..." />
                     <div class="card-body">
                         {props.bottomComponent}
                     </div>

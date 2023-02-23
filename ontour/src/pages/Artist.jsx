@@ -10,6 +10,8 @@ import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ArtistNavigation from "../ArtistNavigation"
 
+import artist_styles from "../Styles/artist_styles";
+
 
 // Testing
 import { Grid } from "@mui/material";
@@ -67,6 +69,7 @@ function Artist() {
         var tickets = tmData._embedded.attractions[0].url;
         setTicketLink(tickets);
         setSpotifyLink(spotify);
+
     }
 
     //performs the search when the page loads
@@ -79,27 +82,6 @@ function Artist() {
         var reviewsArray = [];
         var cumulativeRating = 0;
         for (var i = 0; i < reviewData.length; i++) {
-            // var review = [];
-            // var rDescription = reviewData[i].description;
-            // var rRating = reviewData[i].rating;
-            // var reviewFname = reviewData[i].fname;
-            // var reviewLname = reviewData[i].lname;
-            // var reviewFullName = reviewFname + " " + reviewLname[0] + ".";
-            // var reviewEvent = reviewData[i].eventname;
-            // var date = reviewData[i].date;
-            // review.push(rDescription);
-            // review.push(rRating);
-            // review.push(reviewFullName);
-            // review.push(reviewEvent);
-            // review.push(date);
-            // reviewsArray.push(review);
-
-            // review.push(reviewData[i].description); // review description
-            // review.push(reviewData[i].rating); // review rating
-            // review.push(reviewData[i].fname + " " + reviewData[i].lname[0] + "."); // review author
-            // review.push(reviewData[i].eventname); // review event
-            // review.push(reviewData[i].date); // review date
-
             reviewsArray.push([
                 reviewData[i].description,                                  // review description
                 reviewData[i].rating,                                       // review rating
@@ -160,7 +142,7 @@ function Artist() {
             <Grid item xs={12}>
                 <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} />
             </Grid>
-            <Grid container spacing={1} style={styles.BodyContainer}>
+            <Grid container spacing={1} style={artist_styles.grid.body_container}>
                 <Grid item xs={12} md={8}>
                     <Carousel images={imageArray} />
                     <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
@@ -180,10 +162,5 @@ function Artist() {
 
 }
 
-const styles = {
-    BodyContainer: {
-        margin: "10px 1vw 0 1vw",
-    }
-}
 
 export default Artist;

@@ -6,12 +6,13 @@ import ExternalLink from "./ExternalLink";
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
 
-const ArtistSidebar = (props) => {
+import artist_styles from "../Styles/artist_styles";
+const sidebar_styles = artist_styles.sidebar;
 
-    // console.log(props.spotify);
+const ArtistSidebar = (props) => {
     return (
         <div style={{ position: "sticky", top: "15px" }}>
-            <Box sx={styles.Box}>
+            <Box sx={sidebar_styles.box}>
                 <a href="#review">
                     <button id="writebutton" type="button" class="btn btn-dark fw-bold">
                         <div class="row">
@@ -24,7 +25,7 @@ const ArtistSidebar = (props) => {
                         </div>
                     </button>
                 </a>
-                <div style={styles.IconContainer}>
+                <div style={sidebar_styles.icon_container}>
                     <ExternalLink mediaLink={props.spotify} iconLink="images/spotify_icon.png" />
                     <ExternalLink mediaLink={props.tickets} iconLink="images/ticketmaster_icon.png" />
                 </div>
@@ -37,24 +38,6 @@ const ArtistSidebar = (props) => {
     );
 }
 
-const styles = {
-    Box: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        // justifyContent: 'center',
-        width: '100%',
-        height: '100%',
-        // paddingRight: '2vw',
 
-        // position: sticky;
-        // top: "0",
-        // float: "right",
-    },
-    IconContainer: {
-        display: 'flex',
-        flexDirection: 'space-between',
-    }
-}
 
 export default ArtistSidebar;
