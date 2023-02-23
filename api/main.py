@@ -46,8 +46,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_headers=["*"]
+    allow_origins=["*"]
 )
 
 # to avoid csrftokenError
