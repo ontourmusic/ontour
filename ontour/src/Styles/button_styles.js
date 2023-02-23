@@ -10,7 +10,7 @@ const two_column_button = {
     borderRadius: common_styles.borderRadius.button,
     backgroundColor: OnTourColors.colors.background,
     color: OnTourColors.colors.onBackground,
-    fontSize: "0.9rem",
+    fontSize: "1rem",
     padding: "0.3rem 1rem",
     whiteSpace: "nowrap",
     overflow: "hidden",
