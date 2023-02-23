@@ -21,7 +21,8 @@ function Venue() {
 
   //gets the name from the artist that was searched for on the home page
   const [searchParams] = useSearchParams();
-  const artistName = searchParams.get("artist");
+  //const venueName = searchParams.get("venue");
+  const venueName = "The Kia Forum";
 
   //set var names here
   const [artistData, setArtistData] = useState({
@@ -44,20 +45,25 @@ function Venue() {
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/adele`, {mode: 'cors'});
-    const artistData = await artistResponse.json();
-    console.log(artistData);
-    setFullName(artistData[0].fname + " " + artistData[0].lname);
-    const artistId = artistData[0].artist_id;
-    const imageUrls = artistData[0].image_url;
-    setArtistImage(imageUrls);
-    setArtistIdNumber(artistId);
-    const imageGallery = artistData[0].images;
-    setImageArray(imageGallery);
+    //const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
+    const venueResponse = await fetch(`http://localhost:3000/search_venue/${venueName}`, {mode: 'cors'});
+    const venueData = await venueResponse.json();
+    console.log("VENUE DATA: ");
+    console.log(venueData);
+    // setFullName(artistData[0].fname + " " + artistData[0].lname);
+    // const artistId = artistData[0].artist_id;
+    const venueId = 0;
+    // const imageUrls = artistData[0].image_url;
+    // setArtistImage(imageUrls);
+    // setArtistIdNumber(artistId);
+    // const imageGallery = artistData[0].images;
+    // setImageArray(imageGallery);
 
-    //const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
-    // const reviewData = await getReviews.json();
-    // console.log(reviewData);
+    //const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
+    const getReviews = await fetch(`http://localhost:3000/venue_reviews/${venueId}`);
+    const reviewData = await getReviews.json();
+    console.log("REVIEW DATA: ");
+    console.log(reviewData);
     // setAllReviews(parseReviewData(reviewData));
 
     //gets the tickemaster artist details 
@@ -80,7 +86,7 @@ function Venue() {
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-  }, [artistName]);
+  }, [venueName]);
   
   //parses the review data from the database
   function parseReviewData(reviewData) {
