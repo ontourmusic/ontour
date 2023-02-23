@@ -26,9 +26,18 @@ const artists = [
   ];
   
 const venues = [
-    {"name": "Kia Forum",
+    {
+     "name": "The Kia Forum",
      "city": "Los Angeles, CA"
-    }
+    },
+    {
+        "name": "Hollywood Bowl",
+        "city": "Los Angeles, CA"
+    },
+    {
+        "name": "Crypto.com Arena",
+        "city": "Los Angeles, CA"
+    },
   ];
 
   // Set up listbox contents.
@@ -84,9 +93,9 @@ export default function SearchBar(){
             else if(venues.some( venue => venue['name'] === textEntry )){
                 navigate({
                     pathname: '/venue', 
-                    // search: createSearchParams({
-                    // artist: "billie_eilish",
-                    // }).toString()
+                    search: createSearchParams({
+                    venue: GetSearchTerm(textEntry),
+                    }).toString()
                 });
             } 
             if(typeof selectedItem.text !== undefined){
@@ -98,12 +107,12 @@ export default function SearchBar(){
                         }).toString()
                     });
                 }
-                else if(venues.some( venue => venue['name'] === selectedItem.text)){
+                else if(venues.some( venue => venue['name'] === selectedItem.name)){
                     navigate({
                         pathname: '/venue', 
-                        // search: createSearchParams({
-                        // artist: "billie_eilish",
-                        // }).toString()
+                        search: createSearchParams({
+                        venue: GetSearchTerm(selectedItem.name),
+                        }).toString()
                     });
                 }
             }
@@ -128,9 +137,9 @@ export default function SearchBar(){
             if(venues.some( venue => venue['name'] === selectedItem.name)){
                 navigate({
                     pathname: '/venue', 
-                    // search: createSearchParams({
-                    // artist: "billie_eilish",
-                    // }).toString()
+                    search: createSearchParams({
+                    venue: GetSearchTerm(selectedItem.name),
+                    }).toString()
                 });
             }
         }
