@@ -132,6 +132,21 @@ async def search_artist(search_text: str):
 
     return res_dict
 
+@app.get('/reviews/')
+async def reviews():
+    conn = psycopg2.connect(user="postgres", password="ontour", host="ec2-3-129-52-41.us-east-2.compute.amazonaws.com", port="5432", database="postgres")
+    cur = conn.cursor()
+    cur.execute("SELECT artist_id, rating FROM reviews;")
+    rows = cur.fetchall()
+    res_dict = []
+    headers = ["artist_id", "rating"]
+    for row in rows:
+        print(row)
+        res_row = dict(zip(headers, row))
+        res_dict.append(res_row)
+
+    return res_dict
+
 @app.get('/search_venue/{search_text}')
 async def search_venue(search_text: str):
     conn = psycopg2.connect(user="postgres", password="ontour", host="ec2-3-129-52-41.us-east-2.compute.amazonaws.com", port="5432", database="postgres")
