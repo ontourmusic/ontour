@@ -41,6 +41,7 @@ function Artist() {
   const [spotifyLink, setSpotifyLink] = useState("");
   const [ticketLink, setTicketLink] = useState("");
   const [imageArray, setImageArray] = useState([]);
+  const [ticketMasterId, setTicketMasterId] = useState("");
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
@@ -60,16 +61,20 @@ function Artist() {
 
       const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
       const reviewData = await getReviews.json();
-      console.log(reviewData);
       setAllReviews(parseReviewData(reviewData));
 
       //gets the tickemaster artist details 
       const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
       const tmData = await tmArtist.json();
+      console.log(tmData);
       var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
       var tickets = tmData._embedded.attractions[0].url;
+      var artistTicketmasterId = tmData._embedded.attractions[0].id;
+      console.log(artistTicketmasterId);
+      setTicketMasterId(artistTicketmasterId);
       setTicketLink(tickets);
       setSpotifyLink(spotify);
+          
     }
     catch{
       console.log('Webpage error. Please reload the page.');
@@ -208,7 +213,7 @@ function Artist() {
         <div className="artist" >
           <aside>
             <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} />
-            <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink} />
+            <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink} ticketMasterId={ticketMasterId} />
 
             <div id="no-sidebar-sm" class="no-sidebar">
               <div class="d-block d-sm-none">
