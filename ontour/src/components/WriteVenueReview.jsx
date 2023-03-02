@@ -11,6 +11,8 @@ export default function WriteVenueReview(props) {
   const [rating, setRating] = useState("");
   const [reviews, setPastReviews] = useState([]);
   const [canSubmit, setCanSubmit] = useState(true);
+  const [artistName, setArtistName] = useState("");
+  const [eventDate, setEventDate] = useState("");
 
 
   // only set is used
@@ -63,11 +65,9 @@ export default function WriteVenueReview(props) {
   }
 
   const postData = async () => { 
-    var artistName = "default";
-    var date = "12-10-2021";
     var encodedDescription = encodeURIComponent(description);
-    await fetch(`http://127.0.0.1:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${date}`, { method: 'POST', mode: 'cors' });
-    //await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/?venue_id=${props.venueId}&event_id=1&rating=${rating}&description=${encodedDescription}&fname=${first}&lname=${last}&eventname=${event}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    //await fetch(`http://127.0.0.1:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
     window.location.reload();
   }
 
@@ -101,42 +101,10 @@ export default function WriteVenueReview(props) {
         </div>
         <div class="row bottom">
           <div class="col">
-            {/* <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event Name" required/> */}
-            {reviews.length > 0 &&
-              <>
-                <Form.Select aria-label="Default select example" required onChange={event => setEvent(event.target.value)}>
-                  <option value="" disabled selected hidden>Select an event</option>
-                  <option value={`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name} `}>
-                    {reviews[0].datetime} • {reviews[0].venue.name}
-                  </option>
-                  <option value={`${reviews[1].datetime.split("T")[0]} • ${reviews[1].venue.name} `}>
-                    {reviews[1].datetime} • {reviews[1].venue.name}
-                  </option>
-                  <option value={`${reviews[2].datetime.split("T")[0]} • ${reviews[2].venue.name}`}>
-                    {reviews[2].datetime} • {reviews[2].venue.name}
-                  </option>
-                  <option value={`${reviews[3].datetime.split("T")[0]} • ${reviews[3].venue.name}`}>
-                    {reviews[3].datetime} • {reviews[3].venue.name}
-                  </option>
-                  <option value={`${reviews[4].datetime.split("T")[0]} • ${reviews[4].venue.name}`}>
-                    {reviews[4].datetime} • {reviews[4].venue.name}
-                  </option>
-                  <option value={`${reviews[5].datetime.split("T")[0]} • ${reviews[5].venue.name}`}>
-                    {reviews[5].datetime} • {reviews[5].venue.name}
-                  </option>
-                  <option value={` ${reviews[6].datetime.split("T")[0]} • ${reviews[6].venue.name}`}>
-                    {reviews[6].datetime} • {reviews[6].venue.name}
-                  </option>
-                  <option value={`${reviews[7].datetime.split("T")[0]} • ${reviews[7].venue.name}`}>
-                    {reviews[7].datetime} • {reviews[7].venue.name}
-                  </option>
-                  <option value={`${reviews[8].datetime.split("T")[0]} • ${reviews[8].venue.name}`}>
-                    {reviews[8].datetime} • {reviews[8].venue.name}
-                  </option>
-                  <option value={`${reviews[9].datetime.split("T")[0]} • ${reviews[9].venue.name}`}>
-                    {reviews[9].datetime} • {reviews[9].venue.name}
-                  </option>
-                </Form.Select> </>}
+            <input type="text" class="form-control shadow-none" onChange={artistName => setArtistName(artistName.target.value)} value={artistName} placeholder="Artist Name" required />
+          </div>
+          <div class='col'>
+            <input type="date" class="form-control shadow-none" onChange={eventDate => setEventDate(eventDate.target.value)} value={eventDate} placeholder="Event Date" required />
           </div>
         </div>
         <div class="row bottom">
