@@ -1,10 +1,11 @@
-import React from "react";
+import React, { startTransition } from "react";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
 import HomePageArtist from "../components/HomePageArtist";
 import Navigation from "../Navigation";
-import { artistIDs } from "../ArtistInfo";
+import { artistList } from "../ArtistInfo";
 import MobileHomePageArtist from "../components/MobileHomePageArtist";
+import SearchBar from "../components/SearchBar";
 
 function splitArtistsToRows(artists, rowLength){
   var splitArray = [];
@@ -17,9 +18,8 @@ function splitArtistsToRows(artists, rowLength){
 function Home() {
   const [artist_name, setName] = useState('')
   const [ratings, setRatings] = useState({});
+  const [reviewCount, setReviewCount] = useState({});
   const [loading, setLoading] = useState(true);
-
-  var artistRows = splitArtistsToRows(artistIDs,3);
 
   const navigate = useNavigate(); 
   const routeChange = (artist) =>{ 
@@ -34,39 +34,43 @@ function Home() {
   //gets the artist rating data from the database
   const performSearch = async () => {
     var starsResults = {};
-    for (var i = 0; i < artistIDs.length; i++) {
-      try {
-        var artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistIDs[i]}`, {mode: 'cors'});
-        var artistData = await artistResponse.json();
-        var artistId = artistData[0].artist_id;
-        var getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, {mode: 'cors'});
-        var reviewData = await getReviews.json();
-      }
-      catch (error){
-        reviewData = 0;
-      }
-      starsResults[artistIDs[i]]=parseReviewData(reviewData);
+    var ratingCount = {};
+    var newRatings = {};
+    var newCount = {};
+    for(var i=1; i <= Object.keys(artistList).length; i++){
+      newRatings[i]=0;
+      newCount[i]=0;
     }
+    var fetchReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/`, {mode: 'cors'});
+    var reviewData = await fetchReviews.json();
+
+    console.log(reviewData);
+    reviewData.forEach((element) => {
+      newRatings[element.artist_id] += element.rating;
+      newCount[element.artist_id]++;
+    });
+
+    for (var i = 0; i < Object.keys(artistList).length; i++) {
+      var artistNameList = Object.keys(artistList);
+      var artistName = artistNameList[i];
+      var artistID = artistList[artistName].artistID;
+      starsResults[artistName]=(newRatings[artistID]/newCount[artistID]);
+      ratingCount[artistName]=newCount[artistID];
+    }
+
     setRatings(()=> {
       return starsResults
     });
+    setReviewCount(()=>{
+      return ratingCount
+    })
     setLoading(false);
-  }
-
-  function parseReviewData(reviewData) {
-    var cumulativeRating = 0;
-    for(var i = 0; i < reviewData.length; i++) {
-      var rRating = reviewData[i].rating;
-      cumulativeRating += rRating;
-    }
-    cumulativeRating = cumulativeRating / reviewData.length;
-    return cumulativeRating;
   }
 
   function generateRow(rowItems){
     var row = [];
     rowItems.map((artist) => {
-      row.push(<HomePageArtist artist={artist} rating={ratings[artist]} loading={loading}></HomePageArtist>);
+      row.push(<HomePageArtist artist={artist} rating={ratings[artist]} loading={loading} reviewCount={reviewCount[artist]}></HomePageArtist>);
     })
     return row;
   }
@@ -74,21 +78,25 @@ function Home() {
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-  });
+  }, [artistRows]);
+  var artistRows = splitArtistsToRows(Object.keys(artistList),3);
+
   return (
     <>
       <Navigation />
       <div id="homepage">
+      
         <div id="homeheader">
           <img id="home-logo" src= "images/logo.png" alt=""/>
           <div class="home-title">
             Own your next live experience.
           </div>
           <div class="search row">
-            <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
+          <SearchBar></SearchBar>
+            {/* <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
             <button class="btn btn-dark" onClick={() => {alert('Feature coming soon! (see artists below)')}}>
               <img src="../../images/search_icon.png" alt="..."/>
-            </button>
+            </button> */}
           </div>
 
           {/* Mobile */}
@@ -98,8 +106,8 @@ function Home() {
                     <h4 class="fw-bold ">Recently Added Artists</h4>
                 </div>
             </div>
-            {artistIDs.map((item)=>{
-                    return <MobileHomePageArtist artist={item} rating={ratings[item]}></MobileHomePageArtist>
+            {Object.keys(artistList).map((item)=>{
+                    return <MobileHomePageArtist artist={item} rating={ratings[item]} reviewCount={reviewCount[item]}></MobileHomePageArtist>
                 })
             }
           </div>

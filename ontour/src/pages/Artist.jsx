@@ -41,35 +41,44 @@ function Artist() {
   const [spotifyLink, setSpotifyLink] = useState("");
   const [ticketLink, setTicketLink] = useState("");
   const [imageArray, setImageArray] = useState([]);
+  const [ticketMasterId, setTicketMasterId] = useState("");
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    console.log(artistName);
-    const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, { mode: 'cors' });
-    const artistData = await artistResponse.json();
-    console.log(artistData);
-    setFullName(artistData[0].fname + " " + artistData[0].lname);
-    const artistId = artistData[0].artist_id;
-    const imageUrls = artistData[0].image_url;
-    setArtistImage(imageUrls);
-    setArtistIdNumber(artistId);
-    const imageGallery = artistData[0].images;
-    setImageArray(imageGallery);
+    try{
+      const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, {mode: 'cors'});
+      const artistData = await artistResponse.json();
+      console.log(artistData);
+      setFullName(artistData[0].fname + " " + artistData[0].lname);
+      const artistId = artistData[0].artist_id;
+      const imageUrls = artistData[0].image_url;
+      setArtistImage(imageUrls);
+      setArtistIdNumber(artistId);
+      const imageGallery = artistData[0].images;
+      setImageArray(imageGallery);
 
-    const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
-    const reviewData = await getReviews.json();
-    console.log(reviewData);
-    setAllReviews(parseReviewData(reviewData));
+      const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
+      const reviewData = await getReviews.json();
+      setAllReviews(parseReviewData(reviewData));
 
-    //gets the tickemaster artist details 
-    const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
-    const tmData = await tmArtist.json();
-    var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
-    var tickets = tmData._embedded.attractions[0].url;
-    setTicketLink(tickets);
-    setSpotifyLink(spotify);
+      //gets the tickemaster artist details 
+      const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
+      const tmData = await tmArtist.json();
+      console.log(tmData);
+      var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
+      var tickets = tmData._embedded.attractions[0].url;
+      var artistTicketmasterId = tmData._embedded.attractions[0].id;
+      console.log(artistTicketmasterId);
+      setTicketMasterId(artistTicketmasterId);
+      setTicketLink(tickets);
+      setSpotifyLink(spotify);
+          
+    }
+    catch{
+      console.log('Webpage error. Please reload the page.');
+    }
   }
 
   //performs the search when the page loads
@@ -106,8 +115,6 @@ function Artist() {
 
   const formChange = (event) => {
     //sort all reviews array by rating highest to lowest
-    console.log("in here");
-    console.log(event.target.value);
     var tempArray = allReviews;
     if (event.target.value == 3) {
       tempArray.sort(function (a, b) {
@@ -115,9 +122,8 @@ function Artist() {
       });
     }
     //lowest to highest
-    else if (event.target.value == 4) {
-      console.log("in lowest to highest");
-      tempArray.sort(function (a, b) {
+    else if(event.target.value == 4) {
+      tempArray.sort(function(a, b) {
         return a[1] > b[1] ? 1 : -1;
       });
     }
@@ -132,11 +138,6 @@ function Artist() {
       tempArray.sort(function (a, b) {
         return new Date(a[4]) < new Date(b[4]) ? 1 : -1;
       });
-    }
-
-    //print all reviews array
-    for (var i = 0; i < allReviews.length; i++) {
-      console.log(allReviews[i]);
     }
     setAllReviews(tempArray);
     forceUpdate();
@@ -162,16 +163,12 @@ function Artist() {
     // (This could be items from props; or items loaded in a local state
     // from an API endpoint with useEffect and useState)
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     const currentItems = allReviews.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(allReviews.length / itemsPerPage);
 
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
       const newOffset = (event.selected * itemsPerPage) % allReviews.length;
-      console.log(
-        `User requested page number ${event.selected}, which is offset ${newOffset}`
-      );
       setItemOffset(newOffset);
     };
 
@@ -216,7 +213,7 @@ function Artist() {
         <div className="artist" >
           <aside>
             <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} />
-            <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink} />
+            <Sidebar name={fullName} spotify={spotifyLink} tickets={ticketLink} ticketMasterId={ticketMasterId} />
 
             <div id="no-sidebar-sm" class="no-sidebar">
               <div class="d-block d-sm-none">
