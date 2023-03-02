@@ -46,33 +46,35 @@ function Artist() {
 
     //gets the artist and review data from the database
     const performSearch = async () => {
-        console.log(artistName);
-        const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, { mode: 'cors' });
-        const artistData = await artistResponse.json();
-        console.log(artistData);
-        setFullName(artistData[0].fname + " " + artistData[0].lname);
-        const artistId = artistData[0].artist_id;
-        const imageUrls = artistData[0].image_url;
-        setArtistImage(imageUrls);
-        setArtistIdNumber(artistId);
-        const imageGallery = artistData[0].images;
-        setImageArray(imageGallery);
+        try{
+            console.log(artistName);
+            const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, { mode: 'cors' });
+            const artistData = await artistResponse.json();
+            console.log(artistData);
+            setFullName(artistData[0].fname + " " + artistData[0].lname);
+            const artistId = artistData[0].artist_id;
+            const imageUrls = artistData[0].image_url;
+            setArtistImage(imageUrls);
+            setArtistIdNumber(artistId);
+            const imageGallery = artistData[0].images;
+            setImageArray(imageGallery);
 
-        const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
-        const reviewData = await getReviews.json();
-        console.log(reviewData);
-        setAllReviews(parseReviewData(reviewData));
+            const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
+            const reviewData = await getReviews.json();
+            console.log(reviewData);
+            setAllReviews(parseReviewData(reviewData));
 
-        //gets the tickemaster artist details 
-        const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
-        const tmData = await tmArtist.json();
-        var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
-        var tickets = tmData._embedded.attractions[0].url;
-        setTicketLink(tickets);
-        setSpotifyLink(spotify);
-    }
-    catch{
-      console.log('Webpage error. Please reload the page.');
+            //gets the tickemaster artist details 
+            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
+            const tmData = await tmArtist.json();
+            var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
+            var tickets = tmData._embedded.attractions[0].url;
+            setTicketLink(tickets);
+            setSpotifyLink(spotify);
+        }
+        catch{
+            console.log('Webpage error. Please reload the page.');
+        }
     }
 
     //performs the search when the page loads
