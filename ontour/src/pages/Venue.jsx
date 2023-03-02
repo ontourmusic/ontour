@@ -45,8 +45,8 @@ function Venue() {
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    //const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
     const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
+    //const venueResponse = await fetch(`http://127.0.0.1:8000/search_venue/${venueName}`, {mode: 'cors'});
     const venueData = await venueResponse.json();
     console.log("VENUE DATA: ");
     console.log(venueData);
@@ -58,8 +58,9 @@ function Venue() {
     const imageGallery = venueData[0].images;
     setImageArray(imageGallery);
 
-    //const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
-    const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`);
+
+    const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
+    //const getReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/${venueId}`);
     const reviewData = await getReviews.json();
     console.log("REVIEW DATA: ");
     console.log(reviewData);
