@@ -70,7 +70,9 @@ function Artist() {
         var tickets = tmData._embedded.attractions[0].url;
         setTicketLink(tickets);
         setSpotifyLink(spotify);
-
+    }
+    catch{
+      console.log('Webpage error. Please reload the page.');
     }
 
     //performs the search when the page loads
@@ -167,11 +169,7 @@ function Artist() {
                 <hr id="artist-footer"></hr>
                 <Footer />
             </Grid>
-        </Grid>
-
+        </Grid >
     );
-
 }
-
-
 export default Artist;
