@@ -15,59 +15,63 @@ import artist_styles from "../Styles/artist_styles";
 
 // Testing
 import { Grid } from "@mui/material";
-import ArtistSidebar from "../components/ArtistSidebar";
+import SideContent from "../components/SideContent";
 import ArtistContent from "../components/ArtistContent";
+import ComponentCarousel from "../components/ComponentCarousel";
+
 
 function Artist() {
+    //gets the name from the artist that was searched for on the home page
+    const [searchParams] = useSearchParams();
+    const artistName = searchParams.get("artist");
 
-  const [fullName, setFullName] = useState("");
-  const [allReviews, setAllReviews] = useState([]);
-  const [artistIdNumber, setArtistIdNumber] = useState(0);
-  const [aggregateRating, setAggregateRating] = useState(0);
-  const [totalReviews, setTotalReviews] = useState(0);
-  const [artistImage, setArtistImage] = useState("");
-  const [spotifyLink, setSpotifyLink] = useState("");
-  const [ticketLink, setTicketLink] = useState("");
-  const [imageArray, setImageArray] = useState([]);
-  const [ticketMasterId, setTicketMasterId] = useState("");
-  const [, updateState] = React.useState();
-  const forceUpdate = React.useCallback(() => updateState({}), []);
+    //set var names here
+    const [artistData, setArtistData] = useState({
+        fullName: "",
+        allReviews: [],
+        artistIdNumber: 0,
+    });
 
-  //gets the artist and review data from the database
-  const performSearch = async () => {
-    try{
-      const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, {mode: 'cors'});
-      const artistData = await artistResponse.json();
-      console.log(artistData);
-      setFullName(artistData[0].fname + " " + artistData[0].lname);
-      const artistId = artistData[0].artist_id;
-      const imageUrls = artistData[0].image_url;
-      setArtistImage(imageUrls);
-      setArtistIdNumber(artistId);
-      const imageGallery = artistData[0].images;
-      setImageArray(imageGallery);
+    const [fullName, setFullName] = useState("");
+    const [allReviews, setAllReviews] = useState([]);
+    const [artistIdNumber, setArtistIdNumber] = useState(0);
+    const [aggregateRating, setAggregateRating] = useState(0);
+    const [totalReviews, setTotalReviews] = useState(0);
+    const [artistImage, setArtistImage] = useState("");
+    const [spotifyLink, setSpotifyLink] = useState("");
+    const [ticketLink, setTicketLink] = useState("");
+    const [imageArray, setImageArray] = useState([]);
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
 
-      const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
-      const reviewData = await getReviews.json();
-      setAllReviews(parseReviewData(reviewData));
+    //gets the artist and review data from the database
+    const performSearch = async () => {
+        console.log(artistName);
+        const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, { mode: 'cors' });
+        const artistData = await artistResponse.json();
+        console.log(artistData);
+        setFullName(artistData[0].fname + " " + artistData[0].lname);
+        const artistId = artistData[0].artist_id;
+        const imageUrls = artistData[0].image_url;
+        setArtistImage(imageUrls);
+        setArtistIdNumber(artistId);
+        const imageGallery = artistData[0].images;
+        setImageArray(imageGallery);
 
-      //gets the tickemaster artist details 
-      const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
-      const tmData = await tmArtist.json();
-      console.log(tmData);
-      var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
-      var tickets = tmData._embedded.attractions[0].url;
-      var artistTicketmasterId = tmData._embedded.attractions[0].id;
-      console.log(artistTicketmasterId);
-      setTicketMasterId(artistTicketmasterId);
-      setTicketLink(tickets);
-      setSpotifyLink(spotify);
-          
+        const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
+        const reviewData = await getReviews.json();
+        console.log(reviewData);
+        setAllReviews(parseReviewData(reviewData));
+
+        //gets the tickemaster artist details 
+        const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
+        const tmData = await tmArtist.json();
+        var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
+        var tickets = tmData._embedded.attractions[0].url;
+        setTicketLink(tickets);
+        setSpotifyLink(spotify);
+
     }
-    catch{
-      console.log('Webpage error. Please reload the page.');
-    }
-  }
 
     //performs the search when the page loads
     useEffect(() => {
@@ -130,6 +134,7 @@ function Artist() {
         setAllReviews(tempArray);
         forceUpdate();
     }
+
     return (
         <Grid container spacing={0}>
             <Grid item xs={12}>
@@ -140,18 +145,33 @@ function Artist() {
             </Grid>
             <Grid container spacing={1} style={artist_styles.grid.body_container}>
                 <Grid item xs={12} md={8}>
+                    {/* {
+                        imageArray.length > 0 &&
+                        <ComponentCarousel numToDisplay={3} uniformWidth={true} 
+                            componentArray={imageArray.map((image, index) => {
+                                return (
+                                    <Polaroid key={index} imageURL={image} />
+                                );
+                            })}
+                        />
+                    } */}
                     <Carousel images={imageArray} />
                     <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
                     {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <ArtistSidebar name={fullName} spotify={spotifyLink} tickets={ticketLink} />
+                    <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [ticketLink, "images/ticketmaster_icon.png"]]} />
                 </Grid>
             </Grid>
             <Grid item xs={12}>
                 <hr id="artist-footer"></hr>
                 <Footer />
             </Grid>
-        </Grid >
+        </Grid>
+
+    );
+
+}
+
 
 export default Artist;
