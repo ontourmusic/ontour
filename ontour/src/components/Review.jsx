@@ -4,11 +4,11 @@ import { RiStarFill } from "react-icons/ri"
 import { AiOutlineUser } from "react-icons/ai"
 import { useState } from 'react';
 import { HelpfulButton } from "./Buttons";
+import artist_styles from "../Styles/artist_styles";
+const review_styles = artist_styles.review_display.review;
 
 export default function Review(props) {
     const [isActive, setIsActive] = useState(true);
-    // console.log(props.text)
-    // console.log(decodeURIComponent(props.text));
 
     const handleHelpful = event => {
         event.currentTarget.classList.toggle('fw-bold');
@@ -17,7 +17,7 @@ export default function Review(props) {
     };
 
     return (
-        <div class="list-group-item flex-column align-items-start">
+        <div style={review_styles.item}>
             <div class="d-flex bd-highlight">
                 <div class="p-1 bd-highlight"><AiOutlineUser size={23} /> </div>
                 <div class="p-1 bd-highlight"><h6 class="review-user">{props.user}</h6></div>

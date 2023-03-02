@@ -3,16 +3,21 @@ import { useState, useEffect } from "react";
 import { Polaroid } from "./Polaroid";
 import { AddMediaButton } from "./Buttons";
 
-export default function Carousel(props) {
+/*
+expected props:
+    - images: array of strings
+    - onPressFunction: function that will be called when the polaroid is clicked with
+        the image index as the parameter
+        There are better ways to do this, but this was the quickest way to use the currently working carousel.
+*/
+export default function AllPurposeCarousel({ images, onPressFunction }) {
     const [images, setImages] = useState([]);
     const [imageLoad, setImageLoad] = useState(false);
-    const [model, setModel] = useState(false);
-    const [tempImg, setTemp] = useState('');
 
     const handleImageClick = (e) => {
-        console.log("handleImageClick: ", e.target.src);
-        setTemp(e.target.src);
-        setModel(true);
+        const index = images.indexOf(e.target.src);
+        console.log(`handleImageClick: ${e.target.src} - index: ${index}`);
+        onPressFunction(index);
     }
 
 
@@ -25,9 +30,6 @@ export default function Carousel(props) {
 
     return (
         <div class="container" >
-            <div class={model ? "model" : "hide"} onClick={() => setModel(false)}>
-                <img src={tempImg} alt="" />
-            </div>
             <div id="gallery" class="row" style={{ marginTop: "0" }}>
                 <div class="col-9 align-self-center">
                     <h4 class="fw-bold ">Captured Moments</h4>
