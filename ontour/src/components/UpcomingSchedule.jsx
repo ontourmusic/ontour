@@ -92,10 +92,16 @@ export default function UpcomingSchedule(props)
         {
             var name = props.name;
             var newname = name.replace(" ", "%20");
-            var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5&classificationName=music`;
-            url.replace(" ", "%20");
+            console.log(props.id);
+            var id = props.id;
+            // var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5&classificationName=music`;
+            var url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&attractionId=${id}&sort=date,asc&size=5&classificationName=music`;
+
+            // url.replace(" ", "%20");
+            console.log(url);
             tmEvents = await fetch(url);
             tmEventData = await tmEvents.json();
+            console.log(tmEventData);
             var events = [];
             if(tmEventData.page.totalElements > 0) {
                 for(let i = 0; i < tmEventData._embedded.events.length; i++){
@@ -111,7 +117,7 @@ export default function UpcomingSchedule(props)
     }
     useEffect(() => {
         performSearch();
-      }, [props.name]);
+      }, [props.name, props.id]);
     
 
     return (
@@ -133,7 +139,7 @@ export default function UpcomingSchedule(props)
                 }
 
             </div>
-            :<p>No Upcoming Shows</p>}
+            :<p style={{marginTop: "30px"}}>No Upcoming Shows</p>}
            
             {/* <div class="row justify-content-center pt-3">
                 <button id="upcoming-btn">See more</button>

@@ -21,6 +21,10 @@ export default function MobileHomePageArtist(props)
                         precision={0.1}
                         emptyIcon={<StarIcon style={{ opacity: 1 }} fontSize="inherit"/>}
                     />
+                    {
+                    props.loading ? <span></span>:
+                    <div style={{color: 'white', display: 'inline-block', position: 'absolute', bottom: '11px'}}>({props.reviewCount})</div>
+                    }
                 </div>
             </div>
             </a>

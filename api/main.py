@@ -31,8 +31,14 @@ origins = [
     "localhost:3000",
     "http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:3000",
     "ec2-3-129-52-41.us-east-2.compute.amazonaws.com:3000",
-    "http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:",
-    "ec2-3-129-52-41.us-east-2.compute.amazonaws.com:"
+    "http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com",
+    "ec2-3-129-52-41.us-east-2.compute.amazonaws.com:",
+    "ontour.tech",
+    "www.ontour.tech",
+    "3.129.52.41",
+    "http://3.129.52.41",
+    "http://ontour.tech",
+    "http://www.ontour.tech"
 ]
 
 
@@ -43,6 +49,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"]
+# )
 
 # to avoid csrftokenError
 app.add_middleware(DBSessionMiddleware, db_url='postgresql://postgres:ontour@3.129.52.41/postgres')
@@ -118,6 +129,21 @@ async def search_artist(search_text: str):
     res = dict(zip(headers, rows[0]))
     # res_json = json.dumps(res, indent = 4) 
 
+
+    return res_dict
+
+@app.get('/reviews/')
+async def reviews():
+    conn = psycopg2.connect(user="postgres", password="ontour", host="ec2-3-129-52-41.us-east-2.compute.amazonaws.com", port="5432", database="postgres")
+    cur = conn.cursor()
+    cur.execute("SELECT artist_id, rating FROM reviews;")
+    rows = cur.fetchall()
+    res_dict = []
+    headers = ["artist_id", "rating"]
+    for row in rows:
+        print(row)
+        res_row = dict(zip(headers, row))
+        res_dict.append(res_row)
 
     return res_dict
 

@@ -3,6 +3,7 @@ import '../index.css';
 import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
+import Reaptcha from 'reaptcha';
 
 export default function WriteReview(props) {
   const [unparsedName, setUnparsedName] = useState("");
@@ -14,6 +15,7 @@ export default function WriteReview(props) {
   const [rating, setRating] = useState("");
   const [reviews, setPastReviews] = useState([]);
   const [canSubmit, setCanSubmit] = useState(true);
+  const [captchaVerified, setCaptcha] = useState(false);
 
 
   // only set is used
@@ -24,6 +26,11 @@ export default function WriteReview(props) {
   // const [rawMedia, setRawMedia] = useState([]);
   // const [media, setMedia] = useState("");
   // const [date, setDate] = useState("");
+
+  const onVerify = recaptchaResponse => {
+    console.log(recaptchaResponse);
+    setCaptcha(true);
+  };
 
 
   const handleWriteReview = event => {
@@ -58,34 +65,38 @@ export default function WriteReview(props) {
   const GetPastReviews = async () => {
     var adele = " ";
     var url = " ";
-    if (props.name.includes("Adele")) {
-      adele = "Adele";
-      url = `https://rest.bandsintown.com/artists/Adele/events?app_id=958313646c7db923871b501a616498a9&date=past`;
-    }
-    else {
-      var name = props.name.replace(" ", "%20");
-      url = `https://rest.bandsintown.com/artists/${name}/events?app_id=958313646c7db923871b501a616498a9&date=past`;
-    }
-
-    const pastReviews = await fetch(url);
-    const pastData = await pastReviews.json();
-    pastData.reverse();
-    for (var i = 0; i < 10; i++) {
-      if (reviews.length < 10) {
-        var date = pastData[i].datetime.split("T")[0];
-        date = date.split("-");
-        var year = date[0];
-        var month = date[1];
-        var day = date[2];
-        var mmddyyyy = month + "/" + day + "/" + year;
-        pastData[i].datetime = mmddyyyy;
-        reviews.push(pastData[i]);
+    try{
+      if (props.name.includes("Adele")) {
+        adele = "Adele";
+        url = `https://rest.bandsintown.com/artists/Adele/events?app_id=958313646c7db923871b501a616498a9&date=past`;
+      }
+      else {
+        var name = props.name.replace(" ", "%20");
+        url = `https://rest.bandsintown.com/artists/${name}/events?app_id=958313646c7db923871b501a616498a9&date=past`;
+      }
+      const pastReviews = await fetch(url);
+      const pastData = await pastReviews.json();
+      pastData.reverse();
+      for (var i = 0; i < 10; i++) {
+        if (reviews.length < 10) {
+          var date = pastData[i].datetime.split("T")[0];
+          date = date.split("-");
+          var year = date[0];
+          var month = date[1];
+          var day = date[2];
+          var mmddyyyy = month + "/" + day + "/" + year;
+          pastData[i].datetime = mmddyyyy;
+          reviews.push(pastData[i]);
+        }
+      }
+      if (reviews.length > 0) {
+        setReviewsSet(true);
+        setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
       }
     }
-    if (reviews.length > 0) {
-      setReviewsSet(true);
-      setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
-    }
+    catch(err){
+      console.log('API Error');
+    }    
   }
 
   const postData = async () => {
@@ -188,11 +199,21 @@ export default function WriteReview(props) {
         <div class="row bottom">
           <div class="col">
             {/* <textarea class="form-control shadow-none" style={{whiteSpace: "pre-wrap"}}  rows="5" cols="100" id="description" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea> */}
-            <textarea class="form-control shadow-none" style={{ whiteSpace: "pre-wrap" }} rows="5" cols="100" id="description" maxLength={5000} onChange={HandleDescription} value={description} placeholder="How was your experience?" required></textarea>
+            <textarea
+              class="form-control shadow-none"
+              style={{ whiteSpace: "pre-wrap" }}
+              rows="5" cols="100"
+              id="description"
+              maxLength={5000}
+              onChange={HandleDescription}
+              value={description}
+              placeholder="How was your experience?" required
+            />
           </div>
         </div>
         <div>
-          <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" >Submit</button>
+          <Reaptcha sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify}/>
+          <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" disabled={!captchaVerified} >Submit</button>
         </div>
       </form>
       {!canSubmit && <div className="alert alert-danger fw-bold" role="alert" style={{ marginTop: "25px" }}>Please leave a rating.</div>}
