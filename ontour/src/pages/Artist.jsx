@@ -70,6 +70,30 @@ function Artist() {
       var tickets = tmData._embedded.attractions[0].url;
       setTicketLink(tickets);
       setSpotifyLink(spotify);
+
+
+
+      //try out the stubhub api 
+      console.log("stubhub api");
+      const username = "mhwBEJoH2CJHCvpoBwA4";
+      const password = "UFobiWPvG1y6Noxm7MKshm0PQkCNOIUg8oig3Vdr32AAOM4Y8DrzmRWsPYK7";
+      // const auth = Buffer.from("mhwBEJoH2CJHCvpoBwA4:UFobiWPvG1y6Noxm7MKshm0PQkCNOIUg8oig3Vdr32AAOM4Y8DrzmRWsPYK7").toString("base64");
+      var stubhubURL = "https://api.stubhub.net/catalog/events/search/q=adele";
+      // var stubhubURL = "https://sandbox.api.stubhub.net/catalog/events";
+      fetch(stubhubURL, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-type": "application/json",
+          'Authorization': 'Basic ' + btoa(username + ":" + password),
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        }
+          )
     }
     catch{
       console.log('Webpage error. Please reload the page.');
