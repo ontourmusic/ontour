@@ -9,7 +9,14 @@ import { Box } from "@mui/system";
 import artist_styles from "../Styles/artist_styles";
 const sidebar_styles = artist_styles.sidebar;
 
-const ArtistSidebar = (props) => {
+/*
+Props:
+    name: venue or artist name
+    linkPairs [][2]: array of pairs, link and icon link
+*/
+
+const SideContent = ({name, linkPairs}) => {
+    console.log("name: " + name);
     return (
         <div style={{ position: "sticky", top: "15px" }}>
             <Box sx={sidebar_styles.box}>
@@ -26,10 +33,13 @@ const ArtistSidebar = (props) => {
                     </button>
                 </a>
                 <div style={sidebar_styles.icon_container}>
-                    <ExternalLink mediaLink={props.spotify} iconLink="images/spotify_icon.png" />
-                    <ExternalLink mediaLink={props.tickets} iconLink="images/ticketmaster_icon.png" />
+                    {
+                        linkPairs.map((pair) => {
+                            return <ExternalLink mediaLink={pair[0]} iconLink={pair[1]} />
+                        })
+                    }
                 </div>
-                <UpcomingSchedule name={props.name} />
+                <UpcomingSchedule name={name} />
                 {/* <a href="#">
             <img id="arrow" src="../../images/arrow.png" alt=""></img>
             </a> */}
@@ -40,4 +50,4 @@ const ArtistSidebar = (props) => {
 
 
 
-export default ArtistSidebar;
+export default SideContent;

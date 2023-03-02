@@ -94,8 +94,8 @@ export default function UpcomingSchedule(props)
             var newname = name.replace(" ", "%20");
             console.log(props.id);
             var id = props.id;
-            // var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5&classificationName=music`;
-            var url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&attractionId=${id}&sort=date,asc&size=5&classificationName=music`;
+            var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5&classificationName=music`;
+            // var url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&attractionId=${id}&sort=date,asc&size=5&classificationName=music`;
 
             // url.replace(" ", "%20");
             console.log(url);

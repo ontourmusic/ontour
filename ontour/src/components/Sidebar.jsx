@@ -3,6 +3,8 @@ import "../index.css";
 import UpcomingSchedule from "./UpcomingSchedule";
 import ExternalLink from "./ExternalLink";
 
+/*
+*/
 export default function Sidebar(props)
 {
     return(
