@@ -80,7 +80,7 @@ function Venue() {
     var venueURL = tmVenueData._embedded.venues[0].url;
     console.log(venueURL);
     setTicketLink(venueURL);
-    const tmEvents = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&venueId=${venueID}`);
+    const tmEvents = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&venueId=${venueID}` , { mode: 'cors' });
   }
 
   //performs the search when the page loads
