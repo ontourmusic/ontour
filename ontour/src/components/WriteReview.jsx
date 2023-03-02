@@ -58,7 +58,7 @@ export default function WriteReview(props) {
   const GetPastReviews = async () => {
     var adele = " ";
     var url = " ";
-    try{
+    try {
       if (props.name.includes("Adele")) {
         adele = "Adele";
         url = `https://rest.bandsintown.com/artists/Adele/events?app_id=958313646c7db923871b501a616498a9&date=past`;
@@ -87,9 +87,9 @@ export default function WriteReview(props) {
         setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
       }
     }
-    catch(err){
+    catch (err) {
       console.log('API Error');
-    }    
+    }
   }
 
   const postData = async () => {

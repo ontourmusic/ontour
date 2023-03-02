@@ -17,6 +17,8 @@ import artist_styles from "../Styles/artist_styles";
 import { Grid } from "@mui/material";
 import ArtistSidebar from "../components/ArtistSidebar";
 import ArtistContent from "../components/ArtistContent";
+import ComponentCarousel from "../components/ComponentCarousel";
+import { Polaroid } from "../components/Polaroid";
 
 
 function Artist() {
@@ -144,6 +146,16 @@ function Artist() {
             </Grid>
             <Grid container spacing={1} style={artist_styles.grid.body_container}>
                 <Grid item xs={12} md={8}>
+                    {/* {
+                        imageArray.length > 0 &&
+                        <ComponentCarousel numToDisplay={3} uniformWidth={true} 
+                            componentArray={imageArray.map((image, index) => {
+                                return (
+                                    <Polaroid key={index} imageURL={image} />
+                                );
+                            })}
+                        />
+                    } */}
                     <Carousel images={imageArray} />
                     <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
                     {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
@@ -156,7 +168,7 @@ function Artist() {
                 <hr id="artist-footer"></hr>
                 <Footer />
             </Grid>
-        </Grid >
+        </Grid>
 
     );
 
