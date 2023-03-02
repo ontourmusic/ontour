@@ -41,7 +41,7 @@ function Home() {
       newRatings[i]=0;
       newCount[i]=0;
     }
-    var fetchReviews = await fetch(`http://localhost:8000/reviews/`, {mode: 'cors'});
+    var fetchReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/`, {mode: 'cors'});
     var reviewData = await fetchReviews.json();
 
     console.log(reviewData);
