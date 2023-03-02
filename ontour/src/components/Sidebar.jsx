@@ -5,7 +5,6 @@ import ExternalLink from "./ExternalLink";
 
 export default function Sidebar(props)
 {
-  // console.log(props.spotify);
     return(
         <div class="sidebar d-none d-sm-block">
           <a href="#review">
@@ -21,7 +20,7 @@ export default function Sidebar(props)
             </button>
           </a>
           <div class="row justify-content-center">
-            <ExternalLink mediaLink={props.spotify} iconLink="images/spotify_icon.png"/>
+            {!props.venueFlag == 1 && <ExternalLink mediaLink={props.spotify} iconLink="images/spotify_icon.png"/>}
             <ExternalLink mediaLink={props.tickets} iconLink="images/ticketmaster_icon.png"/>
           </div>
           <UpcomingSchedule name={props.name}/>

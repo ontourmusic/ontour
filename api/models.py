@@ -42,3 +42,13 @@ class Reviews(Base):
     eventname = Column(String)
     date = Column(String)
 
+class Venue_Reviews(Base):
+    __tablename__ = 'venue_reviews'
+    review_id = Column(Integer, primary_key=True)
+    venue_id = Column(Integer)
+    rating = Column(Float)
+    description = Column(String)
+    name = Column(String)
+    artistname = Column(String)
+    date = Column(String)
+
