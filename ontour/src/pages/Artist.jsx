@@ -20,6 +20,17 @@ import ArtistContent from "../components/ArtistContent";
 
 function Artist() {
 
+     //gets the name from the artist that was searched for on the home page
+  const [searchParams] = useSearchParams();
+  const artistName = searchParams.get("artist");
+
+  //set var names here
+  const [artistData, setArtistData] = useState({
+    fullName: "",
+    allReviews: [],
+    artistIdNumber: 0,
+  });
+
   const [fullName, setFullName] = useState("");
   const [allReviews, setAllReviews] = useState([]);
   const [artistIdNumber, setArtistIdNumber] = useState(0);
@@ -153,5 +164,6 @@ function Artist() {
                 <Footer />
             </Grid>
         </Grid >
-
+    );
+}
 export default Artist;
