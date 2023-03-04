@@ -68,9 +68,7 @@ function ArtistHeader(props) {
                         precision={0.1}
                         emptyIcon={<StarBorderOutlinedIcon style={styles.StarsIcon} fontSize="inherit" />}
                     />
-                    {/* <div style={{ height: "100%" }}> */}
                     <h1 ref={totalReviewTextRef} style={styles.TotalReviewsText}>({props.total})</h1>
-                    {/* </div> */}
                 </div>
             </div>
         </div>

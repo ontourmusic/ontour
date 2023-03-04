@@ -18,6 +18,7 @@ import { Grid } from "@mui/material";
 import SideContent from "../components/SideContent";
 import ArtistContent from "../components/ArtistContent";
 import ComponentCarousel from "../components/ComponentCarousel";
+import ProgressWithLabel from "../components/ProgressWithLabel";
 
 
 function Artist() {

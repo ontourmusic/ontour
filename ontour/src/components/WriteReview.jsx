@@ -7,7 +7,7 @@ import Reaptcha from 'reaptcha';
 
 export default function WriteReview(props) {
   const [unparsedName, setUnparsedName] = useState("");
-  const [parsedName, setParsedName] = useState(["", ""]);
+  const [parsedName, setParsedName] = useState(["", " "]);
   // const [fname, setFname] = useState("");
   // const [lname, setLname] = useState("");
   const [eventName, setEvent] = useState("");
@@ -122,7 +122,7 @@ export default function WriteReview(props) {
     var name = event.target.value;
     setUnparsedName(name);
     var first = "";
-    var last = "";
+    var last = " ";
     if (name) {
       if (name.includes(" ")) {
         var nameArray = name.split(" ");

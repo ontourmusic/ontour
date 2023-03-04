@@ -10,9 +10,22 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import artist_styles from '../Styles/artist_styles';
+import ProgressWithLabel from './ProgressWithLabel';
+import ReviewSummary from './ReviewSummary';
 const review_display_styles = artist_styles.review_display;
 
 const ArtistContent = (props) => {
+    const [reviewValueArray, setReviewValueArray] = useState([0, 0, 0, 0, 0, 0]);
+
+    useEffect(() => {
+        let tempArray = [0, 0, 0, 0, 0, 0];
+        props.allReviews.forEach((review) => {
+            // index 1 is the rating
+            tempArray[review[1]]++;
+        });
+        setReviewValueArray(tempArray);
+    }, [props.allReviews]);
+
     function Items({ currentItems }) {
         return (
             <>
@@ -106,11 +119,16 @@ const ArtistContent = (props) => {
                             </div>
                         </div>
                     </div>
+                    <div>
+                            <ProgressWithLabel percent={10} />
+                        </div>
 
+                    <ReviewSummary ReviewValueArray={reviewValueArray} />
                     <div id="page" style={review_display_styles.review.container}>
                         {/* {allReviews && allReviews.map(function(review, index) {
 return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
 })} */}
+                        
                         <PaginatedItems itemsPerPage={10} />
                     </div>
                 </div>

@@ -121,9 +121,10 @@ function Home() {
             </div>
             {
               artistRows.map((item)=>{
-                return <div class="row mb-5">
-                      {generateRow(item)}
-                  </div> 
+                return (
+                  <div class="row mb-5">
+                    {generateRow(item)}
+                  </div>)
               })
             }
           </div> 
