@@ -6,14 +6,12 @@ import Navigation from "../Navigation";
 import { artistList } from "../ArtistInfo";
 import MobileHomePageArtist from "../components/MobileHomePageArtist";
 import SearchBar from "../components/SearchBar";
-
-function splitArtistsToRows(artists, rowLength){
-  var splitArray = [];
-  for(var i=0; i<artists.length; i+=(rowLength)){
-    splitArray.push(artists.slice(i, i+(rowLength)));
-  }
-  return splitArray;
-}
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
+import "pure-react-carousel/dist/react-carousel.es.css";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import '../Styles/carousel.css';
+import ArtistCarousel from "../components/ArtistCarousel";
 
 function Home() {
   const [artist_name, setName] = useState('')
@@ -67,19 +65,10 @@ function Home() {
     setLoading(false);
   }
 
-  function generateRow(rowItems){
-    var row = [];
-    rowItems.map((artist) => {
-      row.push(<HomePageArtist artist={artist} rating={ratings[artist]} loading={loading} reviewCount={reviewCount[artist]}></HomePageArtist>);
-    })
-    return row;
-  }
-
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-  }, [artistRows]);
-  var artistRows = splitArtistsToRows(Object.keys(artistList),3);
+  }, [artistList]);
 
   return (
     <>
@@ -93,39 +82,38 @@ function Home() {
           </div>
           <div class="search row">
           <SearchBar></SearchBar>
-            {/* <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
-            <button class="btn btn-dark" onClick={() => {alert('Feature coming soon! (see artists below)')}}>
-              <img src="../../images/search_icon.png" alt="..."/>
-            </button> */}
+          </div>
+          
+          <div id="top-gallery" class="gallery row pt-5 pb-3">
+                <div class="col-12 col-sm-9 align-self-center">
+                    <h4 class="fw-bold ">Recently Added Artists</h4>
+                </div>
           </div>
 
           {/* Mobile */}
           <div class="d-block d-sm-none">
-            <div id="gallery" class="row">
-                <div class="col-12 col-sm-9 align-self-center">
-                    <h4 class="fw-bold ">Recently Added Artists</h4>
-                </div>
-            </div>
-            {Object.keys(artistList).map((item)=>{
-                    return <MobileHomePageArtist artist={item} rating={ratings[item]} reviewCount={reviewCount[item]}></MobileHomePageArtist>
-                })
-            }
+            <ArtistCarousel loading={loading} artistList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
           </div>
 
           {/* Web */}
           <div class="d-none d-sm-block">
-            <div id="gallery" class="row">
+            <ArtistCarousel loading={loading} artistList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
+          </div> 
+
+          <div class="gallery row pt-5 pb-3">
                 <div class="col-12 col-sm-9 align-self-center">
-                    <h4 class="fw-bold ">Recently Added Artists</h4>
+                    <h4 class="fw-bold ">Recently Added Venues</h4>
                 </div>
-            </div>
-            {
-              artistRows.map((item)=>{
-                return <div class="row mb-5">
-                      {generateRow(item)}
-                  </div> 
-              })
-            }
+          </div>
+          
+          {/* Mobile */}
+          <div class="d-block d-sm-none">
+            <ArtistCarousel loading={loading} artistList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
+          </div>
+
+          {/* Web */}
+          <div class="d-none d-sm-block">
+            <ArtistCarousel loading={loading} artistList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
           </div> 
         </div>
       </div>
