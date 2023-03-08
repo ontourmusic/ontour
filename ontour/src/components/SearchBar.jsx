@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Turnstone from 'turnstone';
 import '../Styles/turnstone.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -18,45 +18,6 @@ const styles = {
     clearButton: 'clearButton',
 }
 
-const artists = [
-    "Adele", "Andrea Bocelli", "Billie Eilish",
-    "Billy Joel", "The Chainsmokers", "Dominic Fike",
-    "Elton John", "Harry Styles", "Jack Harlow", 
-    "Old Dominion", "Post Malone", "Yung Gravy",
-  ];
-  
-const venues = [
-    {
-     "name": "The Kia Forum",
-     "city": "Los Angeles, CA"
-    },
-    {
-        "name": "Hollywood Bowl",
-        "city": "Los Angeles, CA"
-    },
-    {
-        "name": "Crypto.com Arena",
-        "city": "Los Angeles, CA"
-    },
-  ];
-
-  // Set up listbox contents.
-  const listbox = [
-    {
-      id: "artists",
-      name: "Artists",
-      data: artists,
-      searchType: "startswith"
-    },
-    {
-      id: "venues",
-      name: "Venues",
-      data: venues,
-      displayField: 'name',
-      searchType: "contains"
-    }
-  ];
-
 const Clear = () => <FontAwesomeIcon icon={faXmark} />
 
 function GetSearchTerm(name) {
@@ -64,12 +25,53 @@ function GetSearchTerm(name) {
     return lower.replace(" ", "_");
 }
 
-
-
-  
-
 export default function SearchBar(){
     const [hasFocus, setHasFocus] = useState(false);
+    const [artistList, setArtistList] = useState([]);
+    const [venueList, setVenueList] = useState([]);
+
+    const loadSearchItems = async () => {
+        var artistsData = await fetch(`http://localhost:8000/artist/`, {mode: 'cors'});
+        var venuesData = await fetch(`http://localhost:8000/venue/`, {mode: 'cors'});
+        
+        var artists = await artistsData.json();
+        var venues = await venuesData.json();
+
+        var artistsList = artists["data"];
+        var venuesList = venues["data"];
+
+        artistsList.forEach(artist => {
+            if(artist["lname"] !== null){
+                artist["name"] = artist["fname"] + " " + artist["lname"];
+            }
+            else{
+                artist["name"] = artist["fname"];
+            }
+        });
+        setArtistList(artistsList);
+        setVenueList(venuesList);
+    }
+
+    useEffect(() => {
+        loadSearchItems();
+      }, []);
+
+      const listbox = [
+        {
+          id: "artists",
+          name: "Artists",
+          data: artistList,
+          displayField: 'name',
+          searchType: "startswith"
+        },
+        {
+          id: "venues",
+          name: "Venues",
+          data: venueList,
+          displayField: 'name',
+          searchType: "contains"
+        }
+      ];
 
     const onBlur = () => setHasFocus(false)
     const onFocus = () => setHasFocus(true)
@@ -81,29 +83,30 @@ export default function SearchBar(){
     const navigate = useNavigate(); 
     const searchNavigate = (textEntry, selectedItem) => {
         try{
-            console.log(GetSearchTerm(textEntry +' '+selectedItem));
-            if(artists.includes(textEntry)){
+            console.log(selectedItem);
+            if(artistList.some( artist => artist['name'] === textEntry )){
                 navigate({
                     pathname: '/artist', 
                     search: createSearchParams({
-                    artist: GetSearchTerm(textEntry),
+                    artist: selectedItem.artist_id,
                     }).toString()
                 });
             }
-            else if(venues.some( venue => venue['name'] === textEntry )){
+            else 
+            if(venueList.some( venue => venue['name'] === textEntry )){
                 navigate({
                     pathname: '/venue', 
                     search: createSearchParams({
                     venue: GetSearchTerm(textEntry),
                     }).toString()
-                });
+            });
             } 
             if(typeof selectedItem.text !== undefined){
-                if(artists.includes(selectedItem.text)){
+                if(artistList.some( artist => artist['name'] === selectedItem.name)){
                     navigate({
                         pathname: '/artist', 
                         search: createSearchParams({
-                        artist: GetSearchTerm(selectedItem.text),
+                        artist: selectedItem.artist_id,
                         }).toString()
                     });
                 }

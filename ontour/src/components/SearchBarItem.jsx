@@ -6,13 +6,13 @@ export default function SearchBarItem(props){
     if(props.groupId == "artists"){
         return (<div>
             <FontAwesomeIcon icon={faMusic} size="sm"/>
-            <span>&ensp;{props.item}</span>
+            <span>&ensp;{props.item.name}</span>
         </div>);
     }
     else{
         return (<div>
             <FontAwesomeIcon icon={faHouse} size="sm"/>
-            <span>&ensp;{props.item.name}, {props.item.city}</span>
+            <span>&ensp;{props.item.name}, {props.item.city}, {props.item.state}</span>
         </div>);
     }
 }

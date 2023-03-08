@@ -43,14 +43,14 @@ function Home() {
       newRatings[i]=0;
       newCount[i]=0;
     }
-    var fetchReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/`, {mode: 'cors'});
-    var reviewData = await fetchReviews.json();
+    // var fetchReviews = await fetch(`http://18.188.104.212:8000/reviews/`, {mode: 'cors'});
+    // var reviewData = await fetchReviews.json();
 
-    console.log(reviewData);
-    reviewData.forEach((element) => {
-      newRatings[element.artist_id] += element.rating;
-      newCount[element.artist_id]++;
-    });
+    // console.log(reviewData);
+    // reviewData.forEach((element) => {
+    //   newRatings[element.artist_id] += element.rating;
+    //   newCount[element.artist_id]++;
+    // });
 
     for (var i = 0; i < Object.keys(artistList).length; i++) {
       var artistNameList = Object.keys(artistList);

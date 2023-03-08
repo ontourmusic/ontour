@@ -37,6 +37,8 @@ origins = [
     "ec2-3-129-52-41.us-east-2.compute.amazonaws.com:",
     "ontour.tech",
     "www.ontour.tech",
+    "tourscout.com",
+    "www.tourscout.com",
     "3.129.52.41",
     "http://3.129.52.41",
     "http://ontour.tech",
@@ -68,22 +70,6 @@ supabase: Client = create_client(url, key)
 @app.get("/")
 async def root():
     return {"message": "hello world"}
-
-
-# @app.post('/book/', response_model=SchemaBook)
-# async def book(book: SchemaBook):
-#     db_book = ModelBook(title=book.title, rating=book.rating, author_id = book.author_id)
-#     db.session.add(db_book)
-#     db.session.commit()
-#     return db_book
-
-# @app.get('/book/')
-# async def book():
-#     book = db.session.query(ModelBook).all()
-#     return book
-
-
-
     
 @app.post('/artist/', response_model=SchemaArtist)
 async def author(author:SchemaArtist, fname: str, lname: str):
@@ -145,6 +131,11 @@ async def reviews(artist_id: int, venue: str, rating: float, description: str, f
 #         res_dict.append(res_row)
 
 #     return res_dict
+
+@app.get('/venue/')
+async def author():
+    artist = supabase.table('venues').select('*').execute()
+    return artist
 
 @app.get('/search_venue/{search_text}')
 async def search_venue(search_text: str):
