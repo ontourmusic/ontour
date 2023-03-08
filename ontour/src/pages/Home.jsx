@@ -17,9 +17,11 @@ function Home() {
   const [artist_name, setName] = useState('')
   const [ratings, setRatings] = useState({});
   const [reviewCount, setReviewCount] = useState({});
+  const [venueRatings, setVenueRatings] = useState({});
+  const [venueReviewCount, setVenueReviewCount] = useState({});
   const [loading, setLoading] = useState(true);
   const [artistIDs, setArtistIDs] = useState({});
-  const [artistList, setArtistList] = useState({});
+  const [artistList, setArtistList] = useState({name: "", imageURL: "", artistID: -1});
   const [venueList, setVenueList] = useState({});
 
   const navigate = useNavigate(); 
@@ -38,24 +40,41 @@ function Home() {
     var ratingCount = {};
     var newRatings = {};
     var newCount = {};
+    var newVenueRatings = {};
+    var newVenueCount = {};
     var artistIDList = {};
     for(var i=1; i <= Object.keys(artistList).length; i++){
       newRatings[i]=0;
       newCount[i]=0;
     }
+    for(var i=1; i <= Object.keys(venueList).length; i++){
+      newVenueRatings[i]=0;
+      newVenueCount[i]=0;
+    }
     
+    //gets the artist reviews from the database 
     var fetchReviews = await fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'});
     var reviewData = await fetchReviews.json();
 
-    console.log(reviewData);
     //loop through the reviews and add the ratings to the artist
     for(let i=0; i < reviewData.data.length; i++){
       const currData = reviewData.data[i];
-      console.log(currData);
       newRatings[currData.artist_id] += currData.rating;
       newCount[currData.artist_id]++;
     }
 
+    //gets the venue reviews from the database
+    var fetchVenueReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/`, {mode: 'cors'});
+    var venueReviewData = await fetchVenueReviews.json();
+    //same as above but for venues
+    for(let i=0; i < venueReviewData.data.length; i++){
+      const currData = venueReviewData.data[i];
+      newVenueRatings[currData.venue_id] += currData.rating;
+      newVenueCount[currData.venue_id]++;
+    }
+    console.log(newVenueRatings);
+
+    //gets the list of recent artists from the database
     var recentArtistsList = await fetch(`http://127.0.0.1:8000/recent_artists/`, {mode: 'cors'});
     var recentArtists = await recentArtistsList.json();
     const artistObject = {};
@@ -69,6 +88,7 @@ function Home() {
       }
     }
 
+    //gets the list of recent venues from the database
     var recentVenueList = await fetch(`http://127.0.0.1:8000/recent_venues/`, {mode: 'cors'});
     var recentVenues = await recentVenueList.json();
     const venueObject = {};
@@ -94,7 +114,16 @@ function Home() {
       artistIDList[artistName]=artistID;
     }
 
-    console.log(starsResults);
+    for (var i = 0; i < Object.keys(venueList).length; i++) {
+      var venueNameList = Object.keys(venueList);
+      var venueName = venueNameList[i];
+      var venueID = venueList[venueName].venueID;
+      venueRatings[venueName]=(newVenueRatings[venueID]/newVenueCount[venueID]);
+      venueReviewCount[venueName]=newVenueCount[venueID];
+    }
+
+    console.log(venueRatings);
+
 
     setRatings(()=> {
       return starsResults
@@ -111,7 +140,7 @@ function Home() {
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-  }, [artistList]);
+  }, [artistList.name]);
 
   return (
     <>
@@ -150,12 +179,12 @@ function Home() {
           
           {/* Mobile */}
           <div class="d-block d-sm-none">
-            <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
+            <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={1}></ArtistCarousel>
           </div>
 
           {/* Web */}
           <div class="d-none d-sm-block">
-            <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
+            <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={3}></ArtistCarousel>
           </div> 
         </div>
       </div>

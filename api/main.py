@@ -100,9 +100,63 @@ async def reviews(artist_id: int):
     return reviews
 
 @app.post('/reviews/')
-async def reviews(artist_id: int, venue: str, rating: float, description: str, fname: str, lname: str, eventname: str, date: str):
-    db_review = supabase.table('artist_reviews').insert({'artist_id': artist_id,'rating': rating, 'review': description, 'fname': fname, 'lname': lname, 'event': eventname, 'eventDate': date}).execute()
+async def reviews(artist_id: int, venue: str, rating: float, description: str, name: str, eventname: str, date: str):
+    db_review = supabase.table('artist_reviews').insert({'artist_id': artist_id,'rating': rating, 'review': description, 'name': name, 'event': eventname, 'eventDate': date}).execute()
     return db_review
+
+@app.get('/venue/')
+async def author():
+    artist = supabase.table('venues').select('*').execute()
+    return artist
+
+#get venue by id
+@app.get('/venue/{venue_id}')
+async def search_venue(venue_id: int):
+    artist = supabase.table('venues').select('*').eq('venue_id', venue_id).execute()
+    return artist
+
+#get all venue reviews
+@app.get('/venue_reviews/')
+async def reviews():
+    reviews = supabase.table('venue_reviews').select('*').execute()
+    return reviews
+
+@app.get('/venue_reviews/{venue_id}')
+async def reviews(venue_id: int):
+    venue = supabase.table('venue_reviews').select('*').eq('venue_id', venue_id).execute()
+    return venue
+
+@app.post('/venue_reviews/')
+async def reviews(venue_id: int, rating: float, description: str, name: str, artistname: str, date: str):
+    db_review = supabase.table('venue_reviews').insert({'venue_id': venue_id,'rating': rating, 'review': description, 'name': name, 'artist': artistname, 'eventDate': date}).execute()
+    return db_review
+
+# Get the ten most recent artists that were added into the database
+@app.get('/recent_artists/')
+async def recent_artists():
+    recent_artists = supabase.table('artists').select('*').order('artist_id', desc=False).limit(10).execute()
+    return recent_artists
+
+
+#Do the same for venues
+@app.get('/recent_venues/')
+async def recent_venues():
+    recent_venues = supabase.table('venues').select('*').order('venue_id', desc=True).limit(10).execute()
+    return recent_venues
+
+@app.get('/carousel_images/{artist_id}')
+async def carousel_images(artist_id: int):
+    carousel_images = supabase.table('artist_carousel_images').select('image_url').eq('artist_id', artist_id).execute()
+    return carousel_images
+
+#Do the same for venues
+@app.get('/venue_carousel_images/{venue_id}')
+async def venue_carousel_images(venue_id: int):
+    venue_carousel_images = supabase.table('venue_carousel_images').select('image_url').eq('venue_id', venue_id).execute()
+    return venue_carousel_images
+
+
+
 
 # @app.get('/search_artist/{search_text}')
 # async def search_artist(search_text: str):
@@ -137,44 +191,6 @@ async def reviews(artist_id: int, venue: str, rating: float, description: str, f
 #         res_dict.append(res_row)
 
 #     return res_dict
-
-@app.get('/venue/')
-async def author():
-    artist = supabase.table('venues').select('*').execute()
-    return artist
-
-@app.get('/venue/{search_text}')
-async def search_venue(venue_id: int):
-    artist = supabase.table('venues').select('*').eq('venue_id', venue_id).execute()
-    return artist
-
-@app.get('/venue_reviews/{venue_id}')
-async def reviews(venue_id: int):
-    venue = supabase.table('venue_reviews').select('*').eq('venue_id', venue_id).execute()
-    return venue
-
-@app.post('/venue_reviews/')
-async def reviews(venue_id: int, rating: float, description: str, name: str, artistname: str, date: str):
-    db_review = supabase.table('venue_reviews').insert({'venue_id': venue_id,'rating': rating, 'review': description, 'name': name, 'artist': artistname, 'eventDate': date}).execute()
-    return db_review
-
-# Get the ten most recent artists that were added into the database
-@app.get('/recent_artists/')
-async def recent_artists():
-    recent_artists = supabase.table('artists').select('*').order('artist_id', desc=False).limit(10).execute()
-    return recent_artists
-
-
-#Do the same for venues
-@app.get('/recent_venues/')
-async def recent_venues():
-    recent_venues = supabase.table('venues').select('*').order('venue_id', desc=True).limit(10).execute()
-    return recent_venues
-
-@app.get('/carousel_images/{artist_id}')
-async def carousel_images(artist_id: int):
-    carousel_images = supabase.table('artist_carousel_images').select('image_url').eq('artist_id', artist_id).execute()
-    return carousel_images
 
 # To run locally
 if __name__ == '__main__':

@@ -19,8 +19,10 @@ function Venue() {
   //gets the name from the artist that was searched for on the home page
   const [searchParams] = useSearchParams();
   const venueNameGet = searchParams.get("venue");
-  const venueID = searchParams.get("id");
+  const venueIDGlobal = searchParams.get("id");
   const venueName = venueNameGet.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  console.log(venueIDGlobal);
+  console.log(venueName);
 
   //set var names here
   const [venueData, setVenueData] = useState({
@@ -43,25 +45,32 @@ function Venue() {
   //gets the artist and review data from the database
   const performSearch = async () => {
     //const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
-    const venueResponse = await fetch(`http://127.0.0.1:8000/search_venue/${venueName}`, {mode: 'cors'});
+    const venueResponse = await fetch(`http://127.0.0.1:8000/venue/${venueIDGlobal}`, {mode: 'cors'});
     const venueData = await venueResponse.json();
     console.log("VENUE DATA: ");
     console.log(venueData);
-    setVenueName(venueData[0].venue_name);
-    const venueId = venueData[0].venue_id;
-    const imageUrls = venueData[0].image_url;
+    console.log(venueData.data[0].name)
+    setVenueName(venueData.data[0].name);
+    const imageUrls = venueData.data[0].banner_image;
     setVenueImage(imageUrls);
-    setVenueIdNumber(venueId);
-    const imageGallery = venueData[0].images;
+    setVenueIdNumber(venueIDGlobal);
+    const venueGallery = await fetch (`http://127.0.0.1:8000/venue_carousel_images/${venueIDGlobal}`)
+    const venueGalleryData = await venueGallery.json();
+    //initialize an empty array
+    var imageGallery = [];
+    //loop through the data and push the image urls into the array
+    for (var i = 0; i < venueGalleryData.data.length; i++) {
+      imageGallery.push(venueGalleryData.data[i].image_url);
+    }
     setImageArray(imageGallery);
 
 
     //const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
-    const getReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/${venueId}`);
+    const getReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/${venueIDGlobal}`);
     const reviewData = await getReviews.json();
     console.log("REVIEW DATA: ");
     console.log(reviewData);
-    setAllReviews(parseReviewData(reviewData));
+    setAllReviews(parseReviewData(reviewData["data"]));
 
     const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
     const tmVenueData = await tmVenue.json();
@@ -75,7 +84,7 @@ function Venue() {
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-  }, [venueName]);
+  }, [venueIDGlobal]);
   
   //parses the review data from the database
   function parseReviewData(reviewData) {
