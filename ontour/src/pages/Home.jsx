@@ -20,6 +20,7 @@ function Home() {
   const [ratings, setRatings] = useState({});
   const [reviewCount, setReviewCount] = useState({});
   const [loading, setLoading] = useState(true);
+  const [artistIDs, setArtistIDs] = useState({});
 
   const navigate = useNavigate(); 
   const routeChange = (artist) =>{ 
@@ -37,6 +38,7 @@ function Home() {
     var ratingCount = {};
     var newRatings = {};
     var newCount = {};
+    var artistIDList = {};
     for(var i=1; i <= Object.keys(artistList).length; i++){
       newRatings[i]=0;
       newCount[i]=0;
@@ -56,6 +58,7 @@ function Home() {
       var artistID = artistList[artistName].artistID;
       starsResults[artistName]=(newRatings[artistID]/newCount[artistID]);
       ratingCount[artistName]=newCount[artistID];
+      artistIDList[artistName]=artistID;
     }
 
     setRatings(()=> {
@@ -64,13 +67,16 @@ function Home() {
     setReviewCount(()=>{
       return ratingCount
     })
+    setArtistIDs(()=>{
+      return artistIDList
+    })
     setLoading(false);
   }
 
   function generateRow(rowItems){
     var row = [];
     rowItems.map((artist) => {
-      row.push(<HomePageArtist artist={artist} rating={ratings[artist]} loading={loading} reviewCount={reviewCount[artist]}></HomePageArtist>);
+      row.push(<HomePageArtist artist={artist} id={artistIDs[artist]} rating={ratings[artist]} loading={loading} reviewCount={reviewCount[artist]}></HomePageArtist>);
     })
     return row;
   }

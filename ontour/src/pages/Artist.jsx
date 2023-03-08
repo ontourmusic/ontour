@@ -24,6 +24,7 @@ function Artist() {
     //gets the name from the artist that was searched for on the home page
     const [searchParams] = useSearchParams();
     const artistName = searchParams.get("artist");
+    console.log(artistName);
 
     //set var names here
     const [artistData, setArtistData] = useState({
@@ -48,18 +49,18 @@ function Artist() {
     const performSearch = async () => {
         try{
             console.log(artistName);
-            const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, { mode: 'cors' });
+            const artistResponse = await fetch(`http://18.188.104.212:8000/search_artist/${artistName}`, { mode: 'cors' });
             const artistData = await artistResponse.json();
             console.log(artistData);
             setFullName(artistData[0].fname + " " + artistData[0].lname);
             const artistId = artistData[0].artist_id;
-            const imageUrls = artistData[0].image_url;
+            const imageUrls = artistData[0].banner_image; //change for supabase 
             setArtistImage(imageUrls);
             setArtistIdNumber(artistId);
             const imageGallery = artistData[0].images;
             setImageArray(imageGallery);
 
-            const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
+            const getReviews = await fetch(`http://18.188.104.212:8000/reviews/${artistId}`, { mode: 'cors' });
             const reviewData = await getReviews.json();
             console.log(reviewData);
             setAllReviews(parseReviewData(reviewData));
