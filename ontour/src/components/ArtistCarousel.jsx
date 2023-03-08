@@ -5,22 +5,29 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import '../Styles/carousel.css';
 import HomePageArtist from "./HomePageArtist";
+import HomePageVenue from "./HomePageVenue"
 
 export default function ArtistCarousel(props){
     return <CarouselProvider
                 orientation="horizontal"
                 visibleSlides={props.slideCount}
-                totalSlides={12}
+                totalSlides={10}
                 step={1}
                 naturalSlideWidth={50}
                 naturalSlideHeight={50}
                 isIntrinsicHeight={true}         
             >
                 <Slider>
-                {
-                    Object.keys(props.artistList).map((artist, index) => {
+                {   props.artistFlag ? 
+                    Object.keys(props.itemList).map((artist, index) => {
                     return <Slide index = {index}>
-                                <HomePageArtist artist={artist} rating={props.ratings[artist]} loading={props.loading} reviewCount={props.reviewCount[artist]}></HomePageArtist>
+                                <HomePageArtist artistList={props.itemList} artist={artist} rating={props.ratings[artist]} loading={props.loading} reviewCount={props.reviewCount[artist]}></HomePageArtist>
+                            </Slide>;
+                    })
+                    :
+                    Object.keys(props.itemList).map((venue, index) => {
+                    return <Slide index = {index}>
+                                <HomePageVenue artistList={props.itemList} artist={venue} rating={props.ratings[venue]} loading={props.loading} reviewCount={props.reviewCount[venue]}></HomePageVenue>
                             </Slide>;
                     })
                 }

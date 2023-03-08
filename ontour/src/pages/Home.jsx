@@ -3,7 +3,7 @@ import {createSearchParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
 import HomePageArtist from "../components/HomePageArtist";
 import Navigation from "../Navigation";
-import { artistList } from "../ArtistInfo";
+// import { artistList } from "../ArtistInfo";
 import MobileHomePageArtist from "../components/MobileHomePageArtist";
 import SearchBar from "../components/SearchBar";
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
@@ -19,6 +19,8 @@ function Home() {
   const [reviewCount, setReviewCount] = useState({});
   const [loading, setLoading] = useState(true);
   const [artistIDs, setArtistIDs] = useState({});
+  const [artistList, setArtistList] = useState({});
+  const [venueList, setVenueList] = useState({});
 
   const navigate = useNavigate(); 
   const routeChange = (artist) =>{ 
@@ -41,14 +43,47 @@ function Home() {
       newRatings[i]=0;
       newCount[i]=0;
     }
-    // var fetchReviews = await fetch(`http://18.188.104.212:8000/reviews/`, {mode: 'cors'});
-    // var reviewData = await fetchReviews.json();
+    
+    var fetchReviews = await fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'});
+    var reviewData = await fetchReviews.json();
 
-    // console.log(reviewData);
-    // reviewData.forEach((element) => {
-    //   newRatings[element.artist_id] += element.rating;
-    //   newCount[element.artist_id]++;
-    // });
+    console.log(reviewData);
+    //loop through the reviews and add the ratings to the artist
+    for(let i=0; i < reviewData.data.length; i++){
+      const currData = reviewData.data[i];
+      console.log(currData);
+      newRatings[currData.artist_id] += currData.rating;
+      newCount[currData.artist_id]++;
+    }
+
+    var recentArtistsList = await fetch(`http://127.0.0.1:8000/recent_artists/`, {mode: 'cors'});
+    var recentArtists = await recentArtistsList.json();
+    const artistObject = {};
+    for(let i=0; i < recentArtists["data"].length; i++){
+      const currData = recentArtists["data"][i];
+      const key = currData.name.replace(/\s+/g, '_').toLowerCase();
+      artistObject[key] = {
+        name: currData.name,
+        imageURL: currData.home_image,
+        artistID: currData.artist_id,
+      }
+    }
+
+    var recentVenueList = await fetch(`http://127.0.0.1:8000/recent_venues/`, {mode: 'cors'});
+    var recentVenues = await recentVenueList.json();
+    const venueObject = {};
+    for(let i=0; i < recentVenues["data"].length; i++){
+      const currData = recentVenues["data"][i];
+      const key = currData.name.replace(/\s+/g, '_').toLowerCase();
+      venueObject[key] = {
+        name: currData.name,
+        imageURL: currData.home_image,
+        venueID: currData.venue_id,
+      }
+    }
+    setVenueList(venueObject);
+    setArtistList(artistObject);
+    console.log(artistList);
 
     for (var i = 0; i < Object.keys(artistList).length; i++) {
       var artistNameList = Object.keys(artistList);
@@ -58,6 +93,8 @@ function Home() {
       ratingCount[artistName]=newCount[artistID];
       artistIDList[artistName]=artistID;
     }
+
+    console.log(starsResults);
 
     setRatings(()=> {
       return starsResults
@@ -95,15 +132,14 @@ function Home() {
                     <h4 class="fw-bold ">Recently Added Artists</h4>
                 </div>
           </div>
-
           {/* Mobile */}
           <div class="d-block d-sm-none">
-            <ArtistCarousel loading={loading} artistList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
+            <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
           </div>
 
           {/* Web */}
           <div class="d-none d-sm-block">
-            <ArtistCarousel loading={loading} artistList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
+            <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
           </div> 
 
           <div class="gallery row pt-5 pb-3">
@@ -114,12 +150,12 @@ function Home() {
           
           {/* Mobile */}
           <div class="d-block d-sm-none">
-            <ArtistCarousel loading={loading} artistList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
+            <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
           </div>
 
           {/* Web */}
           <div class="d-none d-sm-block">
-            <ArtistCarousel loading={loading} artistList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
+            <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
           </div> 
         </div>
       </div>

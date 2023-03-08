@@ -40,14 +40,6 @@ export default function SearchBar(){
         var artistsList = artists["data"];
         var venuesList = venues["data"];
 
-        artistsList.forEach(artist => {
-            if(artist["lname"] !== null){
-                artist["name"] = artist["fname"] + " " + artist["lname"];
-            }
-            else{
-                artist["name"] = artist["fname"];
-            }
-        });
         setArtistList(artistsList);
         setVenueList(venuesList);
     }
@@ -84,36 +76,42 @@ export default function SearchBar(){
     const searchNavigate = (textEntry, selectedItem) => {
         try{
             console.log(selectedItem);
-            if(artistList.some( artist => artist['name'] === textEntry )){
+            const index = artistList.findIndex(artist => artist['name'] === textEntry);
+            const venueIndex = venueList.findIndex(venue => venue['name'] === textEntry);
+            if(index > -1){
                 navigate({
                     pathname: '/artist', 
                     search: createSearchParams({
-                    artist: selectedItem.artist_id,
+                        id: artistList[index]["artist_id"],
+                        artist: GetSearchTerm(artistList[index]["name"]),
                     }).toString()
                 });
             }
-            else 
-            if(venueList.some( venue => venue['name'] === textEntry )){
+
+            else if(venueIndex > -1){
                 navigate({
                     pathname: '/venue', 
                     search: createSearchParams({
-                    venue: GetSearchTerm(textEntry),
+                        id: artistList[venueIndex]["venue_id"],
+                        venue: GetSearchTerm(venueList[index]["name"]),
                     }).toString()
             });
             } 
             if(typeof selectedItem.text !== undefined){
-                if(artistList.some( artist => artist['name'] === selectedItem.name)){
+                if(artistList.includes(selectedItem)){
                     navigate({
                         pathname: '/artist', 
                         search: createSearchParams({
-                        artist: selectedItem.artist_id,
+                        id: selectedItem.artist_id,
+                        artist: GetSearchTerm(selectedItem.name),
                         }).toString()
                     });
                 }
-                else if(venues.some( venue => venue['name'] === selectedItem.name)){
+                else if(venueList.includes(selectedItem)){
                     navigate({
                         pathname: '/venue', 
                         search: createSearchParams({
+                        id: selectedItem.venue_id,
                         venue: GetSearchTerm(selectedItem.name),
                         }).toString()
                     });
@@ -128,20 +126,22 @@ export default function SearchBar(){
 
     const onSelect = (selectedItem, displayField) => {
         console.log(selectedItem, displayField);
-        if(artists.includes(selectedItem)){
+        if(artistList.includes(selectedItem)){
             navigate({
                 pathname: '/artist', 
                 search: createSearchParams({
-                artist: GetSearchTerm(selectedItem),
+                    id: selectedItem.artist_id,
+                    artist: GetSearchTerm(selectedItem.name),
                 }).toString()
             });
         }
         else if(displayField != undefined && selectedItem != undefined){
-            if(venues.some( venue => venue['name'] === selectedItem.name)){
+            if(venueList.includes(selectedItem)){
                 navigate({
                     pathname: '/venue', 
                     search: createSearchParams({
-                    venue: GetSearchTerm(selectedItem.name),
+                        id: selectedItem.venue_id,
+                        venue: GetSearchTerm(selectedItem.name),
                     }).toString()
                 });
             }

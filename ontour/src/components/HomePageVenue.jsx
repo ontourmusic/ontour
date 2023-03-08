@@ -7,10 +7,10 @@ import polaroid_styles from "../Styles/polaroid_styles";
 import { HomepagePolaroid } from "./HomepagePolaroid";
 
 
-export default function HomePageArtist(props) {
+export default function HomePageVenue(props) {
 
     return (
-        <HomepagePolaroid imageURL={props.artistList[props.artist].imageURL} link={"/artist?artist=" + props.artist+"&id="+props.artistList[props.artist].artistID} bottomComponent={
+        <HomepagePolaroid imageURL={props.artistList[props.artist].imageURL} link={"/venue?venue=" + props.artist+"&id="+props.artistList[props.artist].venueID} bottomComponent={
             <>
                 <h5 class="card-title fw-bold" style={{ color: 'black' }}>{props.artistList[props.artist].name}</h5>
                         

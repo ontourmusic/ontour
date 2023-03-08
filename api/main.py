@@ -83,6 +83,12 @@ async def author():
     artist = supabase.table('artists').select('*').execute()
     return artist
 
+#APi to get all reviews
+@app.get('/reviews/')
+async def reviews():
+    reviews = supabase.table('artist_reviews').select('*').execute()
+    return reviews
+
 @app.get('/artist/{artist_id}')
 async def author(artist_id: int):
     artist = supabase.table('artists').select('*').eq('artist_id', artist_id).execute()
@@ -137,22 +143,10 @@ async def author():
     artist = supabase.table('venues').select('*').execute()
     return artist
 
-@app.get('/search_venue/{search_text}')
-async def search_venue(search_text: str):
-    conn = psycopg2.connect(user="postgres", password="ontour", host="ec2-3-129-52-41.us-east-2.compute.amazonaws.com", port="5432", database="postgres")
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM public.venues WHERE venue_name='" + search_text +"';")
-    rows = cur.fetchall()
-    res_dict = []
-    headers = ["venue_id", "venue_name", "image_url", "images"]
-    for row in rows:
-        res_row = dict(zip(headers, row))
-        res_dict.append(res_row)
-    
-    #jsonify(rows)
-    res = dict(zip(headers, rows[0]))
-    # res_json = json.dumps(res, indent = 4) 
-    return res_dict
+@app.get('/venue/{search_text}')
+async def search_venue(venue_id: int):
+    artist = supabase.table('venues').select('*').eq('venue_id', venue_id).execute()
+    return artist
 
 @app.get('/venue_reviews/{venue_id}')
 async def reviews(venue_id: int):
@@ -164,6 +158,23 @@ async def reviews(venue_id: int, rating: float, description: str, name: str, art
     db_review = supabase.table('venue_reviews').insert({'venue_id': venue_id,'rating': rating, 'review': description, 'name': name, 'artist': artistname, 'eventDate': date}).execute()
     return db_review
 
+# Get the ten most recent artists that were added into the database
+@app.get('/recent_artists/')
+async def recent_artists():
+    recent_artists = supabase.table('artists').select('*').order('artist_id', desc=False).limit(10).execute()
+    return recent_artists
+
+
+#Do the same for venues
+@app.get('/recent_venues/')
+async def recent_venues():
+    recent_venues = supabase.table('venues').select('*').order('venue_id', desc=True).limit(10).execute()
+    return recent_venues
+
+@app.get('/carousel_images/{artist_id}')
+async def carousel_images(artist_id: int):
+    carousel_images = supabase.table('artist_carousel_images').select('image_url').eq('artist_id', artist_id).execute()
+    return carousel_images
 
 # To run locally
 if __name__ == '__main__':

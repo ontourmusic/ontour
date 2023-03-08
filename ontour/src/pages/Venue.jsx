@@ -19,6 +19,7 @@ function Venue() {
   //gets the name from the artist that was searched for on the home page
   const [searchParams] = useSearchParams();
   const venueNameGet = searchParams.get("venue");
+  const venueID = searchParams.get("id");
   const venueName = venueNameGet.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 
   //set var names here
@@ -41,8 +42,8 @@ function Venue() {
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
-    //const venueResponse = await fetch(`http://127.0.0.1:8000/search_venue/${venueName}`, {mode: 'cors'});
+    //const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
+    const venueResponse = await fetch(`http://127.0.0.1:8000/search_venue/${venueName}`, {mode: 'cors'});
     const venueData = await venueResponse.json();
     console.log("VENUE DATA: ");
     console.log(venueData);
@@ -55,20 +56,12 @@ function Venue() {
     setImageArray(imageGallery);
 
 
-    const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
-    //const getReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/${venueId}`);
+    //const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
+    const getReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/${venueId}`);
     const reviewData = await getReviews.json();
     console.log("REVIEW DATA: ");
     console.log(reviewData);
     setAllReviews(parseReviewData(reviewData));
-
-    //gets the tickemaster artist details 
-    // const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, {mode: 'cors'});
-    // const tmData = await tmArtist.json();
-    // var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
-    // var tickets = tmData._embedded.attractions[0].url;
-    // //setTicketLink(tickets);
-    // setSpotifyLink(spotify);
 
     const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
     const tmVenueData = await tmVenue.json();
