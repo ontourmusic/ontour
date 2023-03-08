@@ -90,11 +90,11 @@ h4 {
     padding-left: 2.5% !important;
   } 
 
-  #gallery {
+  .gallery {
     margin-top: 30px !important;
   }
 
-  #homepage #gallery {
+  #homepage #top-gallery {
     margin-top: 40px !important;
   }
 
