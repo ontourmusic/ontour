@@ -71,17 +71,6 @@ function Home() {
     setLoading(false);
   }
 
-<<<<<<< HEAD
-  function generateRow(rowItems){
-    var row = [];
-    rowItems.map((artist) => {
-      row.push(<HomePageArtist artist={artist} id={artistIDs[artist]} rating={ratings[artist]} loading={loading} reviewCount={reviewCount[artist]}></HomePageArtist>);
-    })
-    return row;
-  }
-
-=======
->>>>>>> HomePageCarousel
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
