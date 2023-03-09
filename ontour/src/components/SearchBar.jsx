@@ -31,8 +31,8 @@ export default function SearchBar(){
     const [venueList, setVenueList] = useState([]);
 
     const loadSearchItems = async () => {
-        var artistsData = await fetch(`http://localhost:8000/artist/`, {mode: 'cors'});
-        var venuesData = await fetch(`http://localhost:8000/venue/`, {mode: 'cors'});
+        var artistsData = await fetch(`http://18.188.104.212:8000/artist/`, {mode: 'cors'});
+        var venuesData = await fetch(`http://18.188.104.212:8000/venue/`, {mode: 'cors'});
         
         var artists = await artistsData.json();
         var venues = await venuesData.json();

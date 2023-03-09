@@ -70,7 +70,7 @@ function Artist() {
             setFullName(artistData["name"]);
 
             //TODO: CALL IMAGE CAROUSEL DATABASE
-            const imageGallery = await fetch(`http://127.0.0.1:8000/carousel_images/${artistID}`, { mode: 'cors' });
+            const imageGallery = await fetch(`http://18.188.104.212:8000/carousel_images/${artistID}`, { mode: 'cors' });
             const imageGalleryData = await imageGallery.json();
             console.log(imageGalleryData);
             //initialize an array to hold the images
