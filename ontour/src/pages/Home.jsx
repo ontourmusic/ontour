@@ -49,18 +49,14 @@ function Home() {
     }
 
     let [fetchReviews, fetchVenueReviews, recentArtistsList, recentVenueList] = await Promise.all([
-      fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'}),
-      fetch(`http://127.0.0.1:8000/venue_reviews/`, {mode: 'cors'}),
-      fetch(`http://127.0.0.1:8000/recent_artists/`, {mode: 'cors'}),
-      fetch(`http://127.0.0.1:8000/recent_venues/`, {mode: 'cors'})
+      fetch(`http://18.188.104.212:8000/reviews/`, {mode: 'cors'}),
+      fetch(`http://18.188.104.212:8000/venue_reviews/`, {mode: 'cors'}),
+      fetch(`http://18.188.104.212:8000/recent_artists/`, {mode: 'cors'}),
+      fetch(`http://18.188.104.212:8000/recent_venues/`, {mode: 'cors'})
     ]);
     
     //gets the artist reviews from the database 
-<<<<<<< HEAD
-    var fetchReviews = await fetch(`http://18.188.104.212:8000/reviews/`, {mode: 'cors'});
-=======
     //var fetchReviews = await fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'});
->>>>>>> c2c5a9533f1c5ab2d337bdd52834bdd79567d948
     var reviewData = await fetchReviews.json();
 
     //loop through the reviews and add the ratings to the artist
@@ -71,11 +67,7 @@ function Home() {
     }
 
     //gets the venue reviews from the database
-<<<<<<< HEAD
-    var fetchVenueReviews = await fetch(`http://18.188.104.212:8000/venue_reviews/`, {mode: 'cors'});
-=======
     //var fetchVenueReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/`, {mode: 'cors'});
->>>>>>> c2c5a9533f1c5ab2d337bdd52834bdd79567d948
     var venueReviewData = await fetchVenueReviews.json();
     //same as above but for venues
     for(let i=0; i < venueReviewData.data.length; i++){
@@ -86,11 +78,7 @@ function Home() {
     console.log(newVenueRatings);
 
     //gets the list of recent artists from the database
-<<<<<<< HEAD
-    var recentArtistsList = await fetch(`http://18.188.104.212:8000/recent_artists/`, {mode: 'cors'});
-=======
     //var recentArtistsList = await fetch(`http://127.0.0.1:8000/recent_artists/`, {mode: 'cors'});
->>>>>>> c2c5a9533f1c5ab2d337bdd52834bdd79567d948
     var recentArtists = await recentArtistsList.json();
     const artistObject = {};
     for(let i=0; i < recentArtists["data"].length; i++){
@@ -104,11 +92,7 @@ function Home() {
     }
 
     //gets the list of recent venues from the database
-<<<<<<< HEAD
-    var recentVenueList = await fetch(`http://18.188.104.212:8000/recent_venues/`, {mode: 'cors'});
-=======
     //var recentVenueList = await fetch(`http://127.0.0.1:8000/recent_venues/`, {mode: 'cors'});
->>>>>>> c2c5a9533f1c5ab2d337bdd52834bdd79567d948
     var recentVenues = await recentVenueList.json();
     const venueObject = {};
     for(let i=0; i < recentVenues["data"].length; i++){
