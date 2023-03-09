@@ -45,13 +45,16 @@ function Venue() {
   //gets the artist and review data from the database
   const performSearch = async () => {
     //const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
-    const venueResponse = await fetch(`http://127.0.0.1:8000/venue/${venueIDGlobal}`, {mode: 'cors'});
+    const venueResponse = await fetch(`http://18.188.104.212:8000/venue/${venueIDGlobal}`, {mode: 'cors'});
     const venueData = await venueResponse.json();
+    console.log("VENUE DATA: ");
+    console.log(venueData);
+    console.log(venueData.data[0].name)
     setVenueName(venueData.data[0].name);
     const imageUrls = venueData.data[0].banner_image;
     setVenueImage(imageUrls);
     setVenueIdNumber(venueIDGlobal);
-    const venueGallery = await fetch (`http://127.0.0.1:8000/venue_carousel_images/${venueIDGlobal}`)
+    const venueGallery = await fetch (`http://18.188.104.212:8000/venue_carousel_images/${venueIDGlobal}`)
     const venueGalleryData = await venueGallery.json();
     //initialize an empty array
     var imageGallery = [];
@@ -63,7 +66,7 @@ function Venue() {
 
 
     //const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
-    const getReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/${venueIDGlobal}`);
+    const getReviews = await fetch(`http://18.188.104.212:8000/venue_reviews/${venueIDGlobal}`);
     const reviewData = await getReviews.json();
     console.log("REVIEW DATA: ");
     console.log(reviewData);
@@ -92,8 +95,8 @@ function Venue() {
         reviewData[i].description,
         reviewData[i].rating,
         reviewData[i].name,
-        reviewData[i].artist,
-        reviewData[i].eventDate
+        reviewData[i].artistname,
+        reviewData[i].date
       ]);
 
       cumulativeRating += reviewData[i].rating;
