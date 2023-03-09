@@ -1,11 +1,11 @@
 import React from "react";
 import '../index.css';
 import Rating from '@mui/material/Rating';
-import { artistList } from "../ArtistInfo";
+// import { artistList } from "../ArtistInfo";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+
 import { Polaroid } from "./Polaroid";
 import { useState, useEffect, useRef } from "react";
-
 
 export default function HomePageArtist(props) {
     const totalReviewTextRef = useRef(null);
@@ -22,9 +22,10 @@ export default function HomePageArtist(props) {
     }, [])
 
     return (
-        <Polaroid imageURL={artistList[props.artist].imageURL} link={"/artist?artist=" + props.artist} bottomComponent={
+        props.loading ? <></> :
+        <HomepagePolaroid imageURL={props.artistList[props.artist].imageURL} link={"/artist?artist=" + props.artist+"&id="+props.artistList[props.artist].artistID} bottomComponent={
             <>
-                <h5 class="card-title fw-bold" style={{ color: 'black' }}>{artistList[props.artist].name}</h5>
+                <h5 class="card-title fw-bold" style={{ color: 'black' }}>{props.artistList[props.artist].name}</h5>
                 {
                     props.loading ? <div></div>:
                     <div style={styles.RatingRow}>

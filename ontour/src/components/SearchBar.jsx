@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Turnstone from 'turnstone';
 import '../Styles/turnstone.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -18,45 +18,6 @@ const styles = {
     clearButton: 'clearButton',
 }
 
-const artists = [
-    "Adele", "Andrea Bocelli", "Billie Eilish",
-    "Billy Joel", "The Chainsmokers", "Dominic Fike",
-    "Elton John", "Harry Styles", "Jack Harlow", 
-    "Old Dominion", "Post Malone", "Yung Gravy",
-  ];
-  
-const venues = [
-    {
-     "name": "The Kia Forum",
-     "city": "Los Angeles, CA"
-    },
-    {
-        "name": "Hollywood Bowl",
-        "city": "Los Angeles, CA"
-    },
-    {
-        "name": "Crypto.com Arena",
-        "city": "Los Angeles, CA"
-    },
-  ];
-
-  // Set up listbox contents.
-  const listbox = [
-    {
-      id: "artists",
-      name: "Artists",
-      data: artists,
-      searchType: "startswith"
-    },
-    {
-      id: "venues",
-      name: "Venues",
-      data: venues,
-      displayField: 'name',
-      searchType: "contains"
-    }
-  ];
-
 const Clear = () => <FontAwesomeIcon icon={faXmark} />
 
 function GetSearchTerm(name) {
@@ -64,12 +25,45 @@ function GetSearchTerm(name) {
     return lower.replace(" ", "_");
 }
 
-
-
-  
-
 export default function SearchBar(){
     const [hasFocus, setHasFocus] = useState(false);
+    const [artistList, setArtistList] = useState([]);
+    const [venueList, setVenueList] = useState([]);
+
+    const loadSearchItems = async () => {
+        var artistsData = await fetch(`http://18.188.104.212:8000/artist/`, {mode: 'cors'});
+        var venuesData = await fetch(`http://18.188.104.212:8000/venue/`, {mode: 'cors'});
+        
+        var artists = await artistsData.json();
+        var venues = await venuesData.json();
+
+        var artistsList = artists["data"];
+        var venuesList = venues["data"];
+
+        setArtistList(artistsList);
+        setVenueList(venuesList);
+    }
+
+    useEffect(() => {
+        loadSearchItems();
+      }, []);
+
+      const listbox = [
+        {
+          id: "artists",
+          name: "Artists",
+          data: artistList,
+          displayField: 'name',
+          searchType: "startswith"
+        },
+        {
+          id: "venues",
+          name: "Venues",
+          data: venueList,
+          displayField: 'name',
+          searchType: "contains"
+        }
+      ];
 
     const onBlur = () => setHasFocus(false)
     const onFocus = () => setHasFocus(true)
@@ -81,36 +75,43 @@ export default function SearchBar(){
     const navigate = useNavigate(); 
     const searchNavigate = (textEntry, selectedItem) => {
         try{
-            console.log(GetSearchTerm(textEntry +' '+selectedItem));
-            if(artists.includes(textEntry)){
+            console.log(selectedItem);
+            const index = artistList.findIndex(artist => artist['name'] === textEntry);
+            const venueIndex = venueList.findIndex(venue => venue['name'] === textEntry);
+            if(index > -1){
                 navigate({
                     pathname: '/artist', 
                     search: createSearchParams({
-                    artist: GetSearchTerm(textEntry),
+                        id: artistList[index]["artist_id"],
+                        artist: GetSearchTerm(artistList[index]["name"]),
                     }).toString()
                 });
             }
-            else if(venues.some( venue => venue['name'] === textEntry )){
+
+            else if(venueIndex > -1){
                 navigate({
                     pathname: '/venue', 
                     search: createSearchParams({
-                    venue: GetSearchTerm(textEntry),
+                        id: artistList[venueIndex]["venue_id"],
+                        venue: GetSearchTerm(venueList[index]["name"]),
                     }).toString()
-                });
+            });
             } 
             if(typeof selectedItem.text !== undefined){
-                if(artists.includes(selectedItem.text)){
+                if(artistList.includes(selectedItem)){
                     navigate({
                         pathname: '/artist', 
                         search: createSearchParams({
-                        artist: GetSearchTerm(selectedItem.text),
+                        id: selectedItem.artist_id,
+                        artist: GetSearchTerm(selectedItem.name),
                         }).toString()
                     });
                 }
-                else if(venues.some( venue => venue['name'] === selectedItem.name)){
+                else if(venueList.includes(selectedItem)){
                     navigate({
                         pathname: '/venue', 
                         search: createSearchParams({
+                        id: selectedItem.venue_id,
                         venue: GetSearchTerm(selectedItem.name),
                         }).toString()
                     });
@@ -125,20 +126,22 @@ export default function SearchBar(){
 
     const onSelect = (selectedItem, displayField) => {
         console.log(selectedItem, displayField);
-        if(artists.includes(selectedItem)){
+        if(artistList.includes(selectedItem)){
             navigate({
                 pathname: '/artist', 
                 search: createSearchParams({
-                artist: GetSearchTerm(selectedItem),
+                    id: selectedItem.artist_id,
+                    artist: GetSearchTerm(selectedItem.name),
                 }).toString()
             });
         }
         else if(displayField != undefined && selectedItem != undefined){
-            if(venues.some( venue => venue['name'] === selectedItem.name)){
+            if(venueList.includes(selectedItem)){
                 navigate({
                     pathname: '/venue', 
                     search: createSearchParams({
-                    venue: GetSearchTerm(selectedItem.name),
+                        id: selectedItem.venue_id,
+                        venue: GetSearchTerm(selectedItem.name),
                     }).toString()
                 });
             }

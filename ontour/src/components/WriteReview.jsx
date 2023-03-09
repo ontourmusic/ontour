@@ -8,8 +8,6 @@ import Reaptcha from 'reaptcha';
 export default function WriteReview(props) {
   const [unparsedName, setUnparsedName] = useState("");
   const [parsedName, setParsedName] = useState(["", " "]);
-  // const [fname, setFname] = useState("");
-  // const [lname, setLname] = useState("");
   const [eventName, setEvent] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState("");
@@ -105,10 +103,8 @@ export default function WriteReview(props) {
 
     var eventDate = eventName.split(" • ")[0];
     var event = eventName.split(" • ")[1];
-    var first = fname.charAt(0).toUpperCase() + fname.slice(1).toLowerCase();
-    var last = lname.charAt(0).toUpperCase() + lname.slice(1).toLowerCase();
     var encodedDescription = encodeURIComponent(description);
-    await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${encodedDescription}&fname=${first}&lname=${last}&eventname=${event}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&rating=${rating}&description=${encodedDescription}&name=${unparsedName}&eventname=${event}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
     window.location.reload();
   }
 
