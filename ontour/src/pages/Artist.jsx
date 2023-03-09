@@ -23,7 +23,9 @@ import ComponentCarousel from "../components/ComponentCarousel";
 function Artist() {
     //gets the name from the artist that was searched for on the home page
     const [searchParams] = useSearchParams();
-    const artistName = searchParams.get("artist");
+    const artistID = searchParams.get("id");
+    const artistName = searchParams.get("artist")
+    console.log(artistID);
 
     //set var names here
     const [artistData, setArtistData] = useState({
@@ -34,7 +36,7 @@ function Artist() {
 
     const [fullName, setFullName] = useState("");
     const [allReviews, setAllReviews] = useState([]);
-    const [artistIdNumber, setArtistIdNumber] = useState(0);
+    const [artistIdNumber, setArtistIdNumber] = useState(artistID);
     const [aggregateRating, setAggregateRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
     const [artistImage, setArtistImage] = useState("");
@@ -44,25 +46,46 @@ function Artist() {
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
-    //gets the artist and review data from the database
     const performSearch = async () => {
         try{
-            console.log(artistName);
-            const artistResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_artist/${artistName}`, { mode: 'cors' });
-            const artistData = await artistResponse.json();
+            //Queries artist database with artistID passed by search bar
+            const artistResponse = await fetch(`http://18.188.104.212:8000/artist/${artistID}`, { mode: 'cors' });
+            const artistDataResponse = await artistResponse.json();
+            const artistData = artistDataResponse["data"][0];
             console.log(artistData);
-            setFullName(artistData[0].fname + " " + artistData[0].lname);
-            const artistId = artistData[0].artist_id;
-            const imageUrls = artistData[0].image_url;
-            setArtistImage(imageUrls);
-            setArtistIdNumber(artistId);
-            const imageGallery = artistData[0].images;
-            setImageArray(imageGallery);
 
-            const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/${artistId}`, { mode: 'cors' });
-            const reviewData = await getReviews.json();
+            //Queries reviews database with artistID passed by search bar
+            const getReviews = await fetch(`http://18.188.104.212:8000/reviews/${artistID}`, { mode: 'cors' });
+            const reviewDataResponse = await getReviews.json();
+            const reviewData = reviewDataResponse["data"];
             console.log(reviewData);
+            //Parse review data
             setAllReviews(parseReviewData(reviewData));
+
+            //Sets artist header image
+            const bannerImage = artistData["banner_image"];
+            setArtistImage(bannerImage);
+
+            //log the artist name
+            setFullName(artistData["name"]);
+
+            //TODO: CALL IMAGE CAROUSEL DATABASE
+            const imageGallery = await fetch(`http://18.188.104.212:8000/carousel_images/${artistID}`, { mode: 'cors' });
+            const imageGalleryData = await imageGallery.json();
+            console.log(imageGalleryData);
+            //initialize an array to hold the images
+            var imageArray = [];
+            //loop through the data and push the images into the array
+            for (var i = 0; i < imageGalleryData.data.length; i++) {
+                console.log(imageGalleryData.data[i].image_url);
+                imageArray.push(imageGalleryData.data[i].image_url);
+            }
+            //set the image array to the state
+            console.log(imageArray);
+            setImageArray(imageArray);
+            // const imageGallery = artistData[0].images;
+            // setImageArray(imageGallery);
+
 
             //gets the tickemaster artist details 
             const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
@@ -80,7 +103,7 @@ function Artist() {
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
-    }, [artistName]);
+    }, [artistID]);
 
     //parses the review data from the database
     function parseReviewData(reviewData) {
@@ -88,15 +111,17 @@ function Artist() {
         var cumulativeRating = 0;
         for (var i = 0; i < reviewData.length; i++) {
             reviewsArray.push([
-                reviewData[i].description,                                  // review description
+                reviewData[i].review,                                       // review description
                 reviewData[i].rating,                                       // review rating
-                reviewData[i].fname + " " + reviewData[i].lname[0] + ".",   // review author
-                reviewData[i].eventname,                                    // review event
-                reviewData[i].date,                                         // review date
+                reviewData[i].name,                                         // review author
+                reviewData[i].event,                                        // review event
+                reviewData[i].eventDate,                                    // review date
             ]);
             cumulativeRating += reviewData[i].rating;
         }
         setAggregateRating(cumulativeRating / reviewData.length);
+        console.log("aggregate rating: ")
+        console.log(aggregateRating);
         setTotalReviews(reviewData.length);
         return reviewsArray;
     }
