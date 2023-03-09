@@ -1,17 +1,13 @@
-import React, { startTransition } from "react";
+import React from "react";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import {useState, useEffect} from "react";
-import HomePageArtist from "../components/HomePageArtist";
 import Navigation from "../Navigation";
 // import { artistList } from "../ArtistInfo";
-import MobileHomePageArtist from "../components/MobileHomePageArtist";
 import SearchBar from "../components/SearchBar";
-import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
 import "pure-react-carousel/dist/react-carousel.es.css";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import '../Styles/carousel.css';
 import ArtistCarousel from "../components/ArtistCarousel";
+import { Audio } from 'react-loading-icons'
 
 function Home() {
   const [artist_name, setName] = useState('')
@@ -51,9 +47,16 @@ function Home() {
       newVenueRatings[i]=0;
       newVenueCount[i]=0;
     }
+
+    let [fetchReviews, fetchVenueReviews, recentArtistsList, recentVenueList] = await Promise.all([
+      fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'}),
+      fetch(`http://127.0.0.1:8000/venue_reviews/`, {mode: 'cors'}),
+      fetch(`http://127.0.0.1:8000/recent_artists/`, {mode: 'cors'}),
+      fetch(`http://127.0.0.1:8000/recent_venues/`, {mode: 'cors'})
+    ]);
     
     //gets the artist reviews from the database 
-    var fetchReviews = await fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'});
+    //var fetchReviews = await fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'});
     var reviewData = await fetchReviews.json();
 
     //loop through the reviews and add the ratings to the artist
@@ -64,7 +67,7 @@ function Home() {
     }
 
     //gets the venue reviews from the database
-    var fetchVenueReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/`, {mode: 'cors'});
+    //var fetchVenueReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/`, {mode: 'cors'});
     var venueReviewData = await fetchVenueReviews.json();
     //same as above but for venues
     for(let i=0; i < venueReviewData.data.length; i++){
@@ -75,7 +78,7 @@ function Home() {
     console.log(newVenueRatings);
 
     //gets the list of recent artists from the database
-    var recentArtistsList = await fetch(`http://127.0.0.1:8000/recent_artists/`, {mode: 'cors'});
+    //var recentArtistsList = await fetch(`http://127.0.0.1:8000/recent_artists/`, {mode: 'cors'});
     var recentArtists = await recentArtistsList.json();
     const artistObject = {};
     for(let i=0; i < recentArtists["data"].length; i++){
@@ -89,7 +92,7 @@ function Home() {
     }
 
     //gets the list of recent venues from the database
-    var recentVenueList = await fetch(`http://127.0.0.1:8000/recent_venues/`, {mode: 'cors'});
+    //var recentVenueList = await fetch(`http://127.0.0.1:8000/recent_venues/`, {mode: 'cors'});
     var recentVenues = await recentVenueList.json();
     const venueObject = {};
     for(let i=0; i < recentVenues["data"].length; i++){
@@ -141,7 +144,7 @@ function Home() {
   useEffect(() => {
     performSearch();
   }, [artistList.name]);
-
+  const display = loading ? "hidden" : "visible";
   return (
     <>
       <Navigation />
@@ -155,37 +158,49 @@ function Home() {
           <div class="search row">
           <SearchBar></SearchBar>
           </div>
+          {
+            loading ?
+              <>
+                <Audio className="pt-5" speed={.5}></Audio>
+                <h5>loading</h5>
+                <div class="h-50"></div>
+              </>:
+              <></>
+          }
           
-          <div id="top-gallery" class="gallery row pt-5 pb-3">
-                <div class="col-12 col-sm-9 align-self-center">
-                    <h4 class="fw-bold ">Recently Added Artists</h4>
-                </div>
-          </div>
-          {/* Mobile */}
-          <div class="d-block d-sm-none">
-            <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
-          </div>
 
-          {/* Web */}
-          <div class="d-none d-sm-block">
-            <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
-          </div> 
+          <div style={{visibility: {display}}}>
+            <div id="top-gallery" class="gallery row pt-5 pb-3">
+                  <div class="col-12 col-sm-9 align-self-center">
+                      <h4 class="fw-bold ">Recently Added Artists</h4>
+                  </div>
+            </div>
+            {/* Mobile */}
+            <div class="d-block d-sm-none">
+              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
+            </div>
 
-          <div class="gallery row pt-5 pb-3">
-                <div class="col-12 col-sm-9 align-self-center">
-                    <h4 class="fw-bold ">Recently Added Venues</h4>
-                </div>
-          </div>
-          
-          {/* Mobile */}
-          <div class="d-block d-sm-none">
-            <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={1}></ArtistCarousel>
-          </div>
+            {/* Web */}
+            <div class="d-none d-sm-block">
+              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
+            </div> 
 
-          {/* Web */}
-          <div class="d-none d-sm-block">
-            <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={3}></ArtistCarousel>
-          </div> 
+            <div class="gallery row pt-5 pb-3">
+                  <div class="col-12 col-sm-9 align-self-center">
+                      <h4 class="fw-bold ">Recently Added Venues</h4>
+                  </div>
+            </div>
+            
+            {/* Mobile */}
+            <div class="d-block d-sm-none">
+              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={1}></ArtistCarousel>
+            </div>
+
+            {/* Web */}
+            <div class="d-none d-sm-block">
+              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={3}></ArtistCarousel>
+            </div> 
+          </div>
         </div>
       </div>
     </>

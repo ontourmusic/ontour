@@ -7,7 +7,9 @@ const polaroid_image = {
   borderRadius: common_styles.borderRadius.default,
 };
 const polaroid_image_inner = {
-  objectFit: "cover",
+    width: "100%",
+    height: "18vw",
+    objectFit: "cover",
 };
 
 const polaroid_background = {

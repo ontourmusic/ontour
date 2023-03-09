@@ -47,9 +47,6 @@ function Venue() {
     //const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
     const venueResponse = await fetch(`http://127.0.0.1:8000/venue/${venueIDGlobal}`, {mode: 'cors'});
     const venueData = await venueResponse.json();
-    console.log("VENUE DATA: ");
-    console.log(venueData);
-    console.log(venueData.data[0].name)
     setVenueName(venueData.data[0].name);
     const imageUrls = venueData.data[0].banner_image;
     setVenueImage(imageUrls);
@@ -95,8 +92,8 @@ function Venue() {
         reviewData[i].description,
         reviewData[i].rating,
         reviewData[i].name,
-        reviewData[i].artistname,
-        reviewData[i].date
+        reviewData[i].artist,
+        reviewData[i].eventDate
       ]);
 
       cumulativeRating += reviewData[i].rating;

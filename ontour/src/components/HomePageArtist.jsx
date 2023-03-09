@@ -10,6 +10,7 @@ import { HomepagePolaroid } from "./HomepagePolaroid";
 export default function HomePageArtist(props) {
 
     return (
+        props.loading ? <></> :
         <HomepagePolaroid imageURL={props.artistList[props.artist].imageURL} link={"/artist?artist=" + props.artist+"&id="+props.artistList[props.artist].artistID} bottomComponent={
             <>
                 <h5 class="card-title fw-bold" style={{ color: 'black' }}>{props.artistList[props.artist].name}</h5>
