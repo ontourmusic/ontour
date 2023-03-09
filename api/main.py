@@ -100,7 +100,7 @@ async def reviews(artist_id: int):
     return reviews
 
 @app.post('/reviews/')
-async def reviews(artist_id: int, venue: str, rating: float, description: str, name: str, eventname: str, date: str):
+async def reviews(artist_id: int, rating: float, description: str, name: str, eventname: str, date: str):
     db_review = supabase.table('artist_reviews').insert({'artist_id': artist_id,'rating': rating, 'review': description, 'name': name, 'event': eventname, 'eventDate': date}).execute()
     return db_review
 

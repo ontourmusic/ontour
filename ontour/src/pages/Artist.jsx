@@ -115,7 +115,7 @@ function Artist() {
                 reviewData[i].rating,                                       // review rating
                 reviewData[i].name,                                         // review author
                 reviewData[i].event,                                        // review event
-                reviewData[i].eventName,                                    // review date
+                reviewData[i].eventDate,                                    // review date
             ]);
             cumulativeRating += reviewData[i].rating;
         }

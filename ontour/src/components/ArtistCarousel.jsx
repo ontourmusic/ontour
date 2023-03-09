@@ -11,7 +11,7 @@ export default function ArtistCarousel(props){
     return <CarouselProvider
                 orientation="horizontal"
                 visibleSlides={props.slideCount}
-                totalSlides={10}
+                totalSlides={Object.keys(props.itemList).length}
                 step={1}
                 naturalSlideWidth={50}
                 naturalSlideHeight={50}

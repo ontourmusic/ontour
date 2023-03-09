@@ -67,7 +67,7 @@ export default function WriteVenueReview(props) {
   const postData = async () => { 
     var encodedDescription = encodeURIComponent(description);
     //await fetch(`http://127.0.0.1:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
-    await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    await fetch(`http://localhost:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
     window.location.reload();
   }
 
