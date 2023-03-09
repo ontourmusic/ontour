@@ -151,7 +151,7 @@ function Home() {
       <div id="homepage">
       
         <div id="homeheader">
-          <img id="home-logo" src= "images/tourscoutNoBack2.png" alt=""/>
+          <img id="home-logo" src= "images/tourScoutBack.png" alt=""/>
           {/* <div class="home-title">
             Own your next live experience.
           </div> */}
