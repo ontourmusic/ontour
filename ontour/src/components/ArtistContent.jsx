@@ -12,19 +12,11 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import artist_styles from '../Styles/artist_styles';
 import ProgressWithLabel from './ProgressWithLabel';
 import ReviewSummary from './ReviewSummary';
+import { Divider } from '@mui/material';
 const review_display_styles = artist_styles.review_display;
 
 const ArtistContent = (props) => {
-    const [reviewValueArray, setReviewValueArray] = useState([0, 0, 0, 0, 0, 0]);
 
-    useEffect(() => {
-        let tempArray = [0, 0, 0, 0, 0, 0];
-        props.allReviews.forEach((review) => {
-            // index 1 is the rating
-            tempArray[review[1]]++;
-        });
-        setReviewValueArray(tempArray);
-    }, [props.allReviews]);
 
     function Items({ currentItems }) {
         return (
@@ -88,47 +80,22 @@ const ArtistContent = (props) => {
         <div class="container">
             <hr></hr>
             <h4 id="reviews" class="fw-bold">Reviews ({props.allReviews.length})</h4>
+            <div class="dropdown">
+                <Form.Select onChange={props.formChange} aria-label="Default select example">
+                    <option>Recommended</option>
+                    <option value="1">Newest First</option>
+                    <option value="2">Oldest First</option>
+                    <option value="3">Highest Rated</option>
+                    <option value="4">Lowest Rated</option>
+                </Form.Select>
+            </div>
             {props.allReviews.length > 0 &&
                 <div id="clear">
-                    <div id="reviews-margin" class="row">
-                        <div class="col-12 col-sm-9 align-self-center">
-                            <div class="rating fw-bold">
-                                Overall Rating: {props.aggregateRating.toFixed(1)} out of 5
-                            </div>
-                            <div class="rating">
-                                <Rating
-                                    name="text-feedback"
-                                    value={props.aggregateRating}
-                                    size="large"
-                                    readOnly
-                                    precision={0.1}
-                                    emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
-                                />
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-sm-3 align-self-center">
-                            <div class="dropdown">
-                                <Form.Select onChange={props.formChange} aria-label="Default select example">
-                                    <option>Recommended</option>
-                                    <option value="1">Newest First</option>
-                                    <option value="2">Oldest First</option>
-                                    <option value="3">Highest Rated</option>
-                                    <option value="4">Lowest Rated</option>
-                                </Form.Select>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                            <ProgressWithLabel percent={10} />
-                        </div>
-
-                    <ReviewSummary ReviewValueArray={reviewValueArray} />
+                    <ReviewSummary allReviews={props.allReviews} />
                     <div id="page" style={review_display_styles.review.container}>
                         {/* {allReviews && allReviews.map(function(review, index) {
-return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
-})} */}
-                        
+                        return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
+                        })} */}
                         <PaginatedItems itemsPerPage={10} />
                     </div>
                 </div>
