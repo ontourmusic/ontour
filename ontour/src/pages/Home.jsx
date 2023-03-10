@@ -120,7 +120,7 @@ function Home() {
       venueReviewCount[venueName]=newVenueCount[venueID];
     }
 
-    console.log(venueRatings);
+    // console.log(venueRatings);
 
 
     setRatings(()=> {
