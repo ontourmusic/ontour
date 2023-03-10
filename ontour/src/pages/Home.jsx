@@ -53,11 +53,8 @@ function Home() {
 
     
     //gets the artist reviews from the database 
-    //var fetchReviews = await fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'});
-    // var reviewData = await fetchReviews.json();
 
     const reviewData = await supabase.from('artist_reviews').select('*');
-    console.log(reviewData);
 
     //loop through the reviews and add the ratings to the artist
     for(let i=0; i < reviewData.data.length; i++){
@@ -67,8 +64,6 @@ function Home() {
     }
 
     //gets the venue reviews from the database
-    //var fetchVenueReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/`, {mode: 'cors'});
-    // var venueReviewData = await fetchVenueReviews.json();
     const venueReviewData = await supabase.from('venue_reviews').select('*');
     //same as above but for venues
     for(let i=0; i < venueReviewData.data.length; i++){
@@ -79,8 +74,6 @@ function Home() {
     console.log(newVenueRatings);
 
     //gets the list of recent artists from the database
-    //var recentArtistsList = await fetch(`http://127.0.0.1:8000/recent_artists/`, {mode: 'cors'});
-    // var recentArtists = await recentArtistsList.json();
     const recentArtists = await supabase.from('artists').select('*').order('artist_id', {ascending: false}).limit(10);
     const artistObject = {};
     for(let i=0; i < recentArtists["data"].length; i++){
@@ -94,8 +87,6 @@ function Home() {
     }
 
     //gets the list of recent venues from the database
-    //var recentVenueList = await fetch(`http://127.0.0.1:8000/recent_venues/`, {mode: 'cors'});
-    // var recentVenues = await recentVenueList.json();
     const recentVenues = await supabase.from('venues').select('*').order('venue_id', {ascending: false}).limit(10);
     const venueObject = {};
     for(let i=0; i < recentVenues["data"].length; i++){
