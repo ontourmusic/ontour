@@ -51,12 +51,6 @@ function Home() {
       newVenueCount[i]=0;
     }
 
-    let [fetchReviews, fetchVenueReviews, recentArtistsList, recentVenueList] = await Promise.all([
-      fetch(`http://18.188.104.212:8000/reviews/`, {mode: 'cors'}),
-      fetch(`http://18.188.104.212:8000/venue_reviews/`, {mode: 'cors'}),
-      fetch(`http://18.188.104.212:8000/recent_artists/`, {mode: 'cors'}),
-      fetch(`http://18.188.104.212:8000/recent_venues/`, {mode: 'cors'})
-    ]);
     
     //gets the artist reviews from the database 
     //var fetchReviews = await fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'});
