@@ -13,6 +13,7 @@ import ArtistContent from "../components/ArtistContent";
 import artist_styles from "../Styles/artist_styles";
 import SideContent from "../components/SideContent";
 import Footer from "../components/Footer";
+import { createClient } from '@supabase/supabase-js'
 
 function Venue() {
 
@@ -21,8 +22,8 @@ function Venue() {
   const venueNameGet = searchParams.get("venue");
   const venueIDGlobal = searchParams.get("id");
   const venueName = venueNameGet.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-  console.log(venueIDGlobal);
-  console.log(venueName);
+  const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
+
 
   //set var names here
   const [venueData, setVenueData] = useState({
@@ -44,18 +45,14 @@ function Venue() {
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    //const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
-    const venueResponse = await fetch(`http://18.188.104.212:8000/venue/${venueIDGlobal}`, {mode: 'cors'});
-    const venueData = await venueResponse.json();
-    console.log("VENUE DATA: ");
-    console.log(venueData);
-    console.log(venueData.data[0].name)
+    
+    const venueData = await supabase.from('venues').select('*').eq('venue_id', venueIDGlobal)
     setVenueName(venueData.data[0].name);
     const imageUrls = venueData.data[0].banner_image;
     setVenueImage(imageUrls);
     setVenueIdNumber(venueIDGlobal);
-    const venueGallery = await fetch (`http://18.188.104.212:8000/venue_carousel_images/${venueIDGlobal}`)
-    const venueGalleryData = await venueGallery.json();
+   
+    const venueGalleryData = await supabase.from('venue_carousel_images').select('*').eq('venue_id', venueIDGlobal)
     //initialize an empty array
     var imageGallery = [];
     //loop through the data and push the image urls into the array
@@ -63,13 +60,8 @@ function Venue() {
       imageGallery.push(venueGalleryData.data[i].image_url);
     }
     setImageArray(imageGallery);
+    const reviewData = await supabase.from('venue_reviews').select('*').eq('venue_id', venueIDGlobal)
 
-
-    //const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
-    const getReviews = await fetch(`http://18.188.104.212:8000/venue_reviews/${venueIDGlobal}`);
-    const reviewData = await getReviews.json();
-    console.log("REVIEW DATA: ");
-    console.log(reviewData);
     setAllReviews(parseReviewData(reviewData["data"]));
 
     const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
