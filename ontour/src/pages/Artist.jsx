@@ -12,6 +12,8 @@ import ArtistNavigation from "../ArtistNavigation"
 
 import artist_styles from "../Styles/artist_styles";
 
+import { createClient } from '@supabase/supabase-js'
+
 
 // Testing
 import { Grid } from "@mui/material";
@@ -27,6 +29,8 @@ function Artist() {
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
     console.log(artistID);
+
+    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
     //set var names here
     const [artistData, setArtistData] = useState({
@@ -49,17 +53,20 @@ function Artist() {
 
     const performSearch = async () => {
         try{
+
+
+            //try the supabase query here
+            const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', artistID);
+
+
+
             //Queries artist database with artistID passed by search bar
-            const artistResponse = await fetch(`http://18.188.104.212:8000/artist/${artistID}`, { mode: 'cors' });
-            const artistDataResponse = await artistResponse.json();
-            const artistData = artistDataResponse["data"][0];
-            console.log(artistData);
+            const artistData = getArtistSupabase["data"][0];
 
             //Queries reviews database with artistID passed by search bar
-            const getReviews = await fetch(`http://18.188.104.212:8000/reviews/${artistID}`, { mode: 'cors' });
-            const reviewDataResponse = await getReviews.json();
-            const reviewData = reviewDataResponse["data"];
-            console.log(reviewData);
+            const getReviewsSupabase = await supabase.from('artist_reviews').select('*').eq('artist_id', artistID);
+            const reviewData = getReviewsSupabase["data"];
+            
             //Parse review data
             setAllReviews(parseReviewData(reviewData));
 
@@ -70,22 +77,16 @@ function Artist() {
             //log the artist name
             setFullName(artistData["name"]);
 
-            //TODO: CALL IMAGE CAROUSEL DATABASE
-            const imageGallery = await fetch(`http://18.188.104.212:8000/carousel_images/${artistID}`, { mode: 'cors' });
-            const imageGalleryData = await imageGallery.json();
-            console.log(imageGalleryData);
+            const imageGallerySupabase = await supabase.from('artist_carousel_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
             var imageArray = [];
             //loop through the data and push the images into the array
-            for (var i = 0; i < imageGalleryData.data.length; i++) {
-                console.log(imageGalleryData.data[i].image_url);
-                imageArray.push(imageGalleryData.data[i].image_url);
+            for (var i = 0; i < imageGallerySupabase.data.length; i++) {
+                console.log(imageGallerySupabase.data[i].image_url);
+                imageArray.push(imageGallerySupabase.data[i].image_url);
             }
             //set the image array to the state
-            console.log(imageArray);
             setImageArray(imageArray);
-            // const imageGallery = artistData[0].images;
-            // setImageArray(imageGallery);
 
 
             //gets the tickemaster artist details 
