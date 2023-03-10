@@ -84,11 +84,11 @@ function Venue() {
     var cumulativeRating = 0;
     for(var i = 0; i < reviewData.length; i++) {
       reviewsArray.push([
-        reviewData[i].description,
+        reviewData[i].review,
         reviewData[i].rating,
         reviewData[i].name,
-        reviewData[i].artistname,
-        reviewData[i].date
+        reviewData[i].artist,
+        reviewData[i].eventDate
       ]);
 
       cumulativeRating += reviewData[i].rating;

@@ -106,7 +106,7 @@ export default function WriteReview(props) {
 
     var eventDate = eventName.split(" • ")[0];
     var event = eventName.split(" • ")[1];
-    var encodedDescription = encodeURIComponent(description);
+    //var encodedDescription = encodeURIComponent(description);
     // await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&rating=${rating}&description=${encodedDescription}&name=${unparsedName}&eventname=${event}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
     //use the supabase client to do the same as above and post the data to the db
     // const { data, error } = await supabase
@@ -115,13 +115,13 @@ export default function WriteReview(props) {
 
 const { data, error } = await supabase
 .from('artist_reviews')
-.insert([
-  {'artist_id': props.artistId, 'rating': rating, 'description': encodedDescription, 'name': unparsedName, 'eventname': event, 'date': eventDate }
-]);
+.insert(
+  [{'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': unparsedName, 'event': event, 'eventDate': eventDate }]
+);
 
     
     // console.log(data)
-    // window.location.reload();
+    window.location.reload();
   }
 
   const HandleDescription = event => {
