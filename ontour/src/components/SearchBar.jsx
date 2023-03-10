@@ -33,14 +33,8 @@ export default function SearchBar(){
     const [venueList, setVenueList] = useState([]);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
-
-    const loadSearchItems = async () => {
-        // var artistsData = await fetch(`http://18.188.104.212:8000/artist/`, {mode: 'cors'});
-        // var venuesData = await fetch(`http://18.188.104.212:8000/venue/`, {mode: 'cors'});
-        
-        // var artists = await artistsData.json();
+    const loadSearchItems = async () => { 
         var artists = await supabase.from('artists').select('*');
-        // var venues = await venuesData.json();
         var venues = await supabase.from('venues').select('*');
 
         var artistsList = artists["data"];

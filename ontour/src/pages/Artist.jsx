@@ -60,15 +60,12 @@ function Artist() {
 
 
             //Queries artist database with artistID passed by search bar
-            // const artistResponse = await fetch(`http://18.188.104.212:8000/artist/${artistID}`, { mode: 'cors' });
-            // const artistDataResponse = await artistResponse.json();
             const artistData = getArtistSupabase["data"][0];
 
             //Queries reviews database with artistID passed by search bar
-            // const getReviews = await fetch(`http://18.188.104.212:8000/reviews/${artistID}`, { mode: 'cors' });
             const getReviewsSupabase = await supabase.from('artist_reviews').select('*').eq('artist_id', artistID);
-            // const reviewDataResponse = await getReviews.json();
             const reviewData = getReviewsSupabase["data"];
+            
             //Parse review data
             setAllReviews(parseReviewData(reviewData));
 
@@ -79,12 +76,7 @@ function Artist() {
             //log the artist name
             setFullName(artistData["name"]);
 
-            //TODO: CALL IMAGE CAROUSEL DATABASE
-            // const imageGallery = await fetch(`http://18.188.104.212:8000/carousel_images/${artistID}`, { mode: 'cors' });
             const imageGallerySupabase = await supabase.from('artist_carousel_images').select('*').eq('artist_id', artistID);
-            // console.log(imageGallerySupabase);
-            // const imageGalleryData = await imageGallery.json();
-            // console.log(imageGalleryData);
             //initialize an array to hold the images
             var imageArray = [];
             //loop through the data and push the images into the array
@@ -93,10 +85,7 @@ function Artist() {
                 imageArray.push(imageGallerySupabase.data[i].image_url);
             }
             //set the image array to the state
-            console.log(imageArray);
             setImageArray(imageArray);
-            // const imageGallery = artistData[0].images;
-            // setImageArray(imageGallery);
 
 
             //gets the tickemaster artist details 
