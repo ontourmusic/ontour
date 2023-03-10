@@ -15,11 +15,14 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
       backgroundColor: theme.palette.mode === 'light' ? '#faaf00' : '#308fe8',
     },
   }));
-const ProgressWithLabel = ({ percent, color }) => {
-    
-
+const ProgressWithLabel = ({ percent, color, leftLabel }) => {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-around" }}>
+            {leftLabel && 
+            <Box sx={{ minWidth: 35, textAlign: "start" }}>
+                {leftLabel}
+            </Box>
+            }
             <Box sx={{ width: '80%', marginRight: "10" }}>
                 <BorderLinearProgress variant="determinate" value={percent}  />
             </Box>

@@ -178,12 +178,12 @@ function Home() {
             </div>
             {/* Mobile */}
             <div class="d-block d-sm-none">
-              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1}></ArtistCarousel>
+              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1} />
             </div>
 
             {/* Web */}
             <div class="d-none d-sm-block">
-              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3}></ArtistCarousel>
+              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3} />
             </div> 
 
             <div class="gallery row pt-5 pb-3">

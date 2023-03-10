@@ -8,28 +8,24 @@ import HomePageArtist from "./HomePageArtist";
 import HomePageVenue from "./HomePageVenue"
 
 export default function ArtistCarousel(props){
+
     return <CarouselProvider
                 orientation="horizontal"
                 visibleSlides={props.slideCount}
                 totalSlides={Object.keys(props.itemList).length}
-                step={1}
+                step={2}
                 naturalSlideWidth={50}
                 naturalSlideHeight={50}
                 isIntrinsicHeight={true}         
             >
                 <Slider>
-                {   props.artistFlag ? 
-                    Object.keys(props.itemList).map((artist, index) => {
-                    return <Slide index = {index}>
-                                <HomePageArtist artistList={props.itemList} artist={artist} rating={props.ratings[artist]} loading={props.loading} reviewCount={props.reviewCount[artist]}></HomePageArtist>
-                            </Slide>;
-                    })
-                    :
-                    Object.keys(props.itemList).map((venue, index) => {
-                    return <Slide index = {index}>
-                                <HomePageVenue artistList={props.itemList} artist={venue} rating={props.ratings[venue]} loading={props.loading} reviewCount={props.reviewCount[venue]}></HomePageVenue>
-                            </Slide>;
-                    })
+                {
+                    Object.keys(props.itemList).map((item, index) => {
+                    return (
+                        <Slide index = {index}>
+                            <HomePageArtist isArtist={props.artistFlag} artistList={props.itemList} artist={item} rating={props.ratings[item]} loading={props.loading} reviewCount={props.reviewCount[item]}></HomePageArtist>
+                        </Slide>
+                    )})
                 }
                 </Slider>
                 <div className="controls">

@@ -5,10 +5,14 @@ import Home from './pages/Home';
 import Artist from './pages/Artist';
 import Results from './pages/Results';
 import Venue from './pages/Venue';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import theme from './Styles/FontTheme';
 
 function App() {
   return (
-    <div className="App">
+    <ThemeProvider theme={theme}>
+      <div className="App">
+      <CssBaseline />
       <Router>
         <Routes>
           <Route path="/" element={<Home/>} />
@@ -17,7 +21,8 @@ function App() {
           <Route path="/venue" element={<Venue/>} />
         </Routes>
       </Router>
-    </div>
+      </div>
+    </ThemeProvider>
   );
 }
 

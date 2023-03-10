@@ -3,8 +3,7 @@ import '../index.css';
 import Rating from '@mui/material/Rating';
 // import { artistList } from "../ArtistInfo";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-
-import { Polaroid } from "./Polaroid";
+import { HomepagePolaroid } from "./HomepagePolaroid";
 import { useState, useEffect, useRef } from "react";
 
 export default function HomePageArtist(props) {
@@ -15,7 +14,6 @@ export default function HomePageArtist(props) {
         if (starBoxRef.current) {
             const starBoxHeight = starBoxRef.current.offsetHeight;
             const starBoxWidth = starBoxRef.current.offsetWidth;
-            // totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.65}px`;
             totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.22}px`;
             totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
         }
@@ -23,11 +21,18 @@ export default function HomePageArtist(props) {
 
     return (
         props.loading ? <></> :
-        <HomepagePolaroid imageURL={props.artistList[props.artist].imageURL} link={"/artist?artist=" + props.artist+"&id="+props.artistList[props.artist].artistID} bottomComponent={
+        <HomepagePolaroid 
+            imageURL={props.artistList[props.artist].imageURL} 
+            link={
+                props.isArtist ? 
+                    "/artist?artist=" + props.artist+"&id="+props.artistList[props.artist].artistID :
+                    "/venue?venue=" + props.artist+"&id="+props.artistList[props.artist].venueID
+            } 
+            bottomComponent={
             <>
                 <h5 class="card-title fw-bold" style={{ color: 'black' }}>{props.artistList[props.artist].name}</h5>
                 {
-                    props.loading ? <div></div>:
+                    props.loading ? <div></div> :
                     <div style={styles.RatingRow}>
                         <Rating
                             ref={starBoxRef}
@@ -38,15 +43,7 @@ export default function HomePageArtist(props) {
                             precision={0.1}
                             emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
                         />
-                        {/* <div style={{
-                            color: 'black', 
-                            display: 'inline-block', 
-                            position: 'absolute', 
-                            bottom: '15px'
-                        }}>
-                            ({props.reviewCount})
-                        </div> */}
-                        <div ref={totalReviewTextRef} style={styles.TotalReviewsText}>({props.reviewCount})</div>
+                        <div ref={totalReviewTextRef} style={styles.TotalReviewsText}>({props.reviewCount ? props.reviewCount : 0 })</div>
                     </div>
                 }
             </>

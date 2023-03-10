@@ -34,6 +34,14 @@ const review_display = {
     width: 50,
     color: "black",
   },
+  summary: {
+    barContainer: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      // height: 400,
+    },
+  },
   review: {
     container: common_styles.list_group.list_group_container,
     item: common_styles.list_group.list_group_item,

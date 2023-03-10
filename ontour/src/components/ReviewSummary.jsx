@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ProgressWithLabel from "./ProgressWithLabel";
 import { Grid } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import artist_styles from "../Styles/artist_styles";
 
 
 
@@ -28,10 +29,9 @@ const ReviewSummary = ({ allReviews }) => {
     const gridTesting = true;
     if (gridTesting) {
         return (
-            <Grid container spacing={1} style={{marginBottom: 10}}>
+            <Grid container spacing={1} style={{ marginBottom: 10 }}>
                 <Grid item xs={12} md={6}>
-                    <div class="rating fw-bold">
-                        Overall Rating: {aggregateRating.toFixed(1)}
+                    <div class="rating">
                     </div>
                     <div class="rating">
                         <Rating
@@ -65,15 +65,18 @@ TotalReviews: # of reviews total
 */
 const ReviewProgressBars = ({ ReviewValueArray, TotalReviews }) => {
     return (
-        <>
+        <Box style={artist_styles.review_display.summary.barContainer}>
             {
                 [5, 4, 3, 2, 1].map((star) => {
                     return (
-                        <ProgressWithLabel percent={Math.round((ReviewValueArray[star] ? ReviewValueArray[star] : 0) / (TotalReviews ? TotalReviews : 1) * 100)} />
+                        <ProgressWithLabel
+                            percent={Math.round((ReviewValueArray[star] ? ReviewValueArray[star] : 0) / (TotalReviews ? TotalReviews : 1) * 100)}
+                            leftLabel={`${star} star`}
+                        />
                     )
                 })
             }
-        </>
+        </Box>
     )
 }
 
