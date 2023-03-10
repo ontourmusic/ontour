@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
 import Reaptcha from 'reaptcha';
+import { createClient } from '@supabase/supabase-js'
 
 export default function WriteReview(props) {
   const [unparsedName, setUnparsedName] = useState("");
@@ -14,6 +15,8 @@ export default function WriteReview(props) {
   const [reviews, setPastReviews] = useState([]);
   const [canSubmit, setCanSubmit] = useState(true);
   const [captchaVerified, setCaptcha] = useState(false);
+  const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+
 
 
   // only set is used
@@ -103,8 +106,21 @@ export default function WriteReview(props) {
 
     var eventDate = eventName.split(" • ")[0];
     var event = eventName.split(" • ")[1];
-    var encodedDescription = encodeURIComponent(description);
-    await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&rating=${rating}&description=${encodedDescription}&name=${unparsedName}&eventname=${event}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    //var encodedDescription = encodeURIComponent(description);
+    // await fetch(`http://127.0.0.1:8000/reviews/?artist_id=${props.artistId}&rating=${rating}&description=${encodedDescription}&name=${unparsedName}&eventname=${event}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    //use the supabase client to do the same as above and post the data to the db
+    // const { data, error } = await supabase
+    // const {data} = await supabase.from('artist_reviews').insert({'artist_id': props.artistId, 'rating': rating, 'description': encodedDescription, 'name': unparsedName, 'eventname': event, 'date': eventDate}).select();
+    // await supabase.from('artist_reviews').insert({'artist_id': props.artistId, 'rating': rating, 'description': encodedDescription, 'name': unparsedName, 'eventname': event, 'date': eventDate});
+
+const { data, error } = await supabase
+.from('artist_reviews')
+.insert(
+  [{'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': unparsedName, 'event': event, 'eventDate': eventDate }]
+);
+
+    
+    // console.log(data)
     window.location.reload();
   }
 

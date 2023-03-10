@@ -3,6 +3,7 @@ import '../index.css';
 import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
+import { createClient } from '@supabase/supabase-js'
 
 export default function WriteVenueReview(props) {
   const [name, setName] = useState("");
@@ -13,6 +14,7 @@ export default function WriteVenueReview(props) {
   const [canSubmit, setCanSubmit] = useState(true);
   const [artistName, setArtistName] = useState("");
   const [eventDate, setEventDate] = useState("");
+  const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
 
   // only set is used
@@ -65,9 +67,14 @@ export default function WriteVenueReview(props) {
   }
 
   const postData = async () => { 
-    var encodedDescription = encodeURIComponent(description);
+    //var encodedDescription = encodeURIComponent(description);
     //await fetch(`http://127.0.0.1:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
-    await fetch(`http://localhost:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    //await fetch(`http://localhost:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    const { data, error } = await supabase
+      .from('venue_reviews')
+      .insert(
+        [{'venue_id': props.venueId, 'rating': rating, 'review': description, 'name': name, 'artist': artistName, 'eventDate': eventDate }]
+    );
     window.location.reload();
   }
 

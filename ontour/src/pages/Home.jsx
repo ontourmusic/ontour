@@ -8,6 +8,8 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 import '../Styles/carousel.css';
 import ArtistCarousel from "../components/ArtistCarousel";
 import { Audio } from 'react-loading-icons'
+import { createClient } from '@supabase/supabase-js'
+
 
 function Home() {
   const [artist_name, setName] = useState('')
@@ -19,6 +21,7 @@ function Home() {
   const [artistIDs, setArtistIDs] = useState({});
   const [artistList, setArtistList] = useState({name: "", imageURL: "", artistID: -1});
   const [venueList, setVenueList] = useState({});
+  const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
   const navigate = useNavigate(); 
   const routeChange = (artist) =>{ 
@@ -57,7 +60,10 @@ function Home() {
     
     //gets the artist reviews from the database 
     //var fetchReviews = await fetch(`http://127.0.0.1:8000/reviews/`, {mode: 'cors'});
-    var reviewData = await fetchReviews.json();
+    // var reviewData = await fetchReviews.json();
+
+    const reviewData = await supabase.from('artist_reviews').select('*');
+    console.log(reviewData);
 
     //loop through the reviews and add the ratings to the artist
     for(let i=0; i < reviewData.data.length; i++){
@@ -68,7 +74,8 @@ function Home() {
 
     //gets the venue reviews from the database
     //var fetchVenueReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/`, {mode: 'cors'});
-    var venueReviewData = await fetchVenueReviews.json();
+    // var venueReviewData = await fetchVenueReviews.json();
+    const venueReviewData = await supabase.from('venue_reviews').select('*');
     //same as above but for venues
     for(let i=0; i < venueReviewData.data.length; i++){
       const currData = venueReviewData.data[i];
@@ -79,7 +86,8 @@ function Home() {
 
     //gets the list of recent artists from the database
     //var recentArtistsList = await fetch(`http://127.0.0.1:8000/recent_artists/`, {mode: 'cors'});
-    var recentArtists = await recentArtistsList.json();
+    // var recentArtists = await recentArtistsList.json();
+    const recentArtists = await supabase.from('artists').select('*').order('artist_id', {ascending: false}).limit(10);
     const artistObject = {};
     for(let i=0; i < recentArtists["data"].length; i++){
       const currData = recentArtists["data"][i];
@@ -93,7 +101,8 @@ function Home() {
 
     //gets the list of recent venues from the database
     //var recentVenueList = await fetch(`http://127.0.0.1:8000/recent_venues/`, {mode: 'cors'});
-    var recentVenues = await recentVenueList.json();
+    // var recentVenues = await recentVenueList.json();
+    const recentVenues = await supabase.from('venues').select('*').order('venue_id', {ascending: false}).limit(10);
     const venueObject = {};
     for(let i=0; i < recentVenues["data"].length; i++){
       const currData = recentVenues["data"][i];
