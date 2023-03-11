@@ -14,7 +14,7 @@ export default function HomePageArtist(props) {
         if (starBoxRef.current) {
             const starBoxHeight = starBoxRef.current.offsetHeight;
             const starBoxWidth = starBoxRef.current.offsetWidth;
-            totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.22}px`;
+            // totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.22}px`;
             totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
         }
     }, [])
