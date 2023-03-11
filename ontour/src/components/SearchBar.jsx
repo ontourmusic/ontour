@@ -135,7 +135,7 @@ export default function SearchBar(){
                 }).toString()
             });
         }
-        else if(displayField != undefined && selectedItem != undefined){
+        else if(displayField !== undefined && selectedItem !== undefined){
             if(venueList.includes(selectedItem)){
                 navigate({
                     pathname: '/venue', 

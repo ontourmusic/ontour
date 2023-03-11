@@ -19,8 +19,7 @@ import { createClient } from '@supabase/supabase-js'
 import { Grid } from "@mui/material";
 import SideContent from "../components/SideContent";
 import ArtistContent from "../components/ArtistContent";
-import ComponentCarousel from "../components/ComponentCarousel";
-import ProgressWithLabel from "../components/ProgressWithLabel";
+import ImageCarousel from "../components/ImageCarousel";
 
 
 function Artist() {
@@ -53,13 +52,8 @@ function Artist() {
 
     const performSearch = async () => {
         try{
-
-
             //try the supabase query here
             const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', artistID);
-
-
-
             //Queries artist database with artistID passed by search bar
             const artistData = getArtistSupabase["data"][0];
 
@@ -87,7 +81,6 @@ function Artist() {
             }
             //set the image array to the state
             setImageArray(imageArray);
-
 
             //gets the tickemaster artist details 
             const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
@@ -186,7 +179,8 @@ function Artist() {
                             })}
                         />
                     } */}
-                    <Carousel images={imageArray} />
+                    {/* <Carousel images={imageArray} /> */}
+                    <ImageCarousel images={imageArray} slideCount={3}/>
                     <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
                     {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
                 </Grid>

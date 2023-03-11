@@ -11,7 +11,6 @@ function ArtistHeader(props) {
     const starBoxRef = useRef(null);
     const totalReviewTextRef = useRef(null);
 
-
     const handleResize = () => {
         console.log("Resize event triggered");
         if (starBoxRef.current) {
@@ -38,19 +37,11 @@ function ArtistHeader(props) {
 
         useEffect(() => () => setIsRun(false), deps);
     };
-
     useBeforeRender(() => handleResize(), []);
-
-    // useEffect(() => {
-    //     window.addEventListener("resize", handleResize)
-    // })
 
     useEffect(() => {
         console.log("adding event listener for resize");
         window.addEventListener("resize", handleResize);
-        // const starBoxHeight = starBoxRef.current.offsetHeight;
-        // console.log("starBoxHeight: ", starBoxHeight);
-        // totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.5}px`;
     }, [])
 
     return (

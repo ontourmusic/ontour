@@ -1,8 +1,7 @@
 
-import React, { startTransition } from "react";
+import React from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import HomePageArtist from "../components/HomePageArtist";
 import Navigation from "../Navigation";
 import SearchBar from "../components/SearchBar";
 import "pure-react-carousel/dist/react-carousel.es.css";
@@ -54,16 +53,13 @@ function Home() {
 
     
     //gets the artist reviews from the database 
-
     const reviewData = await supabase.from('artist_reviews').select('*');
-
     //loop through the reviews and add the ratings to the artist
     for(let i=0; i < reviewData.data.length; i++){
       const currData = reviewData.data[i];
       newRatings[currData.artist_id] += currData.rating;
       newCount[currData.artist_id]++;
     }
-
     //gets the venue reviews from the database
     const venueReviewData = await supabase.from('venue_reviews').select('*');
     //same as above but for venues
@@ -119,9 +115,7 @@ function Home() {
       venueRatings[venueName]=(newVenueRatings[venueID]/newVenueCount[venueID]);
       venueReviewCount[venueName]=newVenueCount[venueID];
     }
-
-    console.log(venueRatings);
-
+    console.log("venueRatings: ", venueRatings);
 
     setRatings(()=> {
       return starsResults
@@ -138,6 +132,7 @@ function Home() {
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
+    console.log(reviewCount);
   }, [artistList.name]);
   const display = loading ? "hidden" : "visible";
   return (
@@ -188,12 +183,12 @@ function Home() {
             
             {/* Mobile */}
             <div class="d-block d-sm-none">
-              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={1}></ArtistCarousel>
+              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={1} />
             </div>
 
             {/* Web */}
             <div class="d-none d-sm-block">
-              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={3}></ArtistCarousel>
+              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={3} />
             </div> 
           </div>
         </div>

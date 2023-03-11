@@ -7,20 +7,24 @@ const polaroid_image = {
   borderRadius: common_styles.borderRadius.default,
 };
 const polaroid_image_inner = {
-    width: "100%",
-    height: "18vw",
-    objectFit: "cover",
+  width: "100%",
+  height: "20vh",
+  objectFit: "cover",
 };
 
 const polaroid_background = {
-  backgroundColor: OnTourColors.colors.background,
+  backgroundColor: OnTourColors.colors.surface,
   borderRadius: common_styles.borderRadius.default,
+};
+const polaroid_container = {
+  hight: "100%",
 };
 
 const polaroid_styles = {
   polaroid_image,
   polaroid_background,
-  polaroid_image_inner
+  polaroid_image_inner,
+  polaroid_container,
 };
 
 export default polaroid_styles;
