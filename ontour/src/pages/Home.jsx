@@ -107,19 +107,19 @@ function Home() {
     setArtistList(artistObject);
     console.log(artistList);
 
-    for (var i = 0; i < Object.keys(artistList).length; i++) {
-      var artistNameList = Object.keys(artistList);
+    for (var i = 0; i < Object.keys(artistObject).length; i++) {
+      var artistNameList = Object.keys(artistObject);
       var artistName = artistNameList[i];
-      var artistID = artistList[artistName].artistID;
+      var artistID = artistObject[artistName].artistID;
       starsResults[artistName]=(newRatings[artistID]/newCount[artistID]);
       ratingCount[artistName]=newCount[artistID];
       artistIDList[artistName]=artistID;
     }
 
-    for (var i = 0; i < Object.keys(venueList).length; i++) {
-      var venueNameList = Object.keys(venueList);
+    for (var i = 0; i < Object.keys(venueObject).length; i++) {
+      var venueNameList = Object.keys(venueObject);
       var venueName = venueNameList[i];
-      var venueID = venueList[venueName].venueID;
+      var venueID = venueObject[venueName].venueID;
       venueRatings[venueName]=(newVenueRatings[venueID]/newVenueCount[venueID]);
       venueReviewCount[venueName]=newVenueCount[venueID];
     }
