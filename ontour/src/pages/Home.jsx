@@ -43,19 +43,17 @@ function Home() {
     var newVenueRatings = {};
     var newVenueCount = {};
     var artistIDList = {};
-    for(var i=1; i <= Object.keys(artistList).length; i++){
-      newRatings[i]=0;
-      newCount[i]=0;
-    }
-    for(var i=1; i <= Object.keys(venueList).length; i++){
-      newVenueRatings[i]=0;
-      newVenueCount[i]=0;
-    }
-
+    
     
     //gets the artist reviews from the database 
 
     const reviewData = await supabase.from('artist_reviews').select('*');
+
+    for(let i=0; i < reviewData.data.length; i++){
+      const currData = reviewData.data[i].artist_id;
+      newRatings[currData]=0;
+      newCount[currData]=0;
+    }
 
     //loop through the reviews and add the ratings to the artist
     for(let i=0; i < reviewData.data.length; i++){
@@ -66,6 +64,12 @@ function Home() {
 
     //gets the venue reviews from the database
     const venueReviewData = await supabase.from('venue_reviews').select('*');
+
+    for(let i=0; i < venueReviewData.data.length; i++){
+      const currData = venueReviewData.data[i].venue_id;
+      newVenueRatings[currData]=0;
+      newVenueCount[currData]=0;
+    }
     //same as above but for venues
     for(let i=0; i < venueReviewData.data.length; i++){
       const currData = venueReviewData.data[i];
