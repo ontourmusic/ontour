@@ -175,8 +175,11 @@ function Home() {
             </div>
 
             {/* Web */}
-            <div class="d-none d-sm-block">
+            <div class="d-none d-lg-block">
               <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3} />
+            </div> 
+            <div class="d-none d-lg-none d-sm-block">
+              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={2} />
             </div> 
 
             <div class="gallery row pt-5 pb-3">
@@ -191,9 +194,12 @@ function Home() {
             </div>
 
             {/* Web */}
-            <div class="d-none d-sm-block">
+            <div class="d-none d-lg-block">
               <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={3} />
-            </div> 
+            </div>
+            <div class="d-none d-lg-none d-sm-block">
+              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={ratings} reviewCount={reviewCount} slideCount={2} />
+            </div>  
           </div>
         </div>
       </div>
