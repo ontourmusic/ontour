@@ -176,7 +176,7 @@ export default function WriteReview(props) {
             {reviews.length > 0 &&
               <>
                 <Form.Select aria-label="Default select example" required onChange={handleFormChange}>
-                  <option value="" disabled selected hidden>Select an event</option>
+                  <option value="" selected>Select an event</option>
                   {
                     reviews.map((review) => (
                         <option value={`${review.datetime.split("T")[0]} • ${review.venue.name} `}>
