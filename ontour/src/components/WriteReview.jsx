@@ -8,7 +8,7 @@ import { createClient } from '@supabase/supabase-js'
 
 export default function WriteReview(props) {
   const [unparsedName, setUnparsedName] = useState("");
-  const [parsedName, setParsedName] = useState(["", ""]);
+  const [parsedName, setParsedName] = useState(["", " "]);
   const [eventName, setEvent] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState("");
@@ -125,6 +125,22 @@ export default function WriteReview(props) {
   const handleNameChange = event => {
     var name = event.target.value;
     setUnparsedName(name);
+    var first = "";
+    var last = " ";
+    if (name) {
+      if (name.includes(" ")) {
+        var nameArray = name.split(" ");
+        for (var i = 0; i < nameArray.length - 1; i++) {
+          if (first === "") first = nameArray[i];
+          else first += " " + nameArray[i];
+        }
+        last = nameArray[nameArray.length - 1];
+      }
+      else {
+        first = name;
+      }
+    }
+    setParsedName([first, last])
   }
 
   return (
