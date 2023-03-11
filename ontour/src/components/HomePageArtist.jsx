@@ -14,7 +14,6 @@ export default function HomePageArtist(props) {
         if (starBoxRef.current) {
             const starBoxHeight = starBoxRef.current.offsetHeight;
             const starBoxWidth = starBoxRef.current.offsetWidth;
-            // totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.22}px`;
             totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
         }
     }, [])
@@ -43,7 +42,9 @@ export default function HomePageArtist(props) {
                             precision={0.1}
                             emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
                         />
-                        <div ref={totalReviewTextRef} style={styles.TotalReviewsText}>({props.reviewCount ? props.reviewCount : 0 })</div>
+                        <div ref={totalReviewTextRef} style={styles.TotalReviewsText}>
+                            ({props.reviewCount ? props.reviewCount : 0 })
+                        </div>
                     </div>
                 }
             </>

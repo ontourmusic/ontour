@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-
-import Rating from '@mui/material/Rating';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 
 // For paginatedItems
@@ -8,16 +6,11 @@ import Review from "../components/Review";
 import ReactPaginate from 'react-paginate';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import artist_styles from '../Styles/artist_styles';
-import ProgressWithLabel from './ProgressWithLabel';
 import ReviewSummary from './ReviewSummary';
-import { Divider } from '@mui/material';
 const review_display_styles = artist_styles.review_display;
 
 const ArtistContent = (props) => {
-
-
     function Items({ currentItems }) {
         return (
             <>
