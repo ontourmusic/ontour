@@ -42,18 +42,17 @@ function Home() {
     var newVenueRatings = {};
     var newVenueCount = {};
     var artistIDList = {};
-    for(var i=1; i <= Object.keys(artistList).length; i++){
-      newRatings[i]=0;
-      newCount[i]=0;
-    }
-    for(var i=1; i <= Object.keys(venueList).length; i++){
-      newVenueRatings[i]=0;
-      newVenueCount[i]=0;
-    }
-
+    
     
     //gets the artist reviews from the database 
     const reviewData = await supabase.from('artist_reviews').select('*');
+
+    for(let i=0; i < reviewData.data.length; i++){
+      const currData = reviewData.data[i].artist_id;
+      newRatings[currData]=0;
+      newCount[currData]=0;
+    }
+
     //loop through the reviews and add the ratings to the artist
     for(let i=0; i < reviewData.data.length; i++){
       const currData = reviewData.data[i];
@@ -62,6 +61,12 @@ function Home() {
     }
     //gets the venue reviews from the database
     const venueReviewData = await supabase.from('venue_reviews').select('*');
+
+    for(let i=0; i < venueReviewData.data.length; i++){
+      const currData = venueReviewData.data[i].venue_id;
+      newVenueRatings[currData]=0;
+      newVenueCount[currData]=0;
+    }
     //same as above but for venues
     for(let i=0; i < venueReviewData.data.length; i++){
       const currData = venueReviewData.data[i];
@@ -99,23 +104,22 @@ function Home() {
     setArtistList(artistObject);
     console.log(artistList);
 
-    for (var i = 0; i < Object.keys(artistList).length; i++) {
-      var artistNameList = Object.keys(artistList);
+    for (var i = 0; i < Object.keys(artistObject).length; i++) {
+      var artistNameList = Object.keys(artistObject);
       var artistName = artistNameList[i];
-      var artistID = artistList[artistName].artistID;
+      var artistID = artistObject[artistName].artistID;
       starsResults[artistName]=(newRatings[artistID]/newCount[artistID]);
       ratingCount[artistName]=newCount[artistID];
       artistIDList[artistName]=artistID;
     }
 
-    for (var i = 0; i < Object.keys(venueList).length; i++) {
-      var venueNameList = Object.keys(venueList);
+    for (var i = 0; i < Object.keys(venueObject).length; i++) {
+      var venueNameList = Object.keys(venueObject);
       var venueName = venueNameList[i];
-      var venueID = venueList[venueName].venueID;
+      var venueID = venueObject[venueName].venueID;
       venueRatings[venueName]=(newVenueRatings[venueID]/newVenueCount[venueID]);
       venueReviewCount[venueName]=newVenueCount[venueID];
     }
-    console.log("venueRatings: ", venueRatings);
 
     setRatings(()=> {
       return starsResults
