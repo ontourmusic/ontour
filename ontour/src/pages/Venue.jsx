@@ -47,31 +47,36 @@ function Venue() {
   //gets the artist and review data from the database
   const performSearch = async () => {
     
-    const venueData = await supabase.from('venues').select('*').eq('venue_id', venueIDGlobal)
-    setVenueName(venueData.data[0].name);
-    const imageUrls = venueData.data[0].banner_image;
-    setVenueImage(imageUrls);
-    setVenueIdNumber(venueIDGlobal);
-   
-    const venueGalleryData = await supabase.from('venue_carousel_images').select('*').eq('venue_id', venueIDGlobal)
-    //initialize an empty array
-    var imageGallery = [];
-    //loop through the data and push the image urls into the array
-    for (var i = 0; i < venueGalleryData.data.length; i++) {
-      imageGallery.push(venueGalleryData.data[i].image_url);
+    try{
+      const venueData = await supabase.from('venues').select('*').eq('venue_id', venueIDGlobal)
+      setVenueName(venueData.data[0].name);
+      const imageUrls = venueData.data[0].banner_image;
+      setVenueImage(imageUrls);
+      setVenueIdNumber(venueIDGlobal);
+    
+      const venueGalleryData = await supabase.from('venue_carousel_images').select('*').eq('venue_id', venueIDGlobal)
+      //initialize an empty array
+      var imageGallery = [];
+      //loop through the data and push the image urls into the array
+      for (var i = 0; i < venueGalleryData.data.length; i++) {
+        imageGallery.push(venueGalleryData.data[i].image_url);
+      }
+      setImageArray(imageGallery);
+      const reviewData = await supabase.from('venue_reviews').select('*').eq('venue_id', venueIDGlobal)
+
+      setAllReviews(parseReviewData(reviewData["data"]));
+
+      const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
+      const tmVenueData = await tmVenue.json();
+      var venueID = tmVenueData._embedded.venues[0].id;
+      var venueURL = tmVenueData._embedded.venues[0].url;
+      console.log(venueURL);
+      setTicketLink(venueURL);
+      const tmEvents = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&venueId=${venueID}` , { mode: 'cors' });
     }
-    setImageArray(imageGallery);
-    const reviewData = await supabase.from('venue_reviews').select('*').eq('venue_id', venueIDGlobal)
-
-    setAllReviews(parseReviewData(reviewData["data"]));
-
-    const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
-    const tmVenueData = await tmVenue.json();
-    var venueID = tmVenueData._embedded.venues[0].id;
-    var venueURL = tmVenueData._embedded.venues[0].url;
-    console.log(venueURL);
-    setTicketLink(venueURL);
-    const tmEvents = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&venueId=${venueID}` , { mode: 'cors' });
+    catch{
+      console.log('Webpage error. Please reload the page.');
+    }
   }
 
   //performs the search when the page loads
@@ -136,7 +141,7 @@ function Venue() {
         <ArtistNavigation />
       </Grid>
       <Grid item xs={12}>
-        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} />
+        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} />
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
