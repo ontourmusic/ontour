@@ -15,6 +15,7 @@ export default function WriteReview(props) {
   const [reviews, setPastReviews] = useState([]);
   const [canSubmit, setCanSubmit] = useState(true);
   const [captchaVerified, setCaptcha] = useState(false);
+  const [maxEventCount, setMaxEventCount] = useState(10);
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
 
@@ -61,7 +62,7 @@ export default function WriteReview(props) {
 
   useEffect(() => {
     GetPastReviews();
-  }, []);
+  }, [maxEventCount]);
 
   const GetPastReviews = async () => {
     var adele = " ";
@@ -78,8 +79,8 @@ export default function WriteReview(props) {
       const pastReviews = await fetch(url);
       const pastData = await pastReviews.json();
       pastData.reverse();
-      for (var i = 0; i < 10; i++) {
-        if (reviews.length < 10) {
+      const eventList = [];
+      for (var i = 0; i < maxEventCount; i++) {
           var date = pastData[i].datetime.split("T")[0];
           date = date.split("-");
           var year = date[0];
@@ -87,11 +88,11 @@ export default function WriteReview(props) {
           var day = date[2];
           var mmddyyyy = month + "/" + day + "/" + year;
           pastData[i].datetime = mmddyyyy;
-          reviews.push(pastData[i]);
-        }
+          eventList.push(pastData[i]);
       }
-      if (reviews.length > 0) {
+      if (eventList.length > 0) {
         setReviewsSet(true);
+        setPastReviews(eventList);
         setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
       }
     }
@@ -143,6 +144,15 @@ export default function WriteReview(props) {
     setParsedName([first, last])
   }
 
+  const handleFormChange = (event) => {
+    if(event.target.value == "extend"){
+      setMaxEventCount(maxEventCount+10);
+    }
+    else{
+      setEvent(event.target.value);
+    }
+  }
+
   return (
     <div class="container" id="review">
       {/* {media && <img src={media} class="d-block w-100" alt="..."/>} */}
@@ -165,38 +175,19 @@ export default function WriteReview(props) {
             {/* <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event Name" required/> */}
             {reviews.length > 0 &&
               <>
-                <Form.Select aria-label="Default select example" required onChange={event => setEvent(event.target.value)}>
+                <Form.Select aria-label="Default select example" required onChange={handleFormChange}>
                   <option value="" disabled selected hidden>Select an event</option>
-                  <option value={`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name} `}>
-                    {reviews[0].datetime} • {reviews[0].venue.name}
-                  </option>
-                  <option value={`${reviews[1].datetime.split("T")[0]} • ${reviews[1].venue.name} `}>
-                    {reviews[1].datetime} • {reviews[1].venue.name}
-                  </option>
-                  <option value={`${reviews[2].datetime.split("T")[0]} • ${reviews[2].venue.name}`}>
-                    {reviews[2].datetime} • {reviews[2].venue.name}
-                  </option>
-                  <option value={`${reviews[3].datetime.split("T")[0]} • ${reviews[3].venue.name}`}>
-                    {reviews[3].datetime} • {reviews[3].venue.name}
-                  </option>
-                  <option value={`${reviews[4].datetime.split("T")[0]} • ${reviews[4].venue.name}`}>
-                    {reviews[4].datetime} • {reviews[4].venue.name}
-                  </option>
-                  <option value={`${reviews[5].datetime.split("T")[0]} • ${reviews[5].venue.name}`}>
-                    {reviews[5].datetime} • {reviews[5].venue.name}
-                  </option>
-                  <option value={` ${reviews[6].datetime.split("T")[0]} • ${reviews[6].venue.name}`}>
-                    {reviews[6].datetime} • {reviews[6].venue.name}
-                  </option>
-                  <option value={`${reviews[7].datetime.split("T")[0]} • ${reviews[7].venue.name}`}>
-                    {reviews[7].datetime} • {reviews[7].venue.name}
-                  </option>
-                  <option value={`${reviews[8].datetime.split("T")[0]} • ${reviews[8].venue.name}`}>
-                    {reviews[8].datetime} • {reviews[8].venue.name}
-                  </option>
-                  <option value={`${reviews[9].datetime.split("T")[0]} • ${reviews[9].venue.name}`}>
-                    {reviews[9].datetime} • {reviews[9].venue.name}
-                  </option>
+                  {
+                    reviews.map((review) => (
+                        <option value={`${review.datetime.split("T")[0]} • ${review.venue.name} `}>
+                          {review.datetime} • {review.venue.name}
+                        </option>
+                    ))
+                  }
+                  {
+                   maxEventCount < 20 ? <option value="extend">Select an Older Event</option> : <></>
+                  }
+                  
                 </Form.Select> </>}
           </div>
         </div>
