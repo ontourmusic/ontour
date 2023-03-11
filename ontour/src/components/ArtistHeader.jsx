@@ -45,7 +45,8 @@ function ArtistHeader(props) {
     }, [])
 
     return (
-        <div id="artist-background" class="container-fluid jumbotron bg-cover text-white" style={{ backgroundImage: isMobile ? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")` }}>
+        <div id="artist-background" class="container-fluid jumbotron bg-cover text-white" style={{ backgroundImage: isMobile ? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`, 
+        backgroundPosition: props.isVenue ? `center` : `none` }}>
             <div id="text-contain" style={isMobile ? styles.Mobile : styles.Desktop}>
                 <h1 id="artist-name" class="fw-bold">{props.name}</h1>
                 <Divider style={styles.Divider} />
