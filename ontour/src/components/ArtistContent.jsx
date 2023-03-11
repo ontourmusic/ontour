@@ -30,12 +30,12 @@ const ArtistContent = (props) => {
         // from an API endpoint with useEffect and useState)
         const endOffset = itemOffset + itemsPerPage;
         console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-        const currentItems = props.allReviews.slice(itemOffset, endOffset);
-        const pageCount = Math.ceil(props.allReviews.length / itemsPerPage);
+        const currentItems = props.filteredReviews.slice(itemOffset, endOffset);
+        const pageCount = Math.ceil(props.filteredReviews.length / itemsPerPage);
 
         // Invoke when user click to request another page.
         const handlePageClick = (event) => {
-            const newOffset = (event.selected * itemsPerPage) % props.allReviews.length;
+            const newOffset = (event.selected * itemsPerPage) % props.filteredReviews.length;
             console.log(
                 `User requested page number ${event.selected}, which is offset ${newOffset}`
             );
@@ -72,14 +72,24 @@ const ArtistContent = (props) => {
     return (
         <div class="container">
             <hr></hr>
-            <h4 id="reviews" class="fw-bold">Reviews ({props.allReviews.length})</h4>
-            <div class="dropdown">
+            <h4 id="reviews" class="fw-bold">Reviews ({props.filteredReviews.length})</h4>
+            <div class="dropdown p-3">
                 <Form.Select onChange={props.formChange} aria-label="Default select example">
                     <option>Recommended</option>
                     <option value="1">Newest First</option>
                     <option value="2">Oldest First</option>
                     <option value="3">Highest Rated</option>
                     <option value="4">Lowest Rated</option>
+                </Form.Select>
+            </div>
+            <div class="dropdown p-3">
+                <Form.Select onChange={props.onRatingChange} aria-label="Default select example">
+                    <option value="0">Filter by Rating</option>
+                    <option value="1">1 Star</option>
+                    <option value="2">2 Stars</option>
+                    <option value="3">3 Stars</option>
+                    <option value="4">4 Stars</option>
+                    <option value="5">5 Stars</option>
                 </Form.Select>
             </div>
             {props.allReviews.length > 0 &&
@@ -93,6 +103,8 @@ const ArtistContent = (props) => {
                     </div>
                 </div>
             }
+            
+            
         </div>
     )
 }

@@ -40,6 +40,7 @@ function Artist() {
 
     const [fullName, setFullName] = useState("");
     const [allReviews, setAllReviews] = useState([]);
+    const [filteredReviews, setFilteredReviews] = useState([]);
     const [artistIdNumber, setArtistIdNumber] = useState(artistID);
     const [aggregateRating, setAggregateRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
@@ -63,6 +64,7 @@ function Artist() {
             
             //Parse review data
             setAllReviews(parseReviewData(reviewData));
+            setFilteredReviews(parseReviewData(reviewData));
 
             //Sets artist header image
             const bannerImage = artistData["banner_image"];
@@ -121,6 +123,15 @@ function Artist() {
         return reviewsArray;
     }
 
+    const ratingFilter = (event) => {
+        var tempArray = allReviews;
+        if(event.target.value > 0){
+            tempArray = tempArray.filter(review => review[1] == event.target.value);
+        }
+        setFilteredReviews(tempArray);
+        forceUpdate();
+    }
+
     const formChange = (event) => {
         //sort all reviews array by rating highest to lowest
         console.log("in here");
@@ -155,7 +166,7 @@ function Artist() {
         for (var i = 0; i < allReviews.length; i++) {
             console.log(allReviews[i]);
         }
-        setAllReviews(tempArray);
+        setFilteredReviews(tempArray);
         forceUpdate();
     }
 
@@ -181,7 +192,7 @@ function Artist() {
                     } */}
                     {/* <Carousel images={imageArray} /> */}
                     <ImageCarousel images={imageArray} slideCount={3}/>
-                    <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
+                    <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} />
                     {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
                 </Grid>
                 <Grid item xs={12} md={4}>
