@@ -14,6 +14,7 @@ import artist_styles from "../Styles/artist_styles";
 import SideContent from "../components/SideContent";
 import Footer from "../components/Footer";
 import { createClient } from '@supabase/supabase-js'
+import ImageCarousel from "../components/ImageCarousel";
 
 function Venue() {
 
@@ -139,7 +140,7 @@ function Venue() {
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
-          <Carousel images={imageArray} />
+          <ImageCarousel images={imageArray} slideCount={3} />
           <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
           {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} />}
         </Grid>
