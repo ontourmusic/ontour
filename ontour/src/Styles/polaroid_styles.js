@@ -8,7 +8,7 @@ const polaroid_image = {
 };
 const polaroid_image_inner = {
   width: "100%",
-  height: "20vh",
+  height: "20vw",
   objectFit: "cover",
 };
 
