@@ -21,7 +21,7 @@ function Navigation()
     <nav id="artist-nav" className="navbar navbar-expand navbar-dark bg-dark">
       <div className="container">
         <a href="/">
-          <img id="nav-logo" src= "images/logo.png" alt=""/>
+          <img id="nav-logo" src= "images/tourScoutBack.png" alt=""/>
         </a>
         {/* <div class="navsearch">
           <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
