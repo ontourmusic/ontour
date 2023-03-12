@@ -19,7 +19,7 @@ const ReviewSummary = ({ allReviews }) => {
         let tempTotal = 0;
         allReviews.forEach((review) => {
             // index 1 is the rating
-            tempArray[review[1]]++;
+            tempArray[review.rating]++;
             tempTotal++;
         });
         setTotalReviews(tempTotal);

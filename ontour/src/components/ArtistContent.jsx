@@ -8,14 +8,26 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import artist_styles from '../Styles/artist_styles';
 import ReviewSummary from './ReviewSummary';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { TextField } from '@mui/material';
+
 const review_display_styles = artist_styles.review_display;
 
+
 const ArtistContent = (props) => {
+    const [searchTerm, setSearchTerm] = useState("");
+    const reviewSearch = () => {
+        props.onReviewSearch(searchTerm);
+    }
+    const inputChange = (event) => {
+        setSearchTerm(event.target.value);
+    }
     function Items({ currentItems }) {
         return (
             <>
                 {currentItems && currentItems.map(function (review, index) {
-                    return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue={review[3]} text={review[0]} />
+                    return <Review user={review.name} date={review.eventDate} key={index} rating={review.rating} venue={review.event} text={review.review} />
                 })}
             </>
         )
@@ -95,6 +107,12 @@ const ArtistContent = (props) => {
             {props.allReviews.length > 0 &&
                 <div id="clear">
                     <ReviewSummary allReviews={props.allReviews} />
+                    <div className='d-flex justify-content-left align-content-center pb-5 pl-5 ml-5'>
+                        <TextField id="standard-basic" label="Search for a Review" variant="outlined" onChange={inputChange}/>
+                        <button type="button" class="btn btn-primary" onClick={reviewSearch}>
+                            <FontAwesomeIcon icon={faSearch} size="sm"/>
+                        </button>
+                    </div>
                     <div id="page" style={review_display_styles.review.container}>
                         {/* {allReviews && allReviews.map(function(review, index) {
                         return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
