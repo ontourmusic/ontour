@@ -85,7 +85,7 @@ const ArtistContent = (props) => {
         <div class="container">
             <hr></hr>
             <h4 id="reviews" class="fw-bold">Reviews ({props.filteredReviews.length})</h4>
-            <div class="dropdown p-3">
+            {/* <div class="dropdown p-3">
                 <Form.Select onChange={props.formChange} aria-label="Default select example">
                     <option>Recommended</option>
                     <option value="1">Newest First</option>
@@ -103,16 +103,49 @@ const ArtistContent = (props) => {
                     <option value="4">4 Stars</option>
                     <option value="5">5 Stars</option>
                 </Form.Select>
-            </div>
+            </div> */}
             {props.allReviews.length > 0 &&
                 <div id="clear">
                     <ReviewSummary allReviews={props.allReviews} />
-                    <div className='d-flex justify-content-left align-content-center pb-5 pl-5 ml-5'>
-                        <TextField id="standard-basic" label="Search for a Review" variant="outlined" onChange={inputChange}/>
-                        <button type="button" class="btn btn-primary" onClick={reviewSearch}>
-                            <FontAwesomeIcon icon={faSearch} size="sm"/>
-                        </button>
+                    <div className='d-flex justify-content-between align-content-center mt-5'>
+                        <div className='d-flex justify-content-left align-content-center pb-3 pl-5 ml-5'>
+                            <TextField id="standard-basic" label="Search for a Review" variant="outlined" onChange={inputChange}/>
+                            <button type="button" class="btn btn-primary btn-sm" onClick={reviewSearch}>
+                                <FontAwesomeIcon icon={faSearch} size="sm"/>
+                            </button>
+                        </div>
+                        <div>
+                            <div class="dropdown p-3">
+                                <Form.Select onChange={props.formChange} aria-label="Default select example">
+                                    <option>Recommended</option>
+                                    <option value="1">Newest First</option>
+                                    <option value="2">Oldest First</option>
+                                    <option value="3">Highest Rated</option>
+                                    <option value="4">Lowest Rated</option>
+                                </Form.Select>
+                            </div>
+                            <div class="dropdown p-3">
+                                <Form.Select onChange={props.onRatingChange} aria-label="Default select example">
+                                    <option value="0">Filter by Rating</option>
+                                    <option value="1">1 Star</option>
+                                    <option value="2">2 Stars</option>
+                                    <option value="3">3 Stars</option>
+                                    <option value="4">4 Stars</option>
+                                    <option value="5">5 Stars</option>
+                                </Form.Select>
+                            </div>                           
+                        </div>
                     </div>
+                    {
+                        props.searchResults ? <div className='d-flex justify-content-left align-content-center mb-3 pl-5 ml-5'>
+                            <div className='pl-5'>{props.filteredReviews.length} reviews matching the search term &nbsp;</div>
+                            <button type="button" className='btn btn-outline-secondary btn-sm ml-5' onClick={props.onClearSearch}>
+                                Clear Search
+                            </button>
+
+                        </div>  : <></>
+                    }
+                    
                     <div id="page" style={review_display_styles.review.container}>
                         {/* {allReviews && allReviews.map(function(review, index) {
                         return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>

@@ -51,6 +51,7 @@ function Artist() {
     const [imageArray, setImageArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
+    const [showResults, setShowResults] = useState(false);
 
     const searchReviews = (searchTerm) => {
         const options = {
@@ -59,9 +60,13 @@ function Artist() {
         }
         const fuse = new Fuse(filteredReviews, options);
         const results = fuse.search(searchTerm);
-        //alert(result);
         setFilteredReviews(results.map((result) => {return result.item}));
-        //alert(result.length)
+        setShowResults(true);
+    }
+
+    const clearSearch = () => {
+        setShowResults(false);
+        setFilteredReviews(allReviews);
     }
 
     const performSearch = async () => {
@@ -212,7 +217,7 @@ function Artist() {
                     } */}
                     {/* <Carousel images={imageArray} /> */}
                     <ImageCarousel images={imageArray} slideCount={3}/>
-                    <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews}/>
+                    <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
                     {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
                 </Grid>
                 <Grid item xs={12} md={4}>
