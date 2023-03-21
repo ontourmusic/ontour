@@ -35,6 +35,7 @@ function Venue() {
 
   const [venue_name, setVenueName] = useState("");
   const [allReviews, setAllReviews] = useState([]);
+  const [filteredReviews, setFilteredReviews] = useState([]);
   const [venueIdNumber, setVenueIdNumber] = useState(0);
   const [aggregateRating, setAggregateRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
@@ -64,7 +65,10 @@ function Venue() {
       setImageArray(imageGallery);
       const reviewData = await supabase.from('venue_reviews').select('*').eq('venue_id', venueIDGlobal)
 
-      setAllReviews(parseReviewData(reviewData["data"]));
+
+    setAllReviews(parseReviewData(reviewData["data"]));
+    setFilteredReviews(parseReviewData(reviewData["data"]));
+
 
       const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
       const tmVenueData = await tmVenue.json();
@@ -104,6 +108,15 @@ function Venue() {
     setTotalReviews(reviewData.length);
     return reviewsArray;
   }
+
+  const ratingFilter = (event) => {
+    var tempArray = allReviews;
+    if(event.target.value > 0){
+        tempArray = tempArray.filter(review => review[1] == event.target.value);
+    }
+    setFilteredReviews(tempArray);
+    forceUpdate();
+}
 
   const formChange = (event) => {
     //sort all reviews array by rating highest to lowest
@@ -146,7 +159,7 @@ function Venue() {
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
           <ImageCarousel images={imageArray} slideCount={3} />
-          <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
+          <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter}/>
           {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} />}
         </Grid>
         <Grid item xs={12} md={4}>

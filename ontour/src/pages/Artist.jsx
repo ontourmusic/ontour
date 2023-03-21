@@ -13,6 +13,7 @@ import ArtistNavigation from "../ArtistNavigation"
 import artist_styles from "../Styles/artist_styles";
 
 import { createClient } from '@supabase/supabase-js'
+import Fuse from 'fuse.js'
 
 
 // Testing
@@ -40,6 +41,7 @@ function Artist() {
 
     const [fullName, setFullName] = useState("");
     const [allReviews, setAllReviews] = useState([]);
+    const [filteredReviews, setFilteredReviews] = useState([]);
     const [artistIdNumber, setArtistIdNumber] = useState(artistID);
     const [aggregateRating, setAggregateRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
@@ -49,6 +51,23 @@ function Artist() {
     const [imageArray, setImageArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
+    const [showResults, setShowResults] = useState(false);
+
+    const searchReviews = (searchTerm) => {
+        const options = {
+            keys: ["review", "event"],
+            minMatchCharLength: 3,
+        }
+        const fuse = new Fuse(filteredReviews, options);
+        const results = fuse.search(searchTerm);
+        setFilteredReviews(results.map((result) => {return result.item}));
+        setShowResults(true);
+    }
+
+    const clearSearch = () => {
+        setShowResults(false);
+        setFilteredReviews(allReviews);
+    }
 
     const performSearch = async () => {
         try{
@@ -63,6 +82,7 @@ function Artist() {
             
             //Parse review data
             setAllReviews(parseReviewData(reviewData));
+            setFilteredReviews(parseReviewData(reviewData));
 
             //Sets artist header image
             const bannerImage = artistData["banner_image"];
@@ -105,57 +125,67 @@ function Artist() {
         var reviewsArray = [];
         var cumulativeRating = 0;
         for (var i = 0; i < reviewData.length; i++) {
-            reviewsArray.push([
-                reviewData[i].review,                                       // review description
-                reviewData[i].rating,                                       // review rating
-                reviewData[i].name,                                         // review author
-                reviewData[i].event,                                        // review event
-                reviewData[i].eventDate,                                    // review date
-            ]);
+            // reviewsArray.push([
+            //     reviewData[i].review,                                       // review description
+            //     reviewData[i].rating,                                       // review rating
+            //     reviewData[i].name,                                         // review author
+            //     reviewData[i].event,                                        // review event
+            //     reviewData[i].eventDate,                                    // review date
+            // ]);
+            reviewsArray.push({
+                "review":reviewData[i].review,                                       // review description
+                "rating":reviewData[i].rating,                                       // review rating
+                "name":reviewData[i].name,                                         // review author
+                "event":reviewData[i].event,                                        // review event
+                "eventDate":reviewData[i].eventDate,                                    // review date
+            });
             cumulativeRating += reviewData[i].rating;
         }
         setAggregateRating(cumulativeRating / reviewData.length);
-        console.log("aggregate rating: ")
-        console.log(aggregateRating);
         setTotalReviews(reviewData.length);
         return reviewsArray;
     }
 
+    const ratingFilter = (event) => {
+        var tempArray = allReviews;
+        if(event.target.value > 0){
+            tempArray = tempArray.filter(review => {
+                return review.rating == event.target.value
+            });
+        }
+        setFilteredReviews(tempArray);
+        forceUpdate();
+    }
+
     const formChange = (event) => {
         //sort all reviews array by rating highest to lowest
-        console.log("in here");
-        console.log(event.target.value);
         var tempArray = allReviews;
-        if (event.target.value === 3) {
+        if (event.target.value == 3) {
             tempArray.sort(function (a, b) {
-                return b[1] > a[1] ? 1 : -1;
+                return b.rating > a.rating ? 1 : -1;
             });
         }
         //lowest to highest
-        else if (event.target.value === 4) {
-            console.log("in lowest to highest");
+        else if (event.target.value == 4) {
             tempArray.sort(function (a, b) {
-                return a[1] > b[1] ? 1 : -1;
+                console.log(a.rating + " " + b.rating);
+                return a.rating > b.rating ? 1 : -1;
             });
         }
         //oldest to newest
-        else if (event.target.value === 2) {
+        else if (event.target.value == 2) {
             tempArray.sort(function (a, b) {
-                return new Date(b[4]) < new Date(a[4]) ? 1 : -1;
+                return new Date(b.eventDate) < new Date(a.eventDate) ? 1 : -1;
             });
         }
         //newest to oldest
-        else if (event.target.value === 1) {
+        else if (event.target.value == 1) {
             tempArray.sort(function (a, b) {
-                return new Date(a[4]) < new Date(b[4]) ? 1 : -1;
+                return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
             });
         }
 
-        //print all reviews array
-        for (var i = 0; i < allReviews.length; i++) {
-            console.log(allReviews[i]);
-        }
-        setAllReviews(tempArray);
+        setFilteredReviews(tempArray);
         forceUpdate();
     }
 
@@ -181,7 +211,7 @@ function Artist() {
                     } */}
                     {/* <Carousel images={imageArray} /> */}
                     <ImageCarousel images={imageArray} slideCount={3}/>
-                    <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
+                    <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
                     {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
                 </Grid>
                 <Grid item xs={12} md={4}>
