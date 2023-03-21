@@ -142,8 +142,6 @@ function Artist() {
             cumulativeRating += reviewData[i].rating;
         }
         setAggregateRating(cumulativeRating / reviewData.length);
-        console.log("aggregate rating: ")
-        console.log(aggregateRating);
         setTotalReviews(reviewData.length);
         return reviewsArray;
     }
@@ -151,7 +149,9 @@ function Artist() {
     const ratingFilter = (event) => {
         var tempArray = allReviews;
         if(event.target.value > 0){
-            tempArray = tempArray.filter(review => review[1] == event.target.value);
+            tempArray = tempArray.filter(review => {
+                return review.rating == event.target.value
+            });
         }
         setFilteredReviews(tempArray);
         forceUpdate();
@@ -159,38 +159,32 @@ function Artist() {
 
     const formChange = (event) => {
         //sort all reviews array by rating highest to lowest
-        console.log("in here");
-        console.log(event.target.value);
         var tempArray = allReviews;
-        if (event.target.value === 3) {
+        if (event.target.value == 3) {
             tempArray.sort(function (a, b) {
                 return b.rating > a.rating ? 1 : -1;
             });
         }
         //lowest to highest
-        else if (event.target.value === 4) {
-            console.log("in lowest to highest");
+        else if (event.target.value == 4) {
             tempArray.sort(function (a, b) {
+                console.log(a.rating + " " + b.rating);
                 return a.rating > b.rating ? 1 : -1;
             });
         }
         //oldest to newest
-        else if (event.target.value === 2) {
+        else if (event.target.value == 2) {
             tempArray.sort(function (a, b) {
                 return new Date(b.eventDate) < new Date(a.eventDate) ? 1 : -1;
             });
         }
         //newest to oldest
-        else if (event.target.value === 1) {
+        else if (event.target.value == 1) {
             tempArray.sort(function (a, b) {
                 return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
             });
         }
 
-        //print all reviews array
-        for (var i = 0; i < allReviews.length; i++) {
-            console.log(allReviews[i]);
-        }
         setFilteredReviews(tempArray);
         forceUpdate();
     }
