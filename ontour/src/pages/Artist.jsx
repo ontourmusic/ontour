@@ -74,26 +74,20 @@ function Artist() {
 
 
       //try out the stubhub api 
-      console.log("stubhub api");
-      const username = "mhwBEJoH2CJHCvpoBwA4";
-      const password = "UFobiWPvG1y6Noxm7MKshm0PQkCNOIUg8oig3Vdr32AAOM4Y8DrzmRWsPYK7";
-      // const auth = Buffer.from("mhwBEJoH2CJHCvpoBwA4:UFobiWPvG1y6Noxm7MKshm0PQkCNOIUg8oig3Vdr32AAOM4Y8DrzmRWsPYK7").toString("base64");
-      var stubhubURL = "https://api.stubhub.net/catalog/events/search/q=adele";
-      // var stubhubURL = "https://sandbox.api.stubhub.net/catalog/events";
-      fetch(stubhubURL, {
-        method: 'GET',
-        mode: 'cors',
+      const url = "https://api.stubhub.net/catalog/events";
+      const bearerToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOjg5MCwiaWF0IjoxNjc5NDE5MDY2LCJzY29wZSI6InJlYWQ6ZXZlbnRzIiwidCI6MCwidmdnLXN2IjoiMGQ1NDk1Zjg1MjEyNGJkODhkMjZkYWMzOGY1MjUzMDMiLCJleHAiOjE2Nzk1MDU0NjYsImF1dGgtdHlwZSI6MSwiYWd0IjoiWGxrSGJWY0dITGJiRGJ2NERtTW1VQ0ZqR09vT2xwM0d4SmtackVhbDY0ND0ifQ.dkW3_zWz4h-9uc5ncg37NlHjAwg8Diq5wnHZHOuSayWiBSRUc9GmZJyGu4q_nEPMxgZFhvUjkXY7e5oQMyV3vyaIuE99cEm1pRVOx_cPQGzlX0bXUKNrlQtVCOR_0J-c3CJjCt01kFyHdzq_HzLZy-0hvlDjCAlbG2SLZMUUrdG6zmXwnJ_1leaKVAR7sOQOfha7F7r2nljFtL-XkJ80al1OCThDan8ydY6Nw4dKHfK--yK7xxteKRaPNuqpmbr-AZ7oY2HzoObEAo-nIkRGBV1hRKjs5xREFkktAMdMLD6EXUuiu3v945rQfzC5MGVVFzRhh91E774VPrBwOP9FAA";
+
+      fetch(url, {
+        method: "GET",
         headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-type": "application/json",
-          'Authorization': 'Basic ' + btoa(username + ":" + password),
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
+          "Authorization": `Bearer ${bearerToken}`
         }
-          )
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
+
+    
     }
     catch{
       console.log('Webpage error. Please reload the page.');
