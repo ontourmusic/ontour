@@ -39,8 +39,17 @@ const review_display = {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      // height: 400,
     },
+    leftContainer: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+    starBox: {
+      margin: "2px 0 2px 0",
+      display: "flex",
+      fontSize: 18,
+    }
   },
   review: {
     container: common_styles.list_group.list_group_container,

@@ -8,6 +8,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import artist_styles from '../Styles/artist_styles';
 import ReviewSummary from './ReviewSummary';
+import { Divider, Grid } from '@mui/material';
+
 const review_display_styles = artist_styles.review_display;
 
 const ArtistContent = (props) => {
@@ -67,13 +69,15 @@ const ArtistContent = (props) => {
             </>
         );
     }
-
-
     return (
-        <div class="container">
-            <hr></hr>
-            <h4 id="reviews" class="fw-bold">Reviews ({props.allReviews.length})</h4>
-            <div class="dropdown">
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <hr />
+            </Grid>
+            <Grid item xs={12}>
+                <ReviewSummary allReviews={props.allReviews} />
+            </Grid>
+            <Grid item xs={3}>
                 <Form.Select onChange={props.formChange} aria-label="Default select example">
                     <option>Recommended</option>
                     <option value="1">Newest First</option>
@@ -81,19 +85,22 @@ const ArtistContent = (props) => {
                     <option value="3">Highest Rated</option>
                     <option value="4">Lowest Rated</option>
                 </Form.Select>
-            </div>
-            {props.allReviews.length > 0 &&
-                <div id="clear">
-                    <ReviewSummary allReviews={props.allReviews} />
-                    <div id="page" style={review_display_styles.review.container}>
-                        {/* {allReviews && allReviews.map(function(review, index) {
+            </Grid>
+            <Grid item xs={12}>
+                {props.allReviews.length > 0 &&
+                    <div id="clear">
+
+                        <div id="page" style={review_display_styles.review.container}>
+                            {/* {allReviews && allReviews.map(function(review, index) {
                         return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
                         })} */}
-                        <PaginatedItems itemsPerPage={10} />
+                            <PaginatedItems itemsPerPage={10} />
+                        </div>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </Grid>
+
+        </Grid>
     )
 }
 
