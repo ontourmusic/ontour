@@ -109,7 +109,7 @@ const ArtistContent = (props) => {
                     <ReviewSummary allReviews={props.allReviews} />
                     <div className='d-flex justify-content-between align-content-center mt-5'>
                         <div className='d-flex justify-content-left align-content-center pb-3 pl-5 ml-5'>
-                            <TextField id="standard-basic" label="Search for a Review" variant="outlined" onChange={inputChange}/>
+                            <TextField id="standard-basic" label="Search Reviews" variant="outlined" onChange={inputChange}/>
                             <button type="button" class="btn btn-primary btn-sm" onClick={reviewSearch}>
                                 <FontAwesomeIcon icon={faSearch} size="sm"/>
                             </button>
