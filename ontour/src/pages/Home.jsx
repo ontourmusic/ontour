@@ -1,25 +1,27 @@
-import React, { startTransition } from "react";
-import {createSearchParams, useNavigate} from "react-router-dom";
-import {useState, useEffect} from "react";
-import HomePageArtist from "../components/HomePageArtist";
-import Navigation from "../Navigation";
-import { artistList } from "../ArtistInfo";
-import MobileHomePageArtist from "../components/MobileHomePageArtist";
-import SearchBar from "../components/SearchBar";
 
-function splitArtistsToRows(artists, rowLength){
-  var splitArray = [];
-  for(var i=0; i<artists.length; i+=(rowLength)){
-    splitArray.push(artists.slice(i, i+(rowLength)));
-  }
-  return splitArray;
-}
+import React from "react";
+import { createSearchParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Navigation from "../Navigation";
+import SearchBar from "../components/SearchBar";
+import "pure-react-carousel/dist/react-carousel.es.css";
+import '../Styles/carousel.css';
+import ArtistCarousel from "../components/ArtistCarousel";
+import { Audio } from 'react-loading-icons'
+import { createClient } from '@supabase/supabase-js'
+
 
 function Home() {
   const [artist_name, setName] = useState('')
   const [ratings, setRatings] = useState({});
   const [reviewCount, setReviewCount] = useState({});
+  const [venueRatings, setVenueRatings] = useState({});
+  const [venueReviewCount, setVenueReviewCount] = useState({});
   const [loading, setLoading] = useState(true);
+  const [artistIDs, setArtistIDs] = useState({});
+  const [artistList, setArtistList] = useState({name: "", imageURL: "", artistID: -1});
+  const [venueList, setVenueList] = useState({});
+  const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
   const navigate = useNavigate(); 
   const routeChange = (artist) =>{ 
@@ -37,25 +39,86 @@ function Home() {
     var ratingCount = {};
     var newRatings = {};
     var newCount = {};
-    for(var i=1; i <= Object.keys(artistList).length; i++){
-      newRatings[i]=0;
-      newCount[i]=0;
+    var newVenueRatings = {};
+    var newVenueCount = {};
+    var artistIDList = {};
+    
+    
+    //gets the artist reviews from the database 
+    const reviewData = await supabase.from('artist_reviews').select('*');
+
+    for(let i=0; i < reviewData.data.length; i++){
+      const currData = reviewData.data[i].artist_id;
+      newRatings[currData]=0;
+      newCount[currData]=0;
     }
-    var fetchReviews = await fetch(`http://localhost:8000/reviews/`, {mode: 'cors'});
-    var reviewData = await fetchReviews.json();
 
-    console.log(reviewData);
-    reviewData.forEach((element) => {
-      newRatings[element.artist_id] += element.rating;
-      newCount[element.artist_id]++;
-    });
+    //loop through the reviews and add the ratings to the artist
+    for(let i=0; i < reviewData.data.length; i++){
+      const currData = reviewData.data[i];
+      newRatings[currData.artist_id] += currData.rating;
+      newCount[currData.artist_id]++;
+    }
+    //gets the venue reviews from the database
+    const venueReviewData = await supabase.from('venue_reviews').select('*');
 
-    for (var i = 0; i < Object.keys(artistList).length; i++) {
-      var artistNameList = Object.keys(artistList);
+    for(let i=0; i < venueReviewData.data.length; i++){
+      const currData = venueReviewData.data[i].venue_id;
+      newVenueRatings[currData]=0;
+      newVenueCount[currData]=0;
+    }
+    //same as above but for venues
+    for(let i=0; i < venueReviewData.data.length; i++){
+      const currData = venueReviewData.data[i];
+      newVenueRatings[currData.venue_id] += currData.rating;
+      newVenueCount[currData.venue_id]++;
+    }
+    console.log(newVenueRatings);
+
+    //gets the list of recent artists from the database
+    const recentArtists = await supabase.from('artists').select('*').order('artist_id', {ascending: false}).limit(10);
+    const artistObject = {};
+    for(let i=0; i < recentArtists["data"].length; i++){
+      const currData = recentArtists["data"][i];
+      const key = currData.name.replace(/\s+/g, '_').toLowerCase();
+      artistObject[key] = {
+        name: currData.name,
+        imageURL: currData.home_image,
+        artistID: currData.artist_id,
+      }
+    }
+
+    //gets the list of recent venues from the database
+    const recentVenues = await supabase.from('venues').select('*').order('venue_id', {ascending: false}).limit(10);
+    const venueObject = {};
+    for(let i=0; i < recentVenues["data"].length; i++){
+      const currData = recentVenues["data"][i];
+      const key = currData.name.replace(/\s+/g, '_').toLowerCase();
+      venueObject[key] = {
+        name: currData.name,
+        imageURL: currData.home_image,
+        venueID: currData.venue_id,
+      }
+    }
+    setVenueList(venueObject);
+    setArtistList(artistObject);
+    console.log(artistList);
+
+    for (var i = 0; i < Object.keys(artistObject).length; i++) {
+      var artistNameList = Object.keys(artistObject);
       var artistName = artistNameList[i];
-      var artistID = artistList[artistName].artistID;
+      var artistID = artistObject[artistName].artistID;
       starsResults[artistName]=(newRatings[artistID]/newCount[artistID]);
       ratingCount[artistName]=newCount[artistID];
+      artistIDList[artistName]=artistID;
+    }
+
+    for (var i = 0; i < Object.keys(venueObject).length; i++) {
+      var venueNameList = Object.keys(venueObject);
+      var venueName = venueNameList[i];
+      var venueID = venueObject[venueName].venueID;
+      venueRatings[venueName]=(newVenueRatings[venueID]/newVenueCount[venueID]);
+      venueReviewCount[venueName]=newVenueCount[venueID];
     }
 
     setRatings(()=> {
@@ -64,69 +127,80 @@ function Home() {
     setReviewCount(()=>{
       return ratingCount
     })
-    setLoading(false);
-  }
-
-  function generateRow(rowItems){
-    var row = [];
-    rowItems.map((artist) => {
-      row.push(<HomePageArtist artist={artist} rating={ratings[artist]} loading={loading} reviewCount={reviewCount[artist]}></HomePageArtist>);
+    setArtistIDs(()=>{
+      return artistIDList
     })
-    return row;
+    setLoading(false);
   }
 
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-  }, [artistRows]);
-  var artistRows = splitArtistsToRows(Object.keys(artistList),3);
-
+    console.log(reviewCount);
+  }, [artistList.name]);
+  const display = loading ? "hidden" : "visible";
   return (
     <>
       <Navigation />
       <div id="homepage">
       
         <div id="homeheader">
-          <img id="home-logo" src= "images/logo.png" alt=""/>
-          <div class="home-title">
+          <img id="home-logo" src= "images/tourScoutBack.png" alt=""/>
+          {/* <div class="home-title">
             Own your next live experience.
-          </div>
+          </div> */}
           <div class="search row">
           <SearchBar></SearchBar>
-            {/* <input id="input" type="text" class="form-control shadow-none" onChange={event => setName(event.target.value)} value={artist_name} placeholder="Search for an artist or venue"/>
-            <button class="btn btn-dark" onClick={() => {alert('Feature coming soon! (see artists below)')}}>
-              <img src="../../images/search_icon.png" alt="..."/>
-            </button> */}
           </div>
+          {
+            loading ?
+              <>
+                <Audio className="pt-5" speed={.5}></Audio>
+                <h5>loading</h5>
+                <div class="h-50"></div>
+              </>:
+              <></>
+          }
+          
 
-          {/* Mobile */}
-          <div class="d-block d-sm-none">
-            <div id="gallery" class="row">
-                <div class="col-12 col-sm-9 align-self-center">
-                    <h4 class="fw-bold ">Recently Added Artists</h4>
-                </div>
+          <div style={{visibility: {display}}}>
+            <div id="top-gallery" class="gallery row pt-5 pb-3">
+                  <div class="col-12 col-sm-9 align-self-center">
+                      <h4 class="fw-bold ">Recently Added Artists</h4>
+                  </div>
             </div>
-            {Object.keys(artistList).map((item)=>{
-                    return <MobileHomePageArtist artist={item} rating={ratings[item]} reviewCount={reviewCount[item]}></MobileHomePageArtist>
-                })
-            }
+            {/* Mobile */}
+            <div class="d-block d-sm-none">
+              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1} />
+            </div>
+
+            {/* Web */}
+            <div class="d-none d-lg-block">
+              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3} />
+            </div> 
+            <div class="d-none d-lg-none d-sm-block">
+              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={2} />
+            </div> 
+
+            <div class="gallery row pt-5 pb-3">
+                  <div class="col-12 col-sm-9 align-self-center">
+                      <h4 class="fw-bold ">Recently Added Venues</h4>
+                  </div>
+            </div>
+            
+            {/* Mobile */}
+            <div class="d-block d-sm-none">
+              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={1} />
+            </div>
+
+            {/* Web */}
+            <div class="d-none d-lg-block">
+              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={3} />
+            </div>
+            <div class="d-none d-lg-none d-sm-block">
+              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={ratings} reviewCount={reviewCount} slideCount={2} />
+            </div>  
           </div>
-
-          {/* Web */}
-          <div class="d-none d-sm-block">
-            <div id="gallery" class="row">
-                <div class="col-12 col-sm-9 align-self-center">
-                    <h4 class="fw-bold ">Recently Added Artists</h4>
-                </div>
-            </div>
-            {
-              artistRows.map((item)=>{
-                return <div class="row mb-5">
-                      {generateRow(item)}
-                  </div> 
-              })
-            }
-          </div> 
         </div>
       </div>
     </>

@@ -7,8 +7,8 @@ function Footer()
         <footer class="py-4">
           <div class="row">
             <div class="align-self-center">
-              <img id="footer-logo" src= "images/logo.png" alt=""/>
-              &copy; 2022 OnTour. All rights reserved.
+              <img id="footer-logo" src= "images/tourScoutBack.png" alt=""/>
+              &copy; 2022 TourScout. All rights reserved.
             </div>
           </div>
         </footer> 

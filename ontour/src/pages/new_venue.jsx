@@ -13,18 +13,13 @@ import ArtistContent from "../components/ArtistContent";
 import artist_styles from "../Styles/artist_styles";
 import SideContent from "../components/SideContent";
 import Footer from "../components/Footer";
-import { createClient } from '@supabase/supabase-js'
-import ImageCarousel from "../components/ImageCarousel";
 
 function Venue() {
 
   //gets the name from the artist that was searched for on the home page
   const [searchParams] = useSearchParams();
   const venueNameGet = searchParams.get("venue");
-  const venueIDGlobal = searchParams.get("id");
   const venueName = venueNameGet.replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-  const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
-
 
   //set var names here
   const [venueData, setVenueData] = useState({
@@ -36,7 +31,6 @@ function Venue() {
   const [venue_name, setVenueName] = useState("");
   const [allReviews, setAllReviews] = useState([]);
   const [venueIdNumber, setVenueIdNumber] = useState(0);
-  const [venueCity, setVenueCity] = useState("");
   const [aggregateRating, setAggregateRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
   const [artistImage, setVenueImage] = useState("");
@@ -47,47 +41,48 @@ function Venue() {
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    
-    try{
-      const venueData = await supabase.from('venues').select('*').eq('venue_id', venueIDGlobal)
-      setVenueName(venueData.data[0].name);
-      const imageUrls = venueData.data[0].banner_image;
-      var city = venueData.data[0].city;
-      var state = venueData.data[0].state;
-      var cityState = city + ", " + state;
-      setVenueCity(cityState);
-      setVenueImage(imageUrls);
-      setVenueIdNumber(venueIDGlobal);
-    
-      const venueGalleryData = await supabase.from('venue_carousel_images').select('*').eq('venue_id', venueIDGlobal)
-      //initialize an empty array
-      var imageGallery = [];
-      //loop through the data and push the image urls into the array
-      for (var i = 0; i < venueGalleryData.data.length; i++) {
-        imageGallery.push(venueGalleryData.data[i].image_url);
-      }
-      setImageArray(imageGallery);
-      const reviewData = await supabase.from('venue_reviews').select('*').eq('venue_id', venueIDGlobal)
+    const venueResponse = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/search_venue/${venueName}`, {mode: 'cors'});
+    //const venueResponse = await fetch(`http://127.0.0.1:8000/search_venue/${venueName}`, {mode: 'cors'});
+    const venueData = await venueResponse.json();
+    console.log("VENUE DATA: ");
+    console.log(venueData);
+    setVenueName(venueData[0].venue_name);
+    const venueId = venueData[0].venue_id;
+    const imageUrls = venueData[0].image_url;
+    setVenueImage(imageUrls);
+    setVenueIdNumber(venueId);
+    const imageGallery = venueData[0].images;
+    setImageArray(imageGallery);
 
-      setAllReviews(parseReviewData(reviewData["data"]));
 
-      const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
-      const tmVenueData = await tmVenue.json();
-      var venueID = tmVenueData._embedded.venues[0].id;
-      var venueURL = tmVenueData._embedded.venues[0].url;
+    const getReviews = await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/venue_reviews/${venueId}`, {mode: 'cors'});
+    //const getReviews = await fetch(`http://127.0.0.1:8000/venue_reviews/${venueId}`);
+    const reviewData = await getReviews.json();
+    console.log("REVIEW DATA: ");
+    console.log(reviewData);
+    setAllReviews(parseReviewData(reviewData));
 
-      setTicketLink(venueURL);
-      const tmEvents = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&venueId=${venueID}` , { mode: 'cors' });
-    }
-    catch{
-      console.log('Webpage error. Please reload the page.');
-    }
+    //gets the tickemaster artist details 
+    // const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, {mode: 'cors'});
+    // const tmData = await tmArtist.json();
+    // var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
+    // var tickets = tmData._embedded.attractions[0].url;
+    // //setTicketLink(tickets);
+    // setSpotifyLink(spotify);
+
+    const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
+    const tmVenueData = await tmVenue.json();
+    var venueID = tmVenueData._embedded.venues[0].id;
+    var venueURL = tmVenueData._embedded.venues[0].url;
+    console.log(venueURL);
+    setTicketLink(venueURL);
+    const tmEvents = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&venueId=${venueID}` , { mode: 'cors' });
   }
 
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-  }, [venueIDGlobal]);
+  }, [venueName]);
   
   //parses the review data from the database
   function parseReviewData(reviewData) {
@@ -95,11 +90,11 @@ function Venue() {
     var cumulativeRating = 0;
     for(var i = 0; i < reviewData.length; i++) {
       reviewsArray.push([
-        reviewData[i].review,
+        reviewData[i].description,
         reviewData[i].rating,
         reviewData[i].name,
-        reviewData[i].artist,
-        reviewData[i].eventDate
+        reviewData[i].artistname,
+        reviewData[i].date
       ]);
 
       cumulativeRating += reviewData[i].rating;
@@ -146,11 +141,11 @@ function Venue() {
         <ArtistNavigation />
       </Grid>
       <Grid item xs={12}>
-        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} city={venueCity} />
+        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} />
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
-          <ImageCarousel images={imageArray} slideCount={3} />
+          <Carousel images={imageArray} />
           <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
           {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} />}
         </Grid>

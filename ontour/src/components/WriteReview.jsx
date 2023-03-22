@@ -4,18 +4,19 @@ import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
 import Reaptcha from 'reaptcha';
+import { createClient } from '@supabase/supabase-js'
 
 export default function WriteReview(props) {
   const [unparsedName, setUnparsedName] = useState("");
-  const [parsedName, setParsedName] = useState(["", ""]);
-  // const [fname, setFname] = useState("");
-  // const [lname, setLname] = useState("");
+  const [parsedName, setParsedName] = useState(["", " "]);
   const [eventName, setEvent] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState("");
   const [reviews, setPastReviews] = useState([]);
   const [canSubmit, setCanSubmit] = useState(true);
   const [captchaVerified, setCaptcha] = useState(false);
+  const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+
 
 
   // only set is used
@@ -65,7 +66,7 @@ export default function WriteReview(props) {
   const GetPastReviews = async () => {
     var adele = " ";
     var url = " ";
-    try{
+    try {
       if (props.name.includes("Adele")) {
         adele = "Adele";
         url = `https://rest.bandsintown.com/artists/Adele/events?app_id=958313646c7db923871b501a616498a9&date=past`;
@@ -94,9 +95,9 @@ export default function WriteReview(props) {
         setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
       }
     }
-    catch(err){
+    catch (err) {
       console.log('API Error');
-    }    
+    }
   }
 
   const postData = async () => {
@@ -105,10 +106,13 @@ export default function WriteReview(props) {
 
     var eventDate = eventName.split(" • ")[0];
     var event = eventName.split(" • ")[1];
-    var first = fname.charAt(0).toUpperCase() + fname.slice(1).toLowerCase();
-    var last = lname.charAt(0).toUpperCase() + lname.slice(1).toLowerCase();
-    var encodedDescription = encodeURIComponent(description);
-    await fetch(`http://ec2-3-129-52-41.us-east-2.compute.amazonaws.com:8000/reviews/?artist_id=${props.artistId}&event_id=1&rating=${rating}&description=${encodedDescription}&fname=${first}&lname=${last}&eventname=${event}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+  
+  const { data, error } = await supabase
+  .from('artist_reviews')
+  .insert(
+    [{'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': unparsedName, 'event': event, 'eventDate': eventDate }]
+  );
+
     window.location.reload();
   }
 
@@ -122,7 +126,7 @@ export default function WriteReview(props) {
     var name = event.target.value;
     setUnparsedName(name);
     var first = "";
-    var last = "";
+    var last = " ";
     if (name) {
       if (name.includes(" ")) {
         var nameArray = name.split(" ");
