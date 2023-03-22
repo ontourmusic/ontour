@@ -98,13 +98,13 @@ function Venue() {
     var reviewsArray = [];
     var cumulativeRating = 0;
     for(var i = 0; i < reviewData.length; i++) {
-      reviewsArray.push([
-        reviewData[i].review,
-        reviewData[i].rating,
-        reviewData[i].name,
-        reviewData[i].artist,
-        reviewData[i].eventDate
-      ]);
+      reviewsArray.push({
+        "review":reviewData[i].review,                                       // review description
+        "rating":reviewData[i].rating,                                       // review rating
+        "name":reviewData[i].name,                                         // review author
+        "artist":reviewData[i].artist,                                        // review event
+        "eventDate":reviewData[i].eventDate,                                    // review date
+      });
 
       cumulativeRating += reviewData[i].rating;
     }
