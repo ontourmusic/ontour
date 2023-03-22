@@ -48,7 +48,10 @@ function ArtistHeader(props) {
         <div id="artist-background" class="container-fluid jumbotron bg-cover text-white" style={{ backgroundImage: isMobile ? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`, 
         backgroundPosition: props.isVenue ? `center` : `none` }}>
             <div id="text-contain" style={isMobile ? styles.Mobile : styles.Desktop}>
-                <h1 id="artist-name" class="fw-bold">{props.name}</h1>
+                <h1 id="artist-name" class="fw-bold">{props.name} <span class="fw-light fs-3">{props.city}</span></h1>
+                {/* <h1 id="artist-name" class="fw-bold">{props.name}</h1> */}
+                {/* <h3 class="fw-light" style={{textAlign: "left"}}>Los Angeles, CA</h3> */}
+                {/* <span class="fw-light fs-4" style={{textAlign: "left"}}>Los Angeles, CA</span> */}
                 <Divider style={styles.Divider} />
                 <div style={styles.RatingRow}>
                     <Rating

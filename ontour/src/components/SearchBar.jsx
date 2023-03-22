@@ -27,7 +27,7 @@ function GetSearchTerm(name) {
     return lower.replace(" ", "_");
 }
 
-export default function SearchBar(){
+export default function SearchBar(props){
     const [hasFocus, setHasFocus] = useState(false);
     const [artistList, setArtistList] = useState([]);
     const [venueList, setVenueList] = useState([]);
@@ -152,7 +152,8 @@ export default function SearchBar(){
 
     return (
         <div className={containerStyles}>
-            <FontAwesomeIcon icon={faSearch} className={`iconStyle ${containerStyles}`} size="lg"/>
+            
+            {!props.navbar && <FontAwesomeIcon icon={faSearch} className={`iconStyle ${containerStyles}`} size="lg"/>}
             <Turnstone
                 id="fruitveg"
                 listbox={listbox}

@@ -101,19 +101,19 @@ function Artist() {
             }
             //set the image array to the state
             setImageArray(imageArray);
-
-            //gets the tickemaster artist details 
-            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
-            const tmData = await tmArtist.json();
-            var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
-            var tickets = tmData._embedded.attractions[0].url;
-            setTicketLink(tickets);
-            setSpotifyLink(spotify);
-        }
-        catch{
-            console.log('Webpage error. Please reload the page.');
-        }
+            
+      //gets the tickemaster artist details 
+      const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
+      const tmData = await tmArtist.json();
+      var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
+      var tickets = tmData._embedded.attractions[0].url;
+      setTicketLink(tickets);
+      setSpotifyLink(spotify);
     }
+    catch{
+      console.log('Webpage error. Please reload the page.');
+    }
+  }
 
     //performs the search when the page loads
     useEffect(() => {
