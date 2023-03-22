@@ -15,6 +15,7 @@ import SideContent from "../components/SideContent";
 import Footer from "../components/Footer";
 import { createClient } from '@supabase/supabase-js'
 import ImageCarousel from "../components/ImageCarousel";
+import Fuse from 'fuse.js'
 
 function Venue() {
 
@@ -45,6 +46,23 @@ function Venue() {
   const [imageArray, setImageArray] = useState([]);
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [showResults, setShowResults] = useState(false);
+
+  const searchReviews = (searchTerm) => {
+    const options = {
+        keys: ["review", "event"],
+        minMatchCharLength: 3,
+    }
+    const fuse = new Fuse(filteredReviews, options);
+    const results = fuse.search(searchTerm);
+    setFilteredReviews(results.map((result) => {return result.item}));
+    setShowResults(true);
+}
+
+const clearSearch = () => {
+    setShowResults(false);
+    setFilteredReviews(allReviews);
+}
 
   //gets the artist and review data from the database
   const performSearch = async () => {
@@ -117,7 +135,7 @@ function Venue() {
   const ratingFilter = (event) => {
     var tempArray = allReviews;
     if(event.target.value > 0){
-        tempArray = tempArray.filter(review => review[1] == event.target.value);
+        tempArray = tempArray.filter(review => review.rating == event.target.value);
     }
     setFilteredReviews(tempArray);
     forceUpdate();
@@ -126,30 +144,31 @@ function Venue() {
   const formChange = (event) => {
     //sort all reviews array by rating highest to lowest
     var tempArray = allReviews;
-    if(event.target.value == 3) {
-      tempArray.sort(function(a, b) {
-        return b[1] > a[1] ? 1 : -1;
-      });
+    if (event.target.value == 3) {
+        tempArray.sort(function (a, b) {
+            return b.rating > a.rating ? 1 : -1;
+        });
     }
     //lowest to highest
-    else if(event.target.value == 4) {
-      tempArray.sort(function(a, b) {
-        return a[1] > b[1] ? 1 : -1;
-      });
+    else if (event.target.value == 4) {
+        tempArray.sort(function (a, b) {
+            console.log(a.rating + " " + b.rating);
+            return a.rating > b.rating ? 1 : -1;
+        });
     }
     //oldest to newest
-    else if(event.target.value == 2) {
-      tempArray.sort(function(a, b) {
-        return new Date(b[4]) < new Date(a[4]) ? 1 : -1;
-      });
+    else if (event.target.value == 2) {
+        tempArray.sort(function (a, b) {
+            return new Date(b.eventDate) < new Date(a.eventDate) ? 1 : -1;
+        });
     }
     //newest to oldest
-    else if(event.target.value == 1) {
-      tempArray.sort(function(a, b) {
-        return new Date(a[4]) < new Date(b[4]) ? 1 : -1;
-      });
+    else if (event.target.value == 1) {
+        tempArray.sort(function (a, b) {
+            return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
+        });
     }
-    setAllReviews(tempArray);
+    setFilteredReviews(tempArray);
     forceUpdate();
   }
 
@@ -164,7 +183,7 @@ function Venue() {
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
           <ImageCarousel images={imageArray} slideCount={3} />
-          <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter}/>
+          <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
           {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} />}
         </Grid>
         <Grid item xs={12} md={4}>
