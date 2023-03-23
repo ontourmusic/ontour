@@ -2,9 +2,9 @@ import React from "react";
 import "../index.css";
 import "react-multi-carousel/lib/styles.css";
 import ArtistHeader from "../components/ArtistHeader";
-import Carousel from "../components/Carousel";
 import WriteReview from "../components/WriteReview";
 import Footer from "../components/Footer";
+import { Helmet } from "react-helmet";
 
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -24,7 +24,6 @@ import ImageCarousel from "../components/ImageCarousel";
 
 
 function Artist() {
-    //gets the name from the artist that was searched for on the home page
     const [searchParams] = useSearchParams();
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
@@ -32,7 +31,6 @@ function Artist() {
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
-    //set var names here
     const [artistData, setArtistData] = useState({
         fullName: "",
         allReviews: [],
@@ -60,7 +58,7 @@ function Artist() {
         }
         const fuse = new Fuse(filteredReviews, options);
         const results = fuse.search(searchTerm);
-        setFilteredReviews(results.map((result) => {return result.item}));
+        setFilteredReviews(results.map((result) => { return result.item }));
         setShowResults(true);
     }
 
@@ -70,7 +68,7 @@ function Artist() {
     }
 
     const performSearch = async () => {
-        try{
+        try {
             //try the supabase query here
             const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', artistID);
             //Queries artist database with artistID passed by search bar
@@ -79,7 +77,7 @@ function Artist() {
             //Queries reviews database with artistID passed by search bar
             const getReviewsSupabase = await supabase.from('artist_reviews').select('*').eq('artist_id', artistID);
             const reviewData = getReviewsSupabase["data"];
-            
+
             //Parse review data
             setAllReviews(parseReviewData(reviewData));
             setFilteredReviews(parseReviewData(reviewData));
@@ -101,19 +99,19 @@ function Artist() {
             }
             //set the image array to the state
             setImageArray(imageArray);
-            
-      //gets the tickemaster artist details 
-      const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
-      const tmData = await tmArtist.json();
-      var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
-      var tickets = tmData._embedded.attractions[0].url;
-      setTicketLink(tickets);
-      setSpotifyLink(spotify);
+
+            //gets the tickemaster artist details 
+            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
+            const tmData = await tmArtist.json();
+            var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
+            var tickets = tmData._embedded.attractions[0].url;
+            setTicketLink(tickets);
+            setSpotifyLink(spotify);
+        }
+        catch {
+            console.log('Webpage error. Please reload the page.');
+        }
     }
-    catch{
-      console.log('Webpage error. Please reload the page.');
-    }
-  }
 
     //performs the search when the page loads
     useEffect(() => {
@@ -125,19 +123,12 @@ function Artist() {
         var reviewsArray = [];
         var cumulativeRating = 0;
         for (var i = 0; i < reviewData.length; i++) {
-            // reviewsArray.push([
-            //     reviewData[i].review,                                       // review description
-            //     reviewData[i].rating,                                       // review rating
-            //     reviewData[i].name,                                         // review author
-            //     reviewData[i].event,                                        // review event
-            //     reviewData[i].eventDate,                                    // review date
-            // ]);
             reviewsArray.push({
-                "review":reviewData[i].review,                                       // review description
-                "rating":reviewData[i].rating,                                       // review rating
-                "name":reviewData[i].name,                                         // review author
-                "event":reviewData[i].event,                                        // review event
-                "eventDate":reviewData[i].eventDate,                                    // review date
+                "review": reviewData[i].review,                                       // review description
+                "rating": reviewData[i].rating,                                       // review rating
+                "name": reviewData[i].name,                                         // review author
+                "event": reviewData[i].event,                                        // review event
+                "eventDate": reviewData[i].eventDate,                                    // review date
             });
             cumulativeRating += reviewData[i].rating;
         }
@@ -148,7 +139,7 @@ function Artist() {
 
     const ratingFilter = (event) => {
         var tempArray = allReviews;
-        if(event.target.value > 0){
+        if (event.target.value > 0) {
             tempArray = tempArray.filter(review => {
                 return review.rating == event.target.value
             });
@@ -190,39 +181,33 @@ function Artist() {
     }
 
     return (
-        <Grid container spacing={0}>
-            <Grid item xs={12}>
-                <ArtistNavigation />
-            </Grid>
-            <Grid item xs={12}>
-                <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0}/>
-            </Grid>
-            <Grid container spacing={1} style={artist_styles.grid.body_container}>
-                <Grid item xs={12} md={8}>
-                    {/* {
-                        imageArray.length > 0 &&
-                        <ComponentCarousel numToDisplay={3} uniformWidth={true} 
-                            componentArray={imageArray.map((image, index) => {
-                                return (
-                                    <Polaroid key={index} imageURL={image} />
-                                );
-                            })}
-                        />
-                    } */}
-                    {/* <Carousel images={imageArray} /> */}
-                    <ImageCarousel images={imageArray} slideCount={3}/>
-                    <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
-                    {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
+        <>
+            <Helmet>
+                <title>{fullName}</title>
+            </Helmet>
+            <Grid container spacing={0}>
+                <Grid item xs={12}>
+                    <ArtistNavigation />
                 </Grid>
-                <Grid item xs={12} md={4}>
-                    <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [ticketLink, "images/ticketmaster_icon.png"]]} />
+                <Grid item xs={12}>
+                    <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} />
                 </Grid>
-            </Grid>
-            <Grid item xs={12}>
-                <hr id="artist-footer"></hr>
-                <Footer />
-            </Grid>
-        </Grid >
+                <Grid container spacing={1} style={artist_styles.grid.body_container}>
+                    <Grid item xs={12} md={8}>
+                        <ImageCarousel images={imageArray} slideCount={3} />
+                        <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch} />
+                        {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [ticketLink, "images/ticketmaster_icon.png"]]} />
+                    </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                    <hr id="artist-footer"></hr>
+                    <Footer />
+                </Grid>
+            </Grid >
+        </>
     );
 }
 export default Artist;
