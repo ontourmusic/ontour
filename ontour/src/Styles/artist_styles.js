@@ -20,6 +20,14 @@ const sidebar = {
   },
 };
 
+const carousel = {
+  container: {
+  },
+  slide: {
+    margin: "0 4px 0 4px",
+  },
+};
+
 const review_display = {
   paginated_div: {
     display: "flex",
@@ -61,6 +69,7 @@ const artist_styles = {
   grid,
   sidebar,
   review_display,
+  carousel,
 };
 
 export default artist_styles;
