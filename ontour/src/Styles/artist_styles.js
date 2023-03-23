@@ -20,6 +20,14 @@ const sidebar = {
   },
 };
 
+const carousel = {
+  container: {
+  },
+  slide: {
+    margin: "0 4px 0 4px",
+  },
+};
+
 const review_display = {
   paginated_div: {
     display: "flex",
@@ -39,8 +47,17 @@ const review_display = {
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
-      // height: 400,
     },
+    leftContainer: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+    },
+    starBox: {
+      margin: "2px 0 2px 0",
+      display: "flex",
+      fontSize: 18,
+    }
   },
   review: {
     container: common_styles.list_group.list_group_container,
@@ -52,6 +69,7 @@ const artist_styles = {
   grid,
   sidebar,
   review_display,
+  carousel,
 };
 
 export default artist_styles;
