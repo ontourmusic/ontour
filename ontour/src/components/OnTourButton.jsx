@@ -15,8 +15,10 @@ const styles = {
     OnTour: {
         background: "red",
         height: "30px",
-        width: "110px",
+        width: "120px",
         marginBottom: "10px",
-        borderRadius: "8px"
+        borderRadius: "8px",
+        paddingRight: "5px",
+        paddingLeft: "5px",
     }
 }
