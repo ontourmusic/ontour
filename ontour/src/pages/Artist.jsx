@@ -50,6 +50,7 @@ function Artist() {
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [showResults, setShowResults] = useState(false);
+    const [onTour, setOnTour] = useState(false);
 
     const searchReviews = (searchTerm) => {
         const options = {
@@ -88,6 +89,7 @@ function Artist() {
 
             //log the artist name
             setFullName(artistData["name"]);
+            setOnTour(artistData["on_tour"]);
 
             const imageGallerySupabase = await supabase.from('artist_carousel_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
@@ -190,7 +192,7 @@ function Artist() {
                     <ArtistNavigation />
                 </Grid>
                 <Grid item xs={12}>
-                    <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} />
+                    <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour}/>
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>

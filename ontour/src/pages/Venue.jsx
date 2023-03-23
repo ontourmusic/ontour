@@ -178,7 +178,7 @@ const clearSearch = () => {
         <ArtistNavigation />
       </Grid>
       <Grid item xs={12}>
-        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} city={venueCity} />
+        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} city={venueCity} onTour={false}/>
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
