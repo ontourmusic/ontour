@@ -21,6 +21,7 @@ const polaroid_background = {
 };
 const polaroid_container = {
   hight: "100%",
+  padding: "5px",
 };
 
 const polaroid_styles = {
