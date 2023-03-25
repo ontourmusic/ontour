@@ -76,7 +76,7 @@ const ReviewProgressBars = ({ ReviewValueArray, TotalReviews }) => {
                                     {star} star{star > 1 ? "s" : " "}
                                 </Typography>
                             </Grid>
-                            <Grid item xs={10}>
+                            <Grid item xs={11}>
                                 <ProgressWithLabel
                                     percent={Math.round((ReviewValueArray[star] ? ReviewValueArray[star] : 0) / (TotalReviews ? TotalReviews : 1) * 100)}
                                 />
