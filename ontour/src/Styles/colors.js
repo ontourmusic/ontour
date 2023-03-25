@@ -1,50 +1,52 @@
 const OnTourColors = {
   // Specify custom property
   roundness: 2,
-  // Specify custom property in nested object
-
-  //   colors: {
-  //     primary: "rgb(0, 106, 106)",
-  //     onPrimary: "rgb(255, 255, 255)",
-  //     primaryContainer: "rgb(111, 247, 246)",
-  //     onPrimaryContainer: "rgb(0, 32, 32)",
-  //     secondary: "rgb(74, 99, 99)",
-  //     onSecondary: "rgb(255, 255, 255)",
-  //     secondaryContainer: "rgb(204, 232, 231)",
-  //     onSecondaryContainer: "rgb(5, 31, 31)",
-  //     tertiary: "rgb(75, 96, 124)",
-  //     onTertiary: "rgb(255, 255, 255)",
-  //     tertiaryContainer: "rgb(211, 228, 255)",
-  //     onTertiaryContainer: "rgb(4, 28, 53)",
-  //     error: "rgb(186, 26, 26)",
-  //     onError: "rgb(255, 255, 255)",
-  //     errorContainer: "rgb(255, 218, 214)",
-  //     onErrorContainer: "rgb(65, 0, 2)",
-  //     background: "rgb(250, 253, 252)",
-  //     onBackground: "rgb(25, 28, 28)",
-  //     surface: "rgb(250, 253, 252)",
-  //     onSurface: "rgb(25, 28, 28)",
-  //     surfaceVariant: "rgb(218, 229, 228)",
-  //     onSurfaceVariant: "rgb(63, 73, 72)",
-  //     outline: "rgb(111, 121, 121)",
-  //     outlineVariant: "rgb(190, 201, 200)",
-  //     shadow: "rgb(0, 0, 0)",
-  //     scrim: "rgb(0, 0, 0)",
-  //     inverseSurface: "rgb(45, 49, 49)",
-  //     inverseOnSurface: "rgb(239, 241, 240)",
-  //     inversePrimary: "rgb(76, 218, 218)",
-  //     elevation: {
-  //       level0: "transparent",
-  //       level1: "rgb(238, 246, 245)",
-  //       level2: "rgb(230, 241, 240)",
-  //       level3: "rgb(223, 237, 236)",
-  //       level4: "rgb(220, 235, 235)",
-  //       level5: "rgb(215, 232, 232)",
-  //     },
-  //     surfaceDisabled: "rgba(25, 28, 28, 0.12)",
-  //     onSurfaceDisabled: "rgba(25, 28, 28, 0.38)",
-  //     backdrop: "rgba(41, 50, 50, 0.4)",
-  //   },
+  palette: {
+    primary: {
+        main: "#ffffff",
+    },
+    secondary: {
+        // Black (the navigation bar color)
+        main: "#21252a",
+        dark1: "#1a1d21",
+        dark2: "#13161a",
+        light1: "#2a2e33",
+        light2: "#33373d",
+        light3: "#3c4046",
+    },
+    tertiary: {
+        // White (the polaroid background color)
+        // shades from https://www.color-hex.com/color/fffbff
+        main: "#FFFBFF",
+        dark1: "#E5E1E5",
+        dark2: "#ccc8cc",
+        dark3: "#b2afb2",
+        dark4: "#999699",
+        dark5: "#7f7d7f",
+    },
+    star: {
+        // Gold (the rating star color)
+        main: "#faaf00",
+        dark1: "#e5a000",
+        dark2: "#cc8f00",
+        light1: "#ffbb00",
+        light2: "#ffcc00",
+        light3: "#ffdd00",
+    },
+    accent: {
+        // Red (on tour icon color)
+        main: "#ff0000",
+        dark1: "#e50000",
+        dark2: "#cc0000",
+        dark3: "#b20000",
+        dark4: "#990000",
+        dark5: "#7f0000",
+    },
+    button: {
+        dark: "#212529",
+        darkDisabled: "#707275",
+    }
+  },
   colors: {
     primary: "rgb(75, 83, 188)",
     onPrimary: "rgb(255, 255, 255)",
