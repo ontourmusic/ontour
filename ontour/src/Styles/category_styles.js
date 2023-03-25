@@ -1,4 +1,4 @@
-
+import OnTourColors from "./colors";
 
 const container = {
     display: "flex",
@@ -6,10 +6,13 @@ const container = {
     justifyContent: "center",
     alignItems: "center",
     minHeight: "200px",
-    // padding: "100px auto 100px auto",
-    border: "1px solid white",
-    backgroundColor: "gray",
+    width: "100%",
+    // backgroundColor: OnTourColors.palette.tertiary.main,
     opacity: 0.85,
+    "&:hover": {
+        opacity: 1,
+        backgroundColor: OnTourColors.palette.tertiary.dark2,
+    },
 };
 const icon = {
     width: 50,

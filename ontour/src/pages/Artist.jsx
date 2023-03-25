@@ -13,6 +13,7 @@ import ArtistNavigation from "../ArtistNavigation"
 import artist_styles from "../Styles/artist_styles";
 
 import { createClient } from '@supabase/supabase-js'
+import common_styles from "../Styles/common_styles";
 import Fuse from 'fuse.js'
 
 
@@ -120,6 +121,10 @@ function Artist() {
         performSearch();
     }, [artistID]);
 
+    useEffect(() => {
+        console.log("window.innerWidth: ", window.innerWidth);
+    }, []);
+
     //parses the review data from the database
     function parseReviewData(reviewData) {
         var reviewsArray = [];
@@ -196,7 +201,8 @@ function Artist() {
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
-                        <ImageCarousel images={imageArray} slideCount={3} />
+                        <ImageCarousel images={imageArray} 
+                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                         <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch} />
                         {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
                     </Grid>

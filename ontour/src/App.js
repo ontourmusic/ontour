@@ -6,7 +6,8 @@ import Artist from "./pages/Artist";
 import Results from "./pages/Results";
 import Venue from "./pages/Venue";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import theme from "./Styles/FontTheme";
+// import theme from "./Styles/FontTheme";
+import OnTourTheme from "./Styles/OnTourTheme";
 import Error from "./pages/Error";
 
 // import {
@@ -57,7 +58,7 @@ import Error from "./pages/Error";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={OnTourTheme}>
       <div className="App">
         <CssBaseline />
         <Router>

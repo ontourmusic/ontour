@@ -120,12 +120,14 @@ const ArtistContent = (props) => {
             {props.allReviews.length > 0 &&
                 <div id="clear">
                     {
-                        props.searchResults ? <div className='d-flex justify-content-left align-content-center mb-3 pl-5 ml-5'>
-                            <div className='pl-5'>{props.filteredReviews.length} reviews matching the search term &nbsp;</div>
+                        props.searchResults ? 
+                        <div className='d-flex justify-content-left align-content-center mb-3 pl-5 ml-5'>
+                            <div className='pl-5'>
+                                {props.filteredReviews.length} reviews matching the search term &nbsp;
+                            </div>
                             <button type="button" className='btn btn-outline-secondary btn-sm ml-5' onClick={props.onClearSearch}>
                                 Clear Search
                             </button>
-
                         </div> : <></>
                     }
 
