@@ -19,38 +19,39 @@ const ReviewSummary = ({ allReviews }) => {
         let tempTotal = 0;
         allReviews.forEach((review) => {
             // index 1 is the rating
-            tempArray[review[1]]++;
+            tempArray[review.rating]++;
             tempTotal++;
         });
         setTotalReviews(tempTotal);
         setReviewValueArray(tempArray);
         setAggregateRating((tempArray[1] + tempArray[2] * 2 + tempArray[3] * 3 + tempArray[4] * 4 + tempArray[5] * 5) / tempTotal);
     }, [allReviews]);
-    const gridTesting = true;
-    if (gridTesting) {
-        return (
-            <Grid container spacing={1} style={{ marginBottom: 10 }}>
-                <Grid item xs={12} md={6}>
-                    <div class="rating">
-                    </div>
-                    <div class="rating">
-                        <Rating
-                            name="text-feedback"
-                            value={aggregateRating}
-                            size="large"
-                            readOnly
-                            precision={0.1}
-                            emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
-                        />
-                    </div>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <ReviewProgressBars ReviewValueArray={reviewValueArray} TotalReviews={TotalReviews} />
-                </Grid>
-            </Grid>
 
-        )
-    }
+    return (
+        <Grid container spacing={1} >
+            <Grid item xs={12} md={4} style={artist_styles.review_display.summary.leftContainer}>
+                <h4 style={{ textAlign: "start" }}>
+                    Overall Rating
+                </h4>
+                <Rating
+                    name="text-feedback"
+                    value={aggregateRating}
+                    size="large"
+                    readOnly
+                    precision={0.1}
+                    emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
+                    style={artist_styles.review_display.summary.starBox}
+                />
+                <Typography variant="body2" color="text.secondary" textAlign={"start"}>
+                    {TotalReviews} {TotalReviews === 1 ? "review" : "reviews"}
+                </Typography>
+            </Grid>
+            <Grid item xs={12} md={8}>
+                <ReviewProgressBars ReviewValueArray={reviewValueArray} TotalReviews={TotalReviews} />
+            </Grid>
+        </Grid>
+
+    )
 }
 
 /*
@@ -69,10 +70,18 @@ const ReviewProgressBars = ({ ReviewValueArray, TotalReviews }) => {
             {
                 [5, 4, 3, 2, 1].map((star) => {
                     return (
-                        <ProgressWithLabel
-                            percent={Math.round((ReviewValueArray[star] ? ReviewValueArray[star] : 0) / (TotalReviews ? TotalReviews : 1) * 100)}
-                            leftLabel={`${star} star`}
-                        />
+                        <Grid container spacing={0} style={{ marginBottom: 7 }}>
+                            <Grid item xs={2}>
+                                <Typography variant="body2" color="text.secondary">
+                                    {star} star{star > 1 ? "s" : " "}
+                                </Typography>
+                            </Grid>
+                            <Grid item xs={10}>
+                                <ProgressWithLabel
+                                    percent={Math.round((ReviewValueArray[star] ? ReviewValueArray[star] : 0) / (TotalReviews ? TotalReviews : 1) * 100)}
+                                />
+                            </Grid>
+                        </Grid>
                     )
                 })
             }

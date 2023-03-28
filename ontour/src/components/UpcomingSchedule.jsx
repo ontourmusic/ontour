@@ -132,7 +132,6 @@ export default function UpcomingSchedule(props)
                     var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
                     return dateA - dateB;
                 });
-                console.log(eventArray);
                 setEventArray(eventArray);
             })
             .catch(error => console.error(error));

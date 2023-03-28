@@ -2,9 +2,9 @@ import React from "react";
 import "../index.css";
 import "react-multi-carousel/lib/styles.css";
 import ArtistHeader from "../components/ArtistHeader";
-import Carousel from "../components/Carousel";
 import WriteReview from "../components/WriteReview";
 import Footer from "../components/Footer";
+import { Helmet } from "react-helmet";
 
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -13,6 +13,8 @@ import ArtistNavigation from "../ArtistNavigation"
 import artist_styles from "../Styles/artist_styles";
 
 import { createClient } from '@supabase/supabase-js'
+import common_styles from "../Styles/common_styles";
+import Fuse from 'fuse.js'
 
 
 // Testing
@@ -23,7 +25,6 @@ import ImageCarousel from "../components/ImageCarousel";
 
 
 function Artist() {
-    //gets the name from the artist that was searched for on the home page
     const [searchParams] = useSearchParams();
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
@@ -31,7 +32,6 @@ function Artist() {
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
-    //set var names here
     const [artistData, setArtistData] = useState({
         fullName: "",
         allReviews: [],
@@ -40,6 +40,7 @@ function Artist() {
 
     const [fullName, setFullName] = useState("");
     const [allReviews, setAllReviews] = useState([]);
+    const [filteredReviews, setFilteredReviews] = useState([]);
     const [artistIdNumber, setArtistIdNumber] = useState(artistID);
     const [aggregateRating, setAggregateRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
@@ -49,9 +50,27 @@ function Artist() {
     const [imageArray, setImageArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
+    const [showResults, setShowResults] = useState(false);
+    const [onTour, setOnTour] = useState(false);
+
+    const searchReviews = (searchTerm) => {
+        const options = {
+            keys: ["review", "event"],
+            minMatchCharLength: 3,
+        }
+        const fuse = new Fuse(filteredReviews, options);
+        const results = fuse.search(searchTerm);
+        setFilteredReviews(results.map((result) => { return result.item }));
+        setShowResults(true);
+    }
+
+    const clearSearch = () => {
+        setShowResults(false);
+        setFilteredReviews(allReviews);
+    }
 
     const performSearch = async () => {
-        try{
+        try {
             //try the supabase query here
             const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', artistID);
             //Queries artist database with artistID passed by search bar
@@ -60,9 +79,10 @@ function Artist() {
             //Queries reviews database with artistID passed by search bar
             const getReviewsSupabase = await supabase.from('artist_reviews').select('*').eq('artist_id', artistID);
             const reviewData = getReviewsSupabase["data"];
-            
+
             //Parse review data
             setAllReviews(parseReviewData(reviewData));
+            setFilteredReviews(parseReviewData(reviewData));
 
             //Sets artist header image
             const bannerImage = artistData["banner_image"];
@@ -70,6 +90,7 @@ function Artist() {
 
             //log the artist name
             setFullName(artistData["name"]);
+            setOnTour(artistData["on_tour"]);
 
             const imageGallerySupabase = await supabase.from('artist_carousel_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
@@ -81,150 +102,128 @@ function Artist() {
             }
             //set the image array to the state
             setImageArray(imageArray);
-            
-      //gets the tickemaster artist details 
-      const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
-      const tmData = await tmArtist.json();
-      var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
-      var tickets = tmData._embedded.attractions[0].url;
-      setTicketLink(tickets);
-      setSpotifyLink(spotify);
 
-
-    //   const url = "http://localhost:8000/stubhub/" + artistName;
-       
-    //     fetch(url, {
-    //         method: "GET",
-    
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         //create an array to hold the events
-    //         var eventArray = [];
-    //         for(var i = 0; i < data["_embedded"]["items"].length; i++){
-    //             var newName = artistName.replace("_", " ");
-    //             if(data["_embedded"]["items"][i]["_embedded"]["categories"][0]["name"].toLowerCase() == newName.toLowerCase()){
-    //                 if(!data["_embedded"]["items"][i]["name"].includes("PARKING"))
-    //                 {
-    //                     eventArray.push(data["_embedded"]["items"][i]);
-    //                 }
-                    
-    //             }
-    //         }
-    //         // order the event array by start date
-    //         eventArray.sort(function(a, b){
-    //             var dateA = new Date(a["start_date"]), dateB = new Date(b["start_date"]);
-    //             return dateA - dateB;
-    //         });
-    //         console.log(eventArray);
-    //     })
-    //     .catch(error => console.error(error));
-
-
+            //gets the tickemaster artist details 
+            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
+            const tmData = await tmArtist.json();
+            var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
+            var tickets = tmData._embedded.attractions[0].url;
+            setTicketLink(tickets);
+            setSpotifyLink(spotify);
+        }
+        catch {
+            console.log('Webpage error. Please reload the page.');
+        }
     }
-    catch{
-      console.log('Webpage error. Please reload the page.');
-    }
-  }
 
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
     }, [artistID]);
 
+    useEffect(() => {
+        console.log("window.innerWidth: ", window.innerWidth);
+    }, []);
+
     //parses the review data from the database
     function parseReviewData(reviewData) {
         var reviewsArray = [];
         var cumulativeRating = 0;
         for (var i = 0; i < reviewData.length; i++) {
-            reviewsArray.push([
-                reviewData[i].review,                                       // review description
-                reviewData[i].rating,                                       // review rating
-                reviewData[i].name,                                         // review author
-                reviewData[i].event,                                        // review event
-                reviewData[i].eventDate,                                    // review date
-            ]);
+            reviewsArray.push({
+                "review": reviewData[i].review,                                       // review description
+                "rating": reviewData[i].rating,                                       // review rating
+                "name": reviewData[i].name,                                         // review author
+                "event": reviewData[i].event,                                        // review event
+                "eventDate": reviewData[i].eventDate,                                    // review date
+            });
             cumulativeRating += reviewData[i].rating;
         }
         setAggregateRating(cumulativeRating / reviewData.length);
-        console.log("aggregate rating: ")
-        console.log(aggregateRating);
         setTotalReviews(reviewData.length);
         return reviewsArray;
     }
 
+    const ratingFilter = (event) => {
+        var tempArray = allReviews;
+        if (event.target.value > 0) {
+            tempArray = tempArray.filter(review => {
+                return review.rating == event.target.value
+            });
+        }
+        setFilteredReviews(tempArray);
+        forceUpdate();
+    }
+
     const formChange = (event) => {
         //sort all reviews array by rating highest to lowest
-        console.log("in here");
-        console.log(event.target.value);
         var tempArray = allReviews;
-        if (event.target.value === 3) {
+        if (event.target.value == 3) {
             tempArray.sort(function (a, b) {
-                return b[1] > a[1] ? 1 : -1;
+                return b.rating > a.rating ? 1 : -1;
             });
         }
         //lowest to highest
-        else if (event.target.value === 4) {
-            console.log("in lowest to highest");
+        else if (event.target.value == 4) {
             tempArray.sort(function (a, b) {
-                return a[1] > b[1] ? 1 : -1;
+                console.log(a.rating + " " + b.rating);
+                return a.rating > b.rating ? 1 : -1;
             });
         }
         //oldest to newest
-        else if (event.target.value === 2) {
+        else if (event.target.value == 2) {
             tempArray.sort(function (a, b) {
-                return new Date(b[4]) < new Date(a[4]) ? 1 : -1;
+                return new Date(b.eventDate) < new Date(a.eventDate) ? 1 : -1;
             });
         }
         //newest to oldest
-        else if (event.target.value === 1) {
+        else if (event.target.value == 1) {
             tempArray.sort(function (a, b) {
-                return new Date(a[4]) < new Date(b[4]) ? 1 : -1;
+                return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
             });
         }
 
-        //print all reviews array
-        for (var i = 0; i < allReviews.length; i++) {
-            console.log(allReviews[i]);
-        }
-        setAllReviews(tempArray);
+        setFilteredReviews(tempArray);
         forceUpdate();
     }
 
     return (
-        <Grid container spacing={0}>
-            <Grid item xs={12}>
-                <ArtistNavigation />
-            </Grid>
-            <Grid item xs={12}>
-                <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0}/>
-            </Grid>
-            <Grid container spacing={1} style={artist_styles.grid.body_container}>
-                <Grid item xs={12} md={8}>
-                    {/* {
-                        imageArray.length > 0 &&
-                        <ComponentCarousel numToDisplay={3} uniformWidth={true} 
-                            componentArray={imageArray.map((image, index) => {
-                                return (
-                                    <Polaroid key={index} imageURL={image} />
-                                );
-                            })}
-                        />
-                    } */}
-                    {/* <Carousel images={imageArray} /> */}
-                    <ImageCarousel images={imageArray} slideCount={3}/>
-                    <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
-                    {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
+        <>
+            <Helmet>
+                <title>{fullName}</title>
+                {/* <script async src="https://www.googletagmanager.com/gtag/js?id=G-BE8WDNBGS7"></script>
+                <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){window.dataLayer.push(arguments)}
+                gtag('js', new Date());
+
+                gtag('config', 'G-BE8WDNBGS7');
+                </script> */}
+            </Helmet>
+            <Grid container spacing={0}>
+                <Grid item xs={12}>
+                    <ArtistNavigation />
                 </Grid>
-                <Grid item xs={12} md={4}>
-                    <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [ticketLink, "images/ticketmaster_icon.png"]]} />
+                <Grid item xs={12}>
+                    <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour}/>
                 </Grid>
-            </Grid>
-            <Grid item xs={12}>
-                <hr id="artist-footer"></hr>
-                <Footer />
-            </Grid>
-        </Grid >
+                <Grid container spacing={1} style={artist_styles.grid.body_container}>
+                    <Grid item xs={12} md={8}>
+                        <ImageCarousel images={imageArray} 
+                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
+                        <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch} />
+                        {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [ticketLink, "images/ticketmaster_icon.png"]]} />
+                    </Grid>
+                </Grid>
+                <Grid item xs={12}>
+                    <hr id="artist-footer"></hr>
+                    <Footer />
+                </Grid>
+            </Grid >
+        </>
     );
 }
 export default Artist;

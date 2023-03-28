@@ -4,6 +4,9 @@ import common_styles from "./common_styles";
 const polaroid_image = {
   width: "fit-content",
   padding: "5px",
+  // width: "100%",
+  height: "275px",
+  objectFit: "cover",
   borderRadius: common_styles.borderRadius.default,
 };
 const polaroid_image_inner = {
@@ -18,6 +21,7 @@ const polaroid_background = {
 };
 const polaroid_container = {
   hight: "100%",
+  padding: "5px",
 };
 
 const polaroid_styles = {

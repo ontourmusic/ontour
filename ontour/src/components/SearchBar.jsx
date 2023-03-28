@@ -54,7 +54,7 @@ export default function SearchBar(props){
           name: "Artists",
           data: artistList,
           displayField: 'name',
-          searchType: "startswith"
+          searchType: "contains"
         },
         {
           id: "venues",

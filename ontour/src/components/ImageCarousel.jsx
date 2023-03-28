@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import '../Styles/carousel.css';
 import { Polaroid } from "./Polaroid";
+import artist_styles from "../Styles/artist_styles";
+const carousel_styles = artist_styles.carousel;
 
 /*
 images: array of image urls
@@ -33,16 +35,19 @@ const ImageCarousel = (props) => {
             orientation="horizontal"
             visibleSlides={props.slideCount}
             totalSlides={props.images.length}
-            step={2}
+            step={props.slideCount}
             naturalSlideWidth={50}
             naturalSlideHeight={50}
             isIntrinsicHeight={true}
+            style={carousel_styles.container}
         >
             <Slider>
                 {
                     images.map((image, index) => {
                         return (
-                            <Slide index={index}>
+                            <Slide index={index}
+                                style={carousel_styles.slide}
+                            >
                                 <Polaroid 
                                     key={index} 
                                     onPress={handleImageClick} 

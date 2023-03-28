@@ -22,33 +22,6 @@ const list_group_vars = {
   activeColor: "#fff",
   activeBg: "#0d6efd",
   activeBorderColor: "#0d6efd",
-  // list-group {
-  //     --bs-list-group-color: #212529;
-  //     --bs-list-group-bg: #fff;
-  //     --bs-list-group-border-color: rgba(0, 0, 0, 0.125);
-  //     --bs-list-group-border-width: 1px;
-  //     --bs-list-group-border-radius: 0.375rem;
-  //     --bs-list-group-item-padding-x: 1rem;
-  //     --bs-list-group-item-padding-y: 0.5rem;
-  //     --bs-list-group-action-color: #495057;
-  //     --bs-list-group-action-hover-color: #495057;
-  //     --bs-list-group-action-hover-bg: #f8f9fa;
-  //     --bs-list-group-action-active-color: #212529;
-  //     --bs-list-group-action-active-bg: #e9ecef;
-  //     --bs-list-group-disabled-color: #6c757d;
-  //     --bs-list-group-disabled-bg: #fff;
-  //     --bs-list-group-active-color: #fff;
-  //     --bs-list-group-active-bg: #0d6efd;
-  //     --bs-list-group-active-border-color: #0d6efd;
-  //     display: flex;
-  //     flex-direction: column;
-  //     padding-left: 0;
-  //     margin-bottom: 0;
-  //     border-radius: var(--bs-list-group-border-radius);
-  //     border-top-left-radius: ;
-  //     border-top-right-radius: ;
-  //     border-bottom-right-radius: ;
-  //     border-bottom-left-radius: ;
 };
 const list_group = {
   list_group_container: {
@@ -66,7 +39,16 @@ const list_group = {
   },
 };
 
+const window_breakpoints = {
+  xs: 0,
+  sm: 600,
+  md: 900,
+  lg: 1200,
+  xl: 1536,
+};
+
 export const common_styles = {
+  window_breakpoints,
   borderRadius,
   list_group,
 };

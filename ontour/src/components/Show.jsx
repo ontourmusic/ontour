@@ -21,11 +21,10 @@ export default function Show(props)
                     <div class="schedule-subfont">
                         {props.venue} - {props.city}, {props.state}
                     </div>
-                </div>
-                <div class="d-block d-md-none col-12 show-location align-self-center">
-                  HELllskfjsiodjfosdjf
-                </div>
-           
+                    <div class="schedule-subfont">
+                        Tickets from <strong>$50</strong>
+                    </div>
+                </div>         
                 <div class="d-none d-xl-block col-xl-1 align-self-center">
                     •
                 </div>
