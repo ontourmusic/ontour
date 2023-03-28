@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import { AiOutlineConsoleSql } from "react-icons/ai";
 
 class UpcomingEvent {
-    constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state) {
+    constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state, price) {
         this.name = name;
         this.date = date;
         this.eventId = eventId;
@@ -16,6 +16,7 @@ class UpcomingEvent {
         this.venue = venue;
         this.city = city;
         this.state = state;
+        this.price = price;
     }
 }
 
@@ -90,8 +91,10 @@ function createEvent(eventInfo){
     var venue = eventInfo._embedded.venue.name;
     var city = eventInfo._embedded.venue.city;
     var state = eventInfo._embedded.venue.state_province;
+    var price = eventInfo.min_ticket_price.display;
+    console.log(price);
 
-    var event = new UpcomingEvent(name, fullDate, 0, url, "Los Angeles", newTime, venue, city, state);
+    var event = new UpcomingEvent(name, fullDate, 0, url, "Los Angeles", newTime, venue, city, state, price);
     return event;
 }
 
@@ -156,7 +159,7 @@ export default function UpcomingSchedule(props)
 
                 {eventArray.map((item, index)=>{
                         return <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
-                            <Show time = {eventArray[index].eventTime} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone} venue={eventArray[index].venue} city={eventArray[index].city} state={eventArray[index].state}/>
+                            <Show time = {eventArray[index].eventTime} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone} venue={eventArray[index].venue} city={eventArray[index].city} state={eventArray[index].state} price={eventArray[index].price}/>
                         </a>
                     })
                 }
