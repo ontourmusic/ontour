@@ -96,7 +96,7 @@ const ArtistContent = (props) => {
                     </div>
                 </Grid>
                 <Grid item xs={3}>
-                    <Form.Select onChange={props.formChange} aria-label="Default select example">
+                    <Form.Select onChange={props.onFormChange} aria-label="Default select example">
                         <option>Recommended</option>
                         <option value="1">Newest First</option>
                         <option value="2">Oldest First</option>
