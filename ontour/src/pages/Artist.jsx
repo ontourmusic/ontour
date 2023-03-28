@@ -89,6 +89,38 @@ function Artist() {
       var tickets = tmData._embedded.attractions[0].url;
       setTicketLink(tickets);
       setSpotifyLink(spotify);
+
+
+    //   const url = "http://localhost:8000/stubhub/" + artistName;
+       
+    //     fetch(url, {
+    //         method: "GET",
+    
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         //create an array to hold the events
+    //         var eventArray = [];
+    //         for(var i = 0; i < data["_embedded"]["items"].length; i++){
+    //             var newName = artistName.replace("_", " ");
+    //             if(data["_embedded"]["items"][i]["_embedded"]["categories"][0]["name"].toLowerCase() == newName.toLowerCase()){
+    //                 if(!data["_embedded"]["items"][i]["name"].includes("PARKING"))
+    //                 {
+    //                     eventArray.push(data["_embedded"]["items"][i]);
+    //                 }
+                    
+    //             }
+    //         }
+    //         // order the event array by start date
+    //         eventArray.sort(function(a, b){
+    //             var dateA = new Date(a["start_date"]), dateB = new Date(b["start_date"]);
+    //             return dateA - dateB;
+    //         });
+    //         console.log(eventArray);
+    //     })
+    //     .catch(error => console.error(error));
+
+
     }
     catch{
       console.log('Webpage error. Please reload the page.');

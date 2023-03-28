@@ -2,6 +2,7 @@ from datetime import date
 import uvicorn
 import psycopg2
 import json
+import requests
 
 from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware, db
@@ -93,6 +94,17 @@ async def reviews():
 async def author(artist_id: int):
     artist = supabase.table('artists').select('*').eq('artist_id', artist_id).execute()
     return artist
+
+
+@app.get('/stubhub/{artist_name}')
+async def author(artist_name: str):
+    artist_name = artist_name.replace("_", " ")
+    url = "https://api.stubhub.net/catalog/events/search?q=" + artist_name + "&country_code=US"
+    headers = {"Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOjg5MCwiaWF0IjoxNjc5OTU0MDMwLCJzY29wZSI6InJlYWQ6ZXZlbnRzIiwidCI6MCwidmdnLXN2IjoiODRlZDYwZjU4YmMwNGNmNDhhOTZiZWU3Y2ZjMDc0YzUiLCJleHAiOjE2ODAwNDA0MzAsImF1dGgtdHlwZSI6MSwiYWd0IjoiWGxrSGJWY0dITGJiRGJ2NERtTW1VQ0ZqR09vT2xwM0d4SmtackVhbDY0ND0ifQ.rRIUM9Sy-CfzhcujtK1C6_GOCJb9BhunKtP-Jq5CXUmBPvT81E6-sbNO42XBCYYR-X_MBMVmk358nR9tKINSi57Jq1xotRg9TEdyVyX73ggr6wy6N32zI1qjc7ESgFLKlgRIfuhBPNEsGANUm4vyRLJveKMgcuP-z38KA0PeuCfXGPVWf2zSjwF1gdUgUU1GyRWaOnEK0xVJMF_OKnE6oU5LKurSWjvReR41NUf1agdVx8_0vnoib2YJG0rKCgi0FbH1PGTztvPDS8ksLzYTV8J_oLv7m8qrrrdHjsznXW3sXa30Jzq5NKfpAtb_YBqtlF1ZqairfnmR5jaj4bqrDA"}
+    response = requests.get(url, headers=headers)
+    # print (response.json())
+    return response.json()
+
 
 @app.get('/reviews/{artist_id}')
 async def reviews(artist_id: int):
