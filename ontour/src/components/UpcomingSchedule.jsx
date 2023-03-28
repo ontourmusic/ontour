@@ -92,8 +92,6 @@ function createEvent(eventInfo){
     var city = eventInfo._embedded.venue.city;
     var state = eventInfo._embedded.venue.state_province;
     var price = eventInfo.min_ticket_price.display;
-    console.log(price);
-
     var event = new UpcomingEvent(name, fullDate, 0, url, "Los Angeles", newTime, venue, city, state, price);
     return event;
 }
