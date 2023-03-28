@@ -85,11 +85,9 @@ function createEvent(eventInfo){
     time = time.split(" ")[0]
     var newTime = parseTime(time);
     var newDate = format(new Date(calendarDate), 'EEE, MMM d');
-    console.log(newDate);
     var fullDate = newDate
     var url = (eventInfo._links["event:webpage"].href);
     var venue = eventInfo._embedded.venue.name;
-    console.log(venue)
     var city = eventInfo._embedded.venue.city;
     var state = eventInfo._embedded.venue.state_province;
 
@@ -106,63 +104,38 @@ export default function UpcomingSchedule(props)
         if(props.name)
         {
             var name = props.name;
-            // var newname = name.replace(" ", "%20");
-            // // console.log(newname);
-            // var id = props.id;
-            // var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5&classificationName=music`;
-            // // var url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&attractionId=${id}&sort=date,asc&size=5&classificationName=music`;
-
-            // // url.replace(" ", "%20");
-            // console.log(url);
-            // tmEvents = await fetch(url);
-            // tmEventData = await tmEvents.json();
-            // console.log(tmEventData);
-            // var events = [];
-            // if(tmEventData.page.totalElements > 0) {
-            //     for(let i = 0; i < tmEventData._embedded.events.length; i++){
-            //         if(events.length < 5){
-            //             var event = createEvent(tmEventData._embedded.events[i]);
-            //             events.push(event);
-            //         }
-            //     }
-            //     setEventArray(events);
-            // }
-
-
-        const stubhuburl = "http://localhost:8000/stubhub/" + name;
-       
-        fetch(stubhuburl, {
-            method: "GET",
-    
-        })
-        .then(response => response.json())
-        .then(data => {
-            //create an array to hold the events
-            var eventArray = [];
-            for(var i = 0; i < data["_embedded"]["items"].length; i++){
-                // var newName = artistName.replace("_", " ");
-                if(data["_embedded"]["items"][i]["_embedded"]["categories"][0]["name"].toLowerCase() == name.toLowerCase()){
-                    if(!data["_embedded"]["items"][i]["name"].includes("PARKING"))
-                    {
-                        if(eventArray.length < 5)
+            const stubhuburl = "http://ec2-18-188-104-212.us-east-2.compute.amazonaws.com:8000/stubhub/" + name;
+            fetch(stubhuburl, {
+                method: "GET",
+        
+            })
+            .then(response => response.json())
+            .then(data => {
+                //create an array to hold the events
+                var eventArray = [];
+                for(var i = 0; i < data["_embedded"]["items"].length; i++){
+                    if(data["_embedded"]["items"][i]["_embedded"]["categories"][0]["name"].toLowerCase() == name.toLowerCase()){
+                        if(!data["_embedded"]["items"][i]["name"].includes("PARKING"))
                         {
-                            console.log(data["_embedded"]["items"][i]);
-                            var event = createEvent(data["_embedded"]["items"][i]);
-                            eventArray.push(event);
+                            if(eventArray.length < 5)
+                            {
+                                console.log(data["_embedded"]["items"][i]);
+                                var event = createEvent(data["_embedded"]["items"][i]);
+                                eventArray.push(event);
+                            }
                         }
+                        
                     }
-                    
                 }
-            }
-            // order the event array by start date
-            eventArray.sort(function(a, b){
-                var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
-                return dateA - dateB;
-            });
-            console.log(eventArray);
-            setEventArray(eventArray);
-        })
-        .catch(error => console.error(error));
+                // order the event array by start date
+                eventArray.sort(function(a, b){
+                    var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
+                    return dateA - dateB;
+                });
+                console.log(eventArray);
+                setEventArray(eventArray);
+            })
+            .catch(error => console.error(error));
         }
     
     }
