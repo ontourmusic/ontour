@@ -3,14 +3,19 @@ import '../index.css';
 import Show from "./Show";
 import {useState, useEffect} from "react";
 import { format } from 'date-fns';
+import { AiOutlineConsoleSql } from "react-icons/ai";
 
 class UpcomingEvent {
-    constructor(name, date, eventId, eventURL, timezone, eventTime) {
+    constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state) {
         this.name = name;
         this.date = date;
         this.eventId = eventId;
         this.eventURL = eventURL;
+        this.timezone = timezone;
         this.eventTime = eventTime;
+        this.venue = venue;
+        this.city = city;
+        this.state = state;
     }
 }
 
@@ -70,22 +75,26 @@ function parseTimezone(timezone){
 }
 
 function createEvent(eventInfo){
-    console.log(eventInfo);
-    console.log(eventInfo.name)
     var name = eventInfo.name;
     var date = eventInfo.start_date;
     date = date.replace("T", " ");
-    var newDate = format(new Date(date), 'EEE, MMM yy');
-    newDate = newDate.replace(",", "");
+    var calendarDate = date.split(" ")[0];
+    console.log(calendarDate);
+    var time = date.split(" ")[1];
+    time = time.replace("-", " ");
+    time = time.split(" ")[0]
+    var newTime = parseTime(time);
+    var newDate = format(new Date(calendarDate), 'EEE, MMM d');
+    console.log(newDate);
     var fullDate = newDate
-//     var timezone = parseTimezone(eventInfo.dates.timezone);
-//     var eventId = eventInfo.id;
-//     var eventURL = eventInfo.url;
-//     var eventName = parseName(name);
-//     var time = parseTime(eventInfo.dates.start.localTime);
+    var url = (eventInfo._links["event:webpage"].href);
+    var venue = eventInfo._embedded.venue.name;
+    console.log(venue)
+    var city = eventInfo._embedded.venue.city;
+    var state = eventInfo._embedded.venue.state_province;
 
-//     var event = new UpcomingEvent(eventName, fullDate, eventId, eventURL, timezone, time);
-//     return event;
+    var event = new UpcomingEvent(name, fullDate, 0, url, "Los Angeles", newTime, venue, city, state);
+    return event;
 }
 
 export default function UpcomingSchedule(props)
@@ -137,6 +146,7 @@ export default function UpcomingSchedule(props)
                     {
                         if(eventArray.length < 5)
                         {
+                            console.log(data["_embedded"]["items"][i]);
                             var event = createEvent(data["_embedded"]["items"][i]);
                             eventArray.push(event);
                         }
@@ -146,16 +156,13 @@ export default function UpcomingSchedule(props)
             }
             // order the event array by start date
             eventArray.sort(function(a, b){
-                var dateA = new Date(a["start_date"]), dateB = new Date(b["start_date"]);
+                var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
                 return dateA - dateB;
             });
             console.log(eventArray);
-            // setEventArray(eventArray);
+            setEventArray(eventArray);
         })
         .catch(error => console.error(error));
-
-
-
         }
     
     }
@@ -177,7 +184,7 @@ export default function UpcomingSchedule(props)
 
                 {eventArray.map((item, index)=>{
                         return <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
-                            <Show time = {eventArray[index].eventTime} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone}/>
+                            <Show time = {eventArray[index].eventTime} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone} venue={eventArray[index].venue} city={eventArray[index].city} state={eventArray[index].state}/>
                         </a>
                     })
                 }
