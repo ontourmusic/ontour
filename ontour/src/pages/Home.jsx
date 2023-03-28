@@ -133,6 +133,23 @@ function Home() {
       return artistIDList
     })
     setLoading(false);
+
+
+    //try geolocating
+    var url = "https://ipinfo.io/json?token=fb31edba4fabb9";
+    const response = fetch(url).then(result => result.json())
+            .then(featureCollection => {
+                var lat = featureCollection.loc.split(",")[0];
+                var lon = featureCollection.loc.split(",")[1];
+                console.log(lat);
+                console.log(lon);
+            });
+
+
+
+
+
+
   }
 
   //performs the search when the page loads
