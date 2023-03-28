@@ -194,7 +194,7 @@ function Artist() {
                 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BE8WDNBGS7"></script>
                 <script>
                 window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments)}
+                function gtag(){window.dataLayer.push(arguments)}
                 gtag('js', new Date());
 
                 gtag('config', 'G-BE8WDNBGS7');
