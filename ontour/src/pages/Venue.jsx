@@ -187,7 +187,7 @@ const clearSearch = () => {
           {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} />}
         </Grid>
         <Grid item xs={12} md={4}>
-          <SideContent name={venue_name} linkPairs={[[ticketLink, "images/ticketmaster_icon.png"],]} />
+          <SideContent name={venue_name} venue={true} linkPairs={[[ticketLink, "images/ticketmaster_icon.png"],]} />
         </Grid>
       </Grid>
       <Grid item xs={12}>
