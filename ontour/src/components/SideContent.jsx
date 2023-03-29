@@ -2,6 +2,7 @@
 import React from "react";
 import "../index.css";
 import UpcomingSchedule from "./UpcomingSchedule";
+import VenueUpcomingSchedule from "./VenueUpcomingSchedule";
 import ExternalLink from "./ExternalLink";
 import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
@@ -15,8 +16,16 @@ Props:
     linkPairs [][2]: array of pairs, link and icon link
 */
 
-const SideContent = ({name, linkPairs}) => {
+const SideContent = ({name, linkPairs, venue}) => {
     console.log("name: " + name);
+    if(venue)
+    {
+        console.log("yes");
+    }
+    else
+    {
+        console.log("no");
+    }
     return (
         <div style={{ position: "sticky", top: "15px" }}>
             <Box sx={sidebar_styles.box}>
@@ -39,7 +48,8 @@ const SideContent = ({name, linkPairs}) => {
                         })
                     }
                 </div>
-                <UpcomingSchedule name={name} />
+                {/* {venue ? <VenueUpcomingSchedule name={name} /> : <UpcomingSchedule name={name} /> } */}
+                <VenueUpcomingSchedule name={name} />
                 {/* <a href="#">
             <img id="arrow" src="../../images/arrow.png" alt=""></img>
             </a> */}

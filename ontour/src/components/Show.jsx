@@ -18,12 +18,12 @@ export default function Show(props)
                     <div class="fw-bold schedule-font">
                         {props.event}
                     </div>
-                    <div class="schedule-subfont">
+                    {/* <div class="schedule-subfont">
                         {props.venue} - {props.city}, {props.state}
                     </div>
                     <div class="schedule-subfont">
                         Tickets from <strong>{props.price}</strong>
-                    </div>
+                    </div> */}
                 </div>         
                 <div class="d-none d-xl-block col-xl-1 align-self-center">
                     •
