@@ -11,6 +11,7 @@ import { Audio } from 'react-loading-icons'
 import { createClient } from '@supabase/supabase-js'
 import Categories from "../components/Categories";
 import { Divider } from "@mui/material";
+import { Grid } from "@mui/material";
 
 
 function Home() {
@@ -133,6 +134,36 @@ function Home() {
       return artistIDList
     })
     setLoading(false);
+
+
+    //try geolocating
+    var url = "https://ipinfo.io/json?token=fb31edba4fabb9";
+    const response = fetch(url).then(result => result.json())
+            .then(featureCollection => {
+                var lat = featureCollection.loc.split(",")[0];
+                var lon = featureCollection.loc.split(",")[1];
+                console.log(lat);
+                console.log(lon);
+
+                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music`
+                const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
+                .then(featureCollection => {
+                    console.log(featureCollection);
+                    //sort featurecollection by date
+                    var sorted = featureCollection._embedded.events.sort(function(a, b) {
+                      var dateA = new Date(a.dates.start.localDate), dateB = new Date(b.dates.start.localDate);
+                      return dateA - dateB;
+                    }
+                    );
+                    console.log(sorted);
+                })
+            });
+
+
+
+
+
+
   }
 
   //performs the search when the page loads
