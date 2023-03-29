@@ -143,6 +143,19 @@ function Home() {
                 var lon = featureCollection.loc.split(",")[1];
                 console.log(lat);
                 console.log(lon);
+
+                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music`
+                const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
+                .then(featureCollection => {
+                    console.log(featureCollection);
+                    //sort featurecollection by date
+                    var sorted = featureCollection._embedded.events.sort(function(a, b) {
+                      var dateA = new Date(a.dates.start.localDate), dateB = new Date(b.dates.start.localDate);
+                      return dateA - dateB;
+                    }
+                    );
+                    console.log(sorted);
+                })
             });
 
 
