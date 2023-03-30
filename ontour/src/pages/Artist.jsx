@@ -193,10 +193,12 @@ function Artist() {
                 <title>{fullName}</title>
                 <script async src="https://www.googletagmanager.com/gtag/js?id=G-BE8WDNBGS7"></script>
                 <script>
-                    {"window.dataLayer = window.dataLayer || [];"+
-                    'function gtag(){window && window.dataLayer && window.dataLayer.push({arguments})}'+
-                    "gtag('js', new Date());"+
-                    "gtag('config', 'G-BE8WDNBGS7');"}
+                    {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', G-BE8WDNBGS7);
+                    `}
                 </script>
             </Helmet>
             <Grid container spacing={0}>
