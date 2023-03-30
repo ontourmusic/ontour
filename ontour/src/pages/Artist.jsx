@@ -188,29 +188,6 @@ function Artist() {
     }
 
     return (
-        <Grid container spacing={0}>
-            <Grid item xs={12}>
-                <ArtistNavigation />
-            </Grid>
-            <Grid item xs={12}>
-                <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0}/>
-            </Grid>
-            <Grid container spacing={1} style={artist_styles.grid.body_container}>
-                <Grid item xs={12} md={8}>
-                    {/* {
-                        imageArray.length > 0 &&
-                        <ComponentCarousel numToDisplay={3} uniformWidth={true} 
-                            componentArray={imageArray.map((image, index) => {
-                                return (
-                                    <Polaroid key={index} imageURL={image} />
-                                );
-                            })}
-                        />
-                    } */}
-                    {/* <Carousel images={imageArray} /> */}
-                    <ImageCarousel artistID={artistID} images={imageArray} slideCount={3}/>
-                    <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
-                    {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
         <>
             <Helmet>
                 <title>{fullName}</title>

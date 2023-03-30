@@ -68,8 +68,8 @@ const AddMediaButton = (props) => {
             onChange={handleImageUpload} />
             <label htmlFor="contained-button-file">
                 <Button variant="contained" component="span" style={{backgroundColor:'#21252B'}}>
-                    <div style={{paddingRight: 5,}}><CameraAlt /></div>
-                     <div>Add Media</div>
+                    <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
+                     <div style={{color:'white'}}>Add Media</div>
                 </Button>
             </label></>
         // <Button
