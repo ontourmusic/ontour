@@ -4,6 +4,9 @@ import Rating from '@mui/material/Rating';
 import { useState, useEffect, useRef } from "react";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { Divider, Box } from "@mui/material";
+import OnTourButton from "./OnTourButton";
+import artist_styles from "../Styles/artist_styles";
+const styles = artist_styles.header;
 
 function ArtistHeader(props) {
     const [isMobile, setIsMobile] = useState(false)
@@ -45,10 +48,30 @@ function ArtistHeader(props) {
     }, [])
 
     return (
-        <div id="artist-background" class="container-fluid jumbotron bg-cover text-white" style={{ backgroundImage: isMobile ? `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`, 
-        backgroundPosition: props.isVenue ? `center` : `none` }}>
-            <div id="text-contain" style={isMobile ? styles.Mobile : styles.Desktop}>
-                <h1 id="artist-name" class="fw-bold">{props.name}</h1>
+        <div 
+        // id="artist-background" class="container-fluid jumbotron bg-cover text-white" 
+            style={{ 
+                backgroundImage: isMobile ? 
+                `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` 
+                : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`, 
+                backgroundPosition: props.isVenue ? `center` : `none`,
+                backgroundRepeat: `no-repeat`,
+                backgroundPosition: `center`,
+                backgroundSize: `cover`,
+                height: `50vh`,
+                position: `relative`,
+                display: `flex`,
+                flexDirection: 'column-reverse'
+            }}
+        >
+            <Box style={artist_styles.header.Container}>
+            {/* <div id="text-contain" style={isMobile ? styles.Mobile : styles.Desktop}> */}
+                {props.isVenue==0 && props.onTour && <OnTourButton></OnTourButton>}
+                <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} <span class="fw-light fs-3">{props.city}</span></h1> 
+                {/* <h1 id="artist-name" class="fw-bold">{props.name} <span class="fw-light fs-3">{props.city}</span></h1>  */}
+                {/* <h1 id="artist-name" class="fw-bold">{props.name}</h1> */}
+                {/* <h3 class="fw-light" style={{textAlign: "left"}}>Los Angeles, CA</h3> */}
+                {/* <span class="fw-light fs-4" style={{textAlign: "left"}}>Los Angeles, CA</span> */}
                 <Divider style={styles.Divider} />
                 <div style={styles.RatingRow}>
                     <Rating
@@ -62,43 +85,10 @@ function ArtistHeader(props) {
                     />
                     <h1 ref={totalReviewTextRef} style={styles.TotalReviewsText}>({props.total})</h1>
                 </div>
-            </div>
+            {/* </div> */}
+            </Box>
         </div>
     )
-}
-
-const styles = {
-    Mobile: {
-        background: "linearGradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))",
-    },
-    Desktop: {
-        background: "",
-    },
-    StarsIcon: {
-        opacity: 1,
-        color: "white",
-    },
-    RatingRow: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        // justifyContent: "center",
-    },
-    Divider: {
-        backgroundColor: "white",
-        // width: "80%",
-        height: "2px",
-        margin: "auto",
-        marginTop: "0.4rem",
-        marginBottom: "0.4rem",
-    },
-    TotalReviewsText: {
-        height: "100%",
-        color: "white",
-        position: "center",
-        // margin: "auto",
-    },
-
 }
 
 export default ArtistHeader;

@@ -9,6 +9,8 @@ import '../Styles/carousel.css';
 import ArtistCarousel from "../components/ArtistCarousel";
 import { Audio } from 'react-loading-icons'
 import { createClient } from '@supabase/supabase-js'
+import Categories from "../components/Categories";
+import { Divider } from "@mui/material";
 
 
 function Home() {
@@ -201,6 +203,8 @@ function Home() {
               <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={ratings} reviewCount={reviewCount} slideCount={2} />
             </div>  
           </div>
+          <Divider />
+          <Categories />
         </div>
       </div>
     </>

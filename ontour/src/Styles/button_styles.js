@@ -8,7 +8,7 @@ const two_column_button = {
     justifyContent: "center",
     border: "1px solid rgba(0, 0, 0, 0.25)",
     borderRadius: common_styles.borderRadius.button,
-    backgroundColor: OnTourColors.colors.background,
+    backgroundColor: OnTourColors.palette.primary.main,
     color: OnTourColors.colors.onBackground,
     fontSize: "1rem",
     padding: "0.3rem 1rem",

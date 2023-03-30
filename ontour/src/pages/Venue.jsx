@@ -15,6 +15,7 @@ import SideContent from "../components/SideContent";
 import Footer from "../components/Footer";
 import { createClient } from '@supabase/supabase-js'
 import ImageCarousel from "../components/ImageCarousel";
+import Fuse from 'fuse.js'
 
 function Venue() {
 
@@ -35,7 +36,9 @@ function Venue() {
 
   const [venue_name, setVenueName] = useState("");
   const [allReviews, setAllReviews] = useState([]);
+  const [filteredReviews, setFilteredReviews] = useState([]);
   const [venueIdNumber, setVenueIdNumber] = useState(0);
+  const [venueCity, setVenueCity] = useState("");
   const [aggregateRating, setAggregateRating] = useState(0);
   const [totalReviews, setTotalReviews] = useState(0);
   const [artistImage, setVenueImage] = useState("");
@@ -43,6 +46,23 @@ function Venue() {
   const [imageArray, setImageArray] = useState([]);
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
+  const [showResults, setShowResults] = useState(false);
+
+  const searchReviews = (searchTerm) => {
+    const options = {
+        keys: ["review", "event"],
+        minMatchCharLength: 3,
+    }
+    const fuse = new Fuse(filteredReviews, options);
+    const results = fuse.search(searchTerm);
+    setFilteredReviews(results.map((result) => {return result.item}));
+    setShowResults(true);
+}
+
+const clearSearch = () => {
+    setShowResults(false);
+    setFilteredReviews(allReviews);
+}
 
   //gets the artist and review data from the database
   const performSearch = async () => {
@@ -51,6 +71,10 @@ function Venue() {
       const venueData = await supabase.from('venues').select('*').eq('venue_id', venueIDGlobal)
       setVenueName(venueData.data[0].name);
       const imageUrls = venueData.data[0].banner_image;
+      var city = venueData.data[0].city;
+      var state = venueData.data[0].state;
+      var cityState = city + ", " + state;
+      setVenueCity(cityState);
       setVenueImage(imageUrls);
       setVenueIdNumber(venueIDGlobal);
     
@@ -64,13 +88,16 @@ function Venue() {
       setImageArray(imageGallery);
       const reviewData = await supabase.from('venue_reviews').select('*').eq('venue_id', venueIDGlobal)
 
-      setAllReviews(parseReviewData(reviewData["data"]));
+
+    setAllReviews(parseReviewData(reviewData["data"]));
+    setFilteredReviews(parseReviewData(reviewData["data"]));
+
 
       const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
       const tmVenueData = await tmVenue.json();
       var venueID = tmVenueData._embedded.venues[0].id;
       var venueURL = tmVenueData._embedded.venues[0].url;
-      console.log(venueURL);
+
       setTicketLink(venueURL);
       const tmEvents = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&venueId=${venueID}` , { mode: 'cors' });
     }
@@ -89,13 +116,13 @@ function Venue() {
     var reviewsArray = [];
     var cumulativeRating = 0;
     for(var i = 0; i < reviewData.length; i++) {
-      reviewsArray.push([
-        reviewData[i].review,
-        reviewData[i].rating,
-        reviewData[i].name,
-        reviewData[i].artist,
-        reviewData[i].eventDate
-      ]);
+      reviewsArray.push({
+        "review":reviewData[i].review,                                       // review description
+        "rating":reviewData[i].rating,                                       // review rating
+        "name":reviewData[i].name,                                         // review author
+        "artist":reviewData[i].artist,                                        // review event
+        "eventDate":reviewData[i].eventDate,                                    // review date
+      });
 
       cumulativeRating += reviewData[i].rating;
     }
@@ -105,33 +132,43 @@ function Venue() {
     return reviewsArray;
   }
 
+  const ratingFilter = (event) => {
+    var tempArray = allReviews;
+    if(event.target.value > 0){
+        tempArray = tempArray.filter(review => review.rating == event.target.value);
+    }
+    setFilteredReviews(tempArray);
+    forceUpdate();
+}
+
   const formChange = (event) => {
     //sort all reviews array by rating highest to lowest
     var tempArray = allReviews;
-    if(event.target.value == 3) {
-      tempArray.sort(function(a, b) {
-        return b[1] > a[1] ? 1 : -1;
-      });
+    if (event.target.value == 3) {
+        tempArray.sort(function (a, b) {
+            return b.rating > a.rating ? 1 : -1;
+        });
     }
     //lowest to highest
-    else if(event.target.value == 4) {
-      tempArray.sort(function(a, b) {
-        return a[1] > b[1] ? 1 : -1;
-      });
+    else if (event.target.value == 4) {
+        tempArray.sort(function (a, b) {
+            console.log(a.rating + " " + b.rating);
+            return a.rating > b.rating ? 1 : -1;
+        });
     }
     //oldest to newest
-    else if(event.target.value == 2) {
-      tempArray.sort(function(a, b) {
-        return new Date(b[4]) < new Date(a[4]) ? 1 : -1;
-      });
+    else if (event.target.value == 2) {
+        tempArray.sort(function (a, b) {
+            return new Date(b.eventDate) < new Date(a.eventDate) ? 1 : -1;
+        });
     }
     //newest to oldest
-    else if(event.target.value == 1) {
-      tempArray.sort(function(a, b) {
-        return new Date(a[4]) < new Date(b[4]) ? 1 : -1;
-      });
+    else if (event.target.value == 1) {
+        tempArray.sort(function (a, b) {
+            return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
+        });
     }
-    setAllReviews(tempArray);
+    setFilteredReviews(tempArray);
     forceUpdate();
   }
 
@@ -141,16 +178,16 @@ function Venue() {
         <ArtistNavigation />
       </Grid>
       <Grid item xs={12}>
-        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} />
+        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} city={venueCity} onTour={false}/>
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
           <ImageCarousel images={imageArray} slideCount={3} />
-          <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
+          <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
           {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} />}
         </Grid>
         <Grid item xs={12} md={4}>
-          <SideContent name={venue_name} linkPairs={[[ticketLink, "images/ticketmaster_icon.png"],]} />
+          <SideContent name={venue_name} venue={true} linkPairs={[[ticketLink, "images/ticketmaster_icon.png"],]} />
         </Grid>
       </Grid>
       <Grid item xs={12}>

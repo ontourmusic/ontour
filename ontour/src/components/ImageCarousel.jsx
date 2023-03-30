@@ -12,6 +12,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { AddMediaButton } from "./Buttons";
 import CommentBox from "./CommentBox";
 import { createClient } from '@supabase/supabase-js'
+import artist_styles from "../Styles/artist_styles";
+const carousel_styles = artist_styles.carousel;
+
 /*
 images: array of image urls
 */
@@ -78,19 +81,23 @@ const ImageCarousel = (props) => {
             orientation="horizontal"
             visibleSlides={props.slideCount}
             totalSlides={props.images.length}
-            step={2}
+            step={props.slideCount}
             naturalSlideWidth={50}
             naturalSlideHeight={50}
             isIntrinsicHeight={true}
+            style={carousel_styles.container}
         >
                 <Slider>
                     {images.map((image, index) => {
                         return (
-                            <Slide index={index}>
-                                <Polaroid
-                                    key={index}
-                                    onPress={handleImageClick}
-                                    imageURL={image} />
+                            <Slide index={index}
+                                style={carousel_styles.slide}
+                            >
+                                <Polaroid 
+                                    key={index} 
+                                    onPress={handleImageClick} 
+                                    imageURL={image} 
+                                />
                             </Slide>
                         );
 
