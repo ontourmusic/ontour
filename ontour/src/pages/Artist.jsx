@@ -92,7 +92,7 @@ function Artist() {
             setFullName(artistData["name"]);
             setOnTour(artistData["on_tour"]);
 
-            const imageGallerySupabase = await supabase.from('artist_carousel_images').select('*').eq('artist_id', artistID);
+            const imageGallerySupabase = await supabase.from('artist_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
             var imageArray = [];
             //loop through the data and push the images into the array
@@ -188,6 +188,29 @@ function Artist() {
     }
 
     return (
+        <Grid container spacing={0}>
+            <Grid item xs={12}>
+                <ArtistNavigation />
+            </Grid>
+            <Grid item xs={12}>
+                <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0}/>
+            </Grid>
+            <Grid container spacing={1} style={artist_styles.grid.body_container}>
+                <Grid item xs={12} md={8}>
+                    {/* {
+                        imageArray.length > 0 &&
+                        <ComponentCarousel numToDisplay={3} uniformWidth={true} 
+                            componentArray={imageArray.map((image, index) => {
+                                return (
+                                    <Polaroid key={index} imageURL={image} />
+                                );
+                            })}
+                        />
+                    } */}
+                    {/* <Carousel images={imageArray} /> */}
+                    <ImageCarousel artistID={artistID} images={imageArray} slideCount={3}/>
+                    <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
+                    {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
         <>
             <Helmet>
                 <title>{fullName}</title>
@@ -220,7 +243,7 @@ function Artist() {
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
-                        <ImageCarousel images={imageArray} 
+                        <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                         <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch} />
                         {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
