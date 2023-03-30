@@ -71,7 +71,7 @@ function Artist() {
             //log the artist name
             setFullName(artistData["name"]);
 
-            const imageGallerySupabase = await supabase.from('artist_carousel_images').select('*').eq('artist_id', artistID);
+            const imageGallerySupabase = await supabase.from('artist_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
             var imageArray = [];
             //loop through the data and push the images into the array
@@ -180,7 +180,7 @@ function Artist() {
                         />
                     } */}
                     {/* <Carousel images={imageArray} /> */}
-                    <ImageCarousel images={imageArray} slideCount={3}/>
+                    <ImageCarousel artistID={artistID} images={imageArray} slideCount={3}/>
                     <ArtistContent allReviews={allReviews} aggregateRating={aggregateRating} onFormChange={formChange} />
                     {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} />}
                 </Grid>
