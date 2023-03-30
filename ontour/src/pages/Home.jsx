@@ -11,6 +11,10 @@ import { Audio } from 'react-loading-icons'
 import { createClient } from '@supabase/supabase-js'
 import Categories from "../components/Categories";
 import { Divider } from "@mui/material";
+import { Card, CardContent, Grid, Typography, Button } from "@mui/material";
+import category_styles from "../Styles/category_styles";
+
+
 
 
 function Home() {
@@ -141,13 +145,10 @@ function Home() {
             .then(featureCollection => {
                 var lat = featureCollection.loc.split(",")[0];
                 var lon = featureCollection.loc.split(",")[1];
-                console.log(lat);
-                console.log(lon);
 
                 var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music`
                 const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
                 .then(featureCollection => {
-                    console.log(featureCollection);
                     //sort featurecollection by date
                     var sorted = featureCollection._embedded.events.sort(function(a, b) {
                       var dateA = new Date(a.dates.start.localDate), dateB = new Date(b.dates.start.localDate);
@@ -168,7 +169,6 @@ function Home() {
   //performs the search when the page loads
   useEffect(() => {
     performSearch();
-    console.log(reviewCount);
   }, [artistList.name]);
   const display = loading ? "hidden" : "visible";
   return (
@@ -235,6 +235,28 @@ function Home() {
           </div>
           <Divider />
           <Categories />
+          <br></br>
+          <Divider />
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <Typography variant="h4" style={category_styles.text}>
+                    Events Near You
+                </Typography>
+            </Grid>
+            {/* Create 3 grid items in a rowthat are evenly spaced on web - mobile should just have one item per row */}
+            <Grid item xs={12} sm={4}>
+                <h5>Coachella Music Festival</h5>
+                <p>April 20th, 2023</p>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <h5>Beyonce - World Tour</h5>
+                <p>April 20th, 2023</p>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+                <h5>Beyonce - World Tour</h5>
+                <p>April 20th, 2023</p>
+            </Grid>
+          </Grid>
         </div>
       </div>
     </>
