@@ -42,9 +42,7 @@ const ImageCarousel = (props) => {
 
     const handleImageClick = async (e) => {
         console.log("handleImageClick: ", e.target.src);
-        setOpen(true);
-        setTemp(e.target.src);
-        setModel(true);
+        
         const { data, error } = await supabase
             .from('artist_images')
             .select('id')
@@ -56,6 +54,10 @@ const ImageCarousel = (props) => {
             return null
         }
         setImageId(data.id);
+        console.log("image_id: ", data.id)
+        setOpen(true);
+        setTemp(e.target.src);
+        setModel(true);
     }
     useEffect(() => {
         if (props.images.length > 0) {

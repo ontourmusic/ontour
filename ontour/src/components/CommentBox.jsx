@@ -9,6 +9,10 @@ const CommentBox = (props) => {
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
   useEffect(() => {
+    // reset states
+    setName('');
+    setComment('');
+    setComments([]);
     const currentDate = new Date();
     const day = currentDate.getDate().toString().padStart(2, '0');
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
@@ -16,9 +20,11 @@ const CommentBox = (props) => {
     const formattedDate = `${month}/${day}/${year}`;
     setDate(formattedDate);
     const fetchComments = async () => {
+      console.log("fetchComments: ", props.imageId)
       const { data, error } = await supabase
         .from('comments')
         .select('name, comment, date')
+        .eq('image_id', props.imageId)
         .order('date');
       if (error) console.log('Error fetching comments:', error.message);
       else setComments(data);
@@ -35,7 +41,6 @@ const CommentBox = (props) => {
   };
 
   const postData = async () => {
-    console.log(comments.date);
     const { data, error } = await supabase
     .from('comments')
     .insert(
