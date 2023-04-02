@@ -48,8 +48,8 @@ const SideContent = ({name, linkPairs, venue}) => {
                         })
                     }
                 </div>
-                {/* {venue ? <VenueUpcomingSchedule name={name} /> : <UpcomingSchedule name={name} /> } */}
-                <VenueUpcomingSchedule name={name} />
+                {venue ? <VenueUpcomingSchedule name={name} /> : <UpcomingSchedule name={name} /> }
+                {/* <VenueUpcomingSchedule name={name} /> */}
                 {/* <a href="#">
             <img id="arrow" src="../../images/arrow.png" alt=""></img>
             </a> */}

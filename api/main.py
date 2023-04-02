@@ -102,7 +102,6 @@ async def author(artist_name: str):
     url = "https://api.stubhub.net/catalog/events/search?q=" + artist_name + "&country_code=US"
     headers = {"Authorization": "Bearer "+ os.getenv('STUBHUB_BEARER_TOKEN')}
     response = requests.get(url, headers=headers)
-    # print (response.json())
     return response.json()
 
 

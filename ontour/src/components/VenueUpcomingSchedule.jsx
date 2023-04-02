@@ -133,7 +133,7 @@ export default function VenueUpcomingSchedule(props)
 
                 {eventArray.map((item, index)=>{
                         return <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
-                            <Show time = {eventArray[index].eventTime} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone}/>
+                            <Show time = {eventArray[index].eventTime} isVenue={true} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone}/>
                         </a>
                     })
                 }
