@@ -67,7 +67,7 @@ function ArtistHeader(props) {
             <Box style={artist_styles.header.Container}>
             {/* <div id="text-contain" style={isMobile ? styles.Mobile : styles.Desktop}> */}
                 {props.isVenue==0 && props.onTour && <OnTourButton></OnTourButton>}
-                <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} <span class="fw-light fs-3">{props.city}</span></h1> 
+                <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} <br></br><span class="fw-light fs-3">{props.city}</span></h1> 
                 {/* <h1 id="artist-name" class="fw-bold">{props.name} <span class="fw-light fs-3">{props.city}</span></h1>  */}
                 {/* <h1 id="artist-name" class="fw-bold">{props.name}</h1> */}
                 {/* <h3 class="fw-light" style={{textAlign: "left"}}>Los Angeles, CA</h3> */}
