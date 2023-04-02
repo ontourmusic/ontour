@@ -105,8 +105,7 @@ export default function UpcomingSchedule(props)
         if(props.name)
         {
             var name = props.name;
-            // const stubhuburl = "http://ec2-18-188-104-212.us-east-2.compute.amazonaws.com:8000/stubhub/" + name;
-            const stubhuburl = "http://127.0.0.1:8000/stubhub/" + name;
+            const stubhuburl = "https://kju1lx3bbf.execute-api.us-east-2.amazonaws.com/Prod/stubhubapi?artist=\"" + name + "\"";
             fetch(stubhuburl, {
                 method: "GET",
         
@@ -114,6 +113,7 @@ export default function UpcomingSchedule(props)
             .then(response => response.json())
             .then(data => {
                 //create an array to hold the events
+                console.log(data);
                 var eventArray = [];
                 for(var i = 0; i < data["_embedded"]["items"].length; i++){
                     if(data["_embedded"]["items"][i]["_embedded"]["categories"][0]["name"].toLowerCase() == name.toLowerCase()){
