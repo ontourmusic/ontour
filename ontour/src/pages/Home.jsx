@@ -10,8 +10,9 @@ import ArtistCarousel from "../components/ArtistCarousel";
 import { Audio } from 'react-loading-icons'
 import { createClient } from '@supabase/supabase-js'
 import Categories from "../components/Categories";
-import { Divider } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import { Grid } from "@mui/material";
+import category_styles from "../Styles/category_styles";
 
 
 function Home() {
@@ -79,7 +80,7 @@ function Home() {
     console.log(newVenueRatings);
 
     //gets the list of recent artists from the database
-    const recentArtists = await supabase.from('artists').select('*').order('artist_id', {ascending: false}).limit(10);
+    const recentArtists = await supabase.from('artists').select('*').order('review_count', {ascending: false}).limit(10);
     const artistObject = {};
     for(let i=0; i < recentArtists["data"].length; i++){
       const currData = recentArtists["data"][i];
@@ -92,7 +93,7 @@ function Home() {
     }
 
     //gets the list of recent venues from the database
-    const recentVenues = await supabase.from('venues').select('*').order('venue_id', {ascending: false}).limit(10);
+    const recentVenues = await supabase.from('venues').select('*').order('review_count', {ascending: false}).limit(10);
     const venueObject = {};
     for(let i=0; i < recentVenues["data"].length; i++){
       const currData = recentVenues["data"][i];
@@ -199,7 +200,9 @@ function Home() {
           <div style={{visibility: {display}}}>
             <div id="top-gallery" class="gallery row pt-5 pb-3">
                   <div class="col-12 col-sm-9 align-self-center">
-                      <h4 class="fw-bold ">Recently Added Artists</h4>
+                      <Typography variant="h4" style={category_styles.text}>
+                        Featured Artists
+                      </Typography>
                   </div>
             </div>
             {/* Mobile */}
@@ -217,7 +220,9 @@ function Home() {
 
             <div class="gallery row pt-5 pb-3">
                   <div class="col-12 col-sm-9 align-self-center">
-                      <h4 class="fw-bold ">Recently Added Venues</h4>
+                      <Typography variant="h4" style={category_styles.text}>
+                        Featured Venues
+                      </Typography>
                   </div>
             </div>
             
