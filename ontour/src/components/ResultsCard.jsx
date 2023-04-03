@@ -16,11 +16,13 @@ const ResultsCard = (props) => {
     const navigate = useNavigate();
     const handleClick = () => {
         // navigate to props.link
-        navigate(props.link);
+        if (props.link) {
+            navigate(props.link);
+        }
     };
 
     return (
-        <Card sx={results_styles.ResultsCard.container}>
+        <Card sx={results_styles.ResultsCard.container} onClick={() => { handleClick() }}>
             <Grid container>
                 <Grid item xs={12} sm={6}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: "left" }}>
@@ -38,14 +40,14 @@ const ResultsCard = (props) => {
                                 value={props.rating}
                                 precision={0.1}
                                 // size="medium"
-                                sx={{ fontSize: "2rem"}}
+                                sx={{ fontSize: "2rem" }}
                                 readOnly
                             />
-                            <Typography 
-                                variant="subtitle1" 
-                                component="div" 
+                            <Typography
+                                variant="subtitle1"
+                                component="div"
                                 sx={results_styles.ResultsCard.reviewCount}>
-                                {props.reviewCount ? props.reviewCount : 0 } reviews
+                                {props.reviewCount ? props.reviewCount : 0} reviews
                             </Typography>
                         </Box>
                     </Box>

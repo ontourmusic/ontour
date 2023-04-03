@@ -35,7 +35,7 @@ const ImageCarousel = (props) => {
             orientation="horizontal"
             visibleSlides={props.slideCount}
             totalSlides={props.images.length}
-            step={2}
+            step={props.slideCount}
             naturalSlideWidth={50}
             naturalSlideHeight={50}
             isIntrinsicHeight={true}

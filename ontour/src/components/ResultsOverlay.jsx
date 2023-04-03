@@ -110,7 +110,7 @@ const ResultsOverlay = (props) => {
     <div>
       {['left', 'right', 'top', 'bottom'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <Button onClick={toggleDrawer(anchor, true)} sx={{color: "black"}}>{anchor}</Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}

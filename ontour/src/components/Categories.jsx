@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, CardContent, Grid, Typography } from "@mui/material";
+import { Card, CardContent, Grid, Typography, Button } from "@mui/material";
 import React from "react";
 // import Grid from "react-loading-icons/dist/esm/components/grid";
 import category_styles from "../Styles/category_styles";
@@ -106,7 +106,8 @@ const Categories = () => {
     ]
     const navigate = useNavigate();
     const handleCategoryClick = (category) => {
-        // navigate(`/results?search=${category}`)
+        // console.log("category clicked: ", category);
+        navigate(`/results?search=${category}`)
     };
     // const iconType = "fa-thin";
     return (
@@ -119,14 +120,23 @@ const Categories = () => {
             {categories.map((category) => {
                 return (
                     <Grid item xs={6} md={3}>
-                        <Card variant="outlined" style={category_styles.container} onClick={handleCategoryClick(category)}>
+                        {/* <Card variant="outlined" style={category_styles.container}>
                             <CardContent>
                                 <img style={category_styles.icon} src={category.asset} />
                                 <Typography variant="h6" style={category_styles.text}>
                                     {category.name}
                                 </Typography>
                             </CardContent>
-                        </Card>
+                        </Card> */}
+                        <Button variant="contained" style={category_styles.container} onClick={() => {handleCategoryClick(category.name)}}>
+                            <CardContent>
+                                <img style={category_styles.icon} src={category.asset} />
+                                <Typography variant="h6" style={category_styles.text}>
+                                    {category.name}
+                                </Typography>
+                            </CardContent>
+                        </Button>
+
                     </Grid>
                 )
             }

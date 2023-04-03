@@ -22,8 +22,9 @@ h4 {
 
 #artist-background{
   background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
-  padding: 33vh;
+  height: 40vh;
   position: relative;
 }
 

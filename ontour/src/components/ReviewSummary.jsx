@@ -37,6 +37,7 @@ const ReviewSummary = ({ allReviews }) => {
                     name="text-feedback"
                     value={aggregateRating}
                     size="large"
+                    // sx={{ fontSize: "10em" }}
                     readOnly
                     precision={0.1}
                     emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
