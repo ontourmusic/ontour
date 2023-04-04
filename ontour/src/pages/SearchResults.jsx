@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, Alert } from "@mui/material";
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -143,6 +143,9 @@ const SearchResults = () => {
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Navigation />
+            </Grid>
+            <Grid item xs={12}>
+                <Alert severity='warning' style={{ marginTop: "20px" }}> This feature is still in development. </Alert>
             </Grid>
             <Grid item xs={12} sm={6} md={4} >
                 {

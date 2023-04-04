@@ -10,13 +10,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import { Grid, Typography } from '@mui/material';
+import { Alert, Grid, Typography } from '@mui/material';
 import ResultsCard from './ResultsCard';
 
 const ResultsOverlay = (props) => {
     const [state, setState] = React.useState({
         top: false,
-        left: true,
+        results: true,
         bottom: false,
         right: false,
     });
@@ -36,6 +36,7 @@ const ResultsOverlay = (props) => {
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
         >
+            <Alert severity='warning' style={{ marginTop: "20px" }}> This feature is still in development. </Alert>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <Typography variant="h4" align="center" style={{ marginTop: "20px" }}>
@@ -82,7 +83,7 @@ const ResultsOverlay = (props) => {
 
     return (
         <div>
-            {['left'].map((anchor) => (
+            {['results'].map((anchor) => (
                 <React.Fragment key={anchor}>
                     <Button onClick={toggleDrawer(anchor, true)} sx={{ color: "black" }}>{anchor}</Button>
                     <Drawer
