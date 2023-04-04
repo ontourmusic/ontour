@@ -30,7 +30,7 @@ const ResultsCard = (props) => {
                 <Grid item xs={12} sm={6} lg={5}>
                     <CardMedia
                         component="img"
-
+                        height="100%"
                         image={props.imageURL}
                         alt="loading..."
                     />

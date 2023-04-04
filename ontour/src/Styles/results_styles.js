@@ -1,5 +1,9 @@
 import OnTourColors from "./colors";
-
+const ResultsPage = {
+  bodyContainer: {
+    padding: "0 max(5vw, 60px)",
+  },
+}
 const ResultsCard = {
   container: {
     display: "flex",
@@ -31,6 +35,7 @@ const ResultsCard = {
 
 const results_styles = {
   ResultsCard,
+  ResultsPage,
 };
 
 export default results_styles;

@@ -9,6 +9,7 @@ import Navigation from "../ArtistNavigation";
 import ResultsOverlay from "../components/ResultsOverlay";
 import ResultsListContent from "../components/ResultsListContent";
 import Footer from "../components/Footer";
+import results_styles from "../Styles/results_styles";
 
 
 const SearchResults = () => {
@@ -162,11 +163,11 @@ const SearchResults = () => {
         <>
             <Navigation />
             <Grid container spacing={2}
-                sx={{ padding: "0 40px" }}>
+                sx={results_styles.ResultsPage.bodyContainer}
+            >
                 <Grid item xs={12}>
                     <Alert severity='warning' style={{ marginTop: "20px" }}> This feature is still in development. </Alert>
                 </Grid>
-
                 <Grid item xs={12} container>
                     <ResultsListContent
                         artistList={artistList}
