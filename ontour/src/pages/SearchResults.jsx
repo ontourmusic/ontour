@@ -129,13 +129,13 @@ const SearchResults = () => {
     }, []);
 
     useEffect(() => {
-        console.log("search params:", textSearched);
-        console.log("artist list:", artistList);
-        console.log("venue list:", venueList);
-        console.log("ratings:", ratings);
-        console.log("venue ratings:", venueRatings);
-        console.log("review count:", reviewCount);
-        console.log("venue review count:", venueReviewCount);
+        // console.log("search params:", textSearched);
+        // console.log("artist list:", artistList);
+        // console.log("venue list:", venueList);
+        // console.log("ratings:", ratings);
+        // console.log("venue ratings:", venueRatings);
+        // console.log("review count:", reviewCount);
+        // console.log("venue review count:", venueReviewCount);
     }, [textSearched, artistList, venueList]);
 
     return (

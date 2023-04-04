@@ -3,12 +3,20 @@ import OnTourColors from "./colors";
 const ResultsCard = {
   container: {
     display: "flex",
-    height: "min(300px, 20vh)",
-    backgroundColor: OnTourColors.palette.tertiary.dark5,
+    height: "min(350px, 20vh)",
+    // backgroundColor: OnTourColors.palette.tertiary.dark5,
+    borderTop: "1px solid #ccc",
+    borderBottom: "1px solid #ccc",
     color: OnTourColors.palette.secondary.contrastText,
+    borderRadius: "0px",
+    boxShadow: "none",
+    "&:hover": {
+        boxShadow: "0 0 4px 4px rgba(0, 0, 0, 0.1)",
+    },
   },
   starBox: {
     display: "flex",
+    flexWrap: "wrap",
     alignItems: "center",
     pl: 2,
     pb: 1,
