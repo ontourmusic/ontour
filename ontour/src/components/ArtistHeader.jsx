@@ -6,6 +6,8 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { Divider, Box } from "@mui/material";
 import OnTourButton from "./OnTourButton";
 import artist_styles from "../Styles/artist_styles";
+import common_styles from "../Styles/common_styles";
+const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
 
 function ArtistHeader(props) {
@@ -23,11 +25,7 @@ function ArtistHeader(props) {
             totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.72}px`;
             totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
         }
-        if (window.innerWidth <= 576) {
-            setIsMobile(true)
-        } else {
-            setIsMobile(false)
-        }
+        setIsMobile(window_breakpoints.md >= window.innerWidth)
     }
 
     const useBeforeRender = (callback, deps) => {
@@ -49,14 +47,12 @@ function ArtistHeader(props) {
 
     return (
         <div 
-        // id="artist-background" class="container-fluid jumbotron bg-cover text-white" 
             style={{ 
                 backgroundImage: isMobile ? 
                 `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` 
                 : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`, 
-                backgroundPosition: props.isVenue ? `center` : `none`,
+                backgroundPosition: isMobile ? `center` : `none`,
                 backgroundRepeat: `no-repeat`,
-                backgroundPosition: `center`,
                 backgroundSize: `cover`,
                 height: `50vh`,
                 position: `relative`,
@@ -65,13 +61,8 @@ function ArtistHeader(props) {
             }}
         >
             <Box style={artist_styles.header.Container}>
-            {/* <div id="text-contain" style={isMobile ? styles.Mobile : styles.Desktop}> */}
                 {props.isVenue==0 && props.onTour && <OnTourButton></OnTourButton>}
                 <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} <br></br><span class="fw-light fs-3">{props.city}</span></h1> 
-                {/* <h1 id="artist-name" class="fw-bold">{props.name} <span class="fw-light fs-3">{props.city}</span></h1>  */}
-                {/* <h1 id="artist-name" class="fw-bold">{props.name}</h1> */}
-                {/* <h3 class="fw-light" style={{textAlign: "left"}}>Los Angeles, CA</h3> */}
-                {/* <span class="fw-light fs-4" style={{textAlign: "left"}}>Los Angeles, CA</span> */}
                 <Divider style={styles.Divider} />
                 <div style={styles.RatingRow}>
                     <Rating
@@ -79,7 +70,7 @@ function ArtistHeader(props) {
                         name="text-feedback"
                         value={props.rating}
                         // size="large"
-                        sx={{fontSize: "4em"}}
+                        sx={{fontSize: "3em"}}
                         readOnly
                         precision={0.1}
                         emptyIcon={<StarBorderOutlinedIcon style={styles.StarsIcon} fontSize="inherit" />}

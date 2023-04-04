@@ -53,25 +53,27 @@ const AddMediaButton = (props) => {
         const publicURL = "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/" + fileName;
         console.log(artistID);
         const { data, insertError } = await supabase
-        .from('artist_images')
-        .insert(
-        [{'image_url':publicURL, 'artist_id': artistID}]
-        );
+            .from('artist_images')
+            .insert(
+                [{ 'image_url': publicURL, 'artist_id': artistID }]
+            );
         window.location.reload();
-      };
+    };
     return (
-        <><input
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            id="contained-button-file"
-            onChange={handleImageUpload} />
+        <>
+            <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="contained-button-file"
+                onChange={handleImageUpload} />
             <label htmlFor="contained-button-file">
-                <Button variant="contained" component="span" style={{backgroundColor:'#21252B'}}>
-                    <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
-                     <div style={{color:'white'}}>Add Media</div>
+                <Button variant="contained" component="span" style={{ backgroundColor: '#21252B' }}>
+                    <div style={{ paddingRight: 5, color: 'white' }}><CameraAlt /></div>
+                    <div style={{ color: 'white' }}>Add Media</div>
                 </Button>
-            </label></>
+            </label>
+        </>
         // <Button
         //     onClick={handleButtonPress}
         //     variant="outlined"

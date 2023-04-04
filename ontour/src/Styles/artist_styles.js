@@ -21,6 +21,12 @@ const sidebar = {
 };
 
 const carousel = {
+  titleBar: {
+    display: "flex", 
+    justifyContent: "space-between", 
+    flexWrap: "wrap", 
+    marginBottom: "5px"
+  },
   container: {},
   slide: {
     margin: "0 4px 0 4px",
@@ -55,7 +61,7 @@ const review_display = {
     starBox: {
       margin: "2px 0 2px 0",
       display: "flex",
-      fontSize: 18,
+      // fontSize: 18,
     },
   },
   review: {
@@ -67,7 +73,7 @@ const review_display = {
 const header = {
   Background: {
     backgroundRepeat: "noRepeat",
-    backgroundPosition: "center",
+    // backgroundPosition: "center",
     backgroundSize: "cover",
     height: "40vh",
     position: "relative",
