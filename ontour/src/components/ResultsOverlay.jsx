@@ -14,6 +14,7 @@ const ResultsOverlay = (props) => {
         bottom: false,
         right: false,
     });
+    console.log(props.ratings);
 
     const toggleDrawer = (anchor, open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -44,6 +45,7 @@ const ResultsOverlay = (props) => {
                     return (
                         <Grid item xs={12} xxl={6}>
                             <ResultsCard
+                            
                                 link={"/artist?artist=" + props.name + "&id=" + props.artistList[artistName].artistID}
                                 artistID={props.artistList[artistName].artistID}
                                 name={props.artistList[artistName].name}

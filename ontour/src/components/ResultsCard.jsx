@@ -14,36 +14,7 @@ import UpcomingSchedule from "./UpcomingSchedule";
 */
 
 const ResultsCard = (props) => {
-    // const searchForEvents = async (name) => {
-    //     let tmEvents;
-    //     let tmEventData;
-    //     if (name) {
-    //         let newname = name.replace(" ", "%20");
-    //         console.log(props.id);
-    //         let id = props.id;
-    //         let url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5&classificationName=music`;
-    //         console.log(url);
-    //         tmEvents = await fetch(url);
-    //         tmEventData = await tmEvents.json();
-    //         console.log(tmEventData);
-    //         // let events = [];
-    //         // if (tmEventData.page.totalElements > 0) {
-    //         //     for (let i = 0; i < tmEventData._embedded.events.length; i++) {
-    //         //         if (events.length < 5) {
-    //         //             let event = createEvent(tmEventData._embedded.events[i]);
-    //         //             events.push(event);
-    //         //         }
-    //         //     }
-    //         //     setEventArray(events);
-    //         // }
-    //     }
-    //     return tmEventData;
-    // }
-    // useEffect(() => {
-    //     searchForEvents(props.name);
-    // }, []);
-
-    // console.log("props:", props)
+    console.log(props.rating + " " + props.name);
     const navigate = useNavigate();
     const handleClick = () => {
         // navigate to props.link
@@ -73,7 +44,7 @@ const ResultsCard = (props) => {
                         </CardContent>
                         <Box sx={results_styles.ResultsCard.starBox}>
                             <Rating
-                                name="read-only"
+                                name="text-feedback"
                                 value={props.rating}
                                 precision={0.1}
                                 sx={{ fontSize: "2rem" }}

@@ -35,14 +35,39 @@ const SearchResults = () => {
         var artistIDList = {};
 
 
+        //gets the list of recent artists from the database
+        // const recentArtists = await supabase.from('artists').select('*').order('artist_id', { ascending: false }).limit(10);
+        // for (let i = 0; i < recentArtists["data"].length; i++) {
+        //     const currData = recentArtists["data"][i];
+        //     const key = currData.name.replace(/\s+/g, '_').toLowerCase();
+        //     artistObject[key] = {
+        //         name: currData.name,
+        //         imageURL: currData.home_image,
+        //         artistID: currData.artist_id,
+        //     }
+        // }
+        const artistObject = {};
+        const artistsByGenre = await supabase.from('artists').select('*').match({ genre: textSearched });
+        for (let i = 0; i < artistsByGenre["data"].length; i++) {
+            const currData = artistsByGenre["data"][i];
+            const key = currData.name.replace(/\s+/g, '_').toLowerCase();
+            newRatings[currData.artist_id] = 0;
+            newCount[currData.artist_id] = 0;
+            artistObject[key] = {
+                name: currData.name,
+                imageURL: currData.home_image,
+                artistID: currData.artist_id,
+            }
+        }
+
         //gets the artist reviews from the database 
         const reviewData = await supabase.from('artist_reviews').select('*');
 
-        for (let i = 0; i < reviewData.data.length; i++) {
-            const currData = reviewData.data[i].artist_id;
-            newRatings[currData] = 0;
-            newCount[currData] = 0;
-        }
+        // for (let i = 0; i < reviewData.data.length; i++) {
+        //     const currData = reviewData.data[i].artist_id;
+        //     newRatings[currData] = 0;
+        //     newCount[currData] = 0;
+        // }
 
         //loop through the reviews and add the ratings to the artist
         for (let i = 0; i < reviewData.data.length; i++) {
@@ -66,19 +91,6 @@ const SearchResults = () => {
         }
         // console.log(newVenueRatings);
 
-        //gets the list of recent artists from the database
-        const recentArtists = await supabase.from('artists').select('*').order('artist_id', { ascending: false }).limit(10);
-        const artistObject = {};
-        for (let i = 0; i < recentArtists["data"].length; i++) {
-            const currData = recentArtists["data"][i];
-            const key = currData.name.replace(/\s+/g, '_').toLowerCase();
-            artistObject[key] = {
-                name: currData.name,
-                imageURL: currData.home_image,
-                artistID: currData.artist_id,
-            }
-        }
-
         //gets the list of recent venues from the database
         const recentVenues = await supabase.from('venues').select('*').order('venue_id', { ascending: false }).limit(10);
         const venueObject = {};
@@ -99,7 +111,12 @@ const SearchResults = () => {
             var artistNameList = Object.keys(artistObject);
             var artistName = artistNameList[i];
             var artistID = artistObject[artistName].artistID;
-            starsResults[artistName] = (newRatings[artistID] / newCount[artistID]);
+            if(newCount[artistID] == 0){
+                starsResults[artistName] = 0;
+            }
+            else{
+                starsResults[artistName] = (newRatings[artistID] / newCount[artistID]);
+            }
             ratingCount[artistName] = newCount[artistID];
             artistIDList[artistName] = artistID;
         }
