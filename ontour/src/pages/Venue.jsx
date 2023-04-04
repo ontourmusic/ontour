@@ -184,10 +184,10 @@ const clearSearch = () => {
         <Grid item xs={12} md={8}>
           <ImageCarousel images={imageArray} slideCount={3} />
           <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
-          {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} />}
+          {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} numReviews={totalReviews}/>}
         </Grid>
         <Grid item xs={12} md={4}>
-          <SideContent name={venue_name} linkPairs={[[ticketLink, "images/ticketmaster_icon.png"],]} />
+          <SideContent name={venue_name} venue={true} linkPairs={[[ticketLink, "images/ticketmaster_icon.png"],]} />
         </Grid>
       </Grid>
       <Grid item xs={12}>

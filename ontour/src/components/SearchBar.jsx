@@ -125,7 +125,6 @@ export default function SearchBar(props){
     }
 
     const onSelect = (selectedItem, displayField) => {
-        console.log(selectedItem, displayField);
         if(artistList.includes(selectedItem)){
             navigate({
                 pathname: '/artist', 
