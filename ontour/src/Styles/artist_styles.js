@@ -82,7 +82,7 @@ const header = {
     // height: "fit-content",
     // bottom: "0%",
     // left: "0%",
-    maxWidth: "calc(min(100%, 500px) - 4%)",
+    maxWidth: "min(100%, 700px)",
     // paddingBottom: "4%",
     paddingBottom: "2rem",
     paddingLeft: "4%",
@@ -118,7 +118,7 @@ const header = {
   },
   ArtistName: {
     inlineSize: "auto",
-    overflowWrap: "break-word",
+    // overflowWrap: "break-word",
     textAlign: "left",
     color: "white",
   },

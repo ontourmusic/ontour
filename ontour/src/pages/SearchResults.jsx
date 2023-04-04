@@ -1,11 +1,14 @@
-import { Grid, Typography, Alert } from "@mui/material";
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { createClient } from '@supabase/supabase-js';
+
+import { Grid, Typography, Alert, Box } from "@mui/material";
+
 import Navigation from "../ArtistNavigation";
-import { createClient } from '@supabase/supabase-js'
-import ResultsCard from "../components/ResultsCard";
 import ResultsOverlay from "../components/ResultsOverlay";
+import ResultsListContent from "../components/ResultsListContent";
+import Footer from "../components/Footer";
 
 
 const SearchResults = () => {
@@ -111,10 +114,10 @@ const SearchResults = () => {
             var artistNameList = Object.keys(artistObject);
             var artistName = artistNameList[i];
             var artistID = artistObject[artistName].artistID;
-            if(newCount[artistID] == 0){
+            if (newCount[artistID] == 0) {
                 starsResults[artistName] = 0;
             }
-            else{
+            else {
                 starsResults[artistName] = (newRatings[artistID] / newCount[artistID]);
             }
             ratingCount[artistName] = newCount[artistID];
@@ -156,18 +159,16 @@ const SearchResults = () => {
     }, [textSearched, artistList, venueList]);
 
     return (
+        <>
+            <Navigation />
+            <Grid container spacing={2}
+                sx={{ padding: "0 40px" }}>
+                <Grid item xs={12}>
+                    <Alert severity='warning' style={{ marginTop: "20px" }}> This feature is still in development. </Alert>
+                </Grid>
 
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <Navigation />
-            </Grid>
-            <Grid item xs={12}>
-                <Alert severity='warning' style={{ marginTop: "20px" }}> This feature is still in development. </Alert>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} >
-                {
-                    artistList &&
-                    <ResultsOverlay
+                <Grid item xs={12} container>
+                    <ResultsListContent
                         artistList={artistList}
                         ratings={ratings}
                         reviewCount={reviewCount}
@@ -176,48 +177,27 @@ const SearchResults = () => {
                         venueRatings={venueRatings}
                         venueReviewCount={venueReviewCount}
                     />
-                }
+                </Grid>
+                <Grid item xs={12} sm={6} md={4} >
+                    {
+                        artistList &&
+                        <ResultsOverlay
+                            artistList={artistList}
+                            ratings={ratings}
+                            reviewCount={reviewCount}
+                            artistIDs={artistIDs}
+                            venueList={venueList}
+                            venueRatings={venueRatings}
+                            venueReviewCount={venueReviewCount}
+                        />
+                    }
+                </Grid>
+                <Grid item xs={12}>
+                    <hr id="artist-footer"></hr>
+                    <Footer />
+                </Grid>
             </Grid>
-            {/* <Grid item xs={12} spacing={2} container >
-
-                <Grid item xs={12}>
-                    <Typography variant="h4" align="center" style={{ marginTop: "20px" }}>
-                        Artists:
-                    </Typography>
-                </Grid>
-                {Object.keys(artistList).map((artistName) => {
-                    return (
-                        <Grid item xs={12} sm={6} md={4} >
-                            <ResultsCard
-                                artistID={artistList[artistName].artistID}
-                                name={artistList[artistName].name}
-                                imageURL={artistList[artistName].imageURL}
-                                rating={ratings[artistName]}
-                                reviewCount={reviewCount[artistName]}
-                            />
-                        </Grid>
-                    )
-                })}
-                <Grid item xs={12}>
-                    <Typography variant="h4" align="center" style={{ marginTop: "20px" }}>
-                        Venues:
-                    </Typography>
-                </Grid>
-                {Object.keys(venueList).map((venueName) => {
-                    return (
-                        <Grid item xs={12} sm={6} md={4} >
-                            <ResultsCard
-                                venueID={venueList[venueName].venueID}
-                                name={venueList[venueName].name}
-                                imageURL={venueList[venueName].imageURL}
-                                rating={venueRatings[venueName]}
-                                reviewCount={venueReviewCount[venueName]}
-                            />
-                        </Grid>
-                    )
-                })}
-            </Grid> */}
-        </Grid>
+        </>
     )
 }
 

@@ -374,7 +374,8 @@ h4 {
 }
 
 #home-logo {
-  height: 15vh;
+  /* height: 15vh; */
+  width: min(1000px, 80vw);
 }
 
 #ontour {
