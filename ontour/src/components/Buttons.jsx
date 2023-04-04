@@ -34,14 +34,17 @@ const TwoColumnButton = (props) => {
 
 const AddMediaButton = (props) => {
     const artistID = props.artistID;
-    const handleButtonPress = () => {
-        alert('Feature coming soon!');
-    }
+    const venueID = props.venueID;
     const handleImageUpload = async (event) => {
+        console.log("handling image upload");
         const file = event.target.files[0];
         const blob = new Blob([file], { type: file.type });
         const timestamp = Date.now();
         const fileName = `${artistID}-${timestamp}.${file.type.split('/')[1]}`;
+        const confirmed = window.confirm("Do you want to continue uploading the file " + file.name + "?");
+        if (!confirmed) {
+            return;
+        }
         const { error } = await supabase.storage.from('user-images').upload(fileName, blob);
         if (error) {
             console.error(error);
@@ -51,12 +54,20 @@ const AddMediaButton = (props) => {
             alert('File uploaded successfully!');
         }
         const publicURL = "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/" + fileName;
-        console.log(artistID);
-        const { data, insertError } = await supabase
-        .from('artist_images')
-        .insert(
-        [{'image_url':publicURL, 'artist_id': artistID}]
-        );
+        if(props.isVenue){
+            const { data, insertError } = await supabase
+            .from('venue_carousel_images')
+            .insert(
+            [{'image_url':publicURL, 'venue_id': venueID}]
+            );
+        }
+        else{
+            const { data, insertError } = await supabase
+            .from('artist_images')
+            .insert(
+            [{'image_url':publicURL, 'artist_id': artistID}]
+            );
+        }
         window.location.reload();
       };
     return (
@@ -67,20 +78,11 @@ const AddMediaButton = (props) => {
             id="contained-button-file"
             onChange={handleImageUpload} />
             <label htmlFor="contained-button-file">
-                <Button variant="contained" component="span" style={{backgroundColor:'#21252B'}}>
+                <Button variant="contained" component="span" style={{backgroundColor:'#21252B', textTransform: 'none', fontFamily: "Helvetica", fontWeight:'bold', fontSize: 15}}>
                     <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
                      <div style={{color:'white'}}>Add Media</div>
                 </Button>
             </label></>
-        // <Button
-        //     onClick={handleButtonPress}
-        //     variant="outlined"
-        //     size="small"
-        //     startIcon={<CameraAlt />}
-        // >
-        //     Add Media
-        // </Button>
-
     )
 };
 
