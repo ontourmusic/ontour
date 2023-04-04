@@ -15,6 +15,7 @@ import { createClient } from '@supabase/supabase-js'
 import artist_styles from "../Styles/artist_styles";
 const carousel_styles = artist_styles.carousel;
 
+
 /*
 images: array of image urls
 */
@@ -45,22 +46,42 @@ const ImageCarousel = (props) => {
 
     const handleImageClick = async (e) => {
         console.log("handleImageClick: ", e.target.src);
-        
-        const { data, error } = await supabase
-            .from('artist_images')
+
+        if(props.isVenue){
+            const { data, error } = await supabase
+            .from('venue_carousel_images')
             .select('id')
             .eq('image_url', e.target.src)
             .single()
 
-        if (error) {
-            console.error(error)
-            return null
+            if (error) {
+                console.error(error)
+                return null
+            }
+            setImageId(data.id);
+            console.log("image_id: ", data.id)
+            setOpen(true);
+            setTemp(e.target.src);
+            setModel(true);
+            
         }
-        setImageId(data.id);
-        console.log("image_id: ", data.id)
-        setOpen(true);
-        setTemp(e.target.src);
-        setModel(true);
+        else{
+            const { data, error } = await supabase
+                .from('artist_images')
+                .select('id')
+                .eq('image_url', e.target.src)
+                .single()
+
+            if (error) {
+                console.error(error)
+                return null
+            }
+            setImageId(data.id);
+            console.log("image_id: ", data.id)
+            setOpen(true);
+            setTemp(e.target.src);
+            setModel(true);
+        }
     }
     useEffect(() => {
         if (props.images.length > 0) {
@@ -75,7 +96,7 @@ const ImageCarousel = (props) => {
                 <h4 class="fw-bold ">Captured Moments</h4>
             </div>
             <div class="col-3 m-0 no-text-align">
-                <AddMediaButton artistID={props.artistID}/>
+                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID}/>
             </div>
         </div><CarouselProvider
             orientation="horizontal"
@@ -120,7 +141,7 @@ const ImageCarousel = (props) => {
                                         <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                         <TextField id="input-with-sx" label="Add a comment" variant="standard" />
                                     </Box> */}
-                                    <CommentBox imageId={image_id}/>
+                                    <CommentBox imageId={image_id} isVenue={props.isVenue}/>
                                 </div>
                             </div>
                         </div>

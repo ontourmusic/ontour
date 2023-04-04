@@ -19,30 +19,54 @@ const CommentBox = (props) => {
     const year = currentDate.getFullYear().toString();
     const formattedDate = `${month}/${day}/${year}`;
     setDate(formattedDate);
-    const fetchComments = async () => {
-      console.log("fetchComments: ", props.imageId)
-      const { data, error } = await supabase
-        .from('comments')
-        .select('name, comment, date')
-        .eq('image_id', props.imageId)
-        .order('date');
-      if (error) console.log('Error fetching comments:', error.message);
-      else setComments(data);
-    };
-    fetchComments();
+    if(props.isVenue){
+      const fetchComments = async () => {
+        const { data, error } = await supabase
+          .from('venue_comments')
+          .select('name, comment, date')
+          .eq('image_id', props.imageId)
+          .order('date');
+        if (error) console.log('Error fetching comments:', error.message);
+        else setComments(data);
+      };
+      fetchComments();
+    }
+    else{
+      const fetchComments = async () => {
+        const { data, error } = await supabase
+          .from('artist_comments')
+          .select('name, comment, date')
+          .eq('image_id', props.imageId)
+          .order('date');
+        if (error) console.log('Error fetching comments:', error.message);
+        else setComments(data);
+      };
+      fetchComments();
+    }
   }, []);
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-    setComments([...comments, { name, comment, date: date }]);
-    setName(comments.name);
-    setComment(comments.comment);
-    postData();
+    // do not allow empty name or comment fields
+    if (name === '' || comment === ''){
+      alert('Please enter a name and comment');
+      event.preventDefault();
+    }
+    else{
+      event.preventDefault();
+      setComments([...comments, { name, comment, date: date }]);
+      setName(comments.name);
+      setComment(comments.comment);
+      postData();
+    }
   };
 
   const postData = async () => {
+    let tableName = 'artist_comments';
+    if(props.isVenue){
+      tableName = 'venue_comments';
+    }
     const { data, error } = await supabase
-    .from('comments')
+    .from(tableName)
     .insert(
       [{'name': name, 'comment': comment, 'date': date, 'image_id': props.imageId }]
     );
@@ -58,7 +82,12 @@ const CommentBox = (props) => {
         </div>
         <div class="mb-3">
             <label htmlFor="comment" class="form-label">Comment</label>
-            <textarea class="form-control" id="comment" value={comment} onChange={(event) => setComment(event.target.value)}></textarea>
+            <textarea 
+              class="form-control" 
+              id="comment" value={comment} 
+              onChange={(event) => setComment(event.target.value)}
+              maxLength={200}>
+              </textarea>
         </div>
         <button type="submit" class="btn btn-primary">Post</button>
         <hr style={{marginTop: '10px'}} />
