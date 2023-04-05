@@ -8,6 +8,7 @@ const polaroid_image = {
   height: "275px",
   objectFit: "cover",
   borderRadius: common_styles.borderRadius.default,
+  cursor: "pointer",
 };
 const polaroid_image_inner = {
   width: "100%",
@@ -29,6 +30,7 @@ const polaroid_styles = {
   polaroid_background,
   polaroid_image_inner,
   polaroid_container,
+
 };
 
 export default polaroid_styles;
