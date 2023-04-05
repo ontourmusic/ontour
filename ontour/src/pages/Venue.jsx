@@ -47,6 +47,7 @@ function Venue() {
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [showResults, setShowResults] = useState(false);
+  const [verified, setVerified] = useState(false);
 
   const searchReviews = (searchTerm) => {
     const options = {
@@ -77,6 +78,7 @@ const clearSearch = () => {
       setVenueCity(cityState);
       setVenueImage(imageUrls);
       setVenueIdNumber(venueIDGlobal);
+      setVerified(venueData.data[0]["verified"]);
     
       const venueGalleryData = await supabase.from('venue_carousel_images').select('*').eq('venue_id', venueIDGlobal)
       //initialize an empty array
@@ -178,7 +180,7 @@ const clearSearch = () => {
         <ArtistNavigation />
       </Grid>
       <Grid item xs={12}>
-        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} city={venueCity} onTour={false}/>
+        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} city={venueCity} onTour={false} verified={verified}/>
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>

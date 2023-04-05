@@ -6,7 +6,10 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import { Divider, Box } from "@mui/material";
 import OnTourButton from "./OnTourButton";
 import artist_styles from "../Styles/artist_styles";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import { faSquare, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 const styles = artist_styles.header;
+const verified = artist_styles.verifiedButton;
 
 function ArtistHeader(props) {
     const [isMobile, setIsMobile] = useState(false)
@@ -67,7 +70,10 @@ function ArtistHeader(props) {
             <Box style={artist_styles.header.Container}>
             {/* <div id="text-contain" style={isMobile ? styles.Mobile : styles.Desktop}> */}
                 {props.isVenue==0 && props.onTour && <OnTourButton></OnTourButton>}
-                <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} <br></br><span class="fw-light fs-3">{props.city}</span></h1> 
+                
+                <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} {props.isVenue==1 && props.verified && <img src="images/verifiedBadge.png" style={verified}></img>}
+                <br></br><span class="fw-light fs-3">{props.city}</span> 
+                </h1> 
                 {/* <h1 id="artist-name" class="fw-bold">{props.name} <span class="fw-light fs-3">{props.city}</span></h1>  */}
                 {/* <h1 id="artist-name" class="fw-bold">{props.name}</h1> */}
                 {/* <h3 class="fw-light" style={{textAlign: "left"}}>Los Angeles, CA</h3> */}
