@@ -14,6 +14,7 @@ import UpcomingSchedule from "./UpcomingSchedule";
 */
 
 const ResultsCard = (props) => {
+    console.log("ResultsCard.jsx", props);
     console.log(props.rating + " " + props.name);
     const navigate = useNavigate();
     const handleClick = () => {
@@ -26,7 +27,6 @@ const ResultsCard = (props) => {
     return (
         <Card sx={results_styles.ResultsCard.container} onClick={() => { handleClick() }}>
             <Grid container>
-
                 <Grid item xs={12} sm={6} lg={5}>
                     <CardMedia
                         component="img"
@@ -45,7 +45,7 @@ const ResultsCard = (props) => {
                         <Box sx={results_styles.ResultsCard.starBox}>
                             <Rating
                                 name="text-feedback"
-                                value={props.rating}
+                                value={props.rating ? props.rating : 0}
                                 precision={0.1}
                                 sx={{ fontSize: "2rem" }}
                                 readOnly

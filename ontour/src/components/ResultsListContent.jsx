@@ -25,7 +25,6 @@ const ResultsListContent = (props) => {
                     return (
                         <Grid item xs={12} lg={6}>
                             <ResultsCard
-
                                 link={"/artist?artist=" + artistName + "&id=" + props.artistList[artistName].artistID}
                                 artistID={props.artistList[artistName].artistID}
                                 name={props.artistList[artistName].name}

@@ -157,7 +157,7 @@ const SearchResults = () => {
         // console.log("venue ratings:", venueRatings);
         // console.log("review count:", reviewCount);
         // console.log("venue review count:", venueReviewCount);
-    }, [textSearched, artistList, venueList]);
+    }, [textSearched, artistList, venueList, ratings, venueRatings, reviewCount, venueReviewCount]);
 
     return (
         <>
