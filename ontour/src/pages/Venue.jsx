@@ -16,9 +16,11 @@ import Footer from "../components/Footer";
 import { createClient } from '@supabase/supabase-js'
 import ImageCarousel from "../components/ImageCarousel";
 import Fuse from 'fuse.js'
+import common_styles from "../Styles/common_styles";
+
+const window_breakpoints = common_styles.window_breakpoints;
 
 function Venue() {
-
   //gets the name from the artist that was searched for on the home page
   const [searchParams] = useSearchParams();
   const venueNameGet = searchParams.get("venue");
@@ -184,7 +186,11 @@ const clearSearch = () => {
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
-          <ImageCarousel images={imageArray} slideCount={3} isVenue={1} venueID={venueIDGlobal} />
+          <ImageCarousel 
+            images={imageArray} 
+            slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3} 
+            isVenue={1} 
+            venueID={venueIDGlobal} />
           <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
           {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} numReviews={totalReviews}/>}
         </Grid>
