@@ -69,14 +69,15 @@ const AddMediaButton = (props) => {
             );
         }
         window.location.reload();
-      };
+    };
     return (
-        <><input
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            id="contained-button-file"
-            onChange={handleImageUpload} />
+        <>
+            <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="contained-button-file"
+                onChange={handleImageUpload} />
             <label htmlFor="contained-button-file">
                 <Button variant="contained" component="span" style={{backgroundColor:'#21252B', textTransform: 'none', fontFamily: "Helvetica", fontWeight:'bold', fontSize: 15}}>
                     <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>

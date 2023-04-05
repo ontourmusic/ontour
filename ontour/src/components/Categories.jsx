@@ -13,6 +13,7 @@ import musicIcon from "../icons/icons8-music-100.png";
 import musicRecordIcon from "../icons/icons8-music-record-100.png";
 import rockIcon from "../icons/icons8-rock-music-100.png";
 import tractorIcon from "../icons/icons8-tractor-100.png";
+import { useNavigate } from "react-router";
 
 
 
@@ -103,6 +104,11 @@ const Categories = () => {
             link: "Jazz"
         }
     ]
+    const navigate = useNavigate();
+    const handleCategoryClick = (category) => {
+        // console.log("category clicked: ", category);
+        navigate(`/results?search=${category}`)
+    };
     // const iconType = "fa-thin";
     return (
         <Grid container spacing={2.5}>
@@ -122,7 +128,7 @@ const Categories = () => {
                                 </Typography>
                             </CardContent>
                         </Card> */}
-                        <Button variant="contained" style={category_styles.container}>
+                        <Button variant="contained" style={category_styles.container} onClick={() => {handleCategoryClick(category.name)}}>
                             <CardContent>
                                 <img style={category_styles.icon} src={category.asset} />
                                 <Typography variant="h6" style={category_styles.text}>

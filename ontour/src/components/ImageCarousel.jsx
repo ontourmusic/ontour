@@ -13,6 +13,7 @@ import { AddMediaButton } from "./Buttons";
 import CommentBox from "./CommentBox";
 import { createClient } from '@supabase/supabase-js'
 import artist_styles from "../Styles/artist_styles";
+import { Grid, Typography } from "@mui/material";
 const carousel_styles = artist_styles.carousel;
 
 
@@ -42,7 +43,7 @@ const ImageCarousel = (props) => {
         boxShadow: 24,
         p: 4,
         borderRadius: '10px',
-      };
+    };
 
     const handleImageClick = async (e) => {
         console.log("handleImageClick: ", e.target.src);
@@ -91,33 +92,31 @@ const ImageCarousel = (props) => {
     }, [props.images]);
 
     return (
-        <><div id="gallery" class="row" style={{ marginTop: "0" }}>
-            <div class="col-9 align-self-center">
-                <h4 class="fw-bold ">Captured Moments</h4>
+        <>
+            <div style={carousel_styles.titleBar}>
+                <Typography variant="h5" align="left" className="fw-bold">Captured Moments</Typography>
+                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
             </div>
-            <div class="col-3 m-0 no-text-align">
-                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID}/>
-            </div>
-        </div><CarouselProvider
-            orientation="horizontal"
-            visibleSlides={props.slideCount}
-            totalSlides={props.images.length}
-            step={props.slideCount}
-            naturalSlideWidth={50}
-            naturalSlideHeight={50}
-            isIntrinsicHeight={true}
-            style={carousel_styles.container}
-        >
+            <CarouselProvider
+                orientation="horizontal"
+                visibleSlides={props.slideCount}
+                totalSlides={props.images.length}
+                step={props.slideCount}
+                naturalSlideWidth={50}
+                naturalSlideHeight={50}
+                isIntrinsicHeight={true}
+                style={carousel_styles.container}
+            >
                 <Slider>
                     {images.map((image, index) => {
                         return (
                             <Slide index={index}
                                 style={carousel_styles.slide}
                             >
-                                <Polaroid 
-                                    key={index} 
-                                    onPress={handleImageClick} 
-                                    imageURL={image} 
+                                <Polaroid
+                                    key={index}
+                                    onPress={handleImageClick}
+                                    imageURL={image}
                                 />
                             </Slide>
                         );
