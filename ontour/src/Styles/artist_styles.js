@@ -151,6 +151,12 @@ const header = {
   },
 };
 
+const verifiedButton = {
+  width: "30px",
+  height: "30px",
+  marginLeft: "2px",
+}
+
 const artist_styles = {
   header,
   grid,
@@ -158,6 +164,7 @@ const artist_styles = {
   review_display,
   carousel,
   modal,
+  verifiedButton,
 };
 
 export default artist_styles;

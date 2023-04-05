@@ -118,7 +118,7 @@ const ImageCarousel = (props) => {
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={modal_styles.container}>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} sx={{height: "100%"}}>
                             <Grid item xs={12} md={8}>
                                 <img src={tempImg} style={modal_styles.image} />
                             </Grid>
