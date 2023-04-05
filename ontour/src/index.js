@@ -4,13 +4,21 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ReactGA from 'react-ga4';
+import { Auth0Provider } from "@auth0/auth0-react";
 
 ReactGA.initialize("G-BE8WDNBGS7");
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Auth0Provider 
+      domain="dev-uujtiin6xxo47cy3.us.auth0.com"
+      clientId="Net3dnd5HahABxD2GelMnUn9eSD1BFnv"
+      authorizationParams={{
+        redirect_uri: window.location.origin
+    }}>
+      <App />
+    </Auth0Provider>
   </React.StrictMode>
 );
 
