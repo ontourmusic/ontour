@@ -165,9 +165,9 @@ const SearchResults = () => {
             <Grid container spacing={2}
                 sx={results_styles.ResultsPage.bodyContainer}
             >
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                     <Alert severity='warning' style={{ marginTop: "20px" }}> This feature is still in development. </Alert>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} container>
                     <ResultsListContent
                         artistList={artistList}
