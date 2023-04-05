@@ -9,6 +9,7 @@ import artist_styles from "../Styles/artist_styles";
 import common_styles from "../Styles/common_styles";
 const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
+const verified = artist_styles.verifiedButton;
 
 function ArtistHeader(props) {
     const [isMobile, setIsMobile] = useState(false)
@@ -62,7 +63,11 @@ function ArtistHeader(props) {
         >
             <Box style={artist_styles.header.Container}>
                 {props.isVenue==0 && props.onTour && <OnTourButton></OnTourButton>}
-                <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} <br></br><span class="fw-light fs-3">{props.city}</span></h1> 
+                
+                <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} {props.isVenue==1 && props.verified && <img src="images/verifiedBadge.png" style={verified}></img>}
+                <br></br><span class="fw-light fs-3">{props.city}</span> 
+                </h1> 
+    
                 <Divider style={styles.Divider} />
                 <div style={styles.RatingRow}>
                     <Rating

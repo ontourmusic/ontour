@@ -124,12 +124,19 @@ const header = {
   },
 };
 
+const verifiedButton = {
+  width: "30px",
+  height: "30px",
+  marginLeft: "2px",
+}
+
 const artist_styles = {
   header,
   grid,
   sidebar,
   review_display,
   carousel,
+  verifiedButton,
 };
 
 export default artist_styles;
