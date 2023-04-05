@@ -1,4 +1,5 @@
 import common_styles from "./common_styles";
+import OnTourColors from "./colors";
 
 const grid = {
   body_container: {
@@ -22,14 +23,40 @@ const sidebar = {
 
 const carousel = {
   titleBar: {
-    display: "flex", 
-    justifyContent: "space-between", 
-    flexWrap: "wrap", 
-    marginBottom: "5px"
+    display: "flex",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    marginBottom: "5px",
   },
   container: {},
   slide: {
     margin: "0 4px 0 4px",
+  },
+};
+
+const modal = {
+  container: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "min(1800px, 80vw)",
+    height: "min(1000px, 80vh)",
+    bgcolor: OnTourColors.palette.primary.main,
+    // border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "10px",
+  },
+  innerGrid: {
+    width: '100%', 
+    height: '100%',
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    objectFit: "contain",
   },
 };
 
@@ -130,6 +157,7 @@ const artist_styles = {
   sidebar,
   review_display,
   carousel,
+  modal,
 };
 
 export default artist_styles;

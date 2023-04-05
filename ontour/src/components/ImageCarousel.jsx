@@ -12,9 +12,11 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { AddMediaButton } from "./Buttons";
 import CommentBox from "./CommentBox";
 import { createClient } from '@supabase/supabase-js'
-import artist_styles from "../Styles/artist_styles";
 import { Grid, Typography } from "@mui/material";
+
+import artist_styles from "../Styles/artist_styles";
 const carousel_styles = artist_styles.carousel;
+const modal_styles = artist_styles.modal;
 
 
 /*
@@ -30,20 +32,6 @@ const ImageCarousel = (props) => {
     const handleClose = () => setOpen(false);
     const [image_id, setImageId] = useState(0);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
-
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 1000,
-        height: 600,
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        p: 4,
-        borderRadius: '10px',
-    };
 
     const handleImageClick = async (e) => {
         console.log("handleImageClick: ", e.target.src);
@@ -129,10 +117,10 @@ const ImageCarousel = (props) => {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
+                    <Box sx={modal_styles.container}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} md={8}>
-                                <img src={tempImg} style={{ width: '100%', height: '100%', borderRadius: '10px' }} />
+                                <img src={tempImg} style={modal_styles.image} />
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <CommentBox imageId={image_id} isVenue={props.isVenue} />
