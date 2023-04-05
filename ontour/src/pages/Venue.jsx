@@ -182,7 +182,7 @@ const clearSearch = () => {
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
-          <ImageCarousel images={imageArray} slideCount={3} />
+          <ImageCarousel images={imageArray} slideCount={3} isVenue={1} venueID={venueIDGlobal} />
           <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
           {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} numReviews={totalReviews}/>}
         </Grid>

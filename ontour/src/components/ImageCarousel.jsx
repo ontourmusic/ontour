@@ -16,6 +16,7 @@ import artist_styles from "../Styles/artist_styles";
 import { Grid, Typography } from "@mui/material";
 const carousel_styles = artist_styles.carousel;
 
+
 /*
 images: array of image urls
 */
@@ -47,21 +48,41 @@ const ImageCarousel = (props) => {
     const handleImageClick = async (e) => {
         console.log("handleImageClick: ", e.target.src);
 
-        const { data, error } = await supabase
-            .from('artist_images')
+        if(props.isVenue){
+            const { data, error } = await supabase
+            .from('venue_carousel_images')
             .select('id')
             .eq('image_url', e.target.src)
             .single()
 
-        if (error) {
-            console.error(error)
-            return null
+            if (error) {
+                console.error(error)
+                return null
+            }
+            setImageId(data.id);
+            console.log("image_id: ", data.id)
+            setOpen(true);
+            setTemp(e.target.src);
+            setModel(true);
+            
         }
-        setImageId(data.id);
-        console.log("image_id: ", data.id)
-        setOpen(true);
-        setTemp(e.target.src);
-        setModel(true);
+        else{
+            const { data, error } = await supabase
+                .from('artist_images')
+                .select('id')
+                .eq('image_url', e.target.src)
+                .single()
+
+            if (error) {
+                console.error(error)
+                return null
+            }
+            setImageId(data.id);
+            console.log("image_id: ", data.id)
+            setOpen(true);
+            setTemp(e.target.src);
+            setModel(true);
+        }
     }
     useEffect(() => {
         if (props.images.length > 0) {
@@ -74,7 +95,7 @@ const ImageCarousel = (props) => {
         <>
             <div style={carousel_styles.titleBar}>
                 <Typography variant="h5" align="left" className="fw-bold">Captured Moments</Typography>
-                <AddMediaButton artistID={props.artistID} />
+                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
             </div>
             <CarouselProvider
                 orientation="horizontal"
@@ -119,7 +140,7 @@ const ImageCarousel = (props) => {
                                         <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                         <TextField id="input-with-sx" label="Add a comment" variant="standard" />
                                     </Box> */}
-                                    <CommentBox imageId={image_id} />
+                                    <CommentBox imageId={image_id} isVenue={props.isVenue}/>
                                 </div>
                             </div>
                         </div>
