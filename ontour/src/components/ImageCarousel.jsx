@@ -48,12 +48,12 @@ const ImageCarousel = (props) => {
     const handleImageClick = async (e) => {
         console.log("handleImageClick: ", e.target.src);
 
-        if(props.isVenue){
+        if (props.isVenue) {
             const { data, error } = await supabase
-            .from('venue_carousel_images')
-            .select('id')
-            .eq('image_url', e.target.src)
-            .single()
+                .from('venue_carousel_images')
+                .select('id')
+                .eq('image_url', e.target.src)
+                .single()
 
             if (error) {
                 console.error(error)
@@ -64,9 +64,9 @@ const ImageCarousel = (props) => {
             setOpen(true);
             setTemp(e.target.src);
             setModel(true);
-            
+
         }
-        else{
+        else {
             const { data, error } = await supabase
                 .from('artist_images')
                 .select('id')
@@ -130,20 +130,29 @@ const ImageCarousel = (props) => {
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style}>
-                        <div style={{ width: '100%', height: '100%' }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={8}>
+                                <img src={tempImg} style={{ width: '100%', height: '100%', borderRadius: '10px' }} />
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <CommentBox imageId={image_id} isVenue={props.isVenue} />
+                            </Grid>
+                        </Grid>
+
+                        {/* <div style={{ width: '100%', height: '100%' }}>
                             <div className='row' style={{ width: '100%', height: '100%' }}>
                                 <div className='col-8 align-self-center'>
                                     <img src={tempImg} style={{ width: '100%', height: '100%', borderRadius: '10px' }} />
                                 </div>
-                                <div className='col-4'>
+                                <div className='col-4'> */}
                                     {/* <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
                                         <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
                                         <TextField id="input-with-sx" label="Add a comment" variant="standard" />
                                     </Box> */}
-                                    <CommentBox imageId={image_id} isVenue={props.isVenue}/>
+                                    {/* <CommentBox imageId={image_id} isVenue={props.isVenue} />
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </Box>
                 </Modal>
                 <div className="controls">
