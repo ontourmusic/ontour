@@ -1,4 +1,5 @@
 import common_styles from "./common_styles";
+import OnTourColors from "./colors";
 
 const grid = {
   body_container: {
@@ -21,9 +22,41 @@ const sidebar = {
 };
 
 const carousel = {
+  titleBar: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    marginBottom: "5px",
+  },
   container: {},
   slide: {
     margin: "0 4px 0 4px",
+  },
+};
+
+const modal = {
+  container: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "min(1800px, 80vw)",
+    height: "min(1000px, 80vh)",
+    bgcolor: OnTourColors.palette.primary.main,
+    // border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "10px",
+  },
+  innerGrid: {
+    width: '100%', 
+    height: '100%',
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    objectFit: "contain",
   },
 };
 
@@ -55,7 +88,7 @@ const review_display = {
     starBox: {
       margin: "2px 0 2px 0",
       display: "flex",
-      fontSize: 18,
+      // fontSize: 18,
     },
   },
   review: {
@@ -67,7 +100,7 @@ const review_display = {
 const header = {
   Background: {
     backgroundRepeat: "noRepeat",
-    backgroundPosition: "center",
+    // backgroundPosition: "center",
     backgroundSize: "cover",
     height: "40vh",
     position: "relative",
@@ -76,7 +109,7 @@ const header = {
     // height: "fit-content",
     // bottom: "0%",
     // left: "0%",
-    maxWidth: "calc(min(100%, 500px) - 4%)",
+    maxWidth: "min(100%, 700px)",
     // paddingBottom: "4%",
     paddingBottom: "2rem",
     paddingLeft: "4%",
@@ -112,11 +145,17 @@ const header = {
   },
   ArtistName: {
     inlineSize: "auto",
-    overflowWrap: "break-word",
+    // overflowWrap: "break-word",
     textAlign: "left",
     color: "white",
   },
 };
+
+const verifiedButton = {
+  width: "30px",
+  height: "30px",
+  marginLeft: "2px",
+}
 
 const artist_styles = {
   header,
@@ -124,6 +163,8 @@ const artist_styles = {
   sidebar,
   review_display,
   carousel,
+  modal,
+  verifiedButton,
 };
 
 export default artist_styles;

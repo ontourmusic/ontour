@@ -77,6 +77,11 @@ export default function WriteVenueReview(props) {
     //var encodedDescription = encodeURIComponent(description);
     //await fetch(`http://127.0.0.1:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
     //await fetch(`http://localhost:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    const { data2, error2 } = await supabase
+      .from('venues')
+      .update({ 'review_count': props.numReviews+1 })
+      .eq('venue_id', props.venueId);
+
     const { data, error } = await supabase
       .from('venue_reviews')
       .insert(

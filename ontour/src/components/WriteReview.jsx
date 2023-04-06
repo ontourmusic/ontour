@@ -5,6 +5,9 @@ import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
 import Reaptcha from 'reaptcha';
 import { createClient } from '@supabase/supabase-js'
+import { PropaneSharp } from "@mui/icons-material";
+import common_styles from "../Styles/common_styles";
+const window_breakpoints = common_styles.window_breakpoints;
 
 export default function WriteReview(props) {
   const [unparsedName, setUnparsedName] = useState("");
@@ -107,6 +110,13 @@ export default function WriteReview(props) {
 
     var eventDate = eventName.split(" • ")[0];
     var event = eventName.split(" • ")[1];
+
+
+    const { data2, error2 } = await supabase
+      .from('artists')
+      .update({ 'review_count': props.numReviews+1 })
+      .eq('artist_id', props.artistId);
+
   
   const { data, error } = await supabase
   .from('artist_reviews')
@@ -161,12 +171,12 @@ export default function WriteReview(props) {
       <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
       <div class="rating row">
         <div id="stars" class="col-3">
-          <Rating name="rating" size="large" required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} />
+          <Rating name="rating" sx={{fontSize: "2.5rem"}} required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} />
         </div>
       </div>
       <form id="clear" onSubmit={handleWriteReview}>
         <div class="row top">
-          <div class="col">
+          <div class="col"> 
             <input type="text" class="form-control shadow-none" onChange={handleNameChange} value={unparsedName} placeholder="Name" required />
           </div>
         </div>
@@ -207,7 +217,7 @@ export default function WriteReview(props) {
           </div>
         </div>
         <div>
-          <Reaptcha sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify}/>
+          <Reaptcha size={window.innerWidth < window_breakpoints.md ? "compact" : "normal" } sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify}/>
           <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" disabled={!captchaVerified} >Submit</button>
         </div>
       </form>
