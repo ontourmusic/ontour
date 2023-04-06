@@ -4,12 +4,14 @@ import Show from "./Show";
 import {useState, useEffect} from "react";
 
 class UpcomingEvent {
-    constructor(name, date, eventId, eventURL, timezone, eventTime) {
+    constructor(name, date, eventId, eventURL, timezone, eventTime, price) {
         this.name = name;
         this.date = date;
         this.eventId = eventId;
         this.eventURL = eventURL;
         this.eventTime = eventTime;
+        this.price = price;
+
     }
 }
 
@@ -77,8 +79,16 @@ function createEvent(eventInfo){
     var eventURL = eventInfo.url;
     var eventName = parseName(name);
     var time = parseTime(eventInfo.dates.start.localTime);
+    var price = -1;
+    if(eventInfo.priceRanges)
+    {
+        price = eventInfo.priceRanges[0].min;
+        price = price.toFixed(2);
+        price = "$" + price;
+        console.log(price);
+    }
 
-    var event = new UpcomingEvent(eventName, fullDate, eventId, eventURL, timezone, time);
+    var event = new UpcomingEvent(eventName, fullDate, eventId, eventURL, timezone, time, price);
     return event;
 }
 
@@ -94,11 +104,7 @@ export default function VenueUpcomingSchedule(props)
             var newname = name.replace(" ", "%20");
             console.log(props.id);
             var id = props.id;
-            var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5&classificationName=music`;
-            // var url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&attractionId=${id}&sort=date,asc&size=5&classificationName=music`;
-
-            // url.replace(" ", "%20");
-            console.log(url);
+            var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5`;
             tmEvents = await fetch(url);
             tmEventData = await tmEvents.json();
             console.log(tmEventData);
@@ -133,7 +139,7 @@ export default function VenueUpcomingSchedule(props)
 
                 {eventArray.map((item, index)=>{
                         return <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
-                            <Show time = {eventArray[index].eventTime} isVenue={true} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone}/>
+                            <Show time = {eventArray[index].eventTime} isVenue={true} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone} price={eventArray[index].price}/>
                         </a>
                     })
                 }
