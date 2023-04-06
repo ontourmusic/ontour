@@ -23,11 +23,13 @@ export default function Show(props)
                         <div class="schedule-subfont">
                             {props.venue} - {props.city}, {props.state}
                         </div>
-                        <div class="schedule-subfont">
-                            Tickets from <strong>{props.price}</strong>
-                        </div>
                     </>
-                }
+                    }
+                    {props.price != -1 &&
+                    <div class="schedule-subfont">
+                            Tickets from <strong>{props.price}</strong>
+                    </div>
+                    }
                 </div>         
                 <div class="d-none d-xl-block col-xl-1 align-self-center">
                     •
