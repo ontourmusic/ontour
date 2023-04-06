@@ -25,8 +25,17 @@ const two_column_button = {
   },
 };
 
+const loginButton = {
+  backgroundColor: "black",
+  borderColor: "white",
+  borderRadius: "5px",
+  color: "white",
+  width: "80px"
+}
+
 const button_styles = {
   two_column_button,
+  loginButton,
 };
 
 export default button_styles;
