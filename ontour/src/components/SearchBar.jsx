@@ -27,7 +27,7 @@ function GetSearchTerm(name) {
     return lower.replace(" ", "_");
 }
 
-export default function SearchBar(props){
+export default function SearchBar(){
     const [hasFocus, setHasFocus] = useState(false);
     const [artistList, setArtistList] = useState([]);
     const [venueList, setVenueList] = useState([]);
@@ -125,6 +125,7 @@ export default function SearchBar(props){
     }
 
     const onSelect = (selectedItem, displayField) => {
+        console.log(selectedItem, displayField);
         if(artistList.includes(selectedItem)){
             navigate({
                 pathname: '/artist', 
@@ -151,8 +152,7 @@ export default function SearchBar(props){
 
     return (
         <div className={containerStyles}>
-            
-            {!props.navbar && <FontAwesomeIcon icon={faSearch} className={`iconStyle ${containerStyles}`} size="lg"/>}
+            <FontAwesomeIcon icon={faSearch} className={`iconStyle ${containerStyles}`} size="lg"/>
             <Turnstone
                 id="fruitveg"
                 listbox={listbox}

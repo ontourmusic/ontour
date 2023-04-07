@@ -334,21 +334,35 @@ h4 {
 }
 
 #homepage{
-  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg");
-  /* background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?cs=srgb&dl=pexels-sebastian-ervi-1763075.jpg&fm=jpg"); */
+  /* background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url("https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg");
+   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?cs=srgb&dl=pexels-sebastian-ervi-1763075.jpg&fm=jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  position: relative;
+  position: relative; */
 }
 
 #homeheader
 {
+  background-image: url("https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80");
+  background-size: cover;
+  background-position: center;
+  height: 800px;
   color: white;
-  padding-top: 5%;
-  padding-bottom: 5%;
-  margin-left: 7%;
-  margin-right: 7%;
+}
+
+#headercontent
+{
+  margin: 0;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.hometitle{
+  font-size: 48px;
 }
 
 #writebutton{

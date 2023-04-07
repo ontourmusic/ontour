@@ -172,76 +172,21 @@ function Home() {
     performSearch();
     console.log(reviewCount);
   }, [artistList.name]);
+
   const display = loading ? "hidden" : "visible";
   return (
     <>
       <Navigation />
       <div id="homepage">
-      
         <div id="homeheader">
-          <img id="home-logo" src= "images/tourScoutBack.png" alt=""/>
-          {/* <div class="home-title">
-            Own your next live experience.
-          </div> */}
-          <div class="search row">
-          <SearchBar></SearchBar>
+          <div id="headercontent" class="search row">
+            <h1 class = "hometitle">Find Your Next Live Music Experience</h1>
+            <SearchBar></SearchBar>
           </div>
-          {
-            loading ?
-              <>
-                <Audio className="pt-5" speed={.5}></Audio>
-                <h5>loading</h5>
-                <div class="h-50"></div>
-              </>:
-              <></>
-          }
           
-
-          <div style={{visibility: {display}}}>
-            <div id="top-gallery" class="gallery row pt-5 pb-3">
-                  <div class="col-12 col-sm-9 align-self-center">
-                      <Typography variant="h4" style={category_styles.text}>
-                        Featured Artists
-                      </Typography>
-                  </div>
-            </div>
-            {/* Mobile */}
-            <div class="d-block d-sm-none">
-              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={1} />
-            </div>
-
-            {/* Web */}
-            <div class="d-none d-lg-block">
-              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={3} />
-            </div> 
-            <div class="d-none d-lg-none d-sm-block">
-              <ArtistCarousel artistFlag={1} loading={loading} itemList={artistList} ratings={ratings} reviewCount={reviewCount} slideCount={2} />
-            </div> 
-
-            <div class="gallery row pt-5 pb-3">
-                  <div class="col-12 col-sm-9 align-self-center">
-                      <Typography variant="h4" style={category_styles.text}>
-                        Featured Venues
-                      </Typography>
-                  </div>
-            </div>
-            
-            {/* Mobile */}
-            <div class="d-block d-sm-none">
-              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={1} />
-            </div>
-
-            {/* Web */}
-            <div class="d-none d-lg-block">
-              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={venueRatings} reviewCount={venueReviewCount} slideCount={3} />
-            </div>
-            <div class="d-none d-lg-none d-sm-block">
-              <ArtistCarousel artistFlag={0} loading={loading} itemList={venueList} ratings={ratings} reviewCount={reviewCount} slideCount={2} />
-            </div>  
-          </div>
-          <Divider />
-          <Categories />
+          
         </div>
+        <Categories />
       </div>
     </>
   );
