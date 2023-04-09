@@ -94,7 +94,7 @@ function Home() {
     }
 
     //gets the list of recent venues from the database
-    const recentVenues = await supabase.from('venues').select('*').order('review_count', {ascending: false}).limit(10);
+    const recentVenues = await supabase.from('venues').select('*').order('review_count', {ascending: false}).limit(8);
     const venueObject = {};
     for(let i=0; i < recentVenues["data"].length; i++){
       const currData = recentVenues["data"][i];
@@ -185,8 +185,8 @@ function Home() {
             <SearchBar></SearchBar>
           </div>
         </div>
-        <div id="homeartists">
-            <h1 id="homeartistbanner">Review the artists you love</h1>
+        <div class="homegrid">
+            <h1 class="homebanner">Review the artists you love</h1>
             <Grid container>
               {Object.keys(artistList).map((artist, index) => {
                   return (
@@ -197,7 +197,29 @@ function Home() {
               })}
             </Grid>
         </div>
+        <div class="homereview">
+          <p>No one puts on a show like Taylor Alison Swift! After the chaos that was trying to 
+            get tickets to the Eras Tour I had VERY high hopes for this show and thankfully 
+            it did not disappoint. This concert was THREE hours of pure joy and bliss!</p>
+        </div>
         <Categories />
+        <div class="homegrid">
+            <h1 class="homebanner">Review legendary venues</h1>
+            <Grid container>
+              {Object.keys(venueList).map((venue, index) => {
+                  return (
+                  <Grid item xs={4} md={3}>
+                    <ArtistTile imageURL={venueList[venue].imageURL}></ArtistTile>
+                  </Grid>
+                  )
+              })}
+            </Grid>
+        </div>
+        <div class="homereview">
+          <p>No one puts on a show like Taylor Alison Swift! After the chaos that was trying to 
+            get tickets to the Eras Tour I had VERY high hopes for this show and thankfully 
+            it did not disappoint. This concert was THREE hours of pure joy and bliss!</p>
+        </div>
       </div>
     </>
   );

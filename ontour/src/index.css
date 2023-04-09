@@ -367,16 +367,29 @@ h4 {
   font-weight: lighter;
 }
 
-#homeartists{
+.homegrid{
   background-color: black;
   color: white;
   height: 650px;
 }
-#homeartistbanner{
+.homebanner{
   text-align: left;
   padding-top: 15px;
   padding-left: 20px;
   font-weight: lighter;
+}
+.homereview{
+  height: 250px;
+  background-color: gray;
+  color: white;
+  font-weight: lighter;
+  text-align: left;
+  padding-left: 60px;
+  padding-right:20%;
+}
+.homereview p{
+  font-size: 36px;
+  padding-top: 10px;
 }
 
 #writebutton{
