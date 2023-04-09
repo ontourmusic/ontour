@@ -152,7 +152,6 @@ export default function SearchBar(){
 
     return (
         <div className={containerStyles}>
-            <FontAwesomeIcon icon={faSearch} className={`iconStyle ${containerStyles}`} size="lg"/>
             <Turnstone
                 id="fruitveg"
                 listbox={listbox}

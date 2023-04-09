@@ -346,7 +346,7 @@ h4 {
 {
   background-image: url("https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80");
   background-size: cover;
-  background-position: center;
+  background-position: center bottom;
   height: 800px;
   color: white;
 }
@@ -355,14 +355,28 @@ h4 {
 {
   margin: 0;
   position: absolute;
-  top: 60%;
+  top: 55%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
 .hometitle{
-  font-size: 48px;
+  font-size: 70px;
+  padding-bottom: 20px;
+  font-weight: lighter;
+}
+
+#homeartists{
+  background-color: black;
+  color: white;
+  height: 650px;
+}
+#homeartistbanner{
+  text-align: left;
+  padding-top: 15px;
+  padding-left: 20px;
+  font-weight: lighter;
 }
 
 #writebutton{

@@ -13,6 +13,7 @@ import Categories from "../components/Categories";
 import { Divider, Typography } from "@mui/material";
 import { Grid } from "@mui/material";
 import category_styles from "../Styles/category_styles";
+import ArtistTile from "../components/ArtistTile";
 
 
 function Home() {
@@ -80,7 +81,7 @@ function Home() {
     console.log(newVenueRatings);
 
     //gets the list of recent artists from the database
-    const recentArtists = await supabase.from('artists').select('*').order('review_count', {ascending: false}).limit(10);
+    const recentArtists = await supabase.from('artists').select('*').order('review_count', {ascending: false}).limit(8);
     const artistObject = {};
     for(let i=0; i < recentArtists["data"].length; i++){
       const currData = recentArtists["data"][i];
@@ -180,11 +181,21 @@ function Home() {
       <div id="homepage">
         <div id="homeheader">
           <div id="headercontent" class="search row">
-            <h1 class = "hometitle">Find Your Next Live Music Experience</h1>
+            <h1 class = "hometitle">Find Your Next<br />Live Music Experience</h1>
             <SearchBar></SearchBar>
           </div>
-          
-          
+        </div>
+        <div id="homeartists">
+            <h1 id="homeartistbanner">Review the artists you love</h1>
+            <Grid container>
+              {Object.keys(artistList).map((artist, index) => {
+                  return (
+                  <Grid item xs={4} md={3}>
+                    <ArtistTile imageURL={artistList[artist].imageURL}></ArtistTile>
+                  </Grid>
+                  )
+              })}
+            </Grid>
         </div>
         <Categories />
       </div>
