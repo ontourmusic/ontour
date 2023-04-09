@@ -97,8 +97,6 @@ function createEvent(eventInfo) {
 export default function UpcomingSchedule(props) {
     const [eventArray, setEventArray] = useState([]);
     const performSearch = async () => {
-        var tmEvents;
-        var tmEventData;
         if (props.name) {
             var name = props.name;
             const stubhuburl = "https://kju1lx3bbf.execute-api.us-east-2.amazonaws.com/Prod/stubhubapi?artist=\"" + name + "\"";
