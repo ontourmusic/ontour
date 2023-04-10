@@ -13,7 +13,9 @@ import Categories from "../components/Categories";
 import { Divider, Typography } from "@mui/material";
 import { Grid } from "@mui/material";
 import category_styles from "../Styles/category_styles";
-import ArtistTile from "../components/ArtistTile";
+import HomeTile from "../components/HomeTile";
+import Rating from '@mui/material/Rating';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 
 
 function Home() {
@@ -191,7 +193,7 @@ function Home() {
               {Object.keys(artistList).map((artist, index) => {
                   return (
                   <Grid item xs={4} md={3}>
-                    <ArtistTile imageURL={artistList[artist].imageURL}></ArtistTile>
+                    <HomeTile isArtist={true} imageURL={artistList[artist].imageURL} loading={loading} id={artistList[artist].artistID} name={artistList[artist].name} rating={ratings[artist]} reviewCount={reviewCount[artist]}></HomeTile>
                   </Grid>
                   )
               })}
@@ -201,6 +203,18 @@ function Home() {
           <p>No one puts on a show like Taylor Alison Swift! After the chaos that was trying to 
             get tickets to the Eras Tour I had VERY high hopes for this show and thankfully 
             it did not disappoint. This concert was THREE hours of pure joy and bliss!</p>
+            <div style={styles.RatingRow}>
+              <Rating
+                  value={5}
+                  size="large"
+                  readOnly
+                  precision={0.1}
+                  emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
+              />
+              <div style={styles.TotalReviewsText}>
+                  Tom H. 12/22/2022 Allegiant Stadium
+              </div>
+            </div>
         </div>
         <Categories />
         <div class="homegrid">
@@ -209,7 +223,7 @@ function Home() {
               {Object.keys(venueList).map((venue, index) => {
                   return (
                   <Grid item xs={4} md={3}>
-                    <ArtistTile imageURL={venueList[venue].imageURL}></ArtistTile>
+                    <HomeTile isArtist={false} id={venueList[venue].venueID} imageURL={venueList[venue].imageURL} name={venueList[venue].name} rating={venueRatings[venue]} reviewCount={venueReviewCount[venue]}></HomeTile>
                   </Grid>
                   )
               })}
@@ -219,9 +233,36 @@ function Home() {
           <p>No one puts on a show like Taylor Alison Swift! After the chaos that was trying to 
             get tickets to the Eras Tour I had VERY high hopes for this show and thankfully 
             it did not disappoint. This concert was THREE hours of pure joy and bliss!</p>
+            <div style={styles.RatingRow}>
+              <Rating
+                  value={5}
+                  size="large"
+                  readOnly
+                  precision={0.1}
+                  emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
+              />
+              <div style={styles.TotalReviewsText}>
+                  Tom H. 12/22/2022 Allegiant Stadium
+              </div>
+            </div>
         </div>
       </div>
     </>
   );
 }
 export default Home;
+
+const styles = {
+  RatingRow: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      spacing: 1,
+  },
+  TotalReviewsText: {
+      marginLeft: "0.5rem",
+      color: "white",
+      position: "center",
+  },
+}

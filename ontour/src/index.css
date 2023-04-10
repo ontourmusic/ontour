@@ -380,7 +380,7 @@ h4 {
 }
 .homereview{
   height: 250px;
-  background-color: gray;
+  background-color: black;
   color: white;
   font-weight: lighter;
   text-align: left;
@@ -388,7 +388,7 @@ h4 {
   padding-right:20%;
 }
 .homereview p{
-  font-size: 36px;
+  font-size: 30px;
   padding-top: 10px;
 }
 

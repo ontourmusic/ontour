@@ -1,0 +1,63 @@
+import React from "react";
+import '../Styles/hometile.css';
+import Rating from '@mui/material/Rating';
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import { useEffect, useRef } from "react";
+
+export default function HomeTile(props){
+    const totalReviewTextRef = useRef(null);
+    const starBoxRef = useRef(null);
+
+    useEffect(() => {
+        if (starBoxRef.current) {
+            const starBoxHeight = starBoxRef.current.offsetHeight;
+            const starBoxWidth = starBoxRef.current.offsetWidth;
+            totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
+        }
+    }, [])
+    const searchName = props.loading ? "" : props.name.replace(/\s+/g, '_').toLowerCase();
+    const link = props.isArtist ? 
+            "/artist?artist=" + searchName+"&id="+props.id :
+            "/venue?venue=" + searchName+"&id="+props.id
+    
+
+    return (
+    <div className="container">
+        <a href={link}>
+            <img className="image" src={props.imageURL} alt="" />
+            <div className="middle">
+                <h1 className="text">{props.name}</h1>
+                <div style={styles.RatingRow}>
+                    <Rating
+                        ref={starBoxRef}
+                        name="text-feedback"
+                        value={props.loading ? 0 : (props.rating || 0)}
+                        size="medium"
+                        readOnly
+                        precision={0.1}
+                        emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
+                    />
+                    <div ref={totalReviewTextRef} style={styles.TotalReviewsText}>
+                        ({props.reviewCount ? props.reviewCount : 0 })
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    )
+}
+
+const styles = {
+    RatingRow: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        spacing: 1,
+    },
+    TotalReviewsText: {
+        marginLeft: "0.5rem",
+        color: "white",
+        position: "center",
+    },
+}
