@@ -31,12 +31,48 @@ export default function WriteFestivalReview(props)
         console.log(recaptchaResponse);
         setCaptcha(true);
     };
+
+    const handleWriteReview = event => {
+        event.preventDefault();
+        if (!rating) {
+          setCanSubmit(false);
+          return false;
+        }
+        else {
+          setRating(rating);
+        }
+        setVenueId(props.venueId);
+        setCanSubmit(true);
+        postData();
     
+    }
 
+    const postData = async () => { 
+        const { data2, error2 } = await supabase
+          .from('festivals')
+          .update({ 'review_count': props.numReviews+1 })
+          .eq('id', props.festivalId);
+    
+        const { data, error } = await supabase
+          .from('festival_reviews')
+          .insert(
+            [{'festival_id': props.festivalId, 'rating': rating, 'review': description, 'name': name, 'eventDate': eventDate }]
+        );
+        window.location.reload();
+    }
 
-
-
-
+    const HandleDescription = event => {
+        var word = event.target.value;
+        word.replace(/\n\r?/g, '<br />');
+        setDescription(word);
+      }
+    
+      const handleNameChange = event => {
+        var name = event.target.value;
+        setName(name);
+      }
+    
+    
     return (
         <div class="container" id="review">
              <hr></hr>
@@ -46,6 +82,32 @@ export default function WriteFestivalReview(props)
                 <Rating name="rating" sx={{fontSize: "2.5rem"}} required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} />
                 </div>
             </div>
+            <form id="clear" onSubmit={handleWriteReview}>
+                <div class="row top">
+                    <div class="col">
+                        <input type="text" class="form-control shadow-none" onChange={handleNameChange} value={name} placeholder="Name" required />
+                    </div>
+                </div>
+                <div class="row bottom">
+                    {/* <div class="col">
+                        <input type="text" class="form-control shadow-none" onChange={artistName => setArtistName(artistName.target.value)} value={artistName} placeholder="Artist Name" required />
+                    </div> */}
+                    <div class='col'>
+                        <input type="date" class="form-control shadow-none" onChange={eventDate => setEventDate(eventDate.target.value)} value={eventDate} placeholder="Event Date" required />
+                    </div>
+                </div>
+                <div class="row bottom">
+                <div class="col">
+                    <textarea class="form-control shadow-none" style={{ whiteSpace: "pre-wrap" }} rows="5" cols="100" id="description" maxLength={5000} onChange={HandleDescription} value={description} placeholder="How was your experience?" required></textarea>
+                </div>
+                </div>
+                <div>
+                <Reaptcha sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify}/>
+                <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" disabled={!captchaVerified} >Submit</button>
+                </div>
+            </form>
+            {!canSubmit && <div className="alert alert-danger fw-bold" role="alert" style={{ marginTop: "25px" }}>Please leave a rating.</div>}
         </div>
+
     );
 }
