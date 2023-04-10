@@ -74,9 +74,6 @@ export default function WriteVenueReview(props) {
   }
 
   const postData = async () => { 
-    //var encodedDescription = encodeURIComponent(description);
-    //await fetch(`http://127.0.0.1:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
-    //await fetch(`http://localhost:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
     const { data2, error2 } = await supabase
       .from('venues')
       .update({ 'review_count': props.numReviews+1 })
@@ -103,8 +100,6 @@ export default function WriteVenueReview(props) {
 
   return (
     <div class="container" id="review">
-      {/* {media && <img src={media} class="d-block w-100" alt="..."/>} */}
-      {/* // <img src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/concert-photography/thumbnail.jpeg" class="d-block w-100" alt="..."/> */}
       <hr></hr>
       <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
       <div class="rating row">

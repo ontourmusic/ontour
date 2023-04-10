@@ -12,6 +12,7 @@ import ImageCarousel from "../components/ImageCarousel";
 import Fuse from 'fuse.js'
 import ArtistContent from "../components/ArtistContent";
 import SideContent from "../components/SideContent";
+import WriteFestivalReview from "../components/WriteFestivalReview";
 
 
 
@@ -66,7 +67,8 @@ export default function Festival() {
             const banner_image = festivalData.data[0].banner_image;
             const city = festivalData.data[0].city;
             const state = festivalData.data[0].state;
-            setFestivalCity(city);
+            const cityState = city + ", " + state;
+            setFestivalCity(cityState);
             setFestivalState(state);
             setBannerImage(banner_image);
 
@@ -172,11 +174,10 @@ export default function Festival() {
                         isVenue={1} 
                         venueID={festivalIDGlobal} />
                     <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
-                    {/* {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} numReviews={totalReviews}/>} */}
+                    {festival_name !== "" && <WriteFestivalReview festivalId={festivalIDGlobal} name={festival_name} numReviews={totalReviews}/>}
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    {/* <SideContent name={venue_name} venue={true} linkPairs={[[ticketLink, "images/ticketmaster_icon.png"],]} /> */}
-                    <SideContent name={"Coachella Music Festival"} festival={true} />
+                    <SideContent name={festival_name} festival={true} />
                 </Grid>
             </Grid>
         </Grid>
