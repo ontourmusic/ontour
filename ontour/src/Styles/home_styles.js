@@ -27,7 +27,7 @@ const header = {
 
 const homeTile = {
     container: {
-        height: "25vh",
+        height: "40vh",
         overflow: "hidden",
         position: "relative",
     },
