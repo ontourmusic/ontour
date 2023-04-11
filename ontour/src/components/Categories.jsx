@@ -114,7 +114,7 @@ const Categories = () => {
         <Grid container spacing={2.5}>
             <Grid item xs={12}>
                 <Typography variant="h4" style={category_styles.text}>
-                    Categories
+                    Explore new music
                 </Typography>
             </Grid>
             {categories.map((category) => {
@@ -131,7 +131,7 @@ const Categories = () => {
                         <Button variant="contained" style={category_styles.container} onClick={() => {handleCategoryClick(category.name)}}>
                             <CardContent>
                                 <img style={category_styles.icon} src={category.asset} />
-                                <Typography variant="h6" style={category_styles.text}>
+                                <Typography variant="h6" style={category_styles.iconText}>
                                     {category.name}
                                 </Typography>
                             </CardContent>
