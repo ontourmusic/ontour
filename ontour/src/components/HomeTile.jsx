@@ -10,6 +10,8 @@ import home_styles from "../Styles/home_styles";
 export default function HomeTile(props) {
     const totalReviewTextRef = useRef(null);
     const starBoxRef = useRef(null);
+    const overlayRef = useRef(null);
+    const imageRef = useRef(null);
 
     useEffect(() => {
         if (starBoxRef.current) {
@@ -27,15 +29,30 @@ export default function HomeTile(props) {
     const handleTileClick = () => {
         navigate(link);
     }
+    
+    const handleMouseEnter = (e) => {
+        overlayRef.current.style.opacity = 1;
+        imageRef.current.style.opacity = 0.4;
+    }
+    const handleMouseLeave = (e) => {
+        overlayRef.current.style.opacity = 0;
+        imageRef.current.style.opacity = 1;
+    }
+
+
     return (
-        <div onClick={() => {handleTileClick()}}
+        <div 
+            onClick={() => {handleTileClick()}}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             style={home_styles.homeTile.container}
         >
             <img 
                 style={home_styles.homeTile.image} 
+                ref={imageRef}
                 src={props.imageURL} alt="" 
             />
-            <div className="middle">
+            <div ref={overlayRef} style={home_styles.homeTile.middle}>
                 <h1 className="text">{props.name}</h1>
                 <div style={styles.RatingRow}>
                     <Rating
