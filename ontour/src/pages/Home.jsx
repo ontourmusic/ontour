@@ -17,6 +17,7 @@ import HomeTile from "../components/HomeTile";
 import Rating from '@mui/material/Rating';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import OnTourColors from "../Styles/colors";
+import home_styles from "../Styles/home_styles";
 
 
 function Home() {
@@ -199,7 +200,7 @@ function Home() {
                     </Grid>
                     {Object.keys(artistList).map((artist, index) => {
                         return (
-                            <Grid item xs={4} md={3}>
+                            <Grid item xs={6} md={4} lg={3}>
                                 <HomeTile
                                     isArtist={true}
                                     imageURL={artistList[artist].imageURL}
@@ -214,18 +215,21 @@ function Home() {
                     })}
                 </Grid>
                 <Grid item xs={12}>
-                    <div class="homereview" style={{ backgroundColor: "#181816" }}>
-                        <p>No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
+                    <div style={home_styles.review.container}>
+                        <p style={home_styles.review.text}>
+                            No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
                             get tickets to the Eras Tour I had VERY high hopes for this show and thankfully
-                            it did not disappoint. This concert was THREE hours of pure joy and bliss!</p>
+                            it did not disappoint. This concert was THREE hours of pure joy and bliss!
+                        </p>
                         <div style={styles.RatingRow}>
-                            <Rating
+                            {/* <Rating
                                 value={5}
-                                size="large"
+                                // size="large"
+                                style={{fontSize: "2em"}}
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
-                            />
+                            /> */}
                             <div style={styles.TotalReviewsText}>
                                 Tom H. 12/22/2022 Allegiant Stadium
                             </div>
@@ -239,7 +243,7 @@ function Home() {
                     </Grid>
                     {Object.keys(venueList).map((venue, index) => {
                         return (
-                            <Grid item xs={4} md={3}>
+                            <Grid item xs={6} md={4} lg={3}>
                                 <HomeTile
                                     isArtist={false}
                                     id={venueList[venue].venueID}
@@ -253,18 +257,19 @@ function Home() {
                     })}
                 </Grid>
                 <Grid item xs={12}>
-                    <div class="homereview" style={{ backgroundColor: "#181816" }}>
-                        <p>No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
+                    <div style={home_styles.review.container}>
+                        <p style={home_styles.review.text}>
+                            No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
                             get tickets to the Eras Tour I had VERY high hopes for this show and thankfully
                             it did not disappoint. This concert was THREE hours of pure joy and bliss!</p>
                         <div style={styles.RatingRow}>
-                            <Rating
+                            {/* <Rating
                                 value={5}
                                 size="large"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
-                            />
+                            /> */}
                             <div style={styles.TotalReviewsText}>
                                 Tom H. 12/22/2022 Allegiant Stadium
                             </div>
