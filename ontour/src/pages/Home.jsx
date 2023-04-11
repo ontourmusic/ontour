@@ -187,42 +187,43 @@ function Home() {
                     <Navigation />
                 </Grid>
                 <Grid item xs={12}>
-                    <div id="homeheader">
-                        <div id="headercontent" class="search">
-                            <h1 class="hometitle">Find Your Next<br />Live Music Experience</h1>
-                            <SearchBar></SearchBar>
+                    <div style={home_styles.header.container}>
+                        <div style={home_styles.header.content} class="search">
+                            <h1 style={home_styles.header.title}>Find Your Next<br />Live Music Experience</h1>
+                            <SearchBar />
                         </div>
                     </div>
                 </Grid>
-                <Grid item xs={12} container>
-                    <Grid item xs={12}>
-                        <h1 style={{ color: "#FFFFFF" }} class="homebanner">Review the artists you love</h1>
+                <Grid item xs={12} container spacing={2} justifyContent="center" >
+                    <Grid item xs={12} container>
+                        <Grid item xs={12}>
+                            <h1 style={{ color: "#FFFFFF" }} class="homebanner">Review the artists you love</h1>
+                        </Grid>
+                        {Object.keys(artistList).map((artist, index) => {
+                            return (
+                                <Grid item xs={6} md={4} lg={3}>
+                                    <HomeTile
+                                        isArtist={true}
+                                        imageURL={artistList[artist].imageURL}
+                                        loading={loading}
+                                        id={artistList[artist].artistID}
+                                        name={artistList[artist].name}
+                                        rating={ratings[artist]}
+                                        reviewCount={reviewCount[artist]}
+                                    />
+                                </Grid>
+                            )
+                        })}
                     </Grid>
-                    {Object.keys(artistList).map((artist, index) => {
-                        return (
-                            <Grid item xs={6} md={4} lg={3}>
-                                <HomeTile
-                                    isArtist={true}
-                                    imageURL={artistList[artist].imageURL}
-                                    loading={loading}
-                                    id={artistList[artist].artistID}
-                                    name={artistList[artist].name}
-                                    rating={ratings[artist]}
-                                    reviewCount={reviewCount[artist]}
-                                />
-                            </Grid>
-                        )
-                    })}
-                </Grid>
-                <Grid item xs={12}>
-                    <div style={home_styles.review.container}>
-                        <p style={home_styles.review.text}>
-                            No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
-                            get tickets to the Eras Tour I had VERY high hopes for this show and thankfully
-                            it did not disappoint. This concert was THREE hours of pure joy and bliss!
-                        </p>
-                        <div style={styles.RatingRow}>
-                            {/* <Rating
+                    <Grid item xs={12}>
+                        <div style={home_styles.review.container}>
+                            <p style={home_styles.review.text}>
+                                No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
+                                get tickets to the Eras Tour I had VERY high hopes for this show and thankfully
+                                it did not disappoint. This concert was THREE hours of pure joy and bliss!
+                            </p>
+                            <div style={styles.RatingRow}>
+                                {/* <Rating
                                 value={5}
                                 // size="large"
                                 style={{fontSize: "2em"}}
@@ -230,53 +231,55 @@ function Home() {
                                 precision={0.1}
                                 emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
                             /> */}
-                            <div style={styles.TotalReviewsText}>
-                                Tom H. 12/22/2022 Allegiant Stadium
+                                <div style={styles.TotalReviewsText}>
+                                    Tom H. 12/22/2022 Allegiant Stadium
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Grid>
-                <Categories />
-                <Grid item xs={12} container>
-                    <Grid item xs={12}>
-                        <h1 style={{ color: "#FFFFFF" }} class="homebanner">Review Legendary Venues</h1>
                     </Grid>
-                    {Object.keys(venueList).map((venue, index) => {
-                        return (
-                            <Grid item xs={6} md={4} lg={3}>
-                                <HomeTile
-                                    isArtist={false}
-                                    id={venueList[venue].venueID}
-                                    imageURL={venueList[venue].imageURL}
-                                    name={venueList[venue].name}
-                                    rating={venueRatings[venue]}
-                                    reviewCount={venueReviewCount[venue]}
-                                />
-                            </Grid>
-                        )
-                    })}
-                </Grid>
-                <Grid item xs={12}>
-                    <div style={home_styles.review.container}>
-                        <p style={home_styles.review.text}>
-                            No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
-                            get tickets to the Eras Tour I had VERY high hopes for this show and thankfully
-                            it did not disappoint. This concert was THREE hours of pure joy and bliss!</p>
-                        <div style={styles.RatingRow}>
-                            {/* <Rating
+                    <Grid item xs={11}>
+                        <Categories />
+                    </Grid>
+                    <Grid item xs={12} container>
+                        <Grid item xs={12}>
+                            <h1 style={{ color: "#FFFFFF" }} class="homebanner">Review Legendary Venues</h1>
+                        </Grid>
+                        {Object.keys(venueList).map((venue, index) => {
+                            return (
+                                <Grid item xs={6} md={4} lg={3}>
+                                    <HomeTile
+                                        isArtist={false}
+                                        id={venueList[venue].venueID}
+                                        imageURL={venueList[venue].imageURL}
+                                        name={venueList[venue].name}
+                                        rating={venueRatings[venue]}
+                                        reviewCount={venueReviewCount[venue]}
+                                    />
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <div style={home_styles.review.container}>
+                            <p style={home_styles.review.text}>
+                                No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
+                                get tickets to the Eras Tour I had VERY high hopes for this show and thankfully
+                                it did not disappoint. This concert was THREE hours of pure joy and bliss!</p>
+                            <div style={styles.RatingRow}>
+                                {/* <Rating
                                 value={5}
                                 size="large"
                                 readOnly
                                 precision={0.1}
                                 emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
                             /> */}
-                            <div style={styles.TotalReviewsText}>
-                                Tom H. 12/22/2022 Allegiant Stadium
+                                <div style={styles.TotalReviewsText}>
+                                    Tom H. 12/22/2022 Allegiant Stadium
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </Grid>
                 </Grid>
-
             </Grid>
         )
     }
