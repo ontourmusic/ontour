@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { Grid } from "@mui/material";
 import home_styles from "../Styles/home_styles";
+import header_styles from "../Styles/header_styles";
 
 const modal_styles = artist_styles.modal;
 const window_breakpoints = common_styles.window_breakpoints;
@@ -109,20 +110,9 @@ function ArtistHeader(props) {
                         <h1 ref={totalReviewTextRef} style={styles.TotalReviewsText}>({props.total})</h1>
                     </div>
                 </div>
-                <div style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "flex-end",
-                }}>
+                <div style={header_styles.button_position}>
                     <Button
-                        style={{
-                            margin: "20px",
-                            height: '50px',
-                            textTransform: 'none', 
-                            fontFamily: "Helvetica", 
-                            fontWeight:'bold',
-                        }}
+                        style={header_styles.button}
                         variant="outlined"
                         type='submit' 
                         onClick={handleAllPhotosClick}>
@@ -147,10 +137,10 @@ function ArtistHeader(props) {
                                             // onClick={() => {handleTileClick()}}
                                             // onMouseEnter={handleMouseEnter}
                                             // onMouseLeave={handleMouseLeave}
-                                            style={home_styles.homeTile.container}
+                                            style={header_styles.imageTile.container}
                                         >
                                             <img 
-                                                src={image} alt="" style={home_styles.homeTile.image} 
+                                                src={image} alt="" style={header_styles.imageTile.image} 
                                             />
                                         </div>
                                     </Grid>
