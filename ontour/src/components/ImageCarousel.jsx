@@ -7,8 +7,6 @@ import '../Styles/carousel.css';
 import { Polaroid } from "./Polaroid";
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import { AddMediaButton } from "./Buttons";
 import CommentBox from "./CommentBox";
 import { createClient } from '@supabase/supabase-js'

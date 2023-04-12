@@ -7,15 +7,23 @@ import { Divider, Box } from "@mui/material";
 import OnTourButton from "./OnTourButton";
 import artist_styles from "../Styles/artist_styles";
 import common_styles from "../Styles/common_styles";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faSquare, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import { Grid } from "@mui/material";
+import home_styles from "../Styles/home_styles";
 
+const modal_styles = artist_styles.modal;
 const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
 const verified = artist_styles.verifiedButton;
 
 function ArtistHeader(props) {
+    const [images, setImages] = useState([]);
+    const [imageLoad, setImageLoad] = useState(false);
     const [isMobile, setIsMobile] = useState(false)
+    const [model, setModel] = useState(false);
+    const [open, setOpen] = useState(false);
+    const handleClose = () => setOpen(false);
 
     const starBoxRef = useRef(null);
     const totalReviewTextRef = useRef(null);
@@ -44,17 +52,28 @@ function ArtistHeader(props) {
     };
     useBeforeRender(() => handleResize(), []);
 
+    const handleAllPhotosClick = () => {
+        setOpen(true);
+        setModel(true);
+    }
+
     useEffect(() => {
+        if (props.images.length > 0) {
+            setImageLoad(true);
+            setImages(props.images);
+            console.log("setting images");
+            console.log(props.images);
+        }
         console.log("adding event listener for resize");
         window.addEventListener("resize", handleResize);
-    }, [])
+    }, [props.images])
 
     return (
-        <div 
-            style={{ 
-                backgroundImage: isMobile ? 
-                `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` 
-                : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`, 
+        <div
+            style={{
+                backgroundImage: isMobile ?
+                    `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")`
+                    : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`,
                 backgroundPosition: isMobile ? `center` : `none`,
                 backgroundRepeat: `no-repeat`,
                 backgroundSize: `cover`,
@@ -64,29 +83,86 @@ function ArtistHeader(props) {
                 flexDirection: 'column-reverse'
             }}
         >
-            <Box style={artist_styles.header.Container}>
-                {props.isVenue==0 && props.onTour && <OnTourButton></OnTourButton>}
-                
-                <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} {props.isVenue==1 && props.verified && <img src="images/verifiedBadge.png" style={verified}></img>}
-                <br></br><span class="fw-light fs-3">{props.city}</span> 
-                </h1> 
-                <Divider style={styles.Divider} />
-                <div style={styles.RatingRow}>
-                    <Rating
-                        ref={starBoxRef}
-                        name="text-feedback"
-                        value={props.rating}
-                        // size="large"
-                        sx={{fontSize: "3em"}}
-                        readOnly
-                        precision={0.1}
-                        emptyIcon={<StarBorderOutlinedIcon style={styles.StarsIcon} fontSize="inherit" />}
-                    />
-                    <h1 ref={totalReviewTextRef} style={styles.TotalReviewsText}>({props.total})</h1>
+            <Box style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+            }}>
+                <div style={artist_styles.header.Container}>
+                    {props.isVenue == 0 && props.onTour && <OnTourButton></OnTourButton>}
+
+                    <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} {props.isVenue == 1 && props.verified && <img src="images/verifiedBadge.png" style={verified}></img>}
+                        <br></br><span class="fw-light fs-3">{props.city}</span>
+                    </h1>
+                    <Divider style={styles.Divider} />
+                    <div style={styles.RatingRow}>
+                        <Rating
+                            ref={starBoxRef}
+                            name="text-feedback"
+                            value={props.rating}
+                            // size="large"
+                            sx={{ fontSize: "3em" }}
+                            readOnly
+                            precision={0.1}
+                            emptyIcon={<StarBorderOutlinedIcon style={styles.StarsIcon} fontSize="inherit" />}
+                        />
+                        <h1 ref={totalReviewTextRef} style={styles.TotalReviewsText}>({props.total})</h1>
+                    </div>
                 </div>
-            {/* </div> */}
+                <div style={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-end",
+                }}>
+                    <Button
+                        style={{
+                            margin: "20px",
+                            height: '50px',
+                            textTransform: 'none', 
+                            fontFamily: "Helvetica", 
+                            fontWeight:'bold',
+                        }}
+                        variant="outlined"
+                        type='submit' 
+                        onClick={handleAllPhotosClick}>
+                        See All Photos
+                    </Button>
+                </div>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={modal_styles.container}>
+                        <Grid item xs={12} container spacing={2}>
+                            <Grid item xs={12}>
+                                <h1 style={{ color: "black" }} class="homebanner">Photos for {props.name}</h1>
+                            </Grid>
+                            {images.map((image, index) => {
+                                return (
+                                    <Grid item xs={6} md={4} lg={3}>
+                                        <div 
+                                            // onClick={() => {handleTileClick()}}
+                                            // onMouseEnter={handleMouseEnter}
+                                            // onMouseLeave={handleMouseLeave}
+                                            style={home_styles.homeTile.container}
+                                        >
+                                            <img 
+                                                src={image} alt="" style={home_styles.homeTile.image} 
+                                            />
+                                        </div>
+                                    </Grid>
+                                );
+                            })}
+                        </Grid>
+                    </Box>
+                </Modal>
             </Box>
+
         </div>
+
     )
 }
 

@@ -216,7 +216,7 @@ function Artist() {
                     <ArtistNavigation />
                 </Grid>
                 <Grid item xs={12}>
-                    <ArtistHeader name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false}/>
+                    <ArtistHeader images={imageArray} name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false}/>
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
