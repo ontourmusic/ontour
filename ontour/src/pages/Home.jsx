@@ -213,7 +213,7 @@ function Home() {
                         )
                     })}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={0} md={12}>
                     <div style={home_styles.review.container}>
                         <p style={home_styles.review.text}>
                             No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
@@ -230,7 +230,7 @@ function Home() {
                                 emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
                             /> */}
                             <div style={styles.TotalReviewsText}>
-                                Tom H. 12/22/2022 Allegiant Stadium
+                                Alex C. 03/17/2023 State Farm Stadium
                             </div>
                         </div>
                     </div>
@@ -272,7 +272,7 @@ function Home() {
                                 emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
                             /> */}
                             <div style={styles.TotalReviewsText}>
-                                Tom H. 12/22/2022 Allegiant Stadium
+                              Alex C. 03/17/2023 State Farm Stadium
                             </div>
                         </div>
                     </div>

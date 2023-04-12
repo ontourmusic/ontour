@@ -33,10 +33,12 @@ export default function HomeTile(props) {
     const handleMouseEnter = (e) => {
         overlayRef.current.style.opacity = 1;
         imageRef.current.style.opacity = 0.4;
+        document.body.style.cursor = "pointer";
     }
     const handleMouseLeave = (e) => {
         overlayRef.current.style.opacity = 0;
         imageRef.current.style.opacity = 1;
+        document.body.style.cursor = "initial";
     }
 
 
