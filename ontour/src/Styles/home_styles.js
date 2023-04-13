@@ -3,7 +3,7 @@ const header = {
         backgroundImage: "url('https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')",
         backgroundSize: "cover",
         backgroundPosition: "center bottom",
-        height: "800px",
+        height: "100vh",
         color: "white",
 
         display: "flex",
@@ -11,7 +11,7 @@ const header = {
         alignItems: "center",
     },
     content: {
-        margin: 0,
+        margin: "auto",
         // position: "absolute",
         // top: "55%",
         // left: "50%",
@@ -19,7 +19,7 @@ const header = {
         // transform: "translate(-50%, -50%)",
     },
     title: {
-        fontSize: "70px",
+        fontSize: "max(48px, 5vw)",
         paddingBottom: "20px",
         fontWeight: "lighter",
     },
@@ -27,7 +27,9 @@ const header = {
 
 const homeTile = {
     container: {
-        height: "40vh",
+        minHeight: "200px",
+        width: "100%",
+        height: "100%",
         overflow: "hidden",
         position: "relative",
     },
@@ -35,7 +37,6 @@ const homeTile = {
         height: "100%",
         width: "100%",
         objectFit: "cover",
-
         opacity: "1.0",
         display: "block",
         transition: "0.5s ease",
@@ -55,16 +56,16 @@ const homeTile = {
 
 const review = {
     container: {
-        height: "250px",
+        height: "40vh",
         backgroundColor: "#181816",
         color: "white",
         fontWeight: "lighter",
         textAlign: "left",
-        paddingLeft: "60px",
+        paddingLeft: "15%",
         paddingRight: "20%",
     },
     text: {
-        fontSize: "2em",
+        fontSize: "max(16px, 2vw)",
         paddingTop: "10px",
     },
 };
