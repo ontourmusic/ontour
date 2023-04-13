@@ -89,7 +89,7 @@ function createEvent(eventInfo) {
     var venue = eventInfo._embedded.venue.name;
     var city = eventInfo._embedded.venue.city;
     var state = eventInfo._embedded.venue.state_province;
-    var price = " ";
+    var price = -1;
     if(eventInfo.min_ticket_price)
     {
         price = eventInfo.min_ticket_price.display;
