@@ -61,13 +61,14 @@ const review = {
         paddingBottom: "10%",
     },
     container: {
-        height: "48vh",
+        height: "auto",
         backgroundColor: "#181816",
         color: "white",
         fontWeight: "lighter",
         textAlign: "left",
         paddingLeft: "15%",
-        paddingRight: "20%",
+        paddingRight: "15%",
+        // paddingRight: "20%",
         paddingBottom: "10%",
     },
     text: {
