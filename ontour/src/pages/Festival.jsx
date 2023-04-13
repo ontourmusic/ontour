@@ -21,8 +21,6 @@ export default function Festival() {
     const [searchParams] = useSearchParams();
     const festivalNameGet = searchParams.get("festival");
     const festivalIDGlobal = searchParams.get("id");
-    console.log(festivalIDGlobal)
-    console.log(festivalNameGet)
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
 
@@ -38,6 +36,7 @@ export default function Festival() {
     const [filteredReviews, setFilteredReviews] = useState([]);
     const [showResults, setShowResults] = useState(false);
     const [, updateState] = React.useState();
+    const [headliners, setHeadliners] = useState([]);
     const window_breakpoints = common_styles.window_breakpoints;
 
     const searchReviews = (searchTerm) => {
@@ -62,7 +61,6 @@ export default function Festival() {
         try
         {
             const festivalData = await supabase.from('festivals').select('*').eq('id', festivalIDGlobal);
-            console.log(festivalData)
             setFestivalName(festivalData.data[0].name);
             const banner_image = festivalData.data[0].banner_image;
             const city = festivalData.data[0].city;
@@ -82,6 +80,46 @@ export default function Festival() {
             const reviewData = await supabase.from('festival_reviews').select('*').eq('festival_id', festivalIDGlobal);
             setAllReviews(parseReviewData(reviewData["data"]));
             setFilteredReviews(parseReviewData(reviewData["data"]));
+
+
+            //get the headliners for the festival
+            console.log(festival_name);
+            const stubhuburl = "https://kju1lx3bbf.execute-api.us-east-2.amazonaws.com/Prod/stubhubapi?artist=\"" + festival_name + "\"";
+            fetch(stubhuburl, {
+                method: "GET",
+
+            })
+                .then(response => response.json())
+                .then(data => {
+                    //create an array to hold the events
+                    console.log(data);
+                    var headlinerArray = [];
+                    for (var i = 0; i < data["_embedded"]["items"].length; i++) {
+                        if(!data["_embedded"]["items"][i]["name"].includes("ONLY"))
+                        {
+                            for(var j = 0; j < data["_embedded"]["items"][i]["_embedded"]["categories"].length; j++)
+                            {
+                                if(data["_embedded"]["items"][i]["_embedded"]["categories"][j]["role"] == "HeadlineAct")
+                                {
+                                    console.log(data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"]);
+                                    var headliner = data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"];
+                                    if(!headlinerArray.includes(headliner)){
+                                        headlinerArray.push(headliner);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    setHeadliners(headlinerArray);
+                    // // order the event array by start date
+                    // eventArray.sort(function (a, b) {
+                    //     var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
+                    //     return dateA - dateB;
+                    // });
+                    // console.log(eventArray);
+                    // setEventArray(eventArray);
+                })
+                .catch(error => console.error(error));
         }
         catch
         {
@@ -93,7 +131,7 @@ export default function Festival() {
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
-    }, [festivalIDGlobal]);
+    }, [festivalIDGlobal, festival_name]);
 
     //parses the review data from the database
     function parseReviewData(reviewData) {
@@ -112,7 +150,6 @@ export default function Festival() {
         cumulativeRating = cumulativeRating / reviewData.length;
         setAggregateRating(cumulativeRating);
         setTotalReviews(reviewData.length);
-        console.log(reviewsArray);
         return reviewsArray;
     }
 
@@ -137,7 +174,6 @@ export default function Festival() {
         //lowest to highest
         else if (event.target.value == 4) {
             tempArray.sort(function (a, b) {
-                console.log(a.rating + " " + b.rating);
                 return a.rating > b.rating ? 1 : -1;
             });
         }
