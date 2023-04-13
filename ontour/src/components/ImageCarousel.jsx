@@ -64,7 +64,7 @@ const ImageCarousel = (props) => {
                 return null
             }
             setImageId(data.id);
-            console.log("image_id: ", data.id)
+            console.log("image_id: ", image_id)
             setOpen(true);
             setTemp(e.target.src);
             setModel(true);
@@ -124,21 +124,6 @@ const ImageCarousel = (props) => {
                                 <CommentBox imageId={image_id} isVenue={props.isVenue} />
                             </Grid>
                         </Grid>
-
-                        {/* <div style={{ width: '100%', height: '100%' }}>
-                            <div className='row' style={{ width: '100%', height: '100%' }}>
-                                <div className='col-8 align-self-center'>
-                                    <img src={tempImg} style={{ width: '100%', height: '100%', borderRadius: '10px' }} />
-                                </div>
-                                <div className='col-4'> */}
-                                    {/* <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                                        <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                                        <TextField id="input-with-sx" label="Add a comment" variant="standard" />
-                                    </Box> */}
-                                    {/* <CommentBox imageId={image_id} isVenue={props.isVenue} />
-                                </div>
-                            </div>
-                        </div> */}
                     </Box>
                 </Modal>
                 <div className="controls">

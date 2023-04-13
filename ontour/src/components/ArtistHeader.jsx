@@ -10,13 +10,42 @@ import common_styles from "../Styles/common_styles";
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import { Grid } from "@mui/material";
-import home_styles from "../Styles/home_styles";
 import header_styles from "../Styles/header_styles";
+import { createClient } from '@supabase/supabase-js'
+import CommentBox from "./CommentBox";
 
 const modal_styles = artist_styles.modal;
 const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
 const verified = artist_styles.verifiedButton;
+
+function ChildModal(props) {
+
+   useEffect(() => {
+    console.log("ChildModal: ", props.open)
+    console.log(props.imageId);
+   }, [props.open, props.imageId]);
+
+    return (
+        <Modal
+            open={props.open}
+            onClose={props.onClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={modal_styles.container}>
+                <Grid container spacing={2} sx={{height: "100%"}}>
+                    <Grid item xs={12} md={8}>
+                        <img src={props.image} style={modal_styles.image} />
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                        <CommentBox imageId={props.imageId} isVenue={props.isVenue} />
+                    </Grid>
+                </Grid>
+            </Box>
+        </Modal>
+    );
+}
 
 function ArtistHeader(props) {
     const [images, setImages] = useState([]);
@@ -25,6 +54,10 @@ function ArtistHeader(props) {
     const [model, setModel] = useState(false);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
+    const [isChildModalOpen, setIsChildModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImageId, setSelectedImageId] = useState(null);
+    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
     const starBoxRef = useRef(null);
     const totalReviewTextRef = useRef(null);
@@ -57,6 +90,28 @@ function ArtistHeader(props) {
         setOpen(true);
         setModel(true);
     }
+
+    const handleImageClick = async (image) => {
+        const { data, error } = await supabase
+        .from('artist_images')
+        .select('id')
+        .eq('image_url', image.target.src)
+        .single();
+  
+        if (error) {
+            console.error(error);
+            return null;
+        }
+        setSelectedImageId(data.id);
+        setSelectedImage(image.target.src);
+        setIsChildModalOpen(true);
+    }
+
+    const handleCloseChildModal = () => {
+        setSelectedImage(null);
+        setSelectedImageId(null);
+        setIsChildModalOpen(false);
+      };
 
     useEffect(() => {
         if (props.images.length > 0) {
@@ -128,7 +183,7 @@ function ArtistHeader(props) {
                     <Box sx={modal_styles.container}>
                         <Grid item xs={12} container spacing={2}>
                             <Grid item xs={12}>
-                                <h1 style={{ color: "black" }} class="homebanner">Photos for {props.name}</h1>
+                                <h1 style={{ color: "black" }} class="homebanner">Photos of {props.name}</h1>
                             </Grid>
                             {images.map((image, index) => {
                                 return (
@@ -140,13 +195,23 @@ function ArtistHeader(props) {
                                             style={header_styles.imageTile.container}
                                         >
                                             <img 
-                                                src={image} alt="" style={header_styles.imageTile.image} 
+                                                src={image} 
+                                                style={header_styles.imageTile.image} 
+                                                onClick = {handleImageClick}
                                             />
                                         </div>
                                     </Grid>
                                 );
                             })}
                         </Grid>
+                        {selectedImage && (
+                            <ChildModal
+                            image={selectedImage}
+                            open={isChildModalOpen}
+                            imageId={selectedImageId}
+                            onClose={handleCloseChildModal}
+                            />
+                        )}
                     </Box>
                 </Modal>
             </Box>
