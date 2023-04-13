@@ -1,9 +1,8 @@
 import React from "react";
 import '../index.css';
 import Show from "./Show";
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import { format } from 'date-fns';
-import { AiOutlineConsoleSql } from "react-icons/ai";
 
 class UpcomingEvent {
     constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state, price) {
@@ -19,30 +18,6 @@ class UpcomingEvent {
         this.price = price;
     }
 }
-
-// function parseDate(date) {
-//     const [year, month, day] = date.split("-");
-//     const newData = new Date(+year, month - 1, +day);
-//     var weekday = newData.toString().split(" ")[0];
-//     var monthStr = newData.toString().split(" ")[1];
-//     var dayStr = newData.toString().split(" ")[2];
-
-//     if (dayStr.charAt(0) == '0') {
-//         dayStr = dayStr.slice(1);
-//     }
-
-//     var fullDate = weekday + ", " + monthStr + " " + dayStr;
-//     return fullDate;
-// }
-
-// function parseName(name) {
-//     var nameParse = name.split(" ");
-//     for (let j = 0; j < nameParse.length; j++) {
-//         nameParse[j] = nameParse[j].charAt(0) + nameParse[j].slice(1).toLowerCase();
-//     }
-//     var eventName = nameParse.join(" ");
-//     return eventName;
-// }
 
 function parseTime(eventTime) {
     var hours;
@@ -62,23 +37,11 @@ function parseTime(eventTime) {
     return time;
 }
 
-// function parseTimezone(timezone) {
-//     if (!timezone) {
-//         timezone = " ";
-//     }
-//     else {
-//         timezone = timezone.split('/')[1];
-//         timezone = timezone.replace('_', ' ');
-//     }
-//     return timezone;
-// }
-
 function createEvent(eventInfo) {
     var name = eventInfo.name;
     var date = eventInfo.start_date;
     date = date.replace("T", " ");
     var calendarDate = date.split(" ")[0];
-    console.log(calendarDate);
     var time = date.split(" ")[1];
     time = time.replace("-", " ");
     time = time.split(" ")[0]
@@ -94,7 +57,7 @@ function createEvent(eventInfo) {
     return event;
 }
 
-export default function UpcomingSchedule(props) {
+export default function FestivalUpcomingSchedule(props) {
     const [eventArray, setEventArray] = useState([]);
     const performSearch = async () => {
         if (props.name) {
@@ -107,18 +70,12 @@ export default function UpcomingSchedule(props) {
                 .then(response => response.json())
                 .then(data => {
                     //create an array to hold the events
-                    console.log(data);
                     var eventArray = [];
                     for (var i = 0; i < data["_embedded"]["items"].length; i++) {
-                        if (data["_embedded"]["items"][i]["_embedded"]["categories"][0]["name"].toLowerCase() == name.toLowerCase()) {
-                            if (!data["_embedded"]["items"][i]["name"].includes("PARKING")) {
-                                if (eventArray.length < 5) {
-                                    console.log(data["_embedded"]["items"][i]);
-                                    var event = createEvent(data["_embedded"]["items"][i]);
-                                    eventArray.push(event);
-                                }
-                            }
-
+                        if(!data["_embedded"]["items"][i]["name"].includes("ONLY"))
+                        {
+                            var event = createEvent(data["_embedded"]["items"][i]);
+                            eventArray.push(event);
                         }
                     }
                     // order the event array by start date
@@ -134,13 +91,12 @@ export default function UpcomingSchedule(props) {
     }
     useEffect(() => {
         performSearch();
-    }, [props.name, props.id]);
-
+    }, [props.name]);
 
     return (
         <div class="container shows">
             <div class="row justify-content-center show">
-                <h4 id="upcoming" class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
+                <h4 id="upcoming" class="fw-bold d-none d-sm-block">Upcoming Events</h4>
                 <h4 id="upcoming-shows" class="fw-bold d-block d-sm-none">Shows</h4>
             </div>
 
@@ -172,4 +128,5 @@ export default function UpcomingSchedule(props) {
             </div> */}
         </div>
     );
+    
 }

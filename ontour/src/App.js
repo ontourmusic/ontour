@@ -10,6 +10,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import OnTourTheme from "./Styles/OnTourTheme";
 import Error from "./pages/Error";
 import SearchResults from "./pages/SearchResults";
+import Festival from "./pages/Festival";
 
 // import {
 //   createBrowserRouter,
@@ -68,6 +69,7 @@ function App() {
             <Route path="/artist" element={<Artist />} />
             <Route path="/results" element={<SearchResults />} />
             <Route path="/venue" element={<Venue />} />
+            <Route path="/festival" element={<Festival />} />
           </Routes>
         </Router>
         {/* <RouterProvider router={router} /> */}

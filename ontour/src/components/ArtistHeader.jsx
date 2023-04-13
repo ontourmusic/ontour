@@ -14,8 +14,13 @@ const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
 const verified = artist_styles.verifiedButton;
 
+
+/*
+optional prop made for the festival pages.
+    background_position: sets the background position of the image
+*/
 function ArtistHeader(props) {
-    const [isMobile, setIsMobile] = useState(false)
+    const [isMobile, setIsMobile] = useState(window_breakpoints.md >= window.innerWidth)
 
     const starBoxRef = useRef(null);
     const totalReviewTextRef = useRef(null);
@@ -48,6 +53,9 @@ function ArtistHeader(props) {
         console.log("adding event listener for resize");
         window.addEventListener("resize", handleResize);
     }, [])
+    useEffect(() => {
+        console.log("isMobile useEffect triggered");
+    }, [isMobile])
 
     return (
         <div 
@@ -55,7 +63,9 @@ function ArtistHeader(props) {
                 backgroundImage: isMobile ? 
                 `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` 
                 : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`, 
-                backgroundPosition: isMobile ? `center` : `none`,
+                backgroundPosition: props.background_position ? 
+                                        props.background_position : 
+                                        (isMobile ? `center` : `none`),
                 backgroundRepeat: `no-repeat`,
                 backgroundSize: `cover`,
                 height: `50vh`,
@@ -65,7 +75,7 @@ function ArtistHeader(props) {
             }}
         >
             <Box style={artist_styles.header.Container}>
-                {props.isVenue==0 && props.onTour && <OnTourButton></OnTourButton>}
+                {props.isVenue==0 && props.onTour && <OnTourButton />}
                 
                 <h1 style={artist_styles.header.ArtistName} class="fw-bold">{props.name} {props.isVenue==1 && props.verified && <img src="images/verifiedBadge.png" style={verified}></img>}
                 <br></br><span class="fw-light fs-3">{props.city}</span> 

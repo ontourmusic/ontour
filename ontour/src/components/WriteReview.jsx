@@ -48,19 +48,8 @@ export default function WriteReview(props) {
       setRating(rating);
     }
     setArtistId(props.artistId);
-
-    // f.log(rawMedia.files[0].name);
-    // var fReader = new FileReader();
-    // fReader.readAsDataURL(rawMedia.files[0]);
-    // fReader.onloadend = function(event){
-    //   var img = event.target.result;
-    //   console.log(img);
-    //   setMedia(img);
-    // }
-    // setDescription(description);
     setCanSubmit(true);
     postData();
-
   }
 
   useEffect(() => {
@@ -165,8 +154,6 @@ export default function WriteReview(props) {
 
   return (
     <div class="container" id="review">
-      {/* {media && <img src={media} class="d-block w-100" alt="..."/>} */}
-      {/* // <img src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/concert-photography/thumbnail.jpeg" class="d-block w-100" alt="..."/> */}
       <hr></hr>
       <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
       <div class="rating row">

@@ -8,6 +8,7 @@ import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
 
 import artist_styles from "../Styles/artist_styles";
+import FestivalUpcomingSchedule from "./FestivalUpcomingSchedule";
 const sidebar_styles = artist_styles.sidebar;
 
 /*
@@ -16,7 +17,7 @@ Props:
     linkPairs [][2]: array of pairs, link and icon link
 */
 
-const SideContent = ({name, linkPairs, venue}) => {
+const SideContent = ({name, linkPairs, venue, festival}) => {
     console.log("name: " + name);
     if(venue)
     {
@@ -41,14 +42,18 @@ const SideContent = ({name, linkPairs, venue}) => {
                         </div>
                     </button>
                 </a>
+                {linkPairs && 
                 <div style={sidebar_styles.icon_container}>
                     {
                         linkPairs.map((pair) => {
                             return <ExternalLink mediaLink={pair[0]} iconLink={pair[1]} />
                         })
                     }
-                </div>
-                {venue ? <VenueUpcomingSchedule name={name} /> : <UpcomingSchedule name={name} /> }
+                </div> }
+                {festival && <FestivalUpcomingSchedule name={name} />}
+                {venue && <VenueUpcomingSchedule name={name} />}
+                {!venue && !festival && <UpcomingSchedule name={name} />}
+                {/* {venue && !festival ? <VenueUpcomingSchedule name={name} /> : <UpcomingSchedule name={name} /> } */}
                 {/* <VenueUpcomingSchedule name={name} /> */}
                 {/* <a href="#">
             <img id="arrow" src="../../images/arrow.png" alt=""></img>
