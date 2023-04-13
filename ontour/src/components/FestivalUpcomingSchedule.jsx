@@ -71,7 +71,7 @@ export default function FestivalUpcomingSchedule(props) {
                 .then(response => response.json())
                 .then(data => {
                     //create an array to hold the events
-                    // console.log(data);
+                    console.log(data);
                     var eventArray = [];
                     for (var i = 0; i < data["_embedded"]["items"].length; i++) {
                         if(!data["_embedded"]["items"][i]["name"].includes("ONLY"))
