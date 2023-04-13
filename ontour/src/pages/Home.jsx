@@ -262,7 +262,7 @@ function Home() {
                     })}
                 </Grid>
                 {
-                  //common_styles.window_breakpoints.md > window.innerWidth &&
+                  
                   <Grid item xs={12}>
                       <div style={home_styles.review.container}>
                           <p style={home_styles.review.text}>

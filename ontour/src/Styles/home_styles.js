@@ -12,11 +12,6 @@ const header = {
     },
     content: {
         margin: "auto",
-        // position: "absolute",
-        // top: "55%",
-        // left: "50%",
-        // msTransform: "translate(-50%, -50%)",
-        // transform: "translate(-50%, -50%)",
     },
     title: {
         fontSize: "max(48px, 5vw)",
@@ -55,14 +50,25 @@ const homeTile = {
 };
 
 const review = {
-    container: {
-        height: "40vh",
+    containerLargeScreen: {
+        height: "25vh",
         backgroundColor: "#181816",
         color: "white",
         fontWeight: "lighter",
         textAlign: "left",
         paddingLeft: "15%",
         paddingRight: "20%",
+        paddingBottom: "10%",
+    },
+    container: {
+        height: "48vh",
+        backgroundColor: "#181816",
+        color: "white",
+        fontWeight: "lighter",
+        textAlign: "left",
+        paddingLeft: "15%",
+        paddingRight: "20%",
+        paddingBottom: "10%",
     },
     text: {
         fontSize: "max(16px, 2vw)",
