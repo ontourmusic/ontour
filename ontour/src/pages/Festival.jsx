@@ -164,7 +164,11 @@ export default function Festival() {
                 <ArtistNavigation />
             </Grid>
             <Grid item xs={12}>
-                <ArtistHeader name={festival_name} rating={aggregateRating} total={totalReviews} image={banner_image} isVenue={0} city={festivalCity} onTour={false} verified={true}/>
+                <ArtistHeader 
+                    background_position="center"
+                    name={festival_name} 
+                    rating={aggregateRating} 
+                    total={totalReviews} image={banner_image} isVenue={0} city={festivalCity} onTour={false} verified={true}/>
             </Grid>
             <Grid container spacing={1} style={artist_styles.grid.body_container}>
                 <Grid item xs={12} md={8}>
