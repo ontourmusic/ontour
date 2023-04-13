@@ -89,7 +89,11 @@ function createEvent(eventInfo) {
     var venue = eventInfo._embedded.venue.name;
     var city = eventInfo._embedded.venue.city;
     var state = eventInfo._embedded.venue.state_province;
-    var price = eventInfo.min_ticket_price.display;
+    var price = " ";
+    if(eventInfo.min_ticket_price)
+    {
+        price = eventInfo.min_ticket_price.display;
+    }
     var event = new UpcomingEvent(name, fullDate, 0, url, "Los Angeles", newTime, venue, city, state, price);
     return event;
 }
@@ -116,6 +120,7 @@ export default function UpcomingSchedule(props) {
                                     console.log(data["_embedded"]["items"][i]);
                                     var event = createEvent(data["_embedded"]["items"][i]);
                                     eventArray.push(event);
+                                    console.log(eventArray);
                                 }
                             }
 
@@ -126,6 +131,7 @@ export default function UpcomingSchedule(props) {
                         var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
                         return dateA - dateB;
                     });
+                    console.log(eventArray);
                     setEventArray(eventArray);
                 })
                 .catch(error => console.error(error));
