@@ -13,6 +13,7 @@ import Fuse from 'fuse.js'
 import ArtistContent from "../components/ArtistContent";
 import SideContent from "../components/SideContent";
 import WriteFestivalReview from "../components/WriteFestivalReview";
+import DisplayHeadliners from "../components/DisplayHeadliners";
 
 
 
@@ -83,8 +84,9 @@ export default function Festival() {
 
 
             //get the headliners for the festival
-            console.log(festival_name);
-            const stubhuburl = "https://kju1lx3bbf.execute-api.us-east-2.amazonaws.com/Prod/stubhubapi?artist=\"" + festival_name + "\"";
+            if(festival_name)
+            {
+                const stubhuburl = "https://kju1lx3bbf.execute-api.us-east-2.amazonaws.com/Prod/stubhubapi?artist=\"" + festival_name + "\"";
             fetch(stubhuburl, {
                 method: "GET",
 
@@ -111,15 +113,10 @@ export default function Festival() {
                         }
                     }
                     setHeadliners(headlinerArray);
-                    // // order the event array by start date
-                    // eventArray.sort(function (a, b) {
-                    //     var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
-                    //     return dateA - dateB;
-                    // });
-                    // console.log(eventArray);
-                    // setEventArray(eventArray);
                 })
                 .catch(error => console.error(error));
+            }
+
         }
         catch
         {
@@ -207,6 +204,9 @@ export default function Festival() {
                     total={totalReviews} image={banner_image} isVenue={0} city={festivalCity} onTour={false} verified={true}/>
             </Grid>
             <Grid container spacing={1} style={artist_styles.grid.body_container}>
+                <Grid item xs={12}>
+                    <DisplayHeadliners headliners={headliners} />
+                </Grid>
                 <Grid item xs={12} md={8}>
                     <ImageCarousel 
                         images={festivalImages} 
