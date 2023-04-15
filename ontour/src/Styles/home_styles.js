@@ -14,6 +14,7 @@ const header = {
         margin: "auto",
     },
     title: {
+        textShadow: "0px 0px 10px rgba(0,0,0,0.55)",
         fontSize: "max(48px, 5vw)",
         paddingBottom: "20px",
         fontWeight: "lighter",
@@ -66,10 +67,9 @@ const review = {
         color: "white",
         fontWeight: "lighter",
         textAlign: "left",
-        paddingLeft: "15%",
-        paddingRight: "15%",
-        // paddingRight: "20%",
-        paddingBottom: "10%",
+        margin: "5% 10% 5% 10%",
+        padding: "0% 5% 0% 5%",
+        borderLeft: "1px solid rgba(255,255,255,0.5)",
     },
     text: {
         fontSize: "max(16px, 2vw)",

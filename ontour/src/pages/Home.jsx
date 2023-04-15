@@ -217,7 +217,6 @@ function Home() {
                     </Grid>
                 </Grid>
                 {
-                    //common_styles.window_breakpoints.md > window.innerWidth &&
                     <Grid item md={0} lg={12}>
                         <div style={home_styles.review.container}>
                             <p style={home_styles.review.text}>
@@ -237,36 +236,11 @@ function Home() {
                                     />
                                 </Grid>
                                 <Grid item xs="auto" style={{ width: "fit-content" }}>
-                                    <div style={{ overflowWrap: "break-word" }}>
+                                    <div style={{ overflowWrap: "break-word", textAlign: "center" }}>
                                         Alex C. 03/17/2023 State Farm Stadium
                                     </div>
                                 </Grid>
                             </Grid>
-                        </div>
-                    </Grid>
-                }
-                {
-                    //common_styles.window_breakpoints.md > window.innerWidth &&
-                    <Grid item md={0} lg={12}>
-                        <div style={home_styles.review.container}>
-                            <p style={home_styles.review.text}>
-                                "No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
-                                get tickets to the Eras Tour I had VERY high hopes for this show and thankfully
-                                it did not disappoint. This concert was THREE hours of pure joy and bliss!""
-                            </p>
-                            <div style={styles.RatingRow}>
-                                <Rating
-                                    value={5}
-                                    // size="large"
-                                    style={{ fontSize: "2em" }}
-                                    readOnly
-                                    precision={0.1}
-                                    emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
-                                />
-                                <div style={styles.TotalReviewsText}>
-                                    Alex C. 03/17/2023 State Farm Stadium
-                                </div>
-                            </div>
                         </div>
                     </Grid>
                 }
