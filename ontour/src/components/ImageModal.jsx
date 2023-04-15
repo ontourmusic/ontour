@@ -37,21 +37,39 @@ const ImageModal = (props) => {
                 ctx.drawImage(img, 0, 0, img.width, img.height);
 
                 const imageData = ctx.getImageData(0, 0, img.width, img.height).data;
-                let r = 0, g = 0, b = 0;
+                let r = 0, g = 0, b = 0, totalWeight = 0;
                 const totalPixels = img.width * img.height;
 
                 for (let i = 0; i < imageData.length; i += 4) {
-                    if (!isBrownOrBlack(imageData[i], imageData[i + 1], imageData[i + 2])) {
-                        r += imageData[i] * imageData[i];
-                        g += imageData[i + 1] * imageData[i + 1];
-                        b += imageData[i + 2] * imageData[i + 2];
+                    // if (!isBrownOrBlack(imageData[i], imageData[i + 1], imageData[i + 2])) {
+                    //     r += imageData[i] * imageData[i];
+                    //     g += imageData[i + 1] * imageData[i + 1];
+                    //     b += imageData[i + 2] * imageData[i + 2];
+                    // }
+                    const pixelR = imageData[i];
+                    const pixelG = imageData[i + 1];
+                    const pixelB = imageData[i + 2];
+
+                    if (!isBrownOrBlack(pixelR, pixelG, pixelB)) {
+                        const { s, l } = rgbToHsl(pixelR, pixelG, pixelB);
+                        const weight = (s + l) / 2; // Calculate the weight based on saturation and lightness
+
+                        r += pixelR * weight;
+                        g += pixelG * weight;
+                        b += pixelB * weight;
+                        totalWeight += weight;
                     }
+                }
+                if (totalWeight > 0) {
+                    r /= totalWeight;
+                    g /= totalWeight;
+                    b /= totalWeight;
                 }
 
                 // square root of each color
-                r = Math.floor(Math.sqrt(r / totalPixels));
-                g = Math.floor(Math.sqrt(g / totalPixels));
-                b = Math.floor(Math.sqrt(b / totalPixels));
+                // r = Math.floor(Math.sqrt(r / totalPixels));
+                // g = Math.floor(Math.sqrt(g / totalPixels));
+                // b = Math.floor(Math.sqrt(b / totalPixels));
 
                 resolve({ r, g, b });
             };
@@ -80,7 +98,6 @@ const ImageModal = (props) => {
             }
             h /= 6;
         }
-
         return { h: h * 360, s: s * 100, l: l * 100 };
     }
 

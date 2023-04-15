@@ -106,16 +106,6 @@ const CommentBox = (props) => {
           disabled={disabled}>
           Post
         </Button>
-        <Button
-          variant="outlined"
-          // onClick={handleAverageColorButton}
-          style={{
-            color: disabled ? "grey" : "blue",
-            borderColor: disabled ? "grey" : "blue",
-          }}
-        >
-          Get Average Color
-        </Button>
         <hr style={{ marginTop: '10px' }} />
       </form>
       <div style={{ maxHeight: '300px', overflowY: 'scroll' }}>
