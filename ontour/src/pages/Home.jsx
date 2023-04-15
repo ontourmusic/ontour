@@ -19,6 +19,7 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import OnTourColors from "../Styles/colors";
 import home_styles from "../Styles/home_styles";
 import common_styles from "../Styles/common_styles";
+import HomeReview from "../components/HomeReview";
 
 
 function Home() {
@@ -218,30 +219,11 @@ function Home() {
                 </Grid>
                 {
                     <Grid item md={0} lg={12}>
-                        <div style={home_styles.review.container}>
-                            <p style={home_styles.review.text}>
-                                "No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
-                                get tickets to the Eras Tour I had VERY high hopes for this show and thankfully
-                                it did not disappoint. This concert was THREE hours of pure joy and bliss!""
-                            </p>
-                            <Grid container spacing={1} alignItems="center" justifyContent="center">
-                                <Grid item xs="auto">
-                                    <Rating
-                                        value={5}
-                                        // size="large"
-                                        style={{ fontSize: "2em" }}
-                                        readOnly
-                                        precision={0.1}
-                                        emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
-                                    />
-                                </Grid>
-                                <Grid item xs="auto" style={{ width: "fit-content" }}>
-                                    <div style={{ overflowWrap: "break-word", textAlign: "center" }}>
-                                        Alex C. 03/17/2023 State Farm Stadium
-                                    </div>
-                                </Grid>
-                            </Grid>
-                        </div>
+                        <HomeReview 
+                            text="No one puts on a show like Taylor Alison Swift! After the chaos that was trying to get tickets to the Eras Tour I had VERY high hopes for this show and thankfully it did not disappoint. This concert was THREE hours of pure joy and bliss!"
+                            rating={5}
+                            subText="Alex C. 03/17/2023 State Farm Stadium"
+                        />
                     </Grid>
                 }
                 <Grid item xs={11}>
@@ -269,25 +251,13 @@ function Home() {
                 {
 
                     <Grid item xs={12}>
-                        <div style={home_styles.review.container}>
-                            <p style={home_styles.review.text}>
-                                "I saw Bon Jovi here in 2017, it was awesome and he brought the house down!
+                        <HomeReview
+                            text="I saw Bon Jovi here in 2017, it was awesome and he brought the house down!
                                 The Forum is old but historic and was still a lot of fun as a concert venue.  It is intimate feeling despite
                                 how big it is and I would highly recommend seeing a concert here."
-                            </p>
-                            <div style={styles.RatingRow}>
-                                <Rating
-                                    value={5}
-                                    style={{ fontSize: "2em" }}
-                                    readOnly
-                                    precision={0.1}
-                                    emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
-                                />
-                                <div style={styles.TotalReviewsText}>
-                                    Jack 03/08/2017 Kia Forum
-                                </div>
-                            </div>
-                        </div>
+                            rating={5}
+                            subText="Jack 03/08/2017 Kia Forum"
+                        />
                     </Grid>
                 }
             </Grid>
