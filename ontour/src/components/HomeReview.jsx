@@ -28,7 +28,7 @@ const HomeReview = (props) => {
                     />
                 </Grid>
                 <Grid item xs="auto" style={{ width: "fit-content" }}>
-                    <div style={{ overflowWrap: "break-word", textAlign: "center" }}>
+                    <div style={home_styles.review.subText}>
                         {props.subText}
                     </div>
                 </Grid>
