@@ -14,6 +14,7 @@ import ArtistContent from "../components/ArtistContent";
 import SideContent from "../components/SideContent";
 import WriteFestivalReview from "../components/WriteFestivalReview";
 import DisplayHeadliners from "../components/DisplayHeadliners";
+import FestivalArtists from "../components/FestivalArtists";
 
 
 
@@ -38,6 +39,7 @@ export default function Festival() {
     const [showResults, setShowResults] = useState(false);
     const [, updateState] = React.useState();
     const [headliners, setHeadliners] = useState([]);
+    const [standardActs, setStandardActs] = useState([]);
     const window_breakpoints = common_styles.window_breakpoints;
 
     const searchReviews = (searchTerm) => {
@@ -95,7 +97,8 @@ export default function Festival() {
                 .then(data => {
                     //create an array to hold the events
                     console.log(data);
-                    var headlinerArray = [];
+                    let headlinerArray = [];
+                    let standardArray = [];
                     for (var i = 0; i < data["_embedded"]["items"].length; i++) {
                         if(!data["_embedded"]["items"][i]["name"].includes("ONLY"))
                         {
@@ -109,10 +112,19 @@ export default function Festival() {
                                         headlinerArray.push(headliner);
                                     }
                                 }
+                                else if (data["_embedded"]["items"][i]["_embedded"]["categories"][j]["role"] == "StandardAct")
+                                {
+                                    console.log(data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"]);
+                                    var standardAct = data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"];
+                                    if(!standardArray.includes(standardAct)){
+                                        standardArray.push(standardAct);
+                                    }
+                                }
                             }
                         }
                     }
                     setHeadliners(headlinerArray);
+                    setStandardActs(standardArray);
                 })
                 .catch(error => console.error(error));
             }
@@ -205,7 +217,7 @@ export default function Festival() {
             </Grid>
             <Grid container spacing={1} style={artist_styles.grid.body_container}>
                 <Grid item xs={12}>
-                    <DisplayHeadliners headliners={headliners} />
+                    <DisplayHeadliners headliners={headliners} standardActs={standardActs} />
                 </Grid>
                 <Grid item xs={12} md={8}>
                     <ImageCarousel 
