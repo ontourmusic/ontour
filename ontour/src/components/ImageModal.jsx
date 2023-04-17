@@ -8,9 +8,9 @@ const modal_styles = artist_styles.modal;
 
 
 const ImageModal = (props) => {
-    const [modalBackgroundColour, setModalBackgroundColour] = useState("gray");
-    const [imageBackgroundColour, setImageBackgroundColour] = useState("gray");
-    const [textColor, setTextColor] = useState("white");
+    const [modalBackgroundColour, setModalBackgroundColour] = useState("white");
+    const [imageBackgroundColour, setImageBackgroundColour] = useState("white");
+    const [textColor, setTextColor] = useState("black");
 
     const handleAverageColorButton = (url) => {
         console.log("Average Color Button Clicked");
@@ -43,6 +43,7 @@ const ImageModal = (props) => {
         >
             <Grid container columnSpacing={1}
                 sx={{
+                    overflow: "scroll",
                     width: "min(1800px, 80vw)",
                     height: "min(1000px, 80vh)",
                     boxShadow: 24,
@@ -53,17 +54,20 @@ const ImageModal = (props) => {
             >
                 <Grid item xs={12} md={8}
                     style={{
-                        height: "100%",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        maxHeight: "100%",
                         borderRadius: "10px",
                     }}
                 >
                     <img src={props.image} style={modal_styles.image} />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <CommentBox 
+                    <CommentBox
                         textColor={textColor}
-                        imageId={props.imageId} 
-                        isVenue={props.isVenue} 
+                        imageId={props.imageId}
+                        isVenue={props.isVenue}
                     />
                 </Grid>
             </Grid>

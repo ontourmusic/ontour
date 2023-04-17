@@ -101,8 +101,8 @@ const CommentBox = (props) => {
           variant="outlined"
           type='submit'
           style={{
-            color: disabled ? "grey" : "blue",
-            borderColor: disabled ? "grey" : "blue",
+            color: disabled ? props.textColor : "blue",
+            borderColor: disabled ? props.textColor : "blue",
           }}
           disabled={disabled}>
           Post
