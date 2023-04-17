@@ -14,7 +14,6 @@ const ImageModal = (props) => {
 
     const handleAverageColorButton = (url) => {
         console.log("Average Color Button Clicked");
-        // const averageColor = GetAverageColor(props.image);
         const imageUrl = "https://imagez.tmz.com/image/3a/4by3/2021/11/14/3a1b784d843e44bdbd609f17b17bee03_xl.jpg";
         GetAverageColor(url ? url : imageUrl)
             .then((averageColor) => {
