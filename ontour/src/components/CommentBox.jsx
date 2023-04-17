@@ -72,7 +72,8 @@ const CommentBox = (props) => {
 
   return (
     <div style={{
-      // backgroundColor: modalBackgroundColour,
+        // backgroundColor: modalBackgroundColour,
+        color: props.textColor
     }}>
       <h2>Comments ({comments.length})</h2>
       <form onSubmit={handleSubmit}>
