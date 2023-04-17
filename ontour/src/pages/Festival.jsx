@@ -14,7 +14,6 @@ import ArtistContent from "../components/ArtistContent";
 import SideContent from "../components/SideContent";
 import WriteFestivalReview from "../components/WriteFestivalReview";
 import DisplayHeadliners from "../components/DisplayHeadliners";
-import FestivalArtists from "../components/FestivalArtists";
 
 
 
