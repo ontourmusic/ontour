@@ -41,6 +41,9 @@ const ImageModal = (props) => {
                     ...modal_styles.gridContainer,
                     p: { xs: 1, md: 2, lg: 3 },
                     background: `linear-gradient(110deg, ${modalBackgroundColour}, 70%, ${imageBackgroundColour})`,
+                    "&:focus": {
+                        outline: "none",
+                    },
                 }}
             >
                 <Grid item xs={12} md={8} style={modal_styles.imageContainer}>
