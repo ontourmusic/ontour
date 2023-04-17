@@ -36,21 +36,28 @@ const carousel = {
 
 const modal = {
   container: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  gridContainer: {
+    overflow: "scroll",
     width: "min(1800px, 80vw)",
     height: "min(1000px, 80vh)",
-    bgcolor: OnTourColors.palette.primary.main,
-    // border: "2px solid #000",
     boxShadow: 24,
-    p: 4,
     borderRadius: "10px",
   },
   innerGrid: {
-    width: '100%', 
-    height: '100%',
+    width: "100%",
+    height: "100%",
+  },
+  image_container: {
+    paddingLeft: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    maxHeight: "100%",
+    borderRadius: "10px",
   },
   image: {
     width: "100%",
@@ -155,7 +162,7 @@ const verifiedButton = {
   width: "30px",
   height: "30px",
   marginLeft: "2px",
-}
+};
 
 const artist_styles = {
   header,

@@ -34,35 +34,23 @@ const ImageModal = (props) => {
             onClose={props.handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
-            style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-            }}
+            style={modal_styles.container}
         >
-            <Grid container columnSpacing={1}
+            <Grid container columnSpacing={0} rowSpacing={{xs: 1, md: 0}}
                 sx={{
-                    overflow: "scroll",
-                    width: "min(1800px, 80vw)",
-                    height: "min(1000px, 80vh)",
-                    boxShadow: 24,
-                    p: 4,
-                    borderRadius: "10px",
+                    ...modal_styles.gridContainer,
+                    p: { xs: 1, md: 2, lg: 3 },
                     background: `linear-gradient(110deg, ${modalBackgroundColour}, 70%, ${imageBackgroundColour})`,
                 }}
             >
-                <Grid item xs={12} md={8}
-                    style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        maxHeight: "100%",
-                        borderRadius: "10px",
-                    }}
-                >
+                <Grid item xs={12} md={8} style={modal_styles.imageContainer}>
                     <img src={props.image} style={modal_styles.image} />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={4}
+                    sx={{
+                        paddingLeft: { xs: "0px", md: "10px" },
+                    }}
+                >
                     <CommentBox
                         textColor={textColor}
                         imageId={props.imageId}
