@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 
 const CommentBox = (props) => {
   const [name, setName] = useState('');
@@ -10,6 +10,7 @@ const CommentBox = (props) => {
   const disabled = !name || !comment;
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
+  
   useEffect(() => {
     // reset states
     setName('');
@@ -21,7 +22,7 @@ const CommentBox = (props) => {
     const year = currentDate.getFullYear().toString();
     const formattedDate = `${month}/${day}/${year}`;
     setDate(formattedDate);
-    if(props.isVenue){
+    if (props.isVenue) {
       const fetchComments = async () => {
         const { data, error } = await supabase
           .from('venue_comments')
@@ -33,7 +34,7 @@ const CommentBox = (props) => {
       };
       fetchComments();
     }
-    else{
+    else {
       const fetchComments = async () => {
         const { data, error } = await supabase
           .from('artist_comments')
@@ -48,73 +49,80 @@ const CommentBox = (props) => {
   }, []);
 
   const handleSubmit = (event) => {
-      event.preventDefault();
-      setComments([...comments, { name, comment, date: date }]);
-      setName(comments.name);
-      setComment(comments.comment);
-      postData();  
+    event.preventDefault();
+    setComments([...comments, { name, comment, date: date }]);
+    setName(comments.name);
+    setComment(comments.comment);
+    postData();
   };
 
   const postData = async () => {
     let tableName = 'artist_comments';
-    if(props.isVenue){
+    if (props.isVenue) {
       tableName = 'venue_comments';
     }
     const { data, error } = await supabase
-    .from(tableName)
-    .insert(
-      [{'name': name, 'comment': comment, 'date': date, 'image_id': props.imageId }]
-    );
+      .from(tableName)
+      .insert(
+        [{ 'name': name, 'comment': comment, 'date': date, 'image_id': props.imageId }]
+      );
     setName('');
     setComment('');
   }
 
   return (
-    <div>
-        <h2>Comments ({comments.length})</h2>
+    <div style={{
+        // backgroundColor: modalBackgroundColour,
+        color: props.textColor
+    }}>
+      <h2>Comments ({comments.length})</h2>
       <form onSubmit={handleSubmit}>
         <div class="mb-3">
-            <input 
-              type="text" 
-              class="form-control" 
-              id="name" 
-              value={name} 
-              placeholder='Name' 
-              onChange={(event) => setName(event.target.value)}
-            />
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            value={name}
+            placeholder='Name'
+            onChange={(event) => setName(event.target.value)}
+          />
         </div>
         <div class="mb-3">
-            <textarea 
-              class="form-control" 
-              id="comment" 
-              value={comment} 
-              onChange={(event) => setComment(event.target.value)}
-              maxLength={200}
-              placeholder='Comment'>
-            </textarea>
+          <textarea
+            class="form-control"
+            id="comment"
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
+            maxLength={200}
+            placeholder='Comment'>
+          </textarea>
         </div>
-        <Button 
-          variant="outlined" 
-          type='submit' 
+        <Button
+          variant="outlined"
+          type='submit'
           style={{
-            color: disabled ? "grey" : "blue",
-            borderColor: disabled ? "grey" : "blue",
-          }} 
+            color: disabled ? props.textColor : "blue",
+            borderColor: disabled ? props.textColor : "blue",
+          }}
           disabled={disabled}>
-            Post
+          Post
         </Button>
-        <hr style={{marginTop: '10px'}} />
+        <hr style={{ marginTop: '10px' }} />
       </form>
       <div style={{ maxHeight: '300px', overflowY: 'scroll' }}>
         {comments.length === 0 && <p style={{ fontStyle: 'italic', textAlign: 'center', marginTop: '10px' }}>Be the first to comment!</p>}
         {comments.slice().reverse().map((comment, index) => (
           <div key={index}>
-            <div class="card" style={{margin:'10px'}}>
-                <div class="card-body">
-                    <p class="card-text" style={{ display: 'inline-block', fontWeight: 'bold' }}>{comment.name}</p>
-                    <p class="card-text" style={{ display: 'inline-block', fontWeight: 'normal' }}>{` \u00A0`}• {comment.date}</p>
-                    <p class="card-text">{comment.comment}</p>
-                </div>
+            <div class="card" style={{ margin: '10px' }}>
+              <div class="card-body">
+                <p class="card-text" style={{ display: 'inline-block', fontWeight: 'bold' }}>
+                  {comment.name}
+                </p>
+                <p class="card-text" style={{ display: 'inline-block', fontWeight: 'normal' }}>
+                  {` \u00A0`}• {comment.date}
+                </p>
+                <p class="card-text">{comment.comment}</p>
+              </div>
             </div>
           </div>
         ))}

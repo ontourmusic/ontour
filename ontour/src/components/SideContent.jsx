@@ -9,6 +9,7 @@ import { Box } from "@mui/system";
 
 import artist_styles from "../Styles/artist_styles";
 import FestivalUpcomingSchedule from "./FestivalUpcomingSchedule";
+import WriteReviewButton from "./WriteReviewButton";
 const sidebar_styles = artist_styles.sidebar;
 
 /*
@@ -30,18 +31,7 @@ const SideContent = ({name, linkPairs, venue, festival}) => {
     return (
         <div style={{ position: "sticky", top: "15px" }}>
             <Box sx={sidebar_styles.box}>
-                <a href="#review">
-                    <button id="writebutton" type="button" class="btn btn-dark fw-bold">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <img id="review-icon" src="../../images/review.png" alt=""></img>
-                            </div>
-                            <div id="write-a-review" class="d-none d-md-block col-md-9">
-                                Write a Review
-                            </div>
-                        </div>
-                    </button>
-                </a>
+                <WriteReviewButton />
                 {linkPairs && 
                 <div style={sidebar_styles.icon_container}>
                     {

@@ -1,40 +1,48 @@
 import React from "react";
 import '../index.css';
+import artist_styles from "../Styles/artist_styles";
+import { Grid } from "@mui/material";
 
-export default function Show(props)
-{
-    return(
-        // <a href="#">
-            <div id="show-row" class="row justify-content-center py-3 show">
-                <div class="col-12 col-md-4 align-self-center">
-                    <div class="fw-bold schedule-font">
-                        {props.date}
-                    </div>
-                    <div class="schedule-subfont">
-                        {props.time}
-                    </div>
+const show_styles = artist_styles.sidebar.upcomingShows;
+
+const Show = (props) => {
+    return (
+        <Grid container
+            columnSpacing={1}
+            justifyContent={"center"}
+            alignItems={"center"}
+            sx={show_styles.rowContainer}
+        >
+            <Grid item xs={3}>
+                <div class="fw-bold schedule-font">
+                    {props.date}
                 </div>
-                <div class="d-none d-md-block col-md-7 show-location align-self-center">
-                    <div class="fw-bold schedule-font">
-                        {props.event}
-                    </div>
-                    {!props.isVenue && 
+                <div class="schedule-subfont">
+                    {props.time}
+                </div>
+            </Grid>
+            <Grid item xs={8} style={show_styles.rightTextContainer}>
+                <div class="fw-bold schedule-font">
+                    {props.event}
+                </div>
+                {!props.isVenue &&
                     <>
                         <div class="schedule-subfont">
                             {props.venue} - {props.city}, {props.state}
                         </div>
                     </>
-                    }
-                    {props.price != -1 &&
+                }
+                {props.price != -1 &&
                     <div class="schedule-subfont">
-                            Tickets from <strong>{props.price}</strong>
+                        Tickets from <strong>{props.price}</strong>
                     </div>
-                    }
-                </div>         
-                <div class="d-none d-xl-block col-xl-1 align-self-center">
-                    •
-                </div>
-            </div>
-        // </a>
-    );
+                }
+            </Grid>
+            <Grid item xs={1}>
+                •
+            </Grid>
+        </Grid>
+    )
 }
+
+export default Show;

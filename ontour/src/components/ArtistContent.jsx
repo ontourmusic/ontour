@@ -87,48 +87,63 @@ const ArtistContent = (props) => {
                 <Grid item xs={12}>
                     <ReviewSummary allReviews={props.allReviews} />
                 </Grid>
-                <Grid item xs={6}>
-                    <div className='d-flex justify-content-left align-content-center pb-3 pl-5 ml-5'>
-                        <TextField id="standard-basic" label="Search Reviews" variant="outlined" onChange={inputChange} />
-                        <button type="button" class="btn btn-primary btn-sm" onClick={reviewSearch}>
-                            <FontAwesomeIcon icon={faSearch} size="sm" />
-                        </button>
-                    </div>
+                <Grid item xs={12} container spacing={1} style={{
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                }}>
+                    <Grid item xs={12} md={6}>
+                        <div className='d-flex justify-content-left align-content-center'>
+                            <TextField id="standard-basic" label="Search Reviews" variant="outlined" onChange={inputChange}
+                                style={{
+                                    width: "-webkit-fill-available"
+                                }}
+                            />
+                            <button type="button" class="btn btn-primary btn-sm" onClick={reviewSearch}
+                                style={{
+                                    marginLeft: '3px',
+                                    height: "auto",
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faSearch} size="sm" />
+                            </button>
+                        </div>
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                        <Form.Select onChange={props.onFormChange} aria-label="Default select example">
+                            <option>Recommended</option>
+                            <option value="1">Newest First</option>
+                            <option value="2">Oldest First</option>
+                            <option value="3">Highest Rated</option>
+                            <option value="4">Lowest Rated</option>
+                        </Form.Select>
+                    </Grid>
+                    <Grid item xs={6} md={3}>
+                        {/* <div class="dropdown p-3"> */}
+                        <Form.Select onChange={props.onRatingChange} aria-label="Default select example">
+                            <option value="0">Filter by Rating</option>
+                            <option value="1">1 Star</option>
+                            <option value="2">2 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="5">5 Stars</option>
+                        </Form.Select>
+                        {/* </div> */}
+                    </Grid>
                 </Grid>
-                <Grid item xs={3}>
-                    <Form.Select onChange={props.onFormChange} aria-label="Default select example">
-                        <option>Recommended</option>
-                        <option value="1">Newest First</option>
-                        <option value="2">Oldest First</option>
-                        <option value="3">Highest Rated</option>
-                        <option value="4">Lowest Rated</option>
-                    </Form.Select>
-                </Grid>
-                <Grid item xs={3}>
-                    {/* <div class="dropdown p-3"> */}
-                    <Form.Select onChange={props.onRatingChange} aria-label="Default select example">
-                        <option value="0">Filter by Rating</option>
-                        <option value="1">1 Star</option>
-                        <option value="2">2 Stars</option>
-                        <option value="3">3 Stars</option>
-                        <option value="4">4 Stars</option>
-                        <option value="5">5 Stars</option>
-                    </Form.Select>
-                    {/* </div> */}
-                </Grid>
+
             </Grid>
             {props.allReviews.length > 0 &&
                 <div id="clear">
                     {
-                        props.searchResults ? 
-                        <div className='d-flex justify-content-left align-content-center mb-3 pl-5 ml-5'>
-                            <div className='pl-5'>
-                                {props.filteredReviews.length} reviews matching the search term &nbsp;
-                            </div>
-                            <button type="button" className='btn btn-outline-secondary btn-sm ml-5' onClick={props.onClearSearch}>
-                                Clear Search
-                            </button>
-                        </div> : <></>
+                        props.searchResults ?
+                            <div className='d-flex justify-content-left align-content-center mb-3 pl-5 ml-5'>
+                                <div className='pl-5'>
+                                    {props.filteredReviews.length} reviews matching the search term &nbsp;
+                                </div>
+                                <button type="button" className='btn btn-outline-secondary btn-sm ml-5' onClick={props.onClearSearch}>
+                                    Clear Search
+                                </button>
+                            </div> : <></>
                     }
 
                     <div id="page" style={review_display_styles.review.container}>

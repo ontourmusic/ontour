@@ -19,6 +19,22 @@ const sidebar = {
     display: "flex",
     flexDirection: "space-between",
   },
+  upcomingShows: {
+    container: {},
+    rowContainer: {
+      "&:hover": {
+        backgroundColor: "#e7e8e8",
+        transitionDuration: "0.4s",
+      },
+      height: "max(fitContent, 75px)",
+      borderBottom: "1px solid #c8c9ca",
+      paddingTop: "10px",
+      paddingBottom: "10px",
+    },
+    rightTextContainer: {
+      textAlign: "left",
+    },
+  },
 };
 
 const carousel = {
@@ -36,21 +52,28 @@ const carousel = {
 
 const modal = {
   container: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "min(1800px, 80vw)",
-    height: "min(1000px, 80vh)",
-    bgcolor: OnTourColors.palette.primary.main,
-    // border: "2px solid #000",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  gridContainer: {
+    overflow: "scroll",
+    width: "min(1800px, 90vw)",
+    height: "min(1000px, 90vh)",
     boxShadow: 24,
-    p: 4,
     borderRadius: "10px",
   },
   innerGrid: {
-    width: '100%', 
-    height: '100%',
+    width: "100%",
+    height: "100%",
+  },
+  imageContainer: {
+    paddingLeft: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    maxHeight: "100%",
+    borderRadius: "10px",
   },
   image: {
     width: "100%",
@@ -100,21 +123,14 @@ const review_display = {
 const header = {
   Background: {
     backgroundRepeat: "noRepeat",
-    // backgroundPosition: "center",
     backgroundSize: "cover",
     height: "40vh",
     position: "relative",
   },
   Container: {
-    // height: "fit-content",
-    // bottom: "0%",
-    // left: "0%",
     maxWidth: "min(100%, 700px)",
-    // paddingBottom: "4%",
     paddingBottom: "2rem",
     paddingLeft: "4%",
-    // paddingTop: "75%",
-    // paddingTop: "4%",
   },
   Mobile: {
     background: "linearGradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))",
@@ -155,7 +171,7 @@ const verifiedButton = {
   width: "30px",
   height: "30px",
   marginLeft: "2px",
-}
+};
 
 const artist_styles = {
   header,
