@@ -191,14 +191,14 @@ function Home() {
                 <HomeHeader />
             </Grid>
             <Grid item xs={12} container spacing={2} justifyContent="center" >
-                <Grid item xs={12} container>
+                <Grid item xs={10} container>
                     <Grid item xs={12}>
                         <h1 style={{ color: "#FFFFFF" }} class="homebanner">Review the artists you love</h1>
                     </Grid>
-                    <Grid item xs={12} container rowSpacing={0}>
+                    <Grid item xs={12} container spacing={2}>
                         {Object.keys(artistList).map((artist, index) => {
                             return (
-                                <Grid item xs={6} md={3}>
+                                <Grid item xs={6} md={3} style={{ height: "30vh"}}>
                                     <HomeTile
                                         isArtist={true}
                                         imageURL={artistList[artist].imageURL}
@@ -213,34 +213,37 @@ function Home() {
                         })}
                     </Grid>
                 </Grid>
-                <Grid item md={0} lg={12}>
+                <Grid item xs={12}>
                     <HomeReview
                         text="No one puts on a show like Taylor Alison Swift! After the chaos that was trying to get tickets to the Eras Tour I had VERY high hopes for this show and thankfully it did not disappoint. This concert was THREE hours of pure joy and bliss!"
                         rating={5}
                         subText="Alex C. 03/17/2023 State Farm Stadium"
                     />
                 </Grid>
-                <Grid item xs={11}>
+                <Grid item xs={10}>
                     <Categories />
                 </Grid>
-                <Grid item xs={12} container>
+                <Grid item xs={10} container>
                     <Grid item xs={12}>
                         <h1 style={{ color: "#FFFFFF" }} class="homebanner">Legendary Venues</h1>
                     </Grid>
-                    {Object.keys(venueList).map((venue, index) => {
-                        return (
-                            <Grid item xs={6} md={4} lg={3}>
-                                <HomeTile
-                                    isArtist={false}
-                                    id={venueList[venue].venueID}
-                                    imageURL={venueList[venue].imageURL}
-                                    name={venueList[venue].name}
-                                    rating={venueRatings[venue]}
-                                    reviewCount={venueReviewCount[venue]}
-                                />
-                            </Grid>
-                        )
-                    })}
+                    <Grid item xs={12} spacing={2} container>
+                        {Object.keys(venueList).map((venue, index) => {
+                            return (
+                                <Grid item xs={6} md={3} style={{ height: "30vh"}}>
+                                    <HomeTile
+                                        isArtist={false}
+                                        id={venueList[venue].venueID}
+                                        loading={loading}
+                                        imageURL={venueList[venue].imageURL}
+                                        name={venueList[venue].name}
+                                        rating={venueRatings[venue]}
+                                        reviewCount={venueReviewCount[venue]}
+                                    />
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
                 </Grid>
                 <Grid item xs={12}>
                     <HomeReview
