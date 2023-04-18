@@ -51,7 +51,7 @@ const modal = {
     width: "100%",
     height: "100%",
   },
-  image_container: {
+  imageContainer: {
     paddingLeft: 0,
     display: "flex",
     alignItems: "center",
