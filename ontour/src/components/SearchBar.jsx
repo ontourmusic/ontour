@@ -31,17 +31,21 @@ export default function SearchBar(){
     const [hasFocus, setHasFocus] = useState(false);
     const [artistList, setArtistList] = useState([]);
     const [venueList, setVenueList] = useState([]);
+    const [festivalList, setFestivalList] = useState([]);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
     const loadSearchItems = async () => { 
         var artists = await supabase.from('artists').select('*');
         var venues = await supabase.from('venues').select('*');
+        var festivals = await supabase.from('festivals').select('*');
 
         var artistsList = artists["data"];
         var venuesList = venues["data"];
+        var festivalsList = festivals["data"];
 
         setArtistList(artistsList);
         setVenueList(venuesList);
+        setFestivalList(festivalsList);
     }
 
     useEffect(() => {
@@ -62,7 +66,15 @@ export default function SearchBar(){
           data: venueList,
           displayField: 'name',
           searchType: "contains"
+        },
+        {
+            id: "festivals",
+            name: "Festivals",
+            data: festivalList,
+            displayField: 'name',
+            searchType: "contains"
         }
+
       ];
 
     const onBlur = () => setHasFocus(false)
@@ -78,6 +90,8 @@ export default function SearchBar(){
             console.log(selectedItem);
             const index = artistList.findIndex(artist => artist['name'] === textEntry);
             const venueIndex = venueList.findIndex(venue => venue['name'] === textEntry);
+            const festivalIndex = festivalList.findIndex(festival => festival['name'] === textEntry);
+            // const festivalIndex = 
             if(index > -1){
                 navigate({
                     pathname: '/artist', 
@@ -97,6 +111,15 @@ export default function SearchBar(){
                     }).toString()
             });
             } 
+            else if(festivalIndex > -1){
+                navigate({
+                    pathname: '/festival',
+                    search: createSearchParams({
+                        id: festivalList[festivalIndex]["id"],
+                        festival: GetSearchTerm(festivalList[festivalIndex]["name"]),
+                    }).toString()
+                });
+            }
             if(typeof selectedItem.text !== undefined){
                 if(artistList.includes(selectedItem)){
                     navigate({
@@ -145,7 +168,18 @@ export default function SearchBar(){
                     }).toString()
                 });
             }
+            else if(festivalList.includes(selectedItem)){
+                navigate({
+                    pathname: '/festival',
+                    search: createSearchParams({
+                        id: selectedItem.id,
+                        festival: GetSearchTerm(selectedItem.name),
+                    }).toString()
+                });
+            }
+            
         }
+
         
     }
     

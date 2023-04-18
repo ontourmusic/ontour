@@ -14,7 +14,7 @@ import header_styles from "../Styles/header_styles";
 import { createClient } from '@supabase/supabase-js'
 import CommentBox from "./CommentBox";
 
-const modal_styles = artist_styles.modal;
+const modal_styles = artist_styles.oldModal;
 const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
 const verified = artist_styles.verifiedButton;
@@ -47,10 +47,15 @@ function ChildModal(props) {
     );
 }
 
+
+/*
+optional prop made for the festival pages.
+    background_position: sets the background position of the image
+*/
 function ArtistHeader(props) {
     const [images, setImages] = useState([]);
     const [imageLoad, setImageLoad] = useState(false);
-    const [isMobile, setIsMobile] = useState(false)
+    const [isMobile, setIsMobile] = useState(window_breakpoints.md >= window.innerWidth)
     const [model, setModel] = useState(false);
     const [open, setOpen] = useState(false);
     const handleClose = () => setOpen(false);
@@ -125,12 +130,14 @@ function ArtistHeader(props) {
     }, [props.images])
 
     return (
-        <div
-            style={{
-                backgroundImage: isMobile ?
-                    `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")`
-                    : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`,
-                backgroundPosition: isMobile ? `center` : `none`,
+        <div 
+            style={{ 
+                backgroundImage: isMobile ? 
+                `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` 
+                : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`, 
+                backgroundPosition: props.background_position ? 
+                                        props.background_position : 
+                                        (isMobile ? `center` : `none`),
                 backgroundRepeat: `no-repeat`,
                 backgroundSize: `cover`,
                 height: `50vh`,

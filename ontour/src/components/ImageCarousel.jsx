@@ -11,10 +11,11 @@ import { AddMediaButton } from "./Buttons";
 import CommentBox from "./CommentBox";
 import { createClient } from '@supabase/supabase-js'
 import { Grid, Typography } from "@mui/material";
+import ImageModal from "./ImageModal";
 
 import artist_styles from "../Styles/artist_styles";
 const carousel_styles = artist_styles.carousel;
-const modal_styles = artist_styles.modal;
+
 
 
 /*
@@ -109,23 +110,14 @@ const ImageCarousel = (props) => {
 
                     })}
                 </Slider>
-                <Modal
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={modal_styles.container}>
-                        <Grid container spacing={2} sx={{height: "100%"}}>
-                            <Grid item xs={12} md={8}>
-                                <img src={tempImg} style={modal_styles.image} />
-                            </Grid>
-                            <Grid item xs={12} md={4}>
-                                <CommentBox imageId={image_id} isVenue={props.isVenue} />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Modal>
+                {open && 
+                    <ImageModal 
+                        handleClose={handleClose} 
+                        image={tempImg} 
+                        imageId={image_id}
+                        isVenue={props.isVenue}
+                    />
+                    }
                 <div className="controls">
                     <ButtonBack className="btn-arrow" style={{ color: "black" }}>
                         <FontAwesomeIcon icon={faAngleLeft} size="lg" />
