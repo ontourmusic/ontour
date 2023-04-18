@@ -25,11 +25,14 @@ const imageTile = {
         height: "100%",
         width: "100%",
         objectFit: "cover",
-
         opacity: "1.0",
         display: "block",
         transition: "0.5s ease",
         backfaceVisibility: "hidden",
+        cursor: "pointer",
+    },
+    imageHover: {
+        filter: "brightness(50%)",
     },
     middle: {
         transition: "0.5s ease",

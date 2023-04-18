@@ -62,6 +62,7 @@ function ArtistHeader(props) {
     const [isChildModalOpen, setIsChildModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [selectedImageId, setSelectedImageId] = useState(null);
+    const [hoveredIndex, setHoveredIndex] = useState(null);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
     const starBoxRef = useRef(null);
@@ -117,6 +118,14 @@ function ArtistHeader(props) {
         setSelectedImageId(null);
         setIsChildModalOpen(false);
       };
+
+    const handleMouseEnter = (index) => {
+        setHoveredIndex(index);
+    };
+    
+    const handleMouseLeave = () => {
+        setHoveredIndex(null);
+    };
 
     useEffect(() => {
         if (props.images.length > 0) {
@@ -192,19 +201,26 @@ function ArtistHeader(props) {
                             <Grid item xs={12}>
                                 <h1 style={{ color: "black" }} class="homebanner">Photos of {props.name}</h1>
                             </Grid>
-                            {images.map((image, index) => {
+                            {images.map((image, index) => { 
                                 return (
                                     <Grid item xs={6} md={4} lg={3}>
                                         <div 
                                             // onClick={() => {handleTileClick()}}
-                                            // onMouseEnter={handleMouseEnter}
-                                            // onMouseLeave={handleMouseLeave}
                                             style={header_styles.imageTile.container}
                                         >
                                             <img 
                                                 src={image} 
-                                                style={header_styles.imageTile.image} 
+                                                style={{
+                                                    ...header_styles.imageTile.image,
+                                                    ...(index === hoveredIndex && header_styles.imageTile.imageHover),
+                                                  }} 
                                                 onClick = {handleImageClick}
+                                                onMouseEnter={() => {
+                                                    handleMouseEnter(index)
+                                                }}
+                                                onMouseLeave={() => {
+                                                    handleMouseLeave();
+                                                }}
                                             />
                                         </div>
                                     </Grid>
