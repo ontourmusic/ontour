@@ -83,6 +83,32 @@ const modal = {
   },
 };
 
+const oldModal = {
+  container: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "min(1800px, 80vw)",
+    height: "min(1000px, 80vh)",
+    bgcolor: OnTourColors.palette.primary.main,
+    // border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "10px",
+  },
+  innerGrid: {
+    width: '100%', 
+    height: '100%',
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    objectFit: "contain",
+  },
+};
+
 const review_display = {
   paginated_div: {
     display: "flex",
@@ -180,6 +206,7 @@ const artist_styles = {
   review_display,
   carousel,
   modal,
+  oldModal, 
   verifiedButton,
 };
 
