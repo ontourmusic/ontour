@@ -19,6 +19,22 @@ const sidebar = {
     display: "flex",
     flexDirection: "space-between",
   },
+  upcomingShows: {
+    container: {},
+    rowContainer: {
+      "&:hover": {
+        backgroundColor: "#e7e8e8",
+        transitionDuration: "0.4s",
+      },
+      height: "max(fitContent, 75px)",
+      borderBottom: "1px solid #c8c9ca",
+      paddingTop: "10px",
+      paddingBottom: "10px",
+    },
+    rightTextContainer: {
+      textAlign: "left",
+    },
+  },
 };
 
 const carousel = {
@@ -107,21 +123,14 @@ const review_display = {
 const header = {
   Background: {
     backgroundRepeat: "noRepeat",
-    // backgroundPosition: "center",
     backgroundSize: "cover",
     height: "40vh",
     position: "relative",
   },
   Container: {
-    // height: "fit-content",
-    // bottom: "0%",
-    // left: "0%",
     maxWidth: "min(100%, 700px)",
-    // paddingBottom: "4%",
     paddingBottom: "2rem",
     paddingLeft: "4%",
-    // paddingTop: "75%",
-    // paddingTop: "4%",
   },
   Mobile: {
     background: "linearGradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))",
