@@ -42,8 +42,8 @@ const modal = {
   },
   gridContainer: {
     overflow: "scroll",
-    width: "min(1800px, 80vw)",
-    height: "min(1000px, 80vh)",
+    width: "min(1800px, 90vw)",
+    height: "min(1000px, 90vh)",
     boxShadow: 24,
     borderRadius: "10px",
   },
