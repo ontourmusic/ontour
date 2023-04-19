@@ -212,7 +212,13 @@ export default function Festival() {
                     background_position="center"
                     name={festival_name} 
                     rating={aggregateRating} 
-                    total={totalReviews} image={banner_image} isVenue={0} city={festivalCity} onTour={false} verified={true}/>
+                    total={totalReviews} 
+                    image={banner_image} 
+                    isVenue={0} 
+                    city={festivalCity} 
+                    onTour={false} 
+                    verified={true}
+                    images = {festivalImages}/>
             </Grid>
             <Grid container spacing={1} style={artist_styles.grid.body_container}>
                 <Grid item xs={12}>
