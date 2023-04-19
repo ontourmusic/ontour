@@ -3,7 +3,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faMusic, faHouse, faRadio } from '@fortawesome/free-solid-svg-icons';
 
 export default function SearchBarItem(props){
-    console.log(props);
     if(props.groupId == "artists"){
         return (<div>
             <FontAwesomeIcon icon={faMusic} size="sm"/>
