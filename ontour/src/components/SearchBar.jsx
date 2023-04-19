@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Turnstone from 'turnstone';
 import '../Styles/turnstone.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -27,7 +27,7 @@ function GetSearchTerm(name) {
     return lower.replace(" ", "_");
 }
 
-export default function SearchBar(){
+export default function SearchBar(props){
     const [hasFocus, setHasFocus] = useState(false);
     const [artistList, setArtistList] = useState([]);
     const [venueList, setVenueList] = useState([]);
@@ -48,9 +48,15 @@ export default function SearchBar(){
         setFestivalList(festivalsList);
     }
 
-    useEffect(() => {
-        loadSearchItems();
-      }, []);
+    const turnstoneRef = useRef()
+
+    const handleClear = () => {
+        if(turnstoneRef.current){
+            turnstoneRef.current.clear();
+        }    
+    }
+
+    
 
       const listbox = [
         {
@@ -85,16 +91,23 @@ export default function SearchBar(){
     : 'containerNoFocus'
 
     const navigate = useNavigate(); 
-    const searchNavigate = (textEntry, selectedItem) => {
+
+    useEffect(() => {
+        loadSearchItems();
+      }, []);
+
+    const searchNavigate = async (textEntry, selectedItem) => {
         try{
-            console.log(selectedItem);
+            if(selectedItem.value){
+                selectedItem = selectedItem.value;
+            }
             const index = artistList.findIndex(artist => artist['name'] === textEntry);
             const venueIndex = venueList.findIndex(venue => venue['name'] === textEntry);
             const festivalIndex = festivalList.findIndex(festival => festival['name'] === textEntry);
             // const festivalIndex = 
             if(index > -1){
                 navigate({
-                    pathname: '/artist', 
+                    pathname: '/artist',
                     search: createSearchParams({
                         id: artistList[index]["artist_id"],
                         artist: GetSearchTerm(artistList[index]["name"]),
@@ -104,12 +117,12 @@ export default function SearchBar(){
 
             else if(venueIndex > -1){
                 navigate({
-                    pathname: '/venue', 
+                    pathname: '/venue',
                     search: createSearchParams({
                         id: artistList[venueIndex]["venue_id"],
                         venue: GetSearchTerm(venueList[index]["name"]),
                     }).toString()
-            });
+                });
             } 
             else if(festivalIndex > -1){
                 navigate({
@@ -123,19 +136,28 @@ export default function SearchBar(){
             if(typeof selectedItem.text !== undefined){
                 if(artistList.includes(selectedItem)){
                     navigate({
-                        pathname: '/artist', 
+                        pathname: '/artist',
                         search: createSearchParams({
-                        id: selectedItem.artist_id,
-                        artist: GetSearchTerm(selectedItem.name),
+                            id: selectedItem.artist_id,
+                            artist: GetSearchTerm(selectedItem.name),
                         }).toString()
                     });
                 }
                 else if(venueList.includes(selectedItem)){
                     navigate({
-                        pathname: '/venue', 
+                        pathname: '/venue',
                         search: createSearchParams({
-                        id: selectedItem.venue_id,
-                        venue: GetSearchTerm(selectedItem.name),
+                            id: selectedItem.venue_id,
+                            venue: GetSearchTerm(selectedItem.name),
+                        }).toString()
+                    });
+                }
+                else if(festivalList.includes(selectedItem)){
+                    navigate({
+                        pathname: '/festival',
+                        search: createSearchParams({
+                            id: selectedItem.id,
+                            festival: GetSearchTerm(selectedItem.name),
                         }).toString()
                     });
                 }
@@ -143,6 +165,10 @@ export default function SearchBar(){
         }
         catch {
             console.log('Search Error');
+        }
+        console.log(selectedItem);
+        if(props.navbar){
+            handleClear();
         }
         
     }
@@ -177,16 +203,14 @@ export default function SearchBar(){
                     }).toString()
                 });
             }
-            
         }
-
-        
     }
     
 
     return (
         <div className={containerStyles}>
             <Turnstone
+                ref={turnstoneRef}
                 id="fruitveg"
                 listbox={listbox}
                 matchText={true}
