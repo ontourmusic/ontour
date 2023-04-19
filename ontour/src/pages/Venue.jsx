@@ -16,9 +16,11 @@ import Footer from "../components/Footer";
 import { createClient } from '@supabase/supabase-js'
 import ImageCarousel from "../components/ImageCarousel";
 import Fuse from 'fuse.js'
+import common_styles from "../Styles/common_styles";
+
+const window_breakpoints = common_styles.window_breakpoints;
 
 function Venue() {
-
   //gets the name from the artist that was searched for on the home page
   const [searchParams] = useSearchParams();
   const venueNameGet = searchParams.get("venue");
@@ -47,6 +49,7 @@ function Venue() {
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [showResults, setShowResults] = useState(false);
+  const [verified, setVerified] = useState(false);
 
   const searchReviews = (searchTerm) => {
     const options = {
@@ -57,12 +60,12 @@ function Venue() {
     const results = fuse.search(searchTerm);
     setFilteredReviews(results.map((result) => {return result.item}));
     setShowResults(true);
-}
+  }
 
-const clearSearch = () => {
-    setShowResults(false);
-    setFilteredReviews(allReviews);
-}
+  const clearSearch = () => {
+      setShowResults(false);
+      setFilteredReviews(allReviews);
+  }
 
   //gets the artist and review data from the database
   const performSearch = async () => {
@@ -77,6 +80,7 @@ const clearSearch = () => {
       setVenueCity(cityState);
       setVenueImage(imageUrls);
       setVenueIdNumber(venueIDGlobal);
+      setVerified(venueData.data[0]["verified"]);
     
       const venueGalleryData = await supabase.from('venue_carousel_images').select('*').eq('venue_id', venueIDGlobal)
       //initialize an empty array
@@ -86,11 +90,12 @@ const clearSearch = () => {
         imageGallery.push(venueGalleryData.data[i].image_url);
       }
       setImageArray(imageGallery);
+      console.log(imageArray);
       const reviewData = await supabase.from('venue_reviews').select('*').eq('venue_id', venueIDGlobal)
 
 
-    setAllReviews(parseReviewData(reviewData["data"]));
-    setFilteredReviews(parseReviewData(reviewData["data"]));
+      setAllReviews(parseReviewData(reviewData["data"]));
+      setFilteredReviews(parseReviewData(reviewData["data"]));
 
 
       const tmVenue = await fetch(`https://app.ticketmaster.com/discovery/v2/venues.json?apikey=GcUX3HW4Tr1bbGAHzBsQR2VRr2cPM0wx&keyword=kia+forum`);
@@ -178,16 +183,20 @@ const clearSearch = () => {
         <ArtistNavigation />
       </Grid>
       <Grid item xs={12}>
-        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} city={venueCity} onTour={false}/>
+        <ArtistHeader name={venue_name} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={1} city={venueCity} onTour={false} verified={verified} images={imageArray}/>
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
         <Grid item xs={12} md={8}>
-          <ImageCarousel images={imageArray} slideCount={3} />
+          <ImageCarousel 
+            images={imageArray} 
+            slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3} 
+            isVenue={1} 
+            venueID={venueIDGlobal} />
           <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
-          {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} />}
+          {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} numReviews={totalReviews}/>}
         </Grid>
         <Grid item xs={12} md={4}>
-          <SideContent name={venue_name} linkPairs={[[ticketLink, "images/ticketmaster_icon.png"],]} />
+          <SideContent name={venue_name} venue={true} linkPairs={[[ticketLink, "images/ticketmaster_icon.png"],]} />
         </Grid>
       </Grid>
       <Grid item xs={12}>

@@ -21,11 +21,19 @@ const icon = {
 };
 const content = {
 };
+const text = {
+    color: "white",
+}
+const iconText = {
+    color: "black",
+}
 
 const category_styles = {
     container,
     icon,
     content,
+    text,
+    iconText,
 };
 
 export default category_styles;

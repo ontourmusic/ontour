@@ -1,4 +1,5 @@
 import common_styles from "./common_styles";
+import OnTourColors from "./colors";
 
 const grid = {
   body_container: {
@@ -18,12 +19,93 @@ const sidebar = {
     display: "flex",
     flexDirection: "space-between",
   },
+  upcomingShows: {
+    container: {},
+    rowContainer: {
+      "&:hover": {
+        backgroundColor: "#e7e8e8",
+        transitionDuration: "0.4s",
+      },
+      height: "max(fitContent, 75px)",
+      borderBottom: "1px solid #c8c9ca",
+      paddingTop: "10px",
+      paddingBottom: "10px",
+    },
+    rightTextContainer: {
+      textAlign: "left",
+    },
+  },
 };
 
 const carousel = {
+  titleBar: {
+    display: "flex",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+    marginBottom: "5px",
+  },
   container: {},
   slide: {
     margin: "0 4px 0 4px",
+  },
+};
+
+const modal = {
+  container: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  gridContainer: {
+    overflow: "scroll",
+    width: "min(1800px, 90vw)",
+    height: "min(1000px, 90vh)",
+    boxShadow: 24,
+    borderRadius: "10px",
+  },
+  innerGrid: {
+    width: "100%",
+    height: "100%",
+  },
+  imageContainer: {
+    paddingLeft: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    maxHeight: "100%",
+    borderRadius: "10px",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    objectFit: "contain",
+  },
+};
+
+const oldModal = {
+  container: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "min(1800px, 80vw)",
+    height: "min(1000px, 80vh)",
+    bgcolor: OnTourColors.palette.primary.main,
+    // border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "10px",
+  },
+  innerGrid: {
+    width: '100%', 
+    height: '100%',
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    objectFit: "contain",
   },
 };
 
@@ -55,7 +137,7 @@ const review_display = {
     starBox: {
       margin: "2px 0 2px 0",
       display: "flex",
-      fontSize: 18,
+      // fontSize: 18,
     },
   },
   review: {
@@ -67,21 +149,14 @@ const review_display = {
 const header = {
   Background: {
     backgroundRepeat: "noRepeat",
-    backgroundPosition: "center",
     backgroundSize: "cover",
     height: "40vh",
     position: "relative",
   },
   Container: {
-    // height: "fit-content",
-    // bottom: "0%",
-    // left: "0%",
-    maxWidth: "calc(min(100%, 500px) - 4%)",
-    // paddingBottom: "4%",
+    maxWidth: "min(100%, 700px)",
     paddingBottom: "2rem",
     paddingLeft: "4%",
-    // paddingTop: "75%",
-    // paddingTop: "4%",
   },
   Mobile: {
     background: "linearGradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5))",
@@ -112,10 +187,16 @@ const header = {
   },
   ArtistName: {
     inlineSize: "auto",
-    overflowWrap: "break-word",
+    // overflowWrap: "break-word",
     textAlign: "left",
     color: "white",
   },
+};
+
+const verifiedButton = {
+  width: "30px",
+  height: "30px",
+  marginLeft: "2px",
 };
 
 const artist_styles = {
@@ -124,6 +205,9 @@ const artist_styles = {
   sidebar,
   review_display,
   carousel,
+  modal,
+  oldModal, 
+  verifiedButton,
 };
 
 export default artist_styles;

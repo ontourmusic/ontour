@@ -3,6 +3,7 @@ import '../index.css';
 import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
+import Reaptcha from 'reaptcha';
 import { createClient } from '@supabase/supabase-js'
 
 export default function WriteVenueReview(props) {
@@ -12,6 +13,7 @@ export default function WriteVenueReview(props) {
   const [rating, setRating] = useState("");
   const [reviews, setPastReviews] = useState([]);
   const [canSubmit, setCanSubmit] = useState(true);
+  const [captchaVerified, setCaptcha] = useState(false);
   const [artistName, setArtistName] = useState("");
   const [eventDate, setEventDate] = useState("");
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
@@ -20,6 +22,11 @@ export default function WriteVenueReview(props) {
   // only set is used
   const [venueId, setVenueId] = useState(0);
   const [reviewsSet, setReviewsSet] = useState(false);
+
+  const onVerify = recaptchaResponse => {
+    console.log(recaptchaResponse);
+    setCaptcha(true);
+  };
 
 
   const handleWriteReview = event => {
@@ -67,9 +74,11 @@ export default function WriteVenueReview(props) {
   }
 
   const postData = async () => { 
-    //var encodedDescription = encodeURIComponent(description);
-    //await fetch(`http://127.0.0.1:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
-    //await fetch(`http://localhost:8000/venue_reviews/?venue_id=${props.venueId}&rating=${rating}&description=${encodedDescription}&name=${name}&artistname=${artistName}&date=${eventDate}`, { method: 'POST', mode: 'cors' });
+    const { data2, error2 } = await supabase
+      .from('venues')
+      .update({ 'review_count': props.numReviews+1 })
+      .eq('venue_id', props.venueId);
+
     const { data, error } = await supabase
       .from('venue_reviews')
       .insert(
@@ -91,8 +100,6 @@ export default function WriteVenueReview(props) {
 
   return (
     <div class="container" id="review">
-      {/* {media && <img src={media} class="d-block w-100" alt="..."/>} */}
-      {/* // <img src="https://www.adobe.com/content/dam/cc/us/en/creativecloud/photography/discover/concert-photography/thumbnail.jpeg" class="d-block w-100" alt="..."/> */}
       <hr></hr>
       <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
       <div class="rating row">
@@ -121,7 +128,8 @@ export default function WriteVenueReview(props) {
           </div>
         </div>
         <div>
-          <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" >Submit</button>
+          <Reaptcha sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify}/>
+          <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" disabled={!captchaVerified} >Submit</button>
         </div>
       </form>
       {!canSubmit && <div className="alert alert-danger fw-bold" role="alert" style={{ marginTop: "25px" }}>Please leave a rating.</div>}
