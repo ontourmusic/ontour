@@ -19,6 +19,8 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import OnTourColors from "../Styles/colors";
 import home_styles from "../Styles/home_styles";
 import common_styles from "../Styles/common_styles";
+import HomeReview from "../components/HomeReview";
+import HomeHeader from "../components/HomeHeader";
 
 
 function Home() {
@@ -181,128 +183,80 @@ function Home() {
 
     const display = loading ? "hidden" : "visible";
     return (
-        <Grid container style={{ width: "100vw"}}spacing={0} sx={{ backgroundColor: "#181816" }}>
+        <Grid container style={{ width: "100vw" }} spacing={0} sx={{ backgroundColor: "#181816" }}>
             <Grid item xs={12}>
                 <Navigation />
             </Grid>
             <Grid item xs={12}>
-                <div style={home_styles.header.container}>
-                    <div style={home_styles.header.content} class="search">
-                        <h1 style={home_styles.header.title}>Find Your Next<br />Live Music Experience</h1>
-                        <SearchBar />
-                    </div>
-                </div>
+                <HomeHeader />
             </Grid>
             <Grid item xs={12} container spacing={2} justifyContent="center" >
-                <Grid item xs={12} container>
+                <Grid item xs={10} container>
                     <Grid item xs={12}>
                         <h1 style={{ color: "#FFFFFF" }} class="homebanner">Review the artists you love</h1>
                     </Grid>
-                    {Object.keys(artistList).map((artist, index) => {
-                        return (
-                            <Grid item xs={6} md={4} lg={3}>
-                                <HomeTile
-                                    isArtist={true}
-                                    imageURL={artistList[artist].imageURL}
-                                    loading={loading}
-                                    id={artistList[artist].artistID}
-                                    name={artistList[artist].name}
-                                    rating={ratings[artist]}
-                                    reviewCount={reviewCount[artist]}
-                                />
-                            </Grid>
-                        )
-                    })}
+                    <Grid item xs={12} container spacing={2}>
+                        {Object.keys(artistList).map((artist, index) => {
+                            return (
+                                <Grid item xs={6} md={3} style={{ height: "30vh"}}>
+                                    <HomeTile
+                                        isArtist={true}
+                                        imageURL={artistList[artist].imageURL}
+                                        loading={loading}
+                                        id={artistList[artist].artistID}
+                                        name={artistList[artist].name}
+                                        rating={ratings[artist]}
+                                        reviewCount={reviewCount[artist]}
+                                    />
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
                 </Grid>
-                {
-                  //common_styles.window_breakpoints.md > window.innerWidth &&
-                  <Grid item md={0} lg={12}>
-                      <div style={home_styles.review.container}>
-                          <p style={home_styles.review.text}>
-                              "No one puts on a show like Taylor Alison Swift! After the chaos that was trying to
-                              get tickets to the Eras Tour I had VERY high hopes for this show and thankfully
-                              it did not disappoint. This concert was THREE hours of pure joy and bliss!""
-                          </p>
-                          <div style={styles.RatingRow}>
-                               <Rating
-                                  value={5}
-                                  // size="large"
-                                  style={{fontSize: "2em"}}
-                                  readOnly
-                                  precision={0.1}
-                                  emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
-                              />
-                              <div style={styles.TotalReviewsText}>
-                                  Alex C. 03/17/2023 State Farm Stadium
-                              </div>
-                          </div>
-                      </div>
-                  </Grid>
-                } 
-                <Grid item xs={11}>
+                <Grid item xs={12}>
+                    <HomeReview
+                        text="No one puts on a show like Taylor Alison Swift! After the chaos that was trying to get tickets to the Eras Tour I had VERY high hopes for this show and thankfully it did not disappoint. This concert was THREE hours of pure joy and bliss!"
+                        rating={5}
+                        subText="Alex C. 03/17/2023 State Farm Stadium"
+                    />
+                </Grid>
+                <Grid item xs={10}>
                     <Categories />
                 </Grid>
-                <Grid item xs={12} container>
+                <Grid item xs={10} container>
                     <Grid item xs={12}>
                         <h1 style={{ color: "#FFFFFF" }} class="homebanner">Legendary Venues</h1>
                     </Grid>
-                    {Object.keys(venueList).map((venue, index) => {
-                        return (
-                            <Grid item xs={6} md={4} lg={3}>
-                                <HomeTile
-                                    isArtist={false}
-                                    id={venueList[venue].venueID}
-                                    imageURL={venueList[venue].imageURL}
-                                    name={venueList[venue].name}
-                                    rating={venueRatings[venue]}
-                                    reviewCount={venueReviewCount[venue]}
-                                />
-                            </Grid>
-                        )
-                    })}
+                    <Grid item xs={12} spacing={2} container>
+                        {Object.keys(venueList).map((venue, index) => {
+                            return (
+                                <Grid item xs={6} md={3} style={{ height: "30vh"}}>
+                                    <HomeTile
+                                        isArtist={false}
+                                        id={venueList[venue].venueID}
+                                        loading={loading}
+                                        imageURL={venueList[venue].imageURL}
+                                        name={venueList[venue].name}
+                                        rating={venueRatings[venue]}
+                                        reviewCount={venueReviewCount[venue]}
+                                    />
+                                </Grid>
+                            )
+                        })}
+                    </Grid>
                 </Grid>
-                {
-                  
-                  <Grid item xs={12}>
-                      <div style={home_styles.review.container}>
-                          <p style={home_styles.review.text}>
-                              "I saw Bon Jovi here in 2017, it was awesome and he brought the house down!  
-                              The Forum is old but historic and was still a lot of fun as a concert venue.  It is intimate feeling despite
-                               how big it is and I would highly recommend seeing a concert here."
-                          </p>
-                          <div style={styles.RatingRow}>
-                          <Rating
-                                  value={5}
-                                  style={{fontSize: "2em"}}
-                                  readOnly
-                                  precision={0.1}
-                                  emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1, color: "white" }} fontSize="inherit" />}
-                              />
-                              <div style={styles.TotalReviewsText}>
-                                Jack 03/08/2017 Kia Forum
-                              </div>
-                          </div>
-                      </div>
-                  </Grid>
-                }
+                <Grid item xs={12}>
+                    <HomeReview
+                        text="I saw Bon Jovi here in 2017, it was awesome and he brought the house down!
+                                The Forum is old but historic and was still a lot of fun as a concert venue.  It is intimate feeling despite
+                                how big it is and I would highly recommend seeing a concert here."
+                        rating={5}
+                        subText="Jack 03/08/2017 Kia Forum"
+                    />
+                </Grid>
             </Grid>
         </Grid>
     )
 
 }
 export default Home;
-
-const styles = {
-    RatingRow: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        spacing: 1,
-    },
-    TotalReviewsText: {
-        marginLeft: "0.5rem",
-        color: "white",
-        position: "center",
-    },
-}

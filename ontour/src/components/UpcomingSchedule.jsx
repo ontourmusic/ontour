@@ -120,6 +120,7 @@ export default function UpcomingSchedule(props) {
                                     console.log(data["_embedded"]["items"][i]);
                                     var event = createEvent(data["_embedded"]["items"][i]);
                                     eventArray.push(event);
+                                    console.log(eventArray);
                                 }
                             }
 
@@ -130,6 +131,7 @@ export default function UpcomingSchedule(props) {
                         var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
                         return dateA - dateB;
                     });
+                    console.log(eventArray);
                     setEventArray(eventArray);
                 })
                 .catch(error => console.error(error));
