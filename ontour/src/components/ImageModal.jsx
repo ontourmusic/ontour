@@ -1,7 +1,8 @@
 import React from "react";
 import artist_styles from "../Styles/artist_styles";
 import CommentBox from "./CommentBox";
-import { Box, Grid, Modal } from "@mui/material";
+import { Grid, Modal, IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { useState, useEffect } from "react";
 import { GetAverageColor, getTextColor, rgbToHex } from "./ColorFunctions";
 const modal_styles = artist_styles.modal;
@@ -56,7 +57,7 @@ const ImageModal = (props) => {
                 >
                     <CommentBox
                         textColor={textColor}
-                        imageId={props.imageId}
+                        imageData={props.imageData}
                         isVenue={props.isVenue}
                     />
                 </Grid>
