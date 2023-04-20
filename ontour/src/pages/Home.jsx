@@ -21,9 +21,9 @@ import home_styles from "../Styles/home_styles";
 import common_styles from "../Styles/common_styles";
 import HomeReview from "../components/HomeReview";
 import HomeHeader from "../components/HomeHeader";
-import { Divider } from "@mui/material";
-import { Card, CardContent, Grid, Typography, Button } from "@mui/material";
-import category_styles from "../Styles/category_styles";
+import { Card, CardContent, Button } from "@mui/material";
+
+import artist_styles from "../Styles/artist_styles";
 
 
 
@@ -39,6 +39,7 @@ function Home() {
     const [artistList, setArtistList] = useState({ name: "", imageURL: "", artistID: -1 });
     const [venueList, setVenueList] = useState({});
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+    const show_styles = artist_styles.sidebar.upcomingShows;
 
     const navigate = useNavigate();
     const routeChange = (artist) => {
@@ -138,6 +139,32 @@ function Home() {
             venueReviewCount[venueName] = newVenueCount[venueID];
         }
 
+
+        //try geolocating
+        var url = "https://ipinfo.io/json?token=fb31edba4fabb9";
+        const response = fetch(url).then(result => result.json())
+            .then(featureCollection => {
+                var lat = featureCollection.loc.split(",")[0];
+                var lon = featureCollection.loc.split(",")[1];
+                console.log(lat);
+                console.log(lon);
+
+                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music`
+                const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
+                    .then(featureCollection => {
+                        console.log(featureCollection);
+                        //sort featurecollection by date
+                        var sorted = featureCollection._embedded.events.sort(function (a, b) {
+                            var dateA = new Date(a.dates.start.localDate), dateB = new Date(b.dates.start.localDate);
+                            return dateA - dateB;
+                        }
+                        );
+                        console.log(sorted);
+                    })
+            });
+
+
+
     setRatings(()=> {
       return starsResults
     });
@@ -229,6 +256,37 @@ function Home() {
                         subText="Jack 03/08/2017 Kia Forum"
                     />
                 </Grid>
+                {/* ADD GEOLOCATING CODE */}
+                  <Grid item xs={10} container>
+                    <Grid item xs={12}>
+                        <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
+                    </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                            <div class="fw-bold schedule-font">
+                                03/17/2023
+                            </div>
+                            <div class="schedule-subfont">
+                                10:00 PM
+                            </div>
+                        </Grid>
+                        <Grid item xs={8} style={show_styles.rightTextContainer}>
+                            <div class="fw-bold schedule-font">
+                                Coachella Music Festival
+                            </div>
+                            <div class="schedule-subfont">
+                                Indio, CA
+                            </div>
+                            <div class="schedule-subfont">
+                                Tickets from <strong>$100</strong>
+                            </div>
+                        </Grid>
+                        
+
+            
+                    </Grid>
+
+                        </Grid>
             </Grid>
         </Grid>
     )
