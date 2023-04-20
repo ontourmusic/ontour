@@ -3,27 +3,15 @@ import React from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Navigation from "../Navigation";
-import SearchBar from "../components/SearchBar";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import '../Styles/carousel.css';
-import ArtistCarousel from "../components/ArtistCarousel";
 import { Audio } from 'react-loading-icons'
 import { createClient } from '@supabase/supabase-js'
 import Categories from "../components/Categories";
-import { Divider, Typography } from "@mui/material";
-import { Grid } from "@mui/material";
-import category_styles from "../Styles/category_styles";
 import HomeTile from "../components/HomeTile";
-import Rating from '@mui/material/Rating';
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import OnTourColors from "../Styles/colors";
-import home_styles from "../Styles/home_styles";
-import common_styles from "../Styles/common_styles";
 import HomeReview from "../components/HomeReview";
 import HomeHeader from "../components/HomeHeader";
-import { Divider } from "@mui/material";
-import { Card, CardContent, Grid, Typography, Button } from "@mui/material";
-import category_styles from "../Styles/category_styles";
+import { Card, CardContent, Grid, Typography, Button, Divider } from "@mui/material";
 
 
 
