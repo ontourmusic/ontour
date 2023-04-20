@@ -4,6 +4,7 @@ import Show from "./Show";
 import { useState, useEffect } from "react";
 import { format } from 'date-fns';
 import { AiOutlineConsoleSql } from "react-icons/ai";
+import Schedule from "./Schedule";
 
 class UpcomingEvent {
     constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state, price) {
@@ -144,38 +145,6 @@ export default function UpcomingSchedule(props) {
 
 
     return (
-        <div class="container shows">
-            <div class="row justify-content-center show">
-                <h4 id="upcoming" class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
-                <h4 id="upcoming-shows" class="fw-bold d-block d-sm-none">Shows</h4>
-            </div>
-
-            {eventArray.length > 0 ?
-                <div id="upcoming-list">
-                    {eventArray.map((item, index) => {
-                        return (
-                            <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
-                                <Show
-                                    time={eventArray[index].eventTime}
-                                    isVenue={false}
-                                    date={eventArray[index].date}
-                                    event={eventArray[index].name}
-                                    location={eventArray[index].timezone}
-                                    venue={eventArray[index].venue}
-                                    city={eventArray[index].city}
-                                    state={eventArray[index].state}
-                                    price={eventArray[index].price}
-                                />
-                            </a>
-                        )
-                    })}
-                </div>
-                : <p style={{ marginTop: "30px" }}>No Upcoming Shows</p>
-            }
-
-            {/* <div class="row justify-content-center pt-3">
-                <button id="upcoming-btn">See more</button>
-            </div> */}
-        </div>
+        <Schedule eventArray={eventArray} />
     );
 }
