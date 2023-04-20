@@ -206,9 +206,8 @@ export default function SearchBar(props){
             }
         }
         if(props.navbar){
-            handleClear();
+            window.location.reload();
         }
-
     }
     
 
