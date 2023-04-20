@@ -77,8 +77,8 @@ const modal = {
   imageContainer: {
     paddingLeft: 0,
     display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     maxHeight: "100%",
     borderRadius: "10px",
   },
@@ -115,6 +115,39 @@ const oldModal = {
     objectFit: "contain",
   },
 };
+
+const mediaUploadModal = {
+  container: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "min(800px, 80vw)",
+    height: "min(500px, 80vh)",
+    bgcolor: OnTourColors.palette.primary.main,
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "10px",
+    backgroundColor: "rgba(211, 211, 211, 0.9)"
+  },
+  addMediaButton: {
+    backgroundColor:'#21252B', 
+    textTransform: 'none', 
+    fontFamily: "Helvetica", 
+    fontWeight:'bold', 
+    fontSize: 15
+  },
+  formItem: {
+    padding: 10,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    objectFit: "contain",
+  },
+};
+
 
 const review_display = {
   paginated_div: {
@@ -235,6 +268,7 @@ const artist_styles = {
   carousel,
   modal,
   oldModal,
+  mediaUploadModal,
   verifiedButton,
 };
 
