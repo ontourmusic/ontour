@@ -166,7 +166,6 @@ export default function SearchBar(props){
         catch {
             console.log('Search Error');
         }
-        console.log(selectedItem);
         if(props.navbar){
             handleClear();
         }
@@ -174,7 +173,9 @@ export default function SearchBar(props){
     }
 
     const onSelect = (selectedItem, displayField) => {
-        console.log(selectedItem, displayField);
+        if(selectedItem == undefined){
+            return;
+        }
         if(artistList.includes(selectedItem)){
             navigate({
                 pathname: '/artist', 
@@ -204,6 +205,10 @@ export default function SearchBar(props){
                 });
             }
         }
+        if(props.navbar){
+            handleClear();
+        }
+
     }
     
 
