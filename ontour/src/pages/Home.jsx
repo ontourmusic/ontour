@@ -151,7 +151,7 @@ function Home() {
                 console.log(lat);
                 console.log(lon);
 
-                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music`
+                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music&radius=50&unit=miles`
                 const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
                     .then(featureCollection => {
                         var eventArray = [];
