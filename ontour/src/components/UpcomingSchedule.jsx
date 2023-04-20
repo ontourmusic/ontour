@@ -79,7 +79,6 @@ function createEvent(eventInfo) {
     var date = eventInfo.start_date;
     date = date.replace("T", " ");
     var calendarDate = date.split(" ")[0];
-    console.log(calendarDate);
     var time = date.split(" ")[1];
     time = time.replace("-", " ");
     time = time.split(" ")[0]
@@ -112,16 +111,13 @@ export default function UpcomingSchedule(props) {
                 .then(response => response.json())
                 .then(data => {
                     //create an array to hold the events
-                    console.log(data);
                     var eventArray = [];
                     for (var i = 0; i < data["_embedded"]["items"].length; i++) {
                         if (data["_embedded"]["items"][i]["_embedded"]["categories"][0]["name"].toLowerCase() == name.toLowerCase()) {
                             if (!data["_embedded"]["items"][i]["name"].includes("PARKING")) {
                                 if (eventArray.length < 5) {
-                                    console.log(data["_embedded"]["items"][i]);
                                     var event = createEvent(data["_embedded"]["items"][i]);
                                     eventArray.push(event);
-                                    console.log(eventArray);
                                 }
                             }
 
@@ -132,7 +128,6 @@ export default function UpcomingSchedule(props) {
                         var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
                         return dateA - dateB;
                     });
-                    console.log(eventArray);
                     setEventArray(eventArray);
                 })
                 .catch(error => console.error(error));

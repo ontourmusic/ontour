@@ -47,6 +47,8 @@ function Artist() {
     const [artistImage, setArtistImage] = useState("");
     const [spotifyLink, setSpotifyLink] = useState("");
     const [ticketLink, setTicketLink] = useState("");
+    const [instaLink, setInstaLink] = useState("");
+    const [twitterLink, setTwitterLink] = useState("");
     const [imageArray, setImageArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -104,10 +106,15 @@ function Artist() {
             setImageArray(imageArray);
 
             //gets the tickemaster artist details 
-            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${artistName}`, { mode: 'cors' });
+            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
             const tmData = await tmArtist.json();
+            console.log(tmData);
             var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
+            var instagram = tmData._embedded.attractions[0].externalLinks.instagram[0].url;
+            var twitter = tmData._embedded.attractions[0].externalLinks.twitter[0].url;
             var tickets = tmData._embedded.attractions[0].url;
+            setInstaLink(instagram);
+            setTwitterLink(twitter);
             setTicketLink(tickets);
             setSpotifyLink(spotify);
         }
@@ -226,7 +233,7 @@ function Artist() {
                         {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [ticketLink, "images/ticketmaster_icon.png"]]} />
+                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
