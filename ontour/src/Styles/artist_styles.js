@@ -23,7 +23,9 @@ const sidebar = {
     container: {},
     rowContainer: {
       "&:hover": {
-        backgroundColor: "#e7e8e8",
+        // backgroundColor: "#e7e8e8",
+        // backgroundColor: "#e7e8e84f",
+        backgroundColor: "#e7e8e85c",
         transitionDuration: "0.4s",
       },
       height: "max(fitContent, 75px)",

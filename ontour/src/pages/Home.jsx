@@ -347,7 +347,7 @@ function Home() {
                   <Grid item xs={12}>
                       <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
                   </Grid>
-                  <Schedule eventArray={upcomingEvents} />
+                  <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} />
                 </Grid>
             </Grid>
         </Grid>
