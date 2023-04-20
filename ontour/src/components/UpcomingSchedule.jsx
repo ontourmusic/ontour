@@ -4,6 +4,7 @@ import Show from "./Show";
 import { useState, useEffect } from "react";
 import { format } from 'date-fns';
 import { AiOutlineConsoleSql } from "react-icons/ai";
+import Schedule from "./Schedule";
 
 class UpcomingEvent {
     constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state, price) {
@@ -78,7 +79,6 @@ function createEvent(eventInfo) {
     var date = eventInfo.start_date;
     date = date.replace("T", " ");
     var calendarDate = date.split(" ")[0];
-    console.log(calendarDate);
     var time = date.split(" ")[1];
     time = time.replace("-", " ");
     time = time.split(" ")[0]
@@ -111,16 +111,13 @@ export default function UpcomingSchedule(props) {
                 .then(response => response.json())
                 .then(data => {
                     //create an array to hold the events
-                    console.log(data);
                     var eventArray = [];
                     for (var i = 0; i < data["_embedded"]["items"].length; i++) {
                         if (data["_embedded"]["items"][i]["_embedded"]["categories"][0]["name"].toLowerCase() == name.toLowerCase()) {
                             if (!data["_embedded"]["items"][i]["name"].includes("PARKING")) {
                                 if (eventArray.length < 5) {
-                                    console.log(data["_embedded"]["items"][i]);
                                     var event = createEvent(data["_embedded"]["items"][i]);
                                     eventArray.push(event);
-                                    console.log(eventArray);
                                 }
                             }
 
@@ -131,7 +128,6 @@ export default function UpcomingSchedule(props) {
                         var dateA = new Date(a["date"]), dateB = new Date(b["date"]);
                         return dateA - dateB;
                     });
-                    console.log(eventArray);
                     setEventArray(eventArray);
                 })
                 .catch(error => console.error(error));
@@ -144,38 +140,6 @@ export default function UpcomingSchedule(props) {
 
 
     return (
-        <div class="container shows">
-            <div class="row justify-content-center show">
-                <h4 id="upcoming" class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
-                <h4 id="upcoming-shows" class="fw-bold d-block d-sm-none">Shows</h4>
-            </div>
-
-            {eventArray.length > 0 ?
-                <div id="upcoming-list">
-                    {eventArray.map((item, index) => {
-                        return (
-                            <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
-                                <Show
-                                    time={eventArray[index].eventTime}
-                                    isVenue={false}
-                                    date={eventArray[index].date}
-                                    event={eventArray[index].name}
-                                    location={eventArray[index].timezone}
-                                    venue={eventArray[index].venue}
-                                    city={eventArray[index].city}
-                                    state={eventArray[index].state}
-                                    price={eventArray[index].price}
-                                />
-                            </a>
-                        )
-                    })}
-                </div>
-                : <p style={{ marginTop: "30px" }}>No Upcoming Shows</p>
-            }
-
-            {/* <div class="row justify-content-center pt-3">
-                <button id="upcoming-btn">See more</button>
-            </div> */}
-        </div>
+        <Schedule eventArray={eventArray} />
     );
 }
