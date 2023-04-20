@@ -12,8 +12,23 @@ import HomeTile from "../components/HomeTile";
 import HomeReview from "../components/HomeReview";
 import HomeHeader from "../components/HomeHeader";
 import { Card, CardContent, Grid, Typography, Button, Divider } from "@mui/material";
+import Schedule from "../components/Schedule";
 
 
+class UpcomingEvent {
+  constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state, price) {
+      this.name = name;
+      this.date = date;
+      this.eventId = eventId;
+      this.eventURL = eventURL;
+      this.timezone = timezone;
+      this.eventTime = eventTime;
+      this.venue = venue;
+      this.city = city;
+      this.state = state;
+      this.price = price;
+  }
+}
 
 
 function Home() {
@@ -27,7 +42,7 @@ function Home() {
     const [artistList, setArtistList] = useState({ name: "", imageURL: "", artistID: -1 });
     const [venueList, setVenueList] = useState({});
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
-    const show_styles = artist_styles.sidebar.upcomingShows;
+    const [upcomingEvents, setUpcomingEvents] = useState([]);
 
     const navigate = useNavigate();
     const routeChange = (artist) => {
@@ -108,7 +123,6 @@ function Home() {
         }
         setVenueList(venueObject);
         setArtistList(artistObject);
-        console.log(artistList);
 
         for (var i = 0; i < Object.keys(artistObject).length; i++) {
             var artistNameList = Object.keys(artistObject);
@@ -140,14 +154,25 @@ function Home() {
                 var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music`
                 const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
                     .then(featureCollection => {
-                        console.log(featureCollection);
+                        var eventArray = [];
                         //sort featurecollection by date
                         var sorted = featureCollection._embedded.events.sort(function (a, b) {
                             var dateA = new Date(a.dates.start.localDate), dateB = new Date(b.dates.start.localDate);
                             return dateA - dateB;
                         }
                         );
-                        console.log(sorted);
+                        for (let i = 0; i < sorted.length; i++) {
+                          if(eventArray.length <= 7)
+                          {
+                            var event = createEvent(sorted[i]);
+                            eventArray.push(event);
+                          }
+                          else{
+                            break;
+                          }
+                        }
+                        console.log(eventArray);
+                        setUpcomingEvents(eventArray);
                     })
             });
 
@@ -164,6 +189,79 @@ function Home() {
     })
     setLoading(false);
   }
+
+  function createEvent(eventInfo)
+  {
+    console.log(eventInfo);
+    var name = eventInfo.name;
+    var date = eventInfo.dates.start.localDate;
+    var fullDate = parseDate(date);
+    var timezone = parseTimezone(eventInfo.dates.timezone);
+    var eventId = eventInfo.id;
+    var eventURL = eventInfo.url;
+    var time = parseTime(eventInfo.dates.start.localTime);
+    var price = -1;
+    var city = eventInfo._embedded.venues[0].city.name;
+    var state = eventInfo._embedded.venues[0].state.stateCode;
+    var venue = eventInfo._embedded.venues[0].name;
+    if(eventInfo.priceRanges)
+    {
+        price = eventInfo.priceRanges[0].min;
+        price = price.toFixed(2);
+        price = "$" + price;
+        console.log(price);
+    }
+    var event = new UpcomingEvent(name, fullDate, eventId, eventURL, timezone, time, venue, city, state, price);
+    return event;
+
+
+  }
+
+  function parseTimezone(timezone){
+    if(!timezone)
+    {
+        timezone = " ";
+    }
+    else {
+        timezone = timezone.split('/')[1];
+        timezone = timezone.replace('_', ' ');
+    }
+    return timezone;
+  }
+
+  function parseTime(eventTime){
+    var hours;
+    var minutes
+    var time;
+    if(eventTime)
+    {
+        eventTime = eventTime.split(':');
+        hours = eventTime[0];
+        minutes = eventTime[1];
+        time = (hours > 12) ? hours-12 : hours;
+        time += ':' + minutes;
+        time += (hours >= 12) ? " pm" : " am";
+    }
+    else{
+        time = " ";
+    }
+    return time;
+  }
+
+  function parseDate(date){
+    const[year, month, day] = date.split("-");
+    const newData = new Date(+year, month - 1, +day);
+    var weekday = newData.toString().split(" ")[0];
+    var monthStr = newData.toString().split(" ")[1];
+    var dayStr = newData.toString().split(" ")[2];
+    
+    if(dayStr.charAt(0) == '0') {
+        dayStr = dayStr.slice(1);
+    }
+
+    var fullDate = weekday + ", " + monthStr + " " + dayStr;
+    return fullDate;
+}
 
     //performs the search when the page loads
     useEffect(() => {
@@ -245,36 +343,12 @@ function Home() {
                     />
                 </Grid>
                 {/* ADD GEOLOCATING CODE */}
-                  <Grid item xs={10} container>
-                    <Grid item xs={12}>
-                        <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
-                    </Grid>
-                    <Grid container spacing={2}>
-                        <Grid item xs={4}>
-                            <div class="fw-bold schedule-font">
-                                03/17/2023
-                            </div>
-                            <div class="schedule-subfont">
-                                10:00 PM
-                            </div>
-                        </Grid>
-                        <Grid item xs={8} style={show_styles.rightTextContainer}>
-                            <div class="fw-bold schedule-font">
-                                Coachella Music Festival
-                            </div>
-                            <div class="schedule-subfont">
-                                Indio, CA
-                            </div>
-                            <div class="schedule-subfont">
-                                Tickets from <strong>$100</strong>
-                            </div>
-                        </Grid>
-                        
-
-            
-                    </Grid>
-
-                        </Grid>
+                <Grid item xs={10} container>
+                  <Grid item xs={12}>
+                      <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
+                  </Grid>
+                  <Schedule eventArray={upcomingEvents} />
+                </Grid>
             </Grid>
         </Grid>
     )
