@@ -205,9 +205,6 @@ export default function SearchBar(props){
                 });
             }
         }
-        if(props.navbar){
-            window.location.reload();
-        }
     }
     
 
