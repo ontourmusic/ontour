@@ -1,9 +1,8 @@
 import React from "react";
 import '../index.css';
 import Show from "./Show";
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import { format } from 'date-fns';
-import { AiOutlineConsoleSql } from "react-icons/ai";
 import Schedule from "./Schedule";
 
 class UpcomingEvent {
@@ -20,30 +19,6 @@ class UpcomingEvent {
         this.price = price;
     }
 }
-
-// function parseDate(date) {
-//     const [year, month, day] = date.split("-");
-//     const newData = new Date(+year, month - 1, +day);
-//     var weekday = newData.toString().split(" ")[0];
-//     var monthStr = newData.toString().split(" ")[1];
-//     var dayStr = newData.toString().split(" ")[2];
-
-//     if (dayStr.charAt(0) == '0') {
-//         dayStr = dayStr.slice(1);
-//     }
-
-//     var fullDate = weekday + ", " + monthStr + " " + dayStr;
-//     return fullDate;
-// }
-
-// function parseName(name) {
-//     var nameParse = name.split(" ");
-//     for (let j = 0; j < nameParse.length; j++) {
-//         nameParse[j] = nameParse[j].charAt(0) + nameParse[j].slice(1).toLowerCase();
-//     }
-//     var eventName = nameParse.join(" ");
-//     return eventName;
-// }
 
 function parseTime(eventTime) {
     var hours;
@@ -63,17 +38,6 @@ function parseTime(eventTime) {
     return time;
 }
 
-// function parseTimezone(timezone) {
-//     if (!timezone) {
-//         timezone = " ";
-//     }
-//     else {
-//         timezone = timezone.split('/')[1];
-//         timezone = timezone.replace('_', ' ');
-//     }
-//     return timezone;
-// }
-
 function createEvent(eventInfo) {
     var name = eventInfo.name;
     var date = eventInfo.start_date;
@@ -89,16 +53,12 @@ function createEvent(eventInfo) {
     var venue = eventInfo._embedded.venue.name;
     var city = eventInfo._embedded.venue.city;
     var state = eventInfo._embedded.venue.state_province;
-    var price = -1;
-    if(eventInfo.min_ticket_price)
-    {
-        price = eventInfo.min_ticket_price.display;
-    }
+    var price = eventInfo.min_ticket_price.display;
     var event = new UpcomingEvent(name, fullDate, 0, url, "Los Angeles", newTime, venue, city, state, price);
     return event;
 }
 
-export default function UpcomingSchedule(props) {
+export default function FestivalUpcomingSchedule(props) {
     const [eventArray, setEventArray] = useState([]);
     const performSearch = async () => {
         if (props.name) {
@@ -113,14 +73,10 @@ export default function UpcomingSchedule(props) {
                     //create an array to hold the events
                     var eventArray = [];
                     for (var i = 0; i < data["_embedded"]["items"].length; i++) {
-                        if (data["_embedded"]["items"][i]["_embedded"]["categories"][0]["name"].toLowerCase() == name.toLowerCase()) {
-                            if (!data["_embedded"]["items"][i]["name"].includes("PARKING")) {
-                                if (eventArray.length < 5) {
-                                    var event = createEvent(data["_embedded"]["items"][i]);
-                                    eventArray.push(event);
-                                }
-                            }
-
+                        if(!data["_embedded"]["items"][i]["name"].includes("ONLY"))
+                        {
+                            var event = createEvent(data["_embedded"]["items"][i]);
+                            eventArray.push(event);
                         }
                     }
                     // order the event array by start date
@@ -136,10 +92,10 @@ export default function UpcomingSchedule(props) {
     }
     useEffect(() => {
         performSearch();
-    }, [props.name, props.id]);
-
+    }, [props.name]);
 
     return (
-        <Schedule eventArray={eventArray} />
+        <Schedule eventArray={eventArray}/>
     );
+    
 }

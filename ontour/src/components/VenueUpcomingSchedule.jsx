@@ -2,14 +2,17 @@ import React from "react";
 import '../index.css';
 import Show from "./Show";
 import {useState, useEffect} from "react";
+import Schedule from "./Schedule";
 
 class UpcomingEvent {
-    constructor(name, date, eventId, eventURL, timezone, eventTime) {
+    constructor(name, date, eventId, eventURL, timezone, eventTime, price) {
         this.name = name;
         this.date = date;
         this.eventId = eventId;
         this.eventURL = eventURL;
         this.eventTime = eventTime;
+        this.price = price;
+
     }
 }
 
@@ -77,8 +80,16 @@ function createEvent(eventInfo){
     var eventURL = eventInfo.url;
     var eventName = parseName(name);
     var time = parseTime(eventInfo.dates.start.localTime);
+    var price = -1;
+    if(eventInfo.priceRanges)
+    {
+        price = eventInfo.priceRanges[0].min;
+        price = price.toFixed(2);
+        price = "$" + price;
+        console.log(price);
+    }
 
-    var event = new UpcomingEvent(eventName, fullDate, eventId, eventURL, timezone, time);
+    var event = new UpcomingEvent(eventName, fullDate, eventId, eventURL, timezone, time, price);
     return event;
 }
 
@@ -94,11 +105,7 @@ export default function VenueUpcomingSchedule(props)
             var newname = name.replace(" ", "%20");
             console.log(props.id);
             var id = props.id;
-            var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5&classificationName=music`;
-            // var url = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&attractionId=${id}&sort=date,asc&size=5&classificationName=music`;
-
-            // url.replace(" ", "%20");
-            console.log(url);
+            var url =  `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&keyword=${newname}&sort=date,asc&size=5`;
             tmEvents = await fetch(url);
             tmEventData = await tmEvents.json();
             console.log(tmEventData);
@@ -121,29 +128,30 @@ export default function VenueUpcomingSchedule(props)
     
 
     return (
-        <div class="container shows">
-            <div class="row justify-content-center show">
-                <h4 id="upcoming" class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
-                <h4 id="upcoming-shows" class="fw-bold d-block d-sm-none">Shows</h4>
-            </div>
+        <Schedule eventArray={eventArray} />
+        // <div class="container shows">
+        //     <div class="row justify-content-center show">
+        //         <h4 id="upcoming" class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
+        //         <h4 id="upcoming-shows" class="fw-bold d-block d-sm-none">Shows</h4>
+        //     </div>
 
-            {eventArray.length > 0
-            ?
-            <div id="upcoming-list">
+        //     {eventArray.length > 0
+        //     ?
+        //     <div id="upcoming-list">
 
-                {eventArray.map((item, index)=>{
-                        return <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
-                            <Show time = {eventArray[index].eventTime} isVenue={true} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone}/>
-                        </a>
-                    })
-                }
+        //         {eventArray.map((item, index)=>{
+        //                 return <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
+        //                     <Show time = {eventArray[index].eventTime} isVenue={true} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone} price={eventArray[index].price}/>
+        //                 </a>
+        //             })
+        //         }
 
-            </div>
-            :<p style={{marginTop: "30px"}}>No Upcoming Shows</p>}
+        //     </div>
+        //     :<p style={{marginTop: "30px"}}>No Upcoming Shows</p>}
            
-            {/* <div class="row justify-content-center pt-3">
-                <button id="upcoming-btn">See more</button>
-            </div> */}
-        </div>
+        //     {/* <div class="row justify-content-center pt-3">
+        //         <button id="upcoming-btn">See more</button>
+        //     </div> */}
+        // </div>
     );
 }
