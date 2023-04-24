@@ -13,12 +13,12 @@ import HomeReview from "../components/HomeReview";
 import HomeHeader from "../components/HomeHeader";
 import { Card, CardContent, Grid, Typography, Button, Divider } from "@mui/material";
 import Schedule from "../components/Schedule";
-import { GoogleMap, MarkerF, InfoWindow} from '@react-google-maps/api';
+import { GoogleMap, MarkerF, InfoWindowF} from '@react-google-maps/api';
 import { set } from "date-fns";
 
 
 class UpcomingEvent {
-  constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state, price) {
+  constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state, price, lat, lng, isVenue) {
       this.name = name;
       this.date = date;
       this.eventId = eventId;
@@ -29,6 +29,10 @@ class UpcomingEvent {
       this.city = city;
       this.state = state;
       this.price = price;
+      this.lat = lat;
+      this.lng = lng;
+      this.isVenue = isVenue;
+
   }
 }
 
@@ -47,6 +51,14 @@ function Home() {
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+    const markers = [
+        { address: "Crypto", lat: 34.0430, lng: -118.267616 },
+        { address: "Santa Monica", lat: 34.0195, lng: -118.4912 },
+        { address: "Address3", lat: 33.9535, lng: -118.339630 },
+    ];
+    const [isOpen, setIsOpen] = useState(false);
+    const [infoWindowData, setInfoWindowData] = useState();
+    
 
     const navigate = useNavigate();
     const routeChange = (artist) => {
@@ -153,14 +165,11 @@ function Home() {
                 setLatitude(parseFloat(lat));
                 var lon = featureCollection.loc.split(",")[1];
                 setLongitude(parseFloat(lon));
-
-                // var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music&radius=50&unit=miles`
                 var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&classificationName=Music&radius=50&unit=miles`
                 const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
                     .then(featureCollection => {
                         console.log(featureCollection);
                         var eventArray = [];
-                        //sort featurecollection by date
                         var sorted = featureCollection._embedded.events.sort(function (a, b) {
                             var dateA = new Date(a.dates.start.localDate), dateB = new Date(b.dates.start.localDate);
                             return dateA - dateB;
@@ -176,6 +185,7 @@ function Home() {
                             break;
                           }
                         }
+                        console.log(eventArray);
                         setUpcomingEvents(eventArray);
                     })
             });
@@ -213,7 +223,9 @@ function Home() {
         price = price.toFixed(2);
         price = "$" + price;
     }
-    var event = new UpcomingEvent(name, fullDate, eventId, eventURL, timezone, time, venue, city, state, price);
+    var latitude = parseFloat(eventInfo._embedded.venues[0].location.latitude);
+    var longitude = parseFloat(eventInfo._embedded.venues[0].location.longitude);
+    var event = new UpcomingEvent(name, fullDate, eventId, eventURL, timezone, time, venue, city, state, price, latitude, longitude, false);
     return event;
 
 
@@ -263,7 +275,13 @@ function Home() {
 
     var fullDate = weekday + ", " + monthStr + " " + dayStr;
     return fullDate;
-}
+    }
+
+    function handleMarkerClick(id, lat, lng, venue)
+    {
+        setInfoWindowData({ id, venue });
+        setIsOpen(true);
+    }
 
     //performs the search when the page loads
     useEffect(() => {
@@ -349,17 +367,38 @@ function Home() {
                   <Grid item xs={12}>
                       <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
                   </Grid>
-                  <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} />
-                     <GoogleMap
-                        googleMapsApiKey="AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA"
-                        mapContainerStyle={{width: "100%", height: "100vh"}} 
-                        zoom={10}
-                        center={{lat: latitude, lng: longitude}}>
-                        <MarkerF position={{lat: latitude, lng: longitude}}/>
-                        {/* <InfoWindow>
-                            <h3>You are Here!</h3>
-                        </InfoWindow> */}
-                    </GoogleMap>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                             <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} />
+                        </Grid>
+                        <Grid item xs={6}>
+                            <GoogleMap
+                                googleMapsApiKey="AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA"
+                                mapContainerStyle={{width: "100%", height: "80vh"}} 
+                                zoom={10}
+                                onClick={() => setIsOpen(false)}
+                                center={{lat: latitude, lng: longitude}}>
+                                {upcomingEvents.map(({ venue, lat, lng }, ind) => (
+                                    <MarkerF
+                                        key={ind}
+                                        position={{ lat, lng }}
+                                        onClick={() => {
+                                            handleMarkerClick(ind, lat, lng, venue);
+                                        }}
+                                    >
+                                        {isOpen && infoWindowData.id === ind && (
+                                            <InfoWindowF onCloseclick={() => {setIsOpen(false)}}>
+                                                <div>{infoWindowData.venue}</div>
+                                            </InfoWindowF>
+                                        )}
+                                    </MarkerF>
+                                ))}
+                               
+                            </GoogleMap>
+                        </Grid>
+                    </Grid>
+                  {/* <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} /> */}
+                    
                 </Grid>
             </Grid>
         </Grid>
