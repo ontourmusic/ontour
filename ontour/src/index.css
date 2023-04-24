@@ -305,9 +305,9 @@ h4 {
 /* Arist page search bar */
 
 .navsearch{
-  position: relative;
+  
   width: 40%;
-  right: 30%;
+  
 }
 
 .navsearch input{
