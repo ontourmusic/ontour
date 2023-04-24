@@ -9,7 +9,7 @@ const modal_styles = artist_styles.modal;
 
 const ImageModal = (props) => {
     const [modalBackgroundColour, setModalBackgroundColour] = useState("rgba(76, 78, 120, 0.9)");
-    const [imageBackgroundColour, setImageBackgroundColour] = useState("rgb(5, 2, 14)");
+    const [imageBackgroundColour, setImageBackgroundColour] = useState("rgba(5, 2, 14, 1.0)");
     const [textColor, setTextColor] = useState("white");
 
     const handleAverageColorButton = (url) => {
