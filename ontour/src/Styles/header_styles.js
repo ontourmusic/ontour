@@ -8,11 +8,18 @@ const button_position = {
 };
 
 const button = {
-    margin: "20px",
+    // margin: "20px",
+    marginBottom: "2rem",
+    marginRight: "20px",
+    marginLeft: "20px",
+    // marginBottom: "2rem",
+    // marginRight: "2rem",
+    // marginLeft: "2rem",
     height: '50px',
     textTransform: 'none', 
     fontFamily: "Helvetica", 
     fontWeight:'bold',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
 }
 
 const imageTile = {

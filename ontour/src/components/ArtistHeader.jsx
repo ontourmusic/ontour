@@ -159,6 +159,8 @@ function ArtistHeader(props) {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                // wrap
+                flexWrap: 'wrap-reverse',
             }}>
                 <div style={artist_styles.header.Container}>
                     {props.isVenue == 0 && props.onTour && <OnTourButton></OnTourButton>}

@@ -45,8 +45,11 @@ const carousel = {
   titleBar: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
     flexWrap: "wrap",
-    marginBottom: "5px",
+    marginBottom: "10px",
+    marginLeft: "10px",
+    marginRight: "10px",
   },
   container: {},
   slide: {
