@@ -5,6 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ReactGA from 'react-ga4';
 import { Auth0Provider } from "@auth0/auth0-react";
+import {LoadScript} from '@react-google-maps/api';
+
 
 ReactGA.initialize("G-BE8WDNBGS7");
 
@@ -19,6 +21,9 @@ root.render(
     }}>
       <App />
     </Auth0Provider>
+    <LoadScript googleMapsApiKey="AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA">
+      <App />
+    </LoadScript>
   </React.StrictMode>
 );
 

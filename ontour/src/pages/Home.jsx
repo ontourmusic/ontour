@@ -13,6 +13,8 @@ import HomeReview from "../components/HomeReview";
 import HomeHeader from "../components/HomeHeader";
 import { Card, CardContent, Grid, Typography, Button, Divider } from "@mui/material";
 import Schedule from "../components/Schedule";
+import { GoogleMap, MarkerF, InfoWindow} from '@react-google-maps/api';
+import { set } from "date-fns";
 
 
 class UpcomingEvent {
@@ -43,6 +45,8 @@ function Home() {
     const [venueList, setVenueList] = useState({});
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     const [upcomingEvents, setUpcomingEvents] = useState([]);
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
 
     const navigate = useNavigate();
     const routeChange = (artist) => {
@@ -94,7 +98,6 @@ function Home() {
             newVenueRatings[currData.venue_id] += currData.rating;
             newVenueCount[currData.venue_id]++;
         }
-        console.log(newVenueRatings);
 
         //gets the list of recent artists from the database
         const recentArtists = await supabase.from('artists').select('*').order('review_count', { ascending: false }).limit(8);
@@ -147,13 +150,15 @@ function Home() {
         const response = fetch(url).then(result => result.json())
             .then(featureCollection => {
                 var lat = featureCollection.loc.split(",")[0];
+                setLatitude(parseFloat(lat));
                 var lon = featureCollection.loc.split(",")[1];
-                console.log(lat);
-                console.log(lon);
+                setLongitude(parseFloat(lon));
 
-                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music&radius=50&unit=miles`
+                // var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&sort=relevance,desc&classificationName=Music&radius=50&unit=miles`
+                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&classificationName=Music&radius=50&unit=miles`
                 const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
                     .then(featureCollection => {
+                        console.log(featureCollection);
                         var eventArray = [];
                         //sort featurecollection by date
                         var sorted = featureCollection._embedded.events.sort(function (a, b) {
@@ -171,7 +176,6 @@ function Home() {
                             break;
                           }
                         }
-                        console.log(eventArray);
                         setUpcomingEvents(eventArray);
                     })
             });
@@ -192,7 +196,6 @@ function Home() {
 
   function createEvent(eventInfo)
   {
-    console.log(eventInfo);
     var name = eventInfo.name;
     var date = eventInfo.dates.start.localDate;
     var fullDate = parseDate(date);
@@ -209,7 +212,6 @@ function Home() {
         price = eventInfo.priceRanges[0].min;
         price = price.toFixed(2);
         price = "$" + price;
-        console.log(price);
     }
     var event = new UpcomingEvent(name, fullDate, eventId, eventURL, timezone, time, venue, city, state, price);
     return event;
@@ -348,6 +350,16 @@ function Home() {
                       <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
                   </Grid>
                   <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} />
+                     <GoogleMap
+                        googleMapsApiKey="AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA"
+                        mapContainerStyle={{width: "100%", height: "100vh"}} 
+                        zoom={10}
+                        center={{lat: latitude, lng: longitude}}>
+                        <MarkerF position={{lat: latitude, lng: longitude}}/>
+                        {/* <InfoWindow>
+                            <h3>You are Here!</h3>
+                        </InfoWindow> */}
+                    </GoogleMap>
                 </Grid>
             </Grid>
         </Grid>
