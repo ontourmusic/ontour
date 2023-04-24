@@ -13,6 +13,7 @@ const button = {
     textTransform: 'none', 
     fontFamily: "Helvetica", 
     fontWeight:'bold',
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
 }
 
 const imageTile = {
