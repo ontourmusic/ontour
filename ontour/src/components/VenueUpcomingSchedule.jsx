@@ -5,13 +5,14 @@ import {useState, useEffect} from "react";
 import Schedule from "./Schedule";
 
 class UpcomingEvent {
-    constructor(name, date, eventId, eventURL, timezone, eventTime, price) {
+    constructor(name, date, eventId, eventURL, timezone, eventTime, price, isVenue) {
         this.name = name;
         this.date = date;
         this.eventId = eventId;
         this.eventURL = eventURL;
         this.eventTime = eventTime;
         this.price = price;
+        this.isVenue = isVenue;
 
     }
 }
@@ -89,7 +90,7 @@ function createEvent(eventInfo){
         console.log(price);
     }
 
-    var event = new UpcomingEvent(eventName, fullDate, eventId, eventURL, timezone, time, price);
+    var event = new UpcomingEvent(eventName, fullDate, eventId, eventURL, timezone, time, price, true);
     return event;
 }
 
