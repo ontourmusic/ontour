@@ -10,7 +10,7 @@ const polaroid_container = {
   marginTop: "7px",
   marginBottom: "7px",
   height: "30vh",
-  boxShadow: "0px 0px 7px -1px rgba(0,0,0,0.56)",
+  boxShadow: "0px 0px 7px -1px rgba(0,0,0,1.0)",
 };
 
 const polaroid_styles = {
