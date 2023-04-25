@@ -175,7 +175,6 @@ export default function WriteReview(props) {
         </div>
         <div class="row bottom">
           <div class="col">
-            {/* <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event Name" required/> */}
             {reviews.length > 0 &&
               <>
                 <Form.Select aria-label="Default select example" required onChange={handleFormChange}>
@@ -196,7 +195,6 @@ export default function WriteReview(props) {
         </div>
         <div class="row bottom">
           <div class="col">
-            {/* <textarea class="form-control shadow-none" style={{whiteSpace: "pre-wrap"}}  rows="5" cols="100" id="description" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea> */}
             <textarea
               class="form-control shadow-none"
               style={{ whiteSpace: "pre-wrap" }}
