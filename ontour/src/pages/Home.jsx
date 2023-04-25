@@ -273,7 +273,7 @@ function Home() {
     return (
         <Grid container style={{ width: "100vw" }} spacing={0} sx={{ backgroundColor: "#181816" }}>
             <Grid item xs={12}>
-                <Navigation />
+                <Navigation navbar={false}/>
             </Grid>
             <Grid item xs={12}>
                 <HomeHeader />
