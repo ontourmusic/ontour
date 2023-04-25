@@ -80,7 +80,9 @@ const ImageCarousel = (props) => {
     return (
         <>
             <div style={carousel_styles.titleBar}>
-                <Typography variant="h5" align="left" className="fw-bold">Captured Moments</Typography>
+                <Typography variant="h5" align="left" className="fw-bold" style={{
+                    marginRight: "15px",
+                }}>Captured Moments</Typography>
                 <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
             </div>
             <CarouselProvider

@@ -17,13 +17,17 @@ const sidebar = {
   },
   icon_container: {
     display: "flex",
+    width: "100%",
+    justifyContent: "center",
     flexDirection: "space-between",
   },
   upcomingShows: {
     container: {},
     rowContainer: {
       "&:hover": {
-        backgroundColor: "#e7e8e8",
+        // backgroundColor: "#e7e8e8",
+        // backgroundColor: "#e7e8e84f",
+        backgroundColor: "#e7e8e85c",
         transitionDuration: "0.4s",
       },
       height: "max(fitContent, 75px)",
@@ -41,8 +45,11 @@ const carousel = {
   titleBar: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
     flexWrap: "wrap",
-    marginBottom: "5px",
+    marginBottom: "10px",
+    marginLeft: "10px",
+    marginRight: "10px",
   },
   container: {},
   slide: {
