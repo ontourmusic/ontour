@@ -7,8 +7,6 @@ import '../Styles/carousel.css';
 import { Polaroid } from "./Polaroid";
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import { AddMediaButton } from "./Buttons";
 import CommentBox from "./CommentBox";
 import { createClient } from '@supabase/supabase-js'
@@ -67,7 +65,7 @@ const ImageCarousel = (props) => {
                 return null
             }
             setImageId(data.id);
-            console.log("image_id: ", data.id)
+            console.log("image_id: ", image_id)
             setOpen(true);
             setTemp(e.target.src);
             setModel(true);

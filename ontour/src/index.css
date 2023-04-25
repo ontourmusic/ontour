@@ -131,8 +131,8 @@ h4 {
 }
 
 .social-media-icon{
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .btn-outline-light:hover, .btn-outline-light:active, .dropdown:hover, .dropdown:active {

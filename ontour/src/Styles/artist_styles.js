@@ -17,13 +17,17 @@ const sidebar = {
   },
   icon_container: {
     display: "flex",
+    width: "100%",
+    justifyContent: "center",
     flexDirection: "space-between",
   },
   upcomingShows: {
     container: {},
     rowContainer: {
       "&:hover": {
-        backgroundColor: "#e7e8e8",
+        // backgroundColor: "#e7e8e8",
+        // backgroundColor: "#e7e8e84f",
+        backgroundColor: "#e7e8e85c",
         transitionDuration: "0.4s",
       },
       height: "max(fitContent, 75px)",
@@ -74,6 +78,32 @@ const modal = {
     justifyContent: "center",
     maxHeight: "100%",
     borderRadius: "10px",
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    objectFit: "contain",
+  },
+};
+
+const oldModal = {
+  container: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "min(1800px, 80vw)",
+    height: "min(1000px, 80vh)",
+    bgcolor: OnTourColors.palette.primary.main,
+    // border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+    borderRadius: "10px",
+  },
+  innerGrid: {
+    width: '100%', 
+    height: '100%',
   },
   image: {
     width: "100%",
@@ -180,6 +210,7 @@ const artist_styles = {
   review_display,
   carousel,
   modal,
+  oldModal, 
   verifiedButton,
 };
 
