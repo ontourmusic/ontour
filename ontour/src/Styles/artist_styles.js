@@ -105,8 +105,8 @@ const oldModal = {
     borderRadius: "10px",
   },
   innerGrid: {
-    width: '100%', 
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   image: {
     width: "100%",
@@ -118,9 +118,11 @@ const oldModal = {
 
 const review_display = {
   paginated_div: {
+    borderTop: "1px solid rgba(0,0,0,0.125)",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    alignItems: "center",
     boxSizing: "border-box",
     width: "100%",
     height: "100%",
@@ -148,7 +150,26 @@ const review_display = {
     },
   },
   review: {
-    container: common_styles.list_group.list_group_container,
+    container: {
+      // common_styles.list_group.list_group_container
+      width: "100%",
+
+      borderColor: "rgba(0,0,0,0.125)",
+      borderStyle: "solid",
+      borderWidth: "0px 1px 1px 1px",
+
+      padding: "10px",
+      display: "flex",
+      justifyContent: "start",
+      alignItems: "start",
+      textAlign: "left",
+      flexDirection: "column",
+    },
+    helpfulButton: {
+      backgroundColor: "rgba(0,0,0,0.1)",
+      color: "rgba(0,0,0,0.54)",
+      textTransform: "none",
+    },
     item: common_styles.list_group.list_group_item,
   },
 };
@@ -213,7 +234,7 @@ const artist_styles = {
   review_display,
   carousel,
   modal,
-  oldModal, 
+  oldModal,
   verifiedButton,
 };
 

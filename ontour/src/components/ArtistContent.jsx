@@ -26,7 +26,16 @@ const ArtistContent = (props) => {
         return (
             <>
                 {currentItems && currentItems.map(function (review, index) {
-                    return <Review user={review.name} date={review.eventDate} key={index} rating={review.rating} venue={review.event} text={review.review} />
+                    return (
+                        <Review 
+                            user={review.name} 
+                            date={review.eventDate} 
+                            key={index} 
+                            rating={review.rating} 
+                            venue={review.event} 
+                            text={review.review} 
+                        />
+                    )
                 })}
             </>
         )
@@ -146,12 +155,12 @@ const ArtistContent = (props) => {
                             </div> : <></>
                     }
 
-                    <div id="page" style={review_display_styles.review.container}>
+                    {/* <div id="page" style={review_display_styles.review.container}> */}
                         {/* {allReviews && allReviews.map(function(review, index) {
                         return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
                         })} */}
                         <PaginatedItems itemsPerPage={10} />
-                    </div>
+                    {/* </div> */}
                 </div>
             }
         </>
