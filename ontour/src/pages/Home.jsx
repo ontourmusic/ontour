@@ -368,10 +368,10 @@ function Home() {
                       <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
                   </Grid>
                     <Grid container spacing={2}>
-                        <Grid item xs={6}>
+                        <Grid item xs={12} md={6}>
                              <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={12} md={6}>
                             <GoogleMap
                                 googleMapsApiKey="AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA"
                                 mapContainerStyle={{width: "100%", height: "80vh"}} 
