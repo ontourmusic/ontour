@@ -127,9 +127,7 @@ function Artist() {
     useEffect(() => {
         performSearch();
     }, [artistID]);
-
-   
-
+    
     //parses the review data from the database
     function parseReviewData(reviewData) {
         var reviewsArray = [];

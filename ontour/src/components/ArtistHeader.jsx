@@ -12,6 +12,7 @@ import Modal from '@mui/material/Modal';
 import { Grid } from "@mui/material";
 import header_styles from "../Styles/header_styles";
 import { createClient } from '@supabase/supabase-js'
+import ImageModal from "./ImageModal";
 import CommentBox from "./CommentBox";
 
 const modal_styles = artist_styles.oldModal;
@@ -21,29 +22,34 @@ const verified = artist_styles.verifiedButton;
 
 function ChildModal(props) {
 
-   useEffect(() => {
-    console.log("ChildModal: ", props.open)
-    console.log(props.imageId);
-   }, [props.open, props.imageId]);
+    useEffect(() => {   
+        console.log(props.imageData);
+    }, [props.imageData])
 
     return (
-        <Modal
-            open={props.open}
-            onClose={props.onClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={modal_styles.container}>
-                <Grid container spacing={2} sx={{height: "100%"}}>
-                    <Grid item xs={12} md={8}>
-                        <img src={props.image} style={modal_styles.image} />
-                    </Grid>
-                    <Grid item xs={12} md={4}>
-                        <CommentBox imageId={props.imageId} isVenue={props.isVenue} />
-                    </Grid>
-                </Grid>
-            </Box>
-        </Modal>
+        // <Modal
+        //     open={props.open}
+        //     onClose={props.onClose}
+        //     aria-labelledby="modal-modal-title"
+        //     aria-describedby="modal-modal-description"
+        // >
+        //     <Box sx={modal_styles.container}>
+        //         <Grid container spacing={2} sx={{height: "100%"}}>
+        //             <Grid item xs={12} md={8}>
+        //                 <img src={props.image} style={modal_styles.image} />
+        //             </Grid>
+        //             <Grid item xs={12} md={4}>
+        //                 <CommentBox imageData={props.imageData} isVenue={props.isVenue} />
+        //             </Grid>
+        //         </Grid>
+        //     </Box>
+        // </Modal>
+        <ImageModal 
+        open={props.open}
+        handleClose={props.onClose}
+        imageData={props.imageData}
+        image={props.image} 
+        />
     );
 }
 
@@ -61,7 +67,7 @@ function ArtistHeader(props) {
     const handleClose = () => setOpen(false);
     const [isChildModalOpen, setIsChildModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedImageId, setSelectedImageId] = useState(null);
+    const [imageData, setImageData] = useState([]);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
@@ -100,7 +106,7 @@ function ArtistHeader(props) {
     const handleImageClick = async (image) => {
         const { data, error } = await supabase
         .from('artist_images')
-        .select('id')
+        .select('*')
         .eq('image_url', image.target.src)
         .single();
   
@@ -108,14 +114,14 @@ function ArtistHeader(props) {
             console.error(error);
             return null;
         }
-        setSelectedImageId(data.id);
+        setImageData(data);
         setSelectedImage(image.target.src);
         setIsChildModalOpen(true);
     }
 
     const handleCloseChildModal = () => {
         setSelectedImage(null);
-        setSelectedImageId(null);
+        setImageData(null);
         setIsChildModalOpen(false);
       };
 
@@ -159,6 +165,8 @@ function ArtistHeader(props) {
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                // wrap
+                flexWrap: 'wrap-reverse',
             }}>
                 <div style={artist_styles.header.Container}>
                     {props.isVenue == 0 && props.onTour && <OnTourButton></OnTourButton>}
@@ -231,7 +239,7 @@ function ArtistHeader(props) {
                             <ChildModal
                             image={selectedImage}
                             open={isChildModalOpen}
-                            imageId={selectedImageId}
+                            imageData={imageData}
                             onClose={handleCloseChildModal}
                             />
                         )}

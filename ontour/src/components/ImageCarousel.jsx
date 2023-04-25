@@ -28,8 +28,8 @@ const ImageCarousel = (props) => {
     const [model, setModel] = useState(false);
     const [tempImg, setTemp] = useState('');
     const [open, setOpen] = React.useState(false);
-    const handleClose = () => setOpen(false);
-    const [image_id, setImageId] = useState(0);
+    const handleClose = () => setOpen(false); 
+    const [imageData, setImageData] = useState([]);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
     const handleImageClick = async (e) => {
@@ -46,7 +46,7 @@ const ImageCarousel = (props) => {
                 console.error(error)
                 return null
             }
-            setImageId(data.id);
+            setImageData(data);
             console.log("image_id: ", data.id)
             setOpen(true);
             setTemp(e.target.src);
@@ -56,7 +56,7 @@ const ImageCarousel = (props) => {
         else {
             const { data, error } = await supabase
                 .from('artist_images')
-                .select('id')
+                .select('*')
                 .eq('image_url', e.target.src)
                 .single()
 
@@ -64,8 +64,7 @@ const ImageCarousel = (props) => {
                 console.error(error)
                 return null
             }
-            setImageId(data.id);
-            console.log("image_id: ", image_id)
+            setImageData(data);
             setOpen(true);
             setTemp(e.target.src);
             setModel(true);
@@ -81,7 +80,9 @@ const ImageCarousel = (props) => {
     return (
         <>
             <div style={carousel_styles.titleBar}>
-                <Typography variant="h5" align="left" className="fw-bold">Captured Moments</Typography>
+                <Typography variant="h5" align="left" className="fw-bold" style={{
+                    marginRight: "15px",
+                }}>Captured Moments</Typography>
                 <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
             </div>
             <CarouselProvider
@@ -114,7 +115,7 @@ const ImageCarousel = (props) => {
                     <ImageModal 
                         handleClose={handleClose} 
                         image={tempImg} 
-                        imageId={image_id}
+                        imageData={imageData}
                         isVenue={props.isVenue}
                     />
                     }

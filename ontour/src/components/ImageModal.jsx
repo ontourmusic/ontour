@@ -1,16 +1,17 @@
 import React from "react";
 import artist_styles from "../Styles/artist_styles";
 import CommentBox from "./CommentBox";
-import { Box, Grid, Modal } from "@mui/material";
+import { Grid, Modal, IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { useState, useEffect } from "react";
 import { GetAverageColor, getTextColor, rgbToHex } from "./ColorFunctions";
 const modal_styles = artist_styles.modal;
 
 
 const ImageModal = (props) => {
-    const [modalBackgroundColour, setModalBackgroundColour] = useState("white");
-    const [imageBackgroundColour, setImageBackgroundColour] = useState("white");
-    const [textColor, setTextColor] = useState("black");
+    const [modalBackgroundColour, setModalBackgroundColour] = useState("rgba(76, 78, 120, 0.9)");
+    const [imageBackgroundColour, setImageBackgroundColour] = useState("rgba(5, 2, 14, 1.0)");
+    const [textColor, setTextColor] = useState("white");
 
     const handleAverageColorButton = (url) => {
         console.log("Average Color Button Clicked");
@@ -25,7 +26,12 @@ const ImageModal = (props) => {
             .catch((error) => console.error("Error:", error));
     }
     useEffect(() => {
-        handleAverageColorButton(props.image);
+        // handleAverageColorButton(props.image);
+        /*
+        options:
+        linear-gradient(110deg, #2d2d4e, 60%, #ccd0de)
+        linear-gradient(110deg, #4c4e78, 42%, #05020e)
+        */
     }, []);
 
     return (
@@ -40,7 +46,7 @@ const ImageModal = (props) => {
                 sx={{
                     ...modal_styles.gridContainer,
                     p: { xs: 1, md: 2, lg: 3 },
-                    background: `linear-gradient(110deg, ${modalBackgroundColour}, 70%, ${imageBackgroundColour})`,
+                    background: `linear-gradient(110deg, ${modalBackgroundColour}, 45%, ${imageBackgroundColour})`,
                     "&:focus": {
                         outline: "none",
                     },
@@ -56,7 +62,7 @@ const ImageModal = (props) => {
                 >
                     <CommentBox
                         textColor={textColor}
-                        imageId={props.imageId}
+                        imageData={props.imageData}
                         isVenue={props.isVenue}
                     />
                 </Grid>

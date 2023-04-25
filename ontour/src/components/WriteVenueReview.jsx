@@ -5,6 +5,9 @@ import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
 import Reaptcha from 'reaptcha';
 import { createClient } from '@supabase/supabase-js'
+import { Typography } from "@mui/material";
+import common_styles from "../Styles/common_styles";
+const window_breakpoints = common_styles.window_breakpoints;
 
 export default function WriteVenueReview(props) {
   const [name, setName] = useState("");
@@ -73,17 +76,17 @@ export default function WriteVenueReview(props) {
     }
   }
 
-  const postData = async () => { 
+  const postData = async () => {
     const { data2, error2 } = await supabase
       .from('venues')
-      .update({ 'review_count': props.numReviews+1 })
+      .update({ 'review_count': props.numReviews + 1 })
       .eq('venue_id', props.venueId);
 
     const { data, error } = await supabase
       .from('venue_reviews')
       .insert(
-        [{'venue_id': props.venueId, 'rating': rating, 'review': description, 'name': name, 'artist': artistName, 'eventDate': eventDate }]
-    );
+        [{ 'venue_id': props.venueId, 'rating': rating, 'review': description, 'name': name, 'artist': artistName, 'eventDate': eventDate }]
+      );
     window.location.reload();
   }
 
@@ -101,10 +104,17 @@ export default function WriteVenueReview(props) {
   return (
     <div class="container" id="review">
       <hr></hr>
-      <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
+      <div style={{
+        marginTop: "15px",
+        marginBottom: "15px"
+      }}>
+        <Typography variant="h5" align="left" className="fw-bold">Review: Rate Your Experience</Typography>
+      </div>
+      {/* <h4 id="write-review" class="fw-bold">Rate Your Experience</h4> */}
       <div class="rating row">
         <div id="stars" class="col-3">
-          <Rating name="rating" size="large" required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} />
+          {/* <Rating name="rating" size="large" required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} /> */}
+          <Rating name="rating" sx={{ fontSize: "2.5rem" }} required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} />
         </div>
       </div>
       <form id="clear" onSubmit={handleWriteReview}>
@@ -124,11 +134,20 @@ export default function WriteVenueReview(props) {
         <div class="row bottom">
           <div class="col">
             {/* <textarea class="form-control shadow-none" style={{whiteSpace: "pre-wrap"}}  rows="5" cols="100" id="description" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea> */}
-            <textarea class="form-control shadow-none" style={{ whiteSpace: "pre-wrap" }} rows="5" cols="100" id="description" maxLength={5000} onChange={HandleDescription} value={description} placeholder="How was your experience?" required></textarea>
+            <textarea
+              class="form-control shadow-none"
+              style={{ whiteSpace: "pre-wrap" }}
+              rows="5" cols="100"
+              id="description"
+              maxLength={5000}
+              onChange={HandleDescription}
+              value={description}
+              placeholder="How was your experience?" required
+            />
           </div>
         </div>
         <div>
-          <Reaptcha sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify}/>
+          <Reaptcha size={window.innerWidth < window_breakpoints.md ? "compact" : "normal"} sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify} />
           <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" disabled={!captchaVerified} >Submit</button>
         </div>
       </form>

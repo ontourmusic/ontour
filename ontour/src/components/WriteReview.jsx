@@ -7,6 +7,7 @@ import Reaptcha from 'reaptcha';
 import { createClient } from '@supabase/supabase-js'
 import { PropaneSharp } from "@mui/icons-material";
 import common_styles from "../Styles/common_styles";
+import { Typography } from "@mui/material";
 const window_breakpoints = common_styles.window_breakpoints;
 
 export default function WriteReview(props) {
@@ -73,14 +74,14 @@ export default function WriteReview(props) {
       pastData.reverse();
       const eventList = [];
       for (var i = 0; i < maxEventCount; i++) {
-          var date = pastData[i].datetime.split("T")[0];
-          date = date.split("-");
-          var year = date[0];
-          var month = date[1];
-          var day = date[2];
-          var mmddyyyy = month + "/" + day + "/" + year;
-          pastData[i].datetime = mmddyyyy;
-          eventList.push(pastData[i]);
+        var date = pastData[i].datetime.split("T")[0];
+        date = date.split("-");
+        var year = date[0];
+        var month = date[1];
+        var day = date[2];
+        var mmddyyyy = month + "/" + day + "/" + year;
+        pastData[i].datetime = mmddyyyy;
+        eventList.push(pastData[i]);
       }
       if (eventList.length > 0) {
         setReviewsSet(true);
@@ -103,15 +104,15 @@ export default function WriteReview(props) {
 
     const { data2, error2 } = await supabase
       .from('artists')
-      .update({ 'review_count': props.numReviews+1 })
+      .update({ 'review_count': props.numReviews + 1 })
       .eq('artist_id', props.artistId);
 
-  
-  const { data, error } = await supabase
-  .from('artist_reviews')
-  .insert(
-    [{'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': unparsedName, 'event': event, 'eventDate': eventDate }]
-  );
+
+    const { data, error } = await supabase
+      .from('artist_reviews')
+      .insert(
+        [{ 'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': unparsedName, 'event': event, 'eventDate': eventDate }]
+      );
 
     window.location.reload();
   }
@@ -144,10 +145,10 @@ export default function WriteReview(props) {
   }
 
   const handleFormChange = (event) => {
-    if(event.target.value == "extend"){
-      setMaxEventCount(maxEventCount+10);
+    if (event.target.value == "extend") {
+      setMaxEventCount(maxEventCount + 10);
     }
-    else{
+    else {
       setEvent(event.target.value);
     }
   }
@@ -155,42 +156,45 @@ export default function WriteReview(props) {
   return (
     <div class="container" id="review">
       <hr></hr>
-      <h4 id="write-review" class="fw-bold">Rate Your Experience</h4>
+      <div style={{
+        marginTop: "15px",
+        marginBottom: "15px"
+      }}>
+        <Typography variant="h5" align="left" className="fw-bold">Review: Rate Your Experience</Typography>
+      </div>
       <div class="rating row">
         <div id="stars" class="col-3">
-          <Rating name="rating" sx={{fontSize: "2.5rem"}} required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} />
+          <Rating name="rating" sx={{ fontSize: "2.5rem" }} required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} />
         </div>
       </div>
       <form id="clear" onSubmit={handleWriteReview}>
         <div class="row top">
-          <div class="col"> 
+          <div class="col">
             <input type="text" class="form-control shadow-none" onChange={handleNameChange} value={unparsedName} placeholder="Name" required />
           </div>
         </div>
         <div class="row bottom">
           <div class="col">
-            {/* <input type="text" class="form-control shadow-none" onChange={event => setEvent(event.target.value)} value ={eventName} placeholder="Event Name" required/> */}
             {reviews.length > 0 &&
               <>
                 <Form.Select aria-label="Default select example" required onChange={handleFormChange}>
                   <option value="" selected>Select an event</option>
                   {
                     reviews.map((review) => (
-                        <option value={`${review.datetime.split("T")[0]} • ${review.venue.name} `}>
-                          {review.datetime} • {review.venue.name}
-                        </option>
+                      <option value={`${review.datetime.split("T")[0]} • ${review.venue.name} `}>
+                        {review.datetime} • {review.venue.name}
+                      </option>
                     ))
                   }
                   {
-                   maxEventCount < 20 ? <option value="extend">Select an Older Event</option> : <></>
+                    maxEventCount < 20 ? <option value="extend">Select an Older Event</option> : <></>
                   }
-                  
+
                 </Form.Select> </>}
           </div>
         </div>
         <div class="row bottom">
           <div class="col">
-            {/* <textarea class="form-control shadow-none" style={{whiteSpace: "pre-wrap"}}  rows="5" cols="100" id="description" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea> */}
             <textarea
               class="form-control shadow-none"
               style={{ whiteSpace: "pre-wrap" }}
@@ -204,7 +208,7 @@ export default function WriteReview(props) {
           </div>
         </div>
         <div>
-          <Reaptcha size={window.innerWidth < window_breakpoints.md ? "compact" : "normal" } sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify}/>
+          <Reaptcha size={window.innerWidth < window_breakpoints.md ? "compact" : "normal"} sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI" onVerify={onVerify} />
           <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit" disabled={!captchaVerified} >Submit</button>
         </div>
       </form>
