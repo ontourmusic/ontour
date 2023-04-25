@@ -174,9 +174,6 @@ export default function SearchBar(props){
 
     const onSelect = (selectedItem, displayField) => {
         console.log(selectedItem);
-        if(selectedItem == undefined){
-            return;
-        }
         if(artistList.includes(selectedItem)){
             navigate({
                 pathname: '/artist', 
