@@ -160,7 +160,7 @@ const CommentBox = (props) => {
       )}
       <hr style={{ marginTop: '10px' }} />
       <div style={{ maxHeight: '300px', overflowY: 'scroll', color: "black" }}>
-        {comments.length === 0 && <p style={{ fontStyle: 'italic', textAlign: 'center', marginTop: '10px' }}>Be the first to comment!</p>}
+        {comments.length === 0 && <p style={{ fontStyle: 'italic', textAlign: 'center', marginTop: '10px', color: "white" }}>Be the first to comment!</p>}
         {comments.slice().reverse().map((comment, index) => (
           <div key={index}>
             <div class="card" style={{ margin: '10px' }}>
