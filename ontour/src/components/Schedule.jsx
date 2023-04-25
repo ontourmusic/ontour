@@ -25,11 +25,14 @@ const Schedule = ({ eventArray, darkMode, hideTitle }) => {
                             <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
                                 <Show 
                                     time={eventArray[index].eventTime} 
-                                    isVenue={true} 
+                                    isVenue={eventArray[index].isVenue} 
                                     date={eventArray[index].date} 
                                     event={eventArray[index].name} 
                                     location={eventArray[index].timezone} 
                                     price={eventArray[index].price} 
+                                    venue={eventArray[index].venue}
+                                    city={eventArray[index].city}
+                                    state={eventArray[index].state}
                                 />
                             </a>
                         )

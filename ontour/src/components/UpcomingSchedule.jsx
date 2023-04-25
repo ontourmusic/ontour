@@ -7,7 +7,7 @@ import { AiOutlineConsoleSql } from "react-icons/ai";
 import Schedule from "./Schedule";
 
 class UpcomingEvent {
-    constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state, price) {
+    constructor(name, date, eventId, eventURL, timezone, eventTime, venue, city, state, price, isVenue) {
         this.name = name;
         this.date = date;
         this.eventId = eventId;
@@ -18,6 +18,7 @@ class UpcomingEvent {
         this.city = city;
         this.state = state;
         this.price = price;
+        this.isVenue = isVenue;
     }
 }
 
@@ -94,7 +95,7 @@ function createEvent(eventInfo) {
     {
         price = eventInfo.min_ticket_price.display;
     }
-    var event = new UpcomingEvent(name, fullDate, 0, url, "Los Angeles", newTime, venue, city, state, price);
+    var event = new UpcomingEvent(name, fullDate, 0, url, "Los Angeles", newTime, venue, city, state, price, false);
     return event;
 }
 
