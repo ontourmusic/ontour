@@ -28,14 +28,15 @@ const ArtistContent = (props) => {
             <>
                 {currentItems && currentItems.map(function (review, index) {
                     return (
-                        <Review
-                            user={review.name}
-                            date={review.eventDate}
-                            key={index}
-                            rating={review.rating}
-                            venue={review.event}
-                            text={review.review}
-                        />)
+                        <Review 
+                            user={review.name} 
+                            date={review.eventDate} 
+                            key={index} 
+                            rating={review.rating} 
+                            venue={review.event} 
+                            text={review.review} 
+                        />
+                    )
                 })}
             </>
         )
