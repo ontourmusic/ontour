@@ -173,6 +173,7 @@ export default function SearchBar(props){
     }
 
     const onSelect = (selectedItem, displayField) => {
+        console.log(selectedItem);
         if(selectedItem == undefined){
             return;
         }
