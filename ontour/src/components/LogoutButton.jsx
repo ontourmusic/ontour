@@ -8,11 +8,9 @@ const window_breakpoints = common_styles.window_breakpoints;
 
 const LogoutButton = () => {
   const { logout } = useAuth0();
-  const displayStyle = window.innerWidth < window_breakpoints.md ? "inline" : "none"
   return (
     <button style={button_styles.loginButton} onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-      <span style={{display: {displayStyle}}}>Log Out</span>
-      <FontAwesomeIcon style={{color: "white", paddingLeft: "10px"}} icon={faArrowRightFromBracket} />
+      <span>Log Out</span>
     </button>
   );
 };
