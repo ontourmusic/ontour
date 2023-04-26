@@ -30,7 +30,7 @@ const loginButton = {
   borderColor: "white",
   borderRadius: "5px",
   color: "white",
-  width: "8vw"
+  width: "max(75px, 6vw)"
 }
 
 const button_styles = {
