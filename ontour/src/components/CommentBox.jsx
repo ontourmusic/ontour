@@ -7,6 +7,9 @@ const CommentBox = (props) => {
   const [comment, setComment] = useState('');
   const [date, setDate] = useState('');
   const [comments, setComments] = useState([]);
+  const [showForm, setShowForm] = useState(false);
+  const [formOpened, setFormOpened] = useState(false);
+  const [artistName, setArtistName] = useState('');
   const disabled = !name || !comment;
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
@@ -16,6 +19,22 @@ const CommentBox = (props) => {
     setName('');
     setComment('');
     setComments([]);
+
+    const fetchArtistName = async () => {
+      const { data, error } = await supabase
+        .from('artists')
+        .select('*')
+        .eq('artist_id', props.imageData.artist_id)
+        .single();
+  
+        if (error) {
+            console.error(error);
+            return null;
+        }
+        setArtistName(data.name);
+    }
+    fetchArtistName();
+
     const currentDate = new Date();
     const day = currentDate.getDate().toString().padStart(2, '0');
     const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
@@ -27,7 +46,7 @@ const CommentBox = (props) => {
         const { data, error } = await supabase
           .from('venue_comments')
           .select('name, comment, date')
-          .eq('image_id', props.imageId)
+          .eq('image_id', props.imageData.id)
           .order('date');
         if (error) console.log('Error fetching comments:', error.message);
         else setComments(data);
@@ -39,8 +58,9 @@ const CommentBox = (props) => {
         const { data, error } = await supabase
           .from('artist_comments')
           .select('name, comment, date')
-          .eq('image_id', props.imageId)
+          .eq('image_id', props.imageData.id)
           .order('date');
+          console.log(data);
         if (error) console.log('Error fetching comments:', error.message);
         else setComments(data);
       };
@@ -64,10 +84,20 @@ const CommentBox = (props) => {
     const { data, error } = await supabase
       .from(tableName)
       .insert(
-        [{ 'name': name, 'comment': comment, 'date': date, 'image_id': props.imageId }]
+        [{ 'name': name, 'comment': comment, 'date': date, 'image_id': props.imageData.id }]
       );
     setName('');
     setComment('');
+  }
+
+  const handleCommentButtonClick = () => {
+    setShowForm(true);
+    setFormOpened(true);
+  }
+
+  const cancelComment = () => {
+    setShowForm(false);
+    setFormOpened(false);
   }
 
   return (
@@ -75,7 +105,24 @@ const CommentBox = (props) => {
         // backgroundColor: modalBackgroundColour,
         color: props.textColor
     }}>
-      <h2>Comments ({comments.length})</h2>
+      <h2 style={{ fontWeight: 'bold'}}>Photos of {artistName}</h2>
+      {props.imageData.event && (
+        <div>
+          <h4>{props.imageData.event} • {props.imageData.eventDate}</h4>
+        </div>
+      )}
+      {props.imageData.description && (
+        <div>
+          <hr style={{ marginTop: '45px', visibility:'hidden' }} />
+          <p style={{ fontStyle: 'italic' }}>{props.imageData.description}</p>
+        </div>
+      )}
+      {!formOpened && (
+      <div style={{textAlign:'center'}}>
+        <Button variant="outlined" onClick={handleCommentButtonClick}>Write a comment</Button>
+      </div>
+      )}
+      {showForm && (
       <form onSubmit={handleSubmit}>
         <div class="mb-3">
           <input
@@ -103,14 +150,17 @@ const CommentBox = (props) => {
           style={{
             color: disabled ? props.textColor : "blue",
             borderColor: disabled ? props.textColor : "blue",
+            marginRight: '10px'
           }}
           disabled={disabled}>
           Post
         </Button>
-        <hr style={{ marginTop: '10px' }} />
+        <Button variant="outlined" onClick={cancelComment}>Cancel</Button>
       </form>
-      <div style={{ maxHeight: '300px', overflowY: 'scroll' }}>
-        {comments.length === 0 && <p style={{ fontStyle: 'italic', textAlign: 'center', marginTop: '10px' }}>Be the first to comment!</p>}
+      )}
+      <hr style={{ marginTop: '10px' }} />
+      <div style={{ maxHeight: '300px', overflowY: 'scroll', color: "black" }}>
+        {comments.length === 0 && <p style={{ fontStyle: 'italic', textAlign: 'center', marginTop: '10px', color: "white" }}>Be the first to comment!</p>}
         {comments.slice().reverse().map((comment, index) => (
           <div key={index}>
             <div class="card" style={{ margin: '10px' }}>

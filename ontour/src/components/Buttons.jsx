@@ -1,30 +1,22 @@
 import React from "react";
 import '../index.css';
 import Button from '@mui/material/Button';
+import { useState, useEffect } from "react";
+import Modal from '@mui/material/Modal';
 import { CameraAlt } from "@mui/icons-material";
-
+import { Box } from "@mui/material";
 import button_style from "../Styles/button_styles";
-import { padding } from "@mui/system";
 import { createClient } from '@supabase/supabase-js'
+import artist_styles from "../Styles/artist_styles";
+import Form from 'react-bootstrap/Form';
+
 const two_column_button_style = button_style.two_column_button;
 const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+const modal_styles = artist_styles.mediaUploadModal;
 
 
 const TwoColumnButton = (props) => {
     return (
-        // <div class="d-flex w-100 justify-content-end pb-1">
-        //     <button
-        //         type="button"
-        //         class="btn btn-outline-light fw-bold"
-        //         onClick={props.onPress}
-        //         style={ResponsiveButtonStyle.button}
-        //     >
-        //         <div class="row" style={ResponsiveButtonStyle.div}>
-        //             {props.left}
-        //             {props.right}
-        //         </div>
-        //     </button>
-        // </div>
         <button style={two_column_button_style.container} onClick={props.onPress}>
             <div style={two_column_button_style.icon}> {props.left} </div>
             <div style={two_column_button_style.text}> {props.right} </div>
@@ -33,18 +25,33 @@ const TwoColumnButton = (props) => {
 };
 
 const AddMediaButton = (props) => {
+    const [eventName, setEvent] = useState("");
+    const [reviews, setPastReviews] = useState([]);
+    const [reviewsSet, setReviewsSet] = useState(false);
+    const [maxEventCount, setMaxEventCount] = useState(10);
+    const [open, setOpen] = useState(false);
+    const [description, setDescription] = useState("");
+    const [image, setImage] = useState(null);
+    const [mediaFile, setFile] = useState(null);
     const artistID = props.artistID;
     const venueID = props.venueID;
+
+    const handleClose = () => {
+        setOpen(false); 
+        setImage(null);
+    }
+
     const handleImageUpload = async (event) => {
-        console.log("handling image upload");
         const file = event.target.files[0];
-        const blob = new Blob([file], { type: file.type });
+        setFile(file);
+        const fileName = file.name;
+        setImage(fileName);
+    };
+
+    const postData = async (event) => {
+        const blob = new Blob([mediaFile], { type: mediaFile.type });
         const timestamp = Date.now();
-        const fileName = `${artistID}-${timestamp}.${file.type.split('/')[1]}`;
-        const confirmed = window.confirm("Do you want to continue uploading the file " + file.name + "?");
-        if (!confirmed) {
-            return;
-        }
+        const fileName = `${artistID}-${timestamp}.${mediaFile.type.split('/')[1]}`;
         const { error } = await supabase.storage.from('user-images').upload(fileName, blob);
         if (error) {
             console.error(error);
@@ -62,28 +69,177 @@ const AddMediaButton = (props) => {
             );
         }
         else{
+            var eventDate = eventName.split(" • ")[0];
+            var event = eventName.split(" • ")[1];
             const { data, insertError } = await supabase
             .from('artist_images')
             .insert(
-            [{'image_url':publicURL, 'artist_id': artistID}]
+            [{'image_url':publicURL, 'artist_id': artistID, 'event': event, 'eventDate': eventDate, 'description': description}]
             );
         }
         window.location.reload();
-    };
+    }
+
+    const GetPastReviews = async () => {
+        let artistName;
+        const { data, error } = await supabase
+            .from('artists')
+            .select('name')
+            .eq('artist_id', artistID)
+            .single()
+
+            if (error) {
+                console.error(error)
+                return null
+            }
+            artistName = data.name;
+        var adele = " ";
+        var url = " ";
+        try {
+          if (artistName.includes("Adele")) {
+            adele = "Adele";
+            url = `https://rest.bandsintown.com/artists/Adele/events?app_id=958313646c7db923871b501a616498a9&date=past`;
+          }
+          else {
+            var name = artistName.replace(" ", "%20");
+            url = `https://rest.bandsintown.com/artists/${name}/events?app_id=958313646c7db923871b501a616498a9&date=past`;
+          }
+          const pastReviews = await fetch(url);
+          const pastData = await pastReviews.json();
+          pastData.reverse();
+          const eventList = [];
+          for (var i = 0; i < maxEventCount; i++) {
+              var date = pastData[i].datetime.split("T")[0];
+              date = date.split("-");
+              var year = date[0];
+              var month = date[1];
+              var day = date[2];
+              var mmddyyyy = month + "/" + day + "/" + year;
+              pastData[i].datetime = mmddyyyy;
+              eventList.push(pastData[i]);
+          }
+          if (eventList.length > 0) {
+            setReviewsSet(true);
+            setPastReviews(eventList);
+            setEvent(`${eventList[0].datetime.split("T")[0]} • ${eventList[0].venue.name}`);
+          }
+        }
+        catch (err) {
+          console.log('API Error');
+          console.log(err);
+        }
+    }
+
+    const handleMediaButtonPress = () => {
+        setOpen(true);
+    }
+
+    const handleFormChange = (event) => {
+        if(event.target.value == "extend"){
+          setMaxEventCount(maxEventCount+10);
+        }
+        else{
+          setEvent(event.target.value);
+        }
+    }
+
+    const handleDescription = event => {
+        var word = event.target.value;
+        word.replace(/\n\r?/g, '<br />');
+        setDescription(word);
+    }
+
+    const handleClear = () => {
+        setImage(null);
+        setEvent("");
+        setDescription("");
+        const dropdown = document.getElementById("event-dropdown");
+        dropdown.value = "";
+    }
+
+    useEffect(() => {
+        GetPastReviews();
+      }, [maxEventCount]);
+
     return (
         <>
-            <input
-                type="file"
-                accept="image/*"
-                style={{ display: 'none' }}
-                id="contained-button-file"
-                onChange={handleImageUpload} />
-            <label htmlFor="contained-button-file">
-                <Button variant="contained" component="span" style={{backgroundColor:'#21252B', textTransform: 'none', fontFamily: "Helvetica", fontWeight:'bold', fontSize: 15}}>
-                    <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
-                     <div style={{color:'white'}}>Add Media</div>
-                </Button>
-            </label></>
+            <Button onClick={handleMediaButtonPress} variant="contained" component="span" style={modal_styles.addMediaButton}>
+                <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
+                <div style={{color:'white'}}>Add Media</div>
+            </Button>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description">
+                <Box sx={modal_styles.container}>
+                    <h1 style={{textAlign: "center"}}>Upload Media</h1>
+                    <div style={modal_styles.formItem}>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
+                            id="contained-button-file"
+                            onChange={handleImageUpload} />
+                        <label htmlFor="contained-button-file">
+                            <Button variant="contained" component="span" style={modal_styles.addMediaButton}>
+                                <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
+                                <div style={{color:'white'}}>Add Image</div>
+                            </Button>
+                        </label>
+                    </div>
+                    <div style={modal_styles.formItem}>
+                        {image && <div>{image}</div>}
+                    </div>
+                    <div style={modal_styles.formItem}>
+                        {reviews.length > 0 &&
+                        <>
+                            <Form.Select id="event-dropdown" aria-label="Default select example" required onChange={handleFormChange}>
+                            <option value="" selected>Select an event</option>
+                            {
+                                reviews.map((review) => (
+                                    <option value={`${review.datetime.split("T")[0]} • ${review.venue.name} `}>
+                                    {review.datetime} • {review.venue.name}
+                                    </option>
+                                ))
+                            }
+                            {
+                            maxEventCount < 20 ? <option value="extend">Select an Older Event</option> : <></>
+                            }
+                            
+                            </Form.Select> </>}
+                    </div>
+                    <div style={modal_styles.formItem}>
+                        <textarea
+                        class="form-control shadow-none"
+                        style={{ whiteSpace: "pre-wrap" }}
+                        rows="5" cols="100"
+                        id="description"
+                        maxLength={5000}
+                        onChange={handleDescription}
+                        value={description}
+                        placeholder="Enter a description..." required
+                        />
+                    </div>
+                    <div
+                        style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            gap: 10,
+                            margin: 10
+                        }}
+                        >
+                        <Button style={{marginRight: "10"}} variant="contained" onClick={postData}>
+                            Submit
+                        </Button>
+                        <Button variant="contained" onClick={handleClear}>
+                            Clear
+                        </Button>
+                    </div>
+                </Box>
+            </Modal>
+        </>
     )
 };
 
