@@ -8,7 +8,6 @@ import Reaptcha from 'reaptcha';
 import { createClient } from '@supabase/supabase-js';
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import common_styles from "../Styles/common_styles";
 const window_breakpoints = common_styles.window_breakpoints;
