@@ -4,7 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import ReactGA from 'react-ga4';
+
+import { Auth0Provider } from "@auth0/auth0-react";
+
 import {LoadScript} from '@react-google-maps/api';
+
 
 
 ReactGA.initialize("G-BE8WDNBGS7");
@@ -12,9 +16,16 @@ ReactGA.initialize("G-BE8WDNBGS7");
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LoadScript googleMapsApiKey="AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA">
-      <App />
-    </LoadScript>
+    <Auth0Provider 
+      domain="dev-uujtiin6xxo47cy3.us.auth0.com"
+      clientId="Net3dnd5HahABxD2GelMnUn9eSD1BFnv"
+      authorizationParams={{
+        redirect_uri: window.location.origin
+    }}>
+      <LoadScript googleMapsApiKey="AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA">
+        <App />
+      </LoadScript>
+    </Auth0Provider>
   </React.StrictMode>
 );
 

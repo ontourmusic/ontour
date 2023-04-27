@@ -4,10 +4,14 @@ import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
 import Reaptcha from 'reaptcha';
-import { createClient } from '@supabase/supabase-js'
+
+import { createClient } from '@supabase/supabase-js';
+import { useAuth0 } from "@auth0/auth0-react";
+
 import { Typography } from "@mui/material";
 import common_styles from "../Styles/common_styles";
 const window_breakpoints = common_styles.window_breakpoints;
+
 
 export default function WriteVenueReview(props) {
   const [name, setName] = useState("");
@@ -21,6 +25,7 @@ export default function WriteVenueReview(props) {
   const [eventDate, setEventDate] = useState("");
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   // only set is used
   const [venueId, setVenueId] = useState(0);
@@ -82,11 +87,17 @@ export default function WriteVenueReview(props) {
       .update({ 'review_count': props.numReviews + 1 })
       .eq('venue_id', props.venueId);
 
+    let postName = name;
+    if(isAuthenticated){
+      postName = user.username;
+    }
     const { data, error } = await supabase
       .from('venue_reviews')
       .insert(
-        [{ 'venue_id': props.venueId, 'rating': rating, 'review': description, 'name': name, 'artist': artistName, 'eventDate': eventDate }]
-      );
+
+        [{'venue_id': props.venueId, 'rating': rating, 'review': description, 'name': postName, 'artist': artistName, 'eventDate': eventDate }]
+    );
+
     window.location.reload();
   }
 
@@ -119,9 +130,11 @@ export default function WriteVenueReview(props) {
       </div>
       <form id="clear" onSubmit={handleWriteReview}>
         <div class="row top">
-          <div class="col">
-            <input type="text" class="form-control shadow-none" onChange={handleNameChange} value={name} placeholder="Name" required />
-          </div>
+          {isAuthenticated ? <></>:
+            <div class="col">
+              <input type="text" class="form-control shadow-none" onChange={handleNameChange} value={name} placeholder="Name" required />
+            </div>
+          }
         </div>
         <div class="row bottom">
           <div class="col">

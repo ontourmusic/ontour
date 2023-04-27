@@ -6,6 +6,8 @@ import Form from 'react-bootstrap/Form';
 import Reaptcha from 'reaptcha';
 import { createClient } from '@supabase/supabase-js'
 import common_styles from "../Styles/common_styles";
+import { useAuth0 } from "@auth0/auth0-react";
+import { NearMe } from "@mui/icons-material";
 const window_breakpoints = common_styles.window_breakpoints;
 
 
@@ -25,6 +27,8 @@ export default function WriteFestivalReview(props)
 
     const [festivalId, setVenueId] = useState(0);
     const [reviewsSet, setReviewsSet] = useState(false);
+
+    const { user, isAuthenticated, isLoading } = useAuth0();
 
 
     const onVerify = recaptchaResponse => {
@@ -52,11 +56,16 @@ export default function WriteFestivalReview(props)
           .from('festivals')
           .update({ 'review_count': props.numReviews+1 })
           .eq('id', props.festivalId);
+
+        var postName = name;
+        if(isAuthenticated){
+            postName = user.username;
+        }
     
         const { data, error } = await supabase
           .from('festival_reviews')
           .insert(
-            [{'festival_id': props.festivalId, 'rating': rating, 'review': description, 'name': name, 'eventDate': eventDate }]
+            [{'festival_id': props.festivalId, 'rating': rating, 'review': description, 'name': postName, 'eventDate': eventDate }]
         );
         window.location.reload();
     }
@@ -84,9 +93,11 @@ export default function WriteFestivalReview(props)
             </div>
             <form id="clear" onSubmit={handleWriteReview}>
                 <div class="row top">
-                    <div class="col">
-                        <input type="text" class="form-control shadow-none" onChange={handleNameChange} value={name} placeholder="Name" required />
-                    </div>
+                    {isAuthenticated ? <></>:
+                        <div class="col">
+                            <input type="text" class="form-control shadow-none" onChange={handleNameChange} value={name} placeholder="Name" required />
+                        </div>
+                    }
                 </div>
                 <div class="row bottom">
                     {/* <div class="col">
