@@ -31,7 +31,8 @@ const loginButton = {
   borderRadius: "5px",
   color: "white",
   width: "fit-content",
-  fontWeight: "bold"
+  fontWeight: "bold",
+  fontSize: "14px"
 }
 
 const button_styles = {
