@@ -2,7 +2,6 @@ import React from "react";
 import "../index.css";
 import "react-multi-carousel/lib/styles.css";
 import ArtistHeader from "../components/ArtistHeader";
-import Carousel from "../components/Carousel";
 import WriteVenueReview from "../components/WriteVenueReview";
 import { useSearchParams } from "react-router-dom";
 import {useState, useEffect} from "react";

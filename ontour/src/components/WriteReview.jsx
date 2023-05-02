@@ -1,11 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
 import Form from 'react-bootstrap/Form';
 import Reaptcha from 'reaptcha';
 import { createClient } from '@supabase/supabase-js'
-import { PropaneSharp } from "@mui/icons-material";
 import common_styles from "../Styles/common_styles";
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -14,7 +14,7 @@ import { Typography } from "@mui/material";
 
 const window_breakpoints = common_styles.window_breakpoints;
 
-export default function WriteReview(props) {
+const WriteReview = (props) => {
   const [unparsedName, setUnparsedName] = useState("");
   const [parsedName, setParsedName] = useState(["", " "]);
   const [eventName, setEvent] = useState("");
@@ -31,11 +31,6 @@ export default function WriteReview(props) {
   // only set is used
   const [artistId, setArtistId] = useState(0);
   const [reviewsSet, setReviewsSet] = useState(false);
-
-  // currently unused
-  // const [rawMedia, setRawMedia] = useState([]);
-  // const [media, setMedia] = useState("");
-  // const [date, setDate] = useState("");
 
   const onVerify = recaptchaResponse => {
     console.log(recaptchaResponse);
@@ -110,19 +105,19 @@ export default function WriteReview(props) {
       .from('artists')
       .update({ 'review_count': props.numReviews + 1 })
       .eq('artist_id', props.artistId);
-    
+
     let name = unparsedName;
-    if(isAuthenticated){
+    if (isAuthenticated) {
       name = user.username;
     }
 
 
-  
-  const { data, error } = await supabase
-  .from('artist_reviews')
-  .insert(
-    [{'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': name, 'event': event, 'eventDate': eventDate }]
-  );
+
+    const { data, error } = await supabase
+      .from('artist_reviews')
+      .insert(
+        [{ 'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': name, 'event': event, 'eventDate': eventDate }]
+      );
 
 
     window.location.reload();
@@ -181,12 +176,12 @@ export default function WriteReview(props) {
       <form id="clear" onSubmit={handleWriteReview}>
         <div class="row top">
 
-          {isAuthenticated ? <></>:
-            <div class="col"> 
+          {isAuthenticated ? <></> :
+            <div class="col">
               <input type="text" class="form-control shadow-none" onChange={handleNameChange} value={unparsedName} placeholder={"Name"} required />
             </div>
           }
-        
+
         </div>
         <div class="row bottom">
           <div class="col">
@@ -231,3 +226,11 @@ export default function WriteReview(props) {
     </div>
   )
 }
+
+export default WriteReview;
+
+WriteReview.propTypes = {
+  artistId: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  numReviews: PropTypes.number.isRequired,
+};

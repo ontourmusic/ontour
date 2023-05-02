@@ -3,7 +3,7 @@ import "../index.css";
 import { Grid } from "@mui/material";
 import ArtistNavigation from "../ArtistNavigation"
 import ArtistHeader from "../components/ArtistHeader";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { createClient } from '@supabase/supabase-js'
 import common_styles from "../Styles/common_styles";
@@ -48,20 +48,19 @@ export default function Festival() {
         }
         const fuse = new Fuse(filteredReviews, options);
         const results = fuse.search(searchTerm);
-        setFilteredReviews(results.map((result) => {return result.item}));
+        setFilteredReviews(results.map((result) => { return result.item }));
         setShowResults(true);
-      }
-    
-      const clearSearch = () => {
-          setShowResults(false);
-          setFilteredReviews(allReviews);
-      }
-    
+    }
+
+    const clearSearch = () => {
+        setShowResults(false);
+        setFilteredReviews(allReviews);
+    }
+
 
 
     const performSearch = async () => {
-        try
-        {
+        try {
             const festivalData = await supabase.from('festivals').select('*').eq('id', festivalIDGlobal);
             setFestivalName(festivalData.data[0].name);
             const banner_image = festivalData.data[0].banner_image;
@@ -72,7 +71,7 @@ export default function Festival() {
             setFestivalState(state);
             setBannerImage(banner_image);
 
-            const festivalGalleryData  = await supabase.from('festival_carousel_images').select('*').eq('festival_id', festivalIDGlobal);
+            const festivalGalleryData = await supabase.from('festival_carousel_images').select('*').eq('festival_id', festivalIDGlobal);
             var imageGallery = [];
             //loop through the data and push the image urls into the array
             for (var i = 0; i < festivalGalleryData.data.length; i++) {
@@ -85,47 +84,42 @@ export default function Festival() {
 
 
             //get the headliners for the festival
-            if(festival_name)
-            {
+            if (festival_name) {
                 const stubhuburl = "https://kju1lx3bbf.execute-api.us-east-2.amazonaws.com/Prod/stubhubapi?artist=\"" + festival_name + "\"";
-            fetch(stubhuburl, {
-                method: "GET",
+                fetch(stubhuburl, {
+                    method: "GET",
 
-            })
-                .then(response => response.json())
-                .then(data => {
-                    //create an array to hold the events
-                    console.log(data);
-                    let headlinerArray = [];
-                    let standardArray = [];
-                    for (var i = 0; i < data["_embedded"]["items"].length; i++) {
-                        if(!data["_embedded"]["items"][i]["name"].includes("ONLY"))
-                        {
-                            for(var j = 0; j < data["_embedded"]["items"][i]["_embedded"]["categories"].length; j++)
-                            {
-                                if(data["_embedded"]["items"][i]["_embedded"]["categories"][j]["role"] == "HeadlineAct")
-                                {
-                                    console.log(data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"]);
-                                    var headliner = data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"];
-                                    if(!headlinerArray.includes(headliner)){
-                                        headlinerArray.push(headliner);
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        //create an array to hold the events
+                        console.log(data);
+                        let headlinerArray = [];
+                        let standardArray = [];
+                        for (var i = 0; i < data["_embedded"]["items"].length; i++) {
+                            if (!data["_embedded"]["items"][i]["name"].includes("ONLY")) {
+                                for (var j = 0; j < data["_embedded"]["items"][i]["_embedded"]["categories"].length; j++) {
+                                    if (data["_embedded"]["items"][i]["_embedded"]["categories"][j]["role"] == "HeadlineAct") {
+                                        console.log(data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"]);
+                                        var headliner = data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"];
+                                        if (!headlinerArray.includes(headliner)) {
+                                            headlinerArray.push(headliner);
+                                        }
                                     }
-                                }
-                                else if (data["_embedded"]["items"][i]["_embedded"]["categories"][j]["role"] == "StandardAct")
-                                {
-                                    console.log(data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"]);
-                                    var standardAct = data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"];
-                                    if(!standardArray.includes(standardAct)){
-                                        standardArray.push(standardAct);
+                                    else if (data["_embedded"]["items"][i]["_embedded"]["categories"][j]["role"] == "StandardAct") {
+                                        console.log(data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"]);
+                                        var standardAct = data["_embedded"]["items"][i]["_embedded"]["categories"][j]["name"];
+                                        if (!standardArray.includes(standardAct)) {
+                                            standardArray.push(standardAct);
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    setHeadliners(headlinerArray);
-                    setStandardActs(standardArray);
-                })
-                .catch(error => console.error(error));
+                        setHeadliners(headlinerArray);
+                        setStandardActs(standardArray);
+                    })
+                    .catch(error => console.error(error));
             }
 
         }
@@ -145,15 +139,15 @@ export default function Festival() {
     function parseReviewData(reviewData) {
         var reviewsArray = [];
         var cumulativeRating = 0;
-        for(var i = 0; i < reviewData.length; i++) {
-        reviewsArray.push({
-            "review":reviewData[i].review,                                       // review description
-            "rating":reviewData[i].rating,                                       // review rating
-            "name":reviewData[i].name,                                         // review author                                       // review event
-            "eventDate":reviewData[i].eventDate,                                    // review date
-        });
+        for (var i = 0; i < reviewData.length; i++) {
+            reviewsArray.push({
+                "review": reviewData[i].review,                                       // review description
+                "rating": reviewData[i].rating,                                       // review rating
+                "name": reviewData[i].name,                                         // review author                                       // review event
+                "eventDate": reviewData[i].eventDate,                                    // review date
+            });
 
-        cumulativeRating += reviewData[i].rating;
+            cumulativeRating += reviewData[i].rating;
         }
         cumulativeRating = cumulativeRating / reviewData.length;
         setAggregateRating(cumulativeRating);
@@ -163,7 +157,7 @@ export default function Festival() {
 
     const ratingFilter = (event) => {
         var tempArray = allReviews;
-        if(event.target.value > 0){
+        if (event.target.value > 0) {
             tempArray = tempArray.filter(review => review.rating == event.target.value);
         }
         setFilteredReviews(tempArray);
@@ -208,30 +202,33 @@ export default function Festival() {
                 <ArtistNavigation />
             </Grid>
             <Grid item xs={12}>
-                <ArtistHeader 
+                <ArtistHeader
                     background_position="center"
-                    name={festival_name} 
-                    rating={aggregateRating} 
-                    total={totalReviews} 
-                    image={banner_image} 
-                    isVenue={0} 
-                    city={festivalCity} 
-                    onTour={false} 
+                    name={festival_name}
+                    rating={aggregateRating}
+                    total={totalReviews}
+                    image={banner_image}
+                    isVenue={0}
+                    city={festivalCity}
+                    onTour={false}
                     verified={true}
-                    images = {festivalImages}/>
+                    images={festivalImages} />
             </Grid>
             <Grid container spacing={1} style={artist_styles.grid.body_container}>
                 <Grid item xs={12}>
-                    <DisplayHeadliners headliners={headliners} standardActs={standardActs} />
+                    {
+                        (headliners.length > 0 || standardActs.length > 0) &&
+                        <DisplayHeadliners headliners={headliners} standardActs={standardActs} />
+                    }
                 </Grid>
                 <Grid item xs={12} md={8}>
-                    <ImageCarousel 
-                        images={festivalImages} 
-                        slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3} 
-                        isVenue={1} 
+                    <ImageCarousel
+                        images={festivalImages}
+                        slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3}
+                        isVenue={1}
                         venueID={festivalIDGlobal} />
-                    <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
-                    {festival_name !== "" && <WriteFestivalReview festivalId={festivalIDGlobal} name={festival_name} numReviews={totalReviews}/>}
+                    <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch} />
+                    {festival_name !== "" && <WriteFestivalReview festivalId={festivalIDGlobal} name={festival_name} numReviews={totalReviews} />}
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <SideContent name={festival_name} festival={true} />

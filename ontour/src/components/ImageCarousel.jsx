@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import '../Styles/carousel.css';
 import { Polaroid } from "./Polaroid";
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
 import { AddMediaButton } from "./Buttons";
-import CommentBox from "./CommentBox";
 import { createClient } from '@supabase/supabase-js'
-import { Grid, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
 
 import artist_styles from "../Styles/artist_styles";
@@ -22,7 +20,6 @@ const carousel_styles = artist_styles.carousel;
 images: array of image urls
 */
 const ImageCarousel = (props) => {
-
     const [images, setImages] = useState([]);
     const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
@@ -132,5 +129,14 @@ const ImageCarousel = (props) => {
     )
 };
 
-
 export default ImageCarousel;
+
+ImageCarousel.propTypes = {
+    images: PropTypes.arrayOf(PropTypes.string),
+    slideCount: PropTypes.number,
+    isVenue: PropTypes.bool,
+
+    // you only need one of these two
+    artistID: PropTypes.string,
+    venueID: PropTypes.string,
+};

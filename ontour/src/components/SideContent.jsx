@@ -1,5 +1,6 @@
 // New sidebar component for artist page
 import React from "react";
+import PropTypes from "prop-types";
 import "../index.css";
 import UpcomingSchedule from "./UpcomingSchedule";
 import VenueUpcomingSchedule from "./VenueUpcomingSchedule";
@@ -16,6 +17,8 @@ const sidebar_styles = artist_styles.sidebar;
 Props:
     name: venue or artist name
     linkPairs [][2]: array of pairs, link and icon link
+    festival: bool, true if festival
+    venue: bool, true if venue
 */
 
 const SideContent = ({name, linkPairs, venue, festival}) => {
@@ -43,11 +46,6 @@ const SideContent = ({name, linkPairs, venue, festival}) => {
                 {festival && <FestivalUpcomingSchedule name={name} />}
                 {venue && <VenueUpcomingSchedule name={name} />}
                 {!venue && !festival && <UpcomingSchedule name={name} />}
-                {/* {venue && !festival ? <VenueUpcomingSchedule name={name} /> : <UpcomingSchedule name={name} /> } */}
-                {/* <VenueUpcomingSchedule name={name} /> */}
-                {/* <a href="#">
-            <img id="arrow" src="../../images/arrow.png" alt=""></img>
-            </a> */}
             </Box>
         </div>
     );
@@ -56,3 +54,10 @@ const SideContent = ({name, linkPairs, venue, festival}) => {
 
 
 export default SideContent;
+
+SideContent.propTypes = {
+    name: PropTypes.string.isRequired,
+    linkPairs: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+    festival: PropTypes.bool,
+    venue: PropTypes.bool
+};
