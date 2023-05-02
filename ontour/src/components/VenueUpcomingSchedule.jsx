@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import Show from "./Show";
 import {useState, useEffect} from "react";
@@ -85,8 +86,7 @@ function createEvent(eventInfo){
     if(eventInfo.priceRanges)
     {
         price = eventInfo.priceRanges[0].min;
-        price = price.toFixed(2);
-        price = "$" + price;
+        price = price ? "$" + price.toFixed(2) : "";
         console.log(price);
     }
 
@@ -94,8 +94,7 @@ function createEvent(eventInfo){
     return event;
 }
 
-export default function VenueUpcomingSchedule(props)
-{
+const VenueUpcomingSchedule = (props) => {
     const [eventArray, setEventArray] = useState([]);
     const performSearch = async () => {
         var tmEvents;
@@ -130,29 +129,12 @@ export default function VenueUpcomingSchedule(props)
 
     return (
         <Schedule eventArray={eventArray} />
-        // <div class="container shows">
-        //     <div class="row justify-content-center show">
-        //         <h4 id="upcoming" class="fw-bold d-none d-sm-block">Upcoming Shows</h4>
-        //         <h4 id="upcoming-shows" class="fw-bold d-block d-sm-none">Shows</h4>
-        //     </div>
-
-        //     {eventArray.length > 0
-        //     ?
-        //     <div id="upcoming-list">
-
-        //         {eventArray.map((item, index)=>{
-        //                 return <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
-        //                     <Show time = {eventArray[index].eventTime} isVenue={true} date={eventArray[index].date} event={eventArray[index].name} location={eventArray[index].timezone} price={eventArray[index].price}/>
-        //                 </a>
-        //             })
-        //         }
-
-        //     </div>
-        //     :<p style={{marginTop: "30px"}}>No Upcoming Shows</p>}
-           
-        //     {/* <div class="row justify-content-center pt-3">
-        //         <button id="upcoming-btn">See more</button>
-        //     </div> */}
-        // </div>
     );
 }
+
+export default VenueUpcomingSchedule;
+
+VenueUpcomingSchedule.propTypes = {
+    name: PropTypes.string,
+    id: PropTypes.string
+};

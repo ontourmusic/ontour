@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import Button from '@mui/material/Button';
 import { useState, useEffect } from "react";
@@ -286,3 +287,20 @@ const ResponsiveButtonStyle = {
 };
 
 export { TwoColumnButton, AddMediaButton, HelpfulButton };
+
+TwoColumnButton.propTypes = {
+    text: PropTypes.string.isRequired,
+    img: PropTypes.string.isRequired,
+    onPress: PropTypes.func.isRequired,
+    isActive: PropTypes.bool.isRequired
+};
+
+AddMediaButton.propTypes = {
+    onPress: PropTypes.func.isRequired
+};
+
+HelpfulButton.propTypes = {
+    onPress: PropTypes.func.isRequired,
+    isActive: PropTypes.bool.isRequired
+};
+

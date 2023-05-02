@@ -5,7 +5,6 @@ import { Typography, Grid } from "@mui/material";
 import { Chip } from "@mui/material";
 
 const DisplayHeadliners = (props) => {
-    console.log("DisplayHeadliners props: ", props);
     return (
         <div
             style={{

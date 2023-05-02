@@ -68,7 +68,6 @@ function Venue() {
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    
     try{
       const venueData = await supabase.from('venues').select('*').eq('venue_id', venueIDGlobal)
       setVenueName(venueData.data[0].name);

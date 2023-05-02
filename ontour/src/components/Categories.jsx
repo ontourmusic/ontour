@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Card, CardContent, Grid, Typography, Button } from "@mui/material";
 import React from "react";
-// import Grid from "react-loading-icons/dist/esm/components/grid";
+import PropTypes from "prop-types";
 import category_styles from "../Styles/category_styles";
 
 import cdIcon from "../icons/icons8-cd-100.png";
@@ -106,10 +106,8 @@ const Categories = () => {
     ]
     const navigate = useNavigate();
     const handleCategoryClick = (category) => {
-        // console.log("category clicked: ", category);
         navigate(`/results?search=${category}`)
     };
-    // const iconType = "fa-thin";
     return (
         <Grid container spacing={2.5}>
             <Grid item xs={12}>
@@ -120,14 +118,6 @@ const Categories = () => {
             {categories.map((category) => {
                 return (
                     <Grid item xs={6} md={3}>
-                        {/* <Card variant="outlined" style={category_styles.container}>
-                            <CardContent>
-                                <img style={category_styles.icon} src={category.asset} />
-                                <Typography variant="h6" style={category_styles.text}>
-                                    {category.name}
-                                </Typography>
-                            </CardContent>
-                        </Card> */}
                         <Button variant="contained" style={category_styles.container} onClick={() => {handleCategoryClick(category.name)}}>
                             <CardContent>
                                 <img style={category_styles.icon} src={category.asset} />
@@ -146,3 +136,9 @@ const Categories = () => {
 }
 
 export default Categories;
+
+Categories.propTypes = {
+    name: PropTypes.string,
+    asset: PropTypes.string,
+    link: PropTypes.string
+};

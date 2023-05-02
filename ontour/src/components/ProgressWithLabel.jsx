@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { Typography } from '@mui/material/styles/createTypography';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
@@ -29,3 +30,9 @@ const ProgressWithLabel = ({ percent, color, leftLabel }) => {
 }
 
 export default ProgressWithLabel;
+
+ProgressWithLabel.propTypes = {
+    percent: PropTypes.number,
+    color: PropTypes.string,
+    leftLabel: PropTypes.string
+};

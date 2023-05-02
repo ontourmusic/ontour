@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import Show from "./Show";
 import { useState, useEffect } from "react";
@@ -144,3 +145,8 @@ export default function UpcomingSchedule(props) {
         <Schedule eventArray={eventArray} />
     );
 }
+
+UpcomingSchedule.propTypes = {
+    name: PropTypes.string,
+    id: PropTypes.string
+};

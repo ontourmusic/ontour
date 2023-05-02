@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import Show from "./Show";
 import {useState, useEffect} from "react";
@@ -97,5 +98,8 @@ export default function FestivalUpcomingSchedule(props) {
     return (
         <Schedule eventArray={eventArray}/>
     );
-    
 }
+
+FestivalUpcomingSchedule.propTypes = {
+    name: PropTypes.string.isRequired,
+};

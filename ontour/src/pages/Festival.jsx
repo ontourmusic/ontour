@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "../index.css";
 import { Grid } from "@mui/material";
 import ArtistNavigation from "../ArtistNavigation"
@@ -17,8 +18,7 @@ import DisplayHeadliners from "../components/DisplayHeadliners";
 
 
 
-export default function Festival() {
-
+const Festival = (props) => {
     const [searchParams] = useSearchParams();
     const festivalNameGet = searchParams.get("festival");
     const festivalIDGlobal = searchParams.get("id");
@@ -237,3 +237,7 @@ export default function Festival() {
         </Grid>
     )
 }
+
+export default Festival;
+
+
