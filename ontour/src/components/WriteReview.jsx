@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import '../index.css';
 import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
@@ -10,7 +12,7 @@ import common_styles from "../Styles/common_styles";
 import { Typography } from "@mui/material";
 const window_breakpoints = common_styles.window_breakpoints;
 
-export default function WriteReview(props) {
+const WriteReview = (props) => {
   const [unparsedName, setUnparsedName] = useState("");
   const [parsedName, setParsedName] = useState(["", " "]);
   const [eventName, setEvent] = useState("");
@@ -22,16 +24,8 @@ export default function WriteReview(props) {
   const [maxEventCount, setMaxEventCount] = useState(10);
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
-
-
-  // only set is used
   const [artistId, setArtistId] = useState(0);
   const [reviewsSet, setReviewsSet] = useState(false);
-
-  // currently unused
-  // const [rawMedia, setRawMedia] = useState([]);
-  // const [media, setMedia] = useState("");
-  // const [date, setDate] = useState("");
 
   const onVerify = recaptchaResponse => {
     console.log(recaptchaResponse);
@@ -218,3 +212,11 @@ export default function WriteReview(props) {
     </div>
   )
 }
+
+export default WriteReview;
+
+WriteReview.propTypes = {
+  artistId: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  numReviews: PropTypes.number.isRequired,
+};

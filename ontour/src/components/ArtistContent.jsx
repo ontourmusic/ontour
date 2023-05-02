@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 
 // For paginatedItems
@@ -27,15 +28,14 @@ const ArtistContent = (props) => {
             <>
                 {currentItems && currentItems.map(function (review, index) {
                     return (
-                        <Review 
-                            user={review.name} 
-                            date={review.eventDate} 
-                            key={index} 
-                            rating={review.rating} 
-                            venue={review.event} 
-                            text={review.review} 
-                        />
-                    )
+                        <Review
+                            user={review.name}
+                            date={review.eventDate}
+                            key={index}
+                            rating={review.rating}
+                            venue={review.event}
+                            text={review.review}
+                        />)
                 })}
             </>
         )
@@ -127,7 +127,6 @@ const ArtistContent = (props) => {
                         </Form.Select>
                     </Grid>
                     <Grid item xs={6} md={3}>
-                        {/* <div class="dropdown p-3"> */}
                         <Form.Select onChange={props.onRatingChange} aria-label="Default select example">
                             <option value="0">Filter by Rating</option>
                             <option value="1">1 Star</option>
@@ -136,7 +135,6 @@ const ArtistContent = (props) => {
                             <option value="4">4 Stars</option>
                             <option value="5">5 Stars</option>
                         </Form.Select>
-                        {/* </div> */}
                     </Grid>
                 </Grid>
 
@@ -154,13 +152,7 @@ const ArtistContent = (props) => {
                                 </button>
                             </div> : <></>
                     }
-
-                    {/* <div id="page" style={review_display_styles.review.container}> */}
-                        {/* {allReviews && allReviews.map(function(review, index) {
-                        return <Review user={review[2]} date={review[4]} key={index} rating={review[1]} venue = {review[3]} text={review[0]}/>
-                        })} */}
-                        <PaginatedItems itemsPerPage={10} />
-                    {/* </div> */}
+                    <PaginatedItems itemsPerPage={10} />
                 </div>
             }
         </>
@@ -168,3 +160,22 @@ const ArtistContent = (props) => {
 }
 
 export default ArtistContent;
+
+ArtistContent.propTypes = {
+    aggregateRating: PropTypes.number,
+    searchResults: PropTypes.bool,
+    allReviews: PropTypes.arrayOf(PropTypes.shape({
+        review: PropTypes.string,
+        rating: PropTypes.number,
+        name: PropTypes.string,
+        event: PropTypes.string,
+        eventDate: PropTypes.string
+    })),
+    filteredReviews: PropTypes.arrayOf(PropTypes.shape({
+        review: PropTypes.string,
+        rating: PropTypes.number,
+        name: PropTypes.string,
+        event: PropTypes.string,
+        eventDate: PropTypes.string
+    })),
+}
