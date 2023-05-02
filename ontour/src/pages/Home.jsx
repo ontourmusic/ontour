@@ -169,12 +169,25 @@ function Home() {
                 const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
                     .then(featureCollection => {
                         console.log(featureCollection);
+                        const totalPages = featureCollection.page.totalPages;
                         var eventArray = [];
-                        var sorted = featureCollection._embedded.events.sort(function (a, b) {
-                            var dateA = new Date(a.dates.start.localDate), dateB = new Date(b.dates.start.localDate);
-                            return dateA - dateB;
+                        for(var i = 0; i < 4; i++)
+                        {
+                            var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&classificationName=Music&radius=50&unit=miles&page=${i}`
+                            const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
+                            .then(featureCollection => {
+                                for(var j = 0; j < featureCollection._embedded.events.length; j++)
+                                {
+                                    var event = createEvent(featureCollection._embedded.events[j]);
+                                    eventArray.push(event);
+                                }
+                            })
+
                         }
+                        // 
+                        var sorted = eventArray.sort((a, b) => (a.date > b.date) ? 1 : -1
                         );
+                        console.log(eventArray);
                         for (let i = 0; i < sorted.length; i++) {
                           if(eventArray.length <= 7)
                           {
