@@ -13,7 +13,6 @@ import { Grid } from "@mui/material";
 import header_styles from "../Styles/header_styles";
 import { createClient } from '@supabase/supabase-js'
 import ImageModal from "./ImageModal";
-import CommentBox from "./CommentBox";
 
 const modal_styles = artist_styles.oldModal;
 const window_breakpoints = common_styles.window_breakpoints;
@@ -27,23 +26,6 @@ function ChildModal(props) {
     }, [props.imageData])
 
     return (
-        // <Modal
-        //     open={props.open}
-        //     onClose={props.onClose}
-        //     aria-labelledby="modal-modal-title"
-        //     aria-describedby="modal-modal-description"
-        // >
-        //     <Box sx={modal_styles.container}>
-        //         <Grid container spacing={2} sx={{height: "100%"}}>
-        //             <Grid item xs={12} md={8}>
-        //                 <img src={props.image} style={modal_styles.image} />
-        //             </Grid>
-        //             <Grid item xs={12} md={4}>
-        //                 <CommentBox imageData={props.imageData} isVenue={props.isVenue} />
-        //             </Grid>
-        //         </Grid>
-        //     </Box>
-        // </Modal>
         <ImageModal 
         open={props.open}
         handleClose={props.onClose}
@@ -79,7 +61,6 @@ function ArtistHeader(props) {
         if (starBoxRef.current) {
             const starBoxHeight = starBoxRef.current.offsetHeight;
             const starBoxWidth = starBoxRef.current.offsetWidth;
-            // totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.65}px`;
             totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.72}px`;
             totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
         }

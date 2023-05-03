@@ -1,9 +1,7 @@
 import React from "react";
 import '../index.css';
-import { useState, useEffect, useRef } from "react";
-import { Card, CardContent, CardMedia, Typography, Box, Rating, Grid, alpha } from "@mui/material";
-import results_styles from "../Styles/results_styles";
-import { Stack, Chip } from "@mui/material";
+import {CardContent, CardMedia, Typography, Box, Grid} from "@mui/material";
+import { Chip } from "@mui/material";
 
 export default function DisplayHeadliners(props) {
     console.log("DisplayHeadliners props: ", props);

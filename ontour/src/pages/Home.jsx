@@ -5,16 +5,14 @@ import { useState, useEffect } from "react";
 import Navigation from "../Navigation";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import '../Styles/carousel.css';
-import { Audio } from 'react-loading-icons'
 import { createClient } from '@supabase/supabase-js'
 import Categories from "../components/Categories";
 import HomeTile from "../components/HomeTile";
 import HomeReview from "../components/HomeReview";
 import HomeHeader from "../components/HomeHeader";
-import { Card, CardContent, Grid, Typography, Button, Divider } from "@mui/material";
+import { Grid } from "@mui/material";
 import Schedule from "../components/Schedule";
 import { GoogleMap, MarkerF, InfoWindowF} from '@react-google-maps/api';
-import { set } from "date-fns";
 
 
 class UpcomingEvent {

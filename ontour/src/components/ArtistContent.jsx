@@ -10,7 +10,7 @@ import artist_styles from '../Styles/artist_styles';
 import ReviewSummary from './ReviewSummary';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { TextField, Grid, Divider } from '@mui/material';
+import { TextField, Grid} from '@mui/material';
 const review_display_styles = artist_styles.review_display;
 
 

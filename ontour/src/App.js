@@ -3,12 +3,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Artist from "./pages/Artist";
-import Results from "./pages/Results";
 import Venue from "./pages/Venue";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-// import theme from "./Styles/FontTheme";
 import OnTourTheme from "./Styles/OnTourTheme";
-import Error from "./pages/Error";
 import SearchResults from "./pages/SearchResults";
 import Festival from "./pages/Festival";
 

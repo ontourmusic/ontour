@@ -1,9 +1,7 @@
 import React from "react";
 import '../index.css';
-import Show from "./Show";
 import { useState, useEffect } from "react";
 import { format } from 'date-fns';
-import { AiOutlineConsoleSql } from "react-icons/ai";
 import Schedule from "./Schedule";
 
 class UpcomingEvent {
@@ -22,30 +20,6 @@ class UpcomingEvent {
     }
 }
 
-// function parseDate(date) {
-//     const [year, month, day] = date.split("-");
-//     const newData = new Date(+year, month - 1, +day);
-//     var weekday = newData.toString().split(" ")[0];
-//     var monthStr = newData.toString().split(" ")[1];
-//     var dayStr = newData.toString().split(" ")[2];
-
-//     if (dayStr.charAt(0) == '0') {
-//         dayStr = dayStr.slice(1);
-//     }
-
-//     var fullDate = weekday + ", " + monthStr + " " + dayStr;
-//     return fullDate;
-// }
-
-// function parseName(name) {
-//     var nameParse = name.split(" ");
-//     for (let j = 0; j < nameParse.length; j++) {
-//         nameParse[j] = nameParse[j].charAt(0) + nameParse[j].slice(1).toLowerCase();
-//     }
-//     var eventName = nameParse.join(" ");
-//     return eventName;
-// }
-
 function parseTime(eventTime) {
     var hours;
     var minutes
@@ -63,17 +37,6 @@ function parseTime(eventTime) {
     }
     return time;
 }
-
-// function parseTimezone(timezone) {
-//     if (!timezone) {
-//         timezone = " ";
-//     }
-//     else {
-//         timezone = timezone.split('/')[1];
-//         timezone = timezone.replace('_', ' ');
-//     }
-//     return timezone;
-// }
 
 function createEvent(eventInfo) {
     var name = eventInfo.name;

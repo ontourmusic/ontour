@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Turnstone from 'turnstone';
 import '../Styles/turnstone.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faSearch, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {createSearchParams, useNavigate} from "react-router-dom";
 import SearchBarItem from "./SearchBarItem";
 import { createClient } from '@supabase/supabase-js'

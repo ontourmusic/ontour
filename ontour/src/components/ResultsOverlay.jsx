@@ -2,8 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import { Alert, Grid, Typography } from '@mui/material';
-import ResultsCard from './ResultsCard';
 import common_styles from '../Styles/common_styles';
 import ResultsListContent from './ResultsListContent';
 const window_breakpoints = common_styles.window_breakpoints;

@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { createClient } from '@supabase/supabase-js';
 
-import { Grid, Typography, Alert, Box } from "@mui/material";
+import { Grid } from "@mui/material";
 
 import Navigation from "../ArtistNavigation";
 import ResultsOverlay from "../components/ResultsOverlay";
@@ -16,7 +16,6 @@ const SearchResults = () => {
     const [searchParams] = useSearchParams();
     const textSearched = searchParams.get("search");
 
-    const [artist_name, setName] = useState('')
     const [ratings, setRatings] = useState({});
     const [reviewCount, setReviewCount] = useState({});
     const [venueRatings, setVenueRatings] = useState({});

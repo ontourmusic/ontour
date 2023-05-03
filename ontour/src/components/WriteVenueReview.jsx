@@ -2,7 +2,6 @@ import React from "react";
 import '../index.css';
 import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
-import Form from 'react-bootstrap/Form';
 import Reaptcha from 'reaptcha';
 
 import { createClient } from '@supabase/supabase-js';

@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import ResultsCard from "./ResultsCard";
 
 /*

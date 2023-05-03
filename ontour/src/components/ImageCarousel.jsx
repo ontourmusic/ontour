@@ -5,12 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import '../Styles/carousel.css';
 import { Polaroid } from "./Polaroid";
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
 import { AddMediaButton } from "./Buttons";
-import CommentBox from "./CommentBox";
 import { createClient } from '@supabase/supabase-js'
-import { Grid, Typography } from "@mui/material";
+import {Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
 
 import artist_styles from "../Styles/artist_styles";

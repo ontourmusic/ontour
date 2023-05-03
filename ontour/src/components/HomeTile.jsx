@@ -15,7 +15,7 @@ export default function HomeTile(props) {
 
     useEffect(() => {
         if (starBoxRef.current) {
-            const starBoxHeight = starBoxRef.current.offsetHeight;
+            // const starBoxHeight = starBoxRef.current.offsetHeight;
             const starBoxWidth = starBoxRef.current.offsetWidth;
             totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
         }

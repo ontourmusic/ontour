@@ -4,7 +4,6 @@ import "../index.css";
 import UpcomingSchedule from "./UpcomingSchedule";
 import VenueUpcomingSchedule from "./VenueUpcomingSchedule";
 import ExternalLink from "./ExternalLink";
-import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
 
 import artist_styles from "../Styles/artist_styles";

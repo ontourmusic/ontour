@@ -13,7 +13,7 @@ function GetAverageColor(url) {
 
             const imageData = ctx.getImageData(0, 0, img.width, img.height).data;
             let r = 0, g = 0, b = 0, totalWeight = 0;
-            const totalPixels = img.width * img.height;
+            // const totalPixels = img.width * img.height;
 
             for (let i = 0; i < imageData.length; i += 8) {
                 const pixelR = imageData[i];

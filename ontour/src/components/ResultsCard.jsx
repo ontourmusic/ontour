@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
-import { Card, CardContent, CardMedia, Typography, Box, Rating, Grid, alpha } from "@mui/material";
+import React from "react";
+import { Card, CardContent, CardMedia, Typography, Box, Rating, Grid} from "@mui/material";
 import results_styles from "../Styles/results_styles";
 import { useNavigate } from "react-router-dom";
-import UpcomingSchedule from "./UpcomingSchedule";
 
 /*
     link: string
