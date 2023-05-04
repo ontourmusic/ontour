@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Alert, Grid, Typography } from "@mui/material";
 import ResultsCard from "./ResultsCard";
 
@@ -61,3 +62,13 @@ const ResultsListContent = (props) => {
 }
 
 export default ResultsListContent;
+
+ResultsListContent.propTypes = {
+    artistList: PropTypes.object.isRequired,
+    ratings: PropTypes.object.isRequired,
+    reviewCount: PropTypes.object.isRequired,
+    artistIDs: PropTypes.object.isRequired,
+    venueList: PropTypes.object.isRequired,
+    venueRatings: PropTypes.object.isRequired,
+    venueReviewCount: PropTypes.object.isRequired,
+};

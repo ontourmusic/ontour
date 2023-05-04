@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { createClient } from '@supabase/supabase-js';
 
@@ -182,3 +183,9 @@ const CommentBox = (props) => {
 };
 
 export default CommentBox;
+
+CommentBox.propTypes = {
+  imageData: PropTypes.object.isRequired,
+  isVenue: PropTypes.bool.isRequired,
+  textColor: PropTypes.string.isRequired
+};

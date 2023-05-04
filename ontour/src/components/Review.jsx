@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import { RiStarFill } from "react-icons/ri"
 import { AiOutlineUser } from "react-icons/ai"
@@ -56,3 +57,11 @@ export default function Review(props) {
         </div>
     )
 }
+
+Review.propTypes = {
+    user: PropTypes.string,
+    rating: PropTypes.number,
+    date: PropTypes.string,
+    venue: PropTypes.string,
+    text: PropTypes.string
+};

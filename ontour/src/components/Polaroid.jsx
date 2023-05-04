@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import { Card, CardMedia, CardContent } from '@mui/material';
 
@@ -18,3 +19,9 @@ const Polaroid = (props) => {
 }
 
 export { Polaroid };
+
+Polaroid.propTypes = {
+    onPress: PropTypes.func,
+    imageURL: PropTypes.string,
+    link: PropTypes.string
+};

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import artist_styles from "../Styles/artist_styles";
 import { Grid } from "@mui/material";
@@ -34,7 +35,7 @@ const Show = (props) => {
                 }
                 {props.price != -1 &&
                     <div class="schedule-subfont">
-                        Tickets from <strong>{props.price}</strong>
+                        {props.price && <>Tickets from <strong>{props.price}</strong></>}
                     </div>
                 }
             </Grid>
@@ -46,3 +47,23 @@ const Show = (props) => {
 }
 
 export default Show;
+
+/*
+{
+    "time": " ",
+    "isVenue": true,
+    "date": "Sun, Jul 16",
+    "event": "Concacaf Gold Cup Final",
+    "price": "$90.00"
+}
+*/
+Show.propTypes = {
+    time: PropTypes.string,
+    isVenue: PropTypes.bool,
+    date: PropTypes.string.isRequired,
+    event: PropTypes.string.isRequired,
+    price: PropTypes.string,
+    venue: PropTypes.string,
+    city: PropTypes.string,
+    state: PropTypes.string,
+};

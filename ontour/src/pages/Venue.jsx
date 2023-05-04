@@ -2,7 +2,6 @@ import React from "react";
 import "../index.css";
 import "react-multi-carousel/lib/styles.css";
 import ArtistHeader from "../components/ArtistHeader";
-import Carousel from "../components/Carousel";
 import WriteVenueReview from "../components/WriteVenueReview";
 import { useSearchParams } from "react-router-dom";
 import {useState, useEffect} from "react";
@@ -69,7 +68,6 @@ function Venue() {
 
   //gets the artist and review data from the database
   const performSearch = async () => {
-    
     try{
       const venueData = await supabase.from('venues').select('*').eq('venue_id', venueIDGlobal)
       setVenueName(venueData.data[0].name);

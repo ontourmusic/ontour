@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Grid } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
@@ -38,3 +39,9 @@ const HomeReview = (props) => {
 }
 
 export default HomeReview;
+
+HomeReview.propTypes = {
+    text: PropTypes.string,
+    rating: PropTypes.number,
+    subText: PropTypes.string
+};

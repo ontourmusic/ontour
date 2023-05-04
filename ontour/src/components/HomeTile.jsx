@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../Styles/hometile.css';
 import Rating from '@mui/material/Rating';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
@@ -89,3 +90,13 @@ const styles = {
         position: "center",
     },
 }
+
+HomeTile.propTypes = {
+    name: PropTypes.string,
+    imageURL: PropTypes.string,
+    rating: PropTypes.number,
+    reviewCount: PropTypes.number,
+    isArtist: PropTypes.bool,
+    id: PropTypes.string,
+    loading: PropTypes.bool,
+};
