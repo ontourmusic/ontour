@@ -15,18 +15,14 @@ const window_breakpoints = common_styles.window_breakpoints;
 export default function WriteFestivalReview(props)
 {
     const [name, setName] = useState("");
-    const [eventName, setEvent] = useState("");
     const [description, setDescription] = useState("");
     const [rating, setRating] = useState("");
-    const [reviews, setPastReviews] = useState([]);
     const [canSubmit, setCanSubmit] = useState(true);
     const [captchaVerified, setCaptcha] = useState(false);
-    const [artistName, setArtistName] = useState("");
     const [eventDate, setEventDate] = useState("");
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
     const [festivalId, setVenueId] = useState(0);
-    const [reviewsSet, setReviewsSet] = useState(false);
 
     const { user, isAuthenticated, isLoading } = useAuth0();
 
@@ -100,9 +96,6 @@ export default function WriteFestivalReview(props)
                     }
                 </div>
                 <div class="row bottom">
-                    {/* <div class="col">
-                        <input type="text" class="form-control shadow-none" onChange={artistName => setArtistName(artistName.target.value)} value={artistName} placeholder="Artist Name" required />
-                    </div> */}
                     <div class='col'>
                         <input type="date" class="form-control shadow-none" onChange={eventDate => setEventDate(eventDate.target.value)} value={eventDate} placeholder="Event Date" required />
                     </div>

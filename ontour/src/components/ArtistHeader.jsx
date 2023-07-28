@@ -176,7 +176,7 @@ function ArtistHeader(props) {
                         variant="outlined"
                         type='submit' 
                         onClick={handleAllPhotosClick}>
-                        See All Photos
+                        See All {images.length} {images.length === 1 ? 'Photo' : 'Photos'}
                     </Button>
                 </div>
                 <Modal

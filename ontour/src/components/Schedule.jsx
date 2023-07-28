@@ -41,10 +41,6 @@ const Schedule = ({ eventArray, darkMode, hideTitle }) => {
 
                 </div>
                 : <p style={{ marginTop: "30px" }}>No Upcoming Shows</p>}
-
-            {/* <div class="row justify-content-center pt-3">
-                <button id="upcoming-btn">See more</button>
-            </div> */}
         </div>
     )
 }

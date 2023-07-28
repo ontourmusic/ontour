@@ -42,11 +42,6 @@ const SideContent = ({name, linkPairs, venue, festival}) => {
                 {festival && <FestivalUpcomingSchedule name={name} />}
                 {venue && <VenueUpcomingSchedule name={name} />}
                 {!venue && !festival && <UpcomingSchedule name={name} />}
-                {/* {venue && !festival ? <VenueUpcomingSchedule name={name} /> : <UpcomingSchedule name={name} /> } */}
-                {/* <VenueUpcomingSchedule name={name} /> */}
-                {/* <a href="#">
-            <img id="arrow" src="../../images/arrow.png" alt=""></img>
-            </a> */}
             </Box>
         </div>
     );
