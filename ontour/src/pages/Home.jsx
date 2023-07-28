@@ -395,8 +395,6 @@ function Home() {
                             </GoogleMap>
                         </Grid>
                     </Grid>
-                  {/* <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} /> */}
-                    
                 </Grid>
             </Grid>
         </Grid>

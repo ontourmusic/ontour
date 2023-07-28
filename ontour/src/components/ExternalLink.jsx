@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 export default function ExternalLink(props) {
     return (
@@ -7,3 +8,9 @@ export default function ExternalLink(props) {
         </a>
     )
 }
+
+ExternalLink.propTypes = {
+    mediaLink: PropTypes.string,
+    iconLink: PropTypes.string
+};
+

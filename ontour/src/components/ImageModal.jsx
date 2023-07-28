@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import artist_styles from "../Styles/artist_styles";
 import CommentBox from "./CommentBox";
 import { Grid, Modal } from "@mui/material";
@@ -71,3 +72,10 @@ const ImageModal = (props) => {
 }
 
 export default ImageModal;
+
+ImageModal.propTypes = {
+    image: PropTypes.string,
+    imageData: PropTypes.object,
+    isVenue: PropTypes.bool,
+    handleClose: PropTypes.func
+};

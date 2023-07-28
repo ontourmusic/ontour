@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import { useState, useEffect } from 'react';
 import Rating from '@mui/material/Rating';
@@ -12,7 +13,7 @@ import common_styles from "../Styles/common_styles";
 const window_breakpoints = common_styles.window_breakpoints;
 
 
-export default function WriteVenueReview(props) {
+const WriteVenueReview = (props) => { 
   const [name, setName] = useState("");
   const [eventName, setEvent] = useState("");
   const [description, setDescription] = useState("");
@@ -120,10 +121,8 @@ export default function WriteVenueReview(props) {
       }}>
         <Typography variant="h5" align="left" className="fw-bold">Review: Rate Your Experience</Typography>
       </div>
-      {/* <h4 id="write-review" class="fw-bold">Rate Your Experience</h4> */}
       <div class="rating row">
         <div id="stars" class="col-3">
-          {/* <Rating name="rating" size="large" required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} /> */}
           <Rating name="rating" sx={{ fontSize: "2.5rem" }} required defaultValue={0} precision={1} onChange={(event, newValue) => { setRating(newValue); }} />
         </div>
       </div>
@@ -145,7 +144,6 @@ export default function WriteVenueReview(props) {
         </div>
         <div class="row bottom">
           <div class="col">
-            {/* <textarea class="form-control shadow-none" style={{whiteSpace: "pre-wrap"}}  rows="5" cols="100" id="description" maxLength={5000} onChange={event => setDescription(event.target.value)} value ={description} placeholder="How was your experience?" required></textarea> */}
             <textarea
               class="form-control shadow-none"
               style={{ whiteSpace: "pre-wrap" }}
@@ -167,3 +165,11 @@ export default function WriteVenueReview(props) {
     </div>
   )
 }
+
+export default WriteVenueReview;
+
+WriteVenueReview.propTypes = {
+  name: PropTypes.string.isRequired,
+  numReviews: PropTypes.number.isRequired,
+  venueId: PropTypes.string.isRequired,
+};

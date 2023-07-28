@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import {useState, useEffect} from "react";
 import Schedule from "./Schedule";
@@ -83,8 +84,7 @@ function createEvent(eventInfo){
     if(eventInfo.priceRanges)
     {
         price = eventInfo.priceRanges[0].min;
-        price = price.toFixed(2);
-        price = "$" + price;
+        price = price ? "$" + price.toFixed(2) : "";
         console.log(price);
     }
 
@@ -92,8 +92,7 @@ function createEvent(eventInfo){
     return event;
 }
 
-export default function VenueUpcomingSchedule(props)
-{
+const VenueUpcomingSchedule = (props) => {
     const [eventArray, setEventArray] = useState([]);
     const performSearch = async () => {
         var tmEvents;
@@ -130,3 +129,10 @@ export default function VenueUpcomingSchedule(props)
         <Schedule eventArray={eventArray} />
     );
 }
+
+export default VenueUpcomingSchedule;
+
+VenueUpcomingSchedule.propTypes = {
+    name: PropTypes.string,
+    id: PropTypes.string
+};

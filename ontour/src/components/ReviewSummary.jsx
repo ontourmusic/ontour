@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import ProgressWithLabel from "./ProgressWithLabel";
@@ -91,3 +92,25 @@ const ReviewProgressBars = ({ ReviewValueArray, TotalReviews }) => {
 }
 
 export default ReviewSummary;
+
+/*
+[
+    {
+        "review": "No one puts on a show like Taylor Alison Swift! After the chaos that was trying to get tickets to the Eras Tour I had VERY high hopes for this show and thankfully it did not disappoint. This concert was THREE hours of pure joy and bliss! Taylor goes through every single album she has put out since 2006 starting with Lover and ending with Midnights. I personally think she could've added another song to the Speak Now Era (justice for Long Live and Sparks Fly) but I'm not knocking a star off for that. The show is incredible -- from the costumes, to set design, her acoustic songs, and the full theatrical moments it was everything this Swiftie could've hoped for! ",
+        "rating": 5,
+        "name": "Alex C. ",
+        "event": "State Farm Stadium ",
+        "eventDate": "2023-03-17"
+    },
+]
+*/
+
+ReviewSummary.propTypes = {
+    allReviews: PropTypes.arrayOf(PropTypes.shape({
+        review: PropTypes.string,
+        rating: PropTypes.number,
+        name: PropTypes.string,
+        event: PropTypes.string,
+        eventDate: PropTypes.string,
+    }))
+}

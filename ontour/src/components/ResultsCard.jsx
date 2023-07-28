@@ -1,5 +1,6 @@
-import React from "react";
-import { Card, CardContent, CardMedia, Typography, Box, Rating, Grid} from "@mui/material";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { Card, CardContent, CardMedia, Typography, Box, Rating, Grid, alpha } from "@mui/material";
 import results_styles from "../Styles/results_styles";
 import { useNavigate } from "react-router-dom";
 
@@ -71,3 +72,13 @@ const ResultsCard = (props) => {
 }
 
 export default ResultsCard
+
+ResultsCard.propTypes = {
+    link: PropTypes.string,
+    artistID: PropTypes.string,
+    name: PropTypes.string,
+    imageURL: PropTypes.string,
+    rating: PropTypes.number,
+    reviewCount: PropTypes.number,
+    events: PropTypes.array
+};

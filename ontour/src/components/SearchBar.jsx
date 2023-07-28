@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useState, useEffect, useRef } from "react";
 import Turnstone from 'turnstone';
 import '../Styles/turnstone.css';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import {createSearchParams, useNavigate} from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { createSearchParams, useNavigate } from "react-router-dom";
 import SearchBarItem from "./SearchBarItem";
 import { createClient } from '@supabase/supabase-js'
 
@@ -27,14 +28,14 @@ function GetSearchTerm(name) {
     return lower.replace(" ", "_");
 }
 
-export default function SearchBar(props){
+const SearchBar = (props) => {
     const [hasFocus, setHasFocus] = useState(false);
     const [artistList, setArtistList] = useState([]);
     const [venueList, setVenueList] = useState([]);
     const [festivalList, setFestivalList] = useState([]);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
-    const loadSearchItems = async () => { 
+    const loadSearchItems = async () => {
         var artists = await supabase.from('artists').select('*');
         var venues = await supabase.from('venues').select('*');
         var festivals = await supabase.from('festivals').select('*');
@@ -51,27 +52,27 @@ export default function SearchBar(props){
     const turnstoneRef = useRef()
 
     const handleClear = () => {
-        if(turnstoneRef.current){
+        if (turnstoneRef.current) {
             turnstoneRef.current.clear();
-        }    
+        }
     }
 
-    
 
-      const listbox = [
+
+    const listbox = [
         {
-          id: "artists",
-          name: "Artists",
-          data: artistList,
-          displayField: 'name',
-          searchType: "contains"
+            id: "artists",
+            name: "Artists",
+            data: artistList,
+            displayField: 'name',
+            searchType: "contains"
         },
         {
-          id: "venues",
-          name: "Venues",
-          data: venueList,
-          displayField: 'name',
-          searchType: "contains"
+            id: "venues",
+            name: "Venues",
+            data: venueList,
+            displayField: 'name',
+            searchType: "contains"
         },
         {
             id: "festivals",
@@ -81,31 +82,31 @@ export default function SearchBar(props){
             searchType: "contains"
         }
 
-      ];
+    ];
 
     const onBlur = () => setHasFocus(false)
     const onFocus = () => setHasFocus(true)
 
     const containerStyles = hasFocus
-    ? 'containerFocus'
-    : 'containerNoFocus'
+        ? 'containerFocus'
+        : 'containerNoFocus'
 
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         loadSearchItems();
-      }, []);
+    }, []);
 
     const searchNavigate = async (textEntry, selectedItem) => {
-        try{
-            if(selectedItem.value){
+        try {
+            if (selectedItem.value) {
                 selectedItem = selectedItem.value;
             }
             const index = artistList.findIndex(artist => artist['name'] === textEntry);
             const venueIndex = venueList.findIndex(venue => venue['name'] === textEntry);
             const festivalIndex = festivalList.findIndex(festival => festival['name'] === textEntry);
             // const festivalIndex = 
-            if(index > -1){
+            if (index > -1) {
                 navigate({
                     pathname: '/artist',
                     search: createSearchParams({
@@ -115,7 +116,7 @@ export default function SearchBar(props){
                 });
             }
 
-            else if(venueIndex > -1){
+            else if (venueIndex > -1) {
                 navigate({
                     pathname: '/venue',
                     search: createSearchParams({
@@ -123,8 +124,8 @@ export default function SearchBar(props){
                         venue: GetSearchTerm(venueList[index]["name"]),
                     }).toString()
                 });
-            } 
-            else if(festivalIndex > -1){
+            }
+            else if (festivalIndex > -1) {
                 navigate({
                     pathname: '/festival',
                     search: createSearchParams({
@@ -133,8 +134,8 @@ export default function SearchBar(props){
                     }).toString()
                 });
             }
-            if(typeof selectedItem.text !== undefined){
-                if(artistList.includes(selectedItem)){
+            if (typeof selectedItem.text !== undefined) {
+                if (artistList.includes(selectedItem)) {
                     navigate({
                         pathname: '/artist',
                         search: createSearchParams({
@@ -143,7 +144,7 @@ export default function SearchBar(props){
                         }).toString()
                     });
                 }
-                else if(venueList.includes(selectedItem)){
+                else if (venueList.includes(selectedItem)) {
                     navigate({
                         pathname: '/venue',
                         search: createSearchParams({
@@ -152,7 +153,7 @@ export default function SearchBar(props){
                         }).toString()
                     });
                 }
-                else if(festivalList.includes(selectedItem)){
+                else if (festivalList.includes(selectedItem)) {
                     navigate({
                         pathname: '/festival',
                         search: createSearchParams({
@@ -166,34 +167,34 @@ export default function SearchBar(props){
         catch {
             console.log('Search Error');
         }
-        if(props.navbar){
+        if (props.navbar) {
             handleClear();
         }
-        
+
     }
 
     const onSelect = (selectedItem, displayField) => {
         console.log(selectedItem);
-        if(artistList.includes(selectedItem)){
+        if (artistList.includes(selectedItem)) {
             navigate({
-                pathname: '/artist', 
+                pathname: '/artist',
                 search: createSearchParams({
                     id: selectedItem.artist_id,
                     artist: GetSearchTerm(selectedItem.name),
                 }).toString()
             });
         }
-        else if(displayField !== undefined && selectedItem !== undefined){
-            if(venueList.includes(selectedItem)){
+        else if (displayField !== undefined && selectedItem !== undefined) {
+            if (venueList.includes(selectedItem)) {
                 navigate({
-                    pathname: '/venue', 
+                    pathname: '/venue',
                     search: createSearchParams({
                         id: selectedItem.venue_id,
                         venue: GetSearchTerm(selectedItem.name),
                     }).toString()
                 });
             }
-            else if(festivalList.includes(selectedItem)){
+            else if (festivalList.includes(selectedItem)) {
                 navigate({
                     pathname: '/festival',
                     search: createSearchParams({
@@ -204,7 +205,7 @@ export default function SearchBar(props){
             }
         }
     }
-    
+
 
     return (
         <div className={containerStyles}>
@@ -228,3 +229,10 @@ export default function SearchBar(props){
         </div>
     );
 }
+
+export default SearchBar;
+
+SearchBar.propTypes = {
+    navbar: PropTypes.bool,
+    clear: PropTypes.bool
+};

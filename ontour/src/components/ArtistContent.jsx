@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 
 // For paginatedItems
@@ -159,3 +160,22 @@ const ArtistContent = (props) => {
 }
 
 export default ArtistContent;
+
+ArtistContent.propTypes = {
+    aggregateRating: PropTypes.number,
+    searchResults: PropTypes.bool,
+    allReviews: PropTypes.arrayOf(PropTypes.shape({
+        review: PropTypes.string,
+        rating: PropTypes.number,
+        name: PropTypes.string,
+        event: PropTypes.string,
+        eventDate: PropTypes.string
+    })),
+    filteredReviews: PropTypes.arrayOf(PropTypes.shape({
+        review: PropTypes.string,
+        rating: PropTypes.number,
+        name: PropTypes.string,
+        event: PropTypes.string,
+        eventDate: PropTypes.string
+    })),
+}

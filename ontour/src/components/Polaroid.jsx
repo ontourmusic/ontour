@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 
 import polaroid_styles from "../Styles/polaroid_styles";
@@ -17,3 +18,9 @@ const Polaroid = (props) => {
 }
 
 export { Polaroid };
+
+Polaroid.propTypes = {
+    onPress: PropTypes.func,
+    imageURL: PropTypes.string,
+    link: PropTypes.string
+};

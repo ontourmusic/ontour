@@ -1,4 +1,5 @@
 import * as React from 'react';
+import PropTypes from "prop-types";
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -61,3 +62,13 @@ const ResultsOverlay = (props) => {
 }
 
 export default ResultsOverlay;
+
+ResultsOverlay.propTypes = {
+    artistList: PropTypes.object,
+    ratings: PropTypes.object,
+    reviewCount: PropTypes.object,
+    artistIDs: PropTypes.object,
+    venueList: PropTypes.object,
+    venueRatings: PropTypes.object,
+    venueReviewCount: PropTypes.object
+};

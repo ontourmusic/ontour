@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 
 export default function Item(props)
@@ -14,3 +15,8 @@ export default function Item(props)
         </div>
     )
 }
+
+Item.propTypes = {
+    image: PropTypes.string,
+    text: PropTypes.string
+};

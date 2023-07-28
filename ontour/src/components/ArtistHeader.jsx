@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import '../index.css';
 import Rating from '@mui/material/Rating';
 import { useState, useEffect, useRef } from "react";
@@ -20,20 +21,28 @@ const styles = artist_styles.header;
 const verified = artist_styles.verifiedButton;
 
 function ChildModal(props) {
-
-    useEffect(() => {   
+    console.log("childmodal props: ", props);
+    useEffect(() => {
         console.log(props.imageData);
     }, [props.imageData])
 
     return (
-        <ImageModal 
-        open={props.open}
-        handleClose={props.onClose}
-        imageData={props.imageData}
-        image={props.image} 
+        <ImageModal
+            open={props.open}
+            handleClose={props.onClose}
+            imageData={props.imageData}
+            image={props.image}
         />
     );
 }
+
+ChildModal.propTypes = {
+    open: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    imageData: PropTypes.array.isRequired,
+    image: PropTypes.string.isRequired,
+};
+
 
 
 /*
@@ -41,6 +50,7 @@ optional prop made for the festival pages.
     background_position: sets the background position of the image
 */
 function ArtistHeader(props) {
+    // console.log("ArtistHeader props: ", props);
     const [images, setImages] = useState([]);
     const [imageLoad, setImageLoad] = useState(false);
     const [isMobile, setIsMobile] = useState(window_breakpoints.md >= window.innerWidth)
@@ -86,11 +96,11 @@ function ArtistHeader(props) {
 
     const handleImageClick = async (image) => {
         const { data, error } = await supabase
-        .from('artist_images')
-        .select('*')
-        .eq('image_url', image.target.src)
-        .single();
-  
+            .from('artist_images')
+            .select('*')
+            .eq('image_url', image.target.src)
+            .single();
+
         if (error) {
             console.error(error);
             return null;
@@ -104,12 +114,12 @@ function ArtistHeader(props) {
         setSelectedImage(null);
         setImageData(null);
         setIsChildModalOpen(false);
-      };
+    };
 
     const handleMouseEnter = (index) => {
         setHoveredIndex(index);
     };
-    
+
     const handleMouseLeave = () => {
         setHoveredIndex(null);
     };
@@ -126,14 +136,14 @@ function ArtistHeader(props) {
     }, [props.images])
 
     return (
-        <div 
-            style={{ 
-                backgroundImage: isMobile ? 
-                `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")` 
-                : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`, 
-                backgroundPosition: props.background_position ? 
-                                        props.background_position : 
-                                        (isMobile ? `center` : `none`),
+        <div
+            style={{
+                backgroundImage: isMobile ?
+                    `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("${props.image}")`
+                    : `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url("${props.image}")`,
+                backgroundPosition: props.background_position ?
+                    props.background_position :
+                    (isMobile ? `center` : `none`),
                 backgroundRepeat: `no-repeat`,
                 backgroundSize: `cover`,
                 height: `50vh`,
@@ -174,7 +184,7 @@ function ArtistHeader(props) {
                     <Button
                         style={header_styles.button}
                         variant="outlined"
-                        type='submit' 
+                        type='submit'
                         onClick={handleAllPhotosClick}>
                         See All {images.length} {images.length === 1 ? 'Photo' : 'Photos'}
                     </Button>
@@ -190,20 +200,20 @@ function ArtistHeader(props) {
                             <Grid item xs={12}>
                                 <h1 style={{ color: "black" }} class="homebanner">Photos of {props.name}</h1>
                             </Grid>
-                            {images.map((image, index) => { 
+                            {images.map((image, index) => {
                                 return (
                                     <Grid item xs={6} md={4} lg={3}>
-                                        <div 
+                                        <div
                                             // onClick={() => {handleTileClick()}}
                                             style={header_styles.imageTile.container}
                                         >
-                                            <img 
-                                                src={image} 
+                                            <img
+                                                src={image}
                                                 style={{
                                                     ...header_styles.imageTile.image,
                                                     ...(index === hoveredIndex && header_styles.imageTile.imageHover),
-                                                  }} 
-                                                onClick = {handleImageClick}
+                                                }}
+                                                onClick={handleImageClick}
                                                 onMouseEnter={() => {
                                                     handleMouseEnter(index)
                                                 }}
@@ -218,10 +228,10 @@ function ArtistHeader(props) {
                         </Grid>
                         {selectedImage && (
                             <ChildModal
-                            image={selectedImage}
-                            open={isChildModalOpen}
-                            imageData={imageData}
-                            onClose={handleCloseChildModal}
+                                image={selectedImage}
+                                open={isChildModalOpen}
+                                imageData={imageData}
+                                onClose={handleCloseChildModal}
                             />
                         )}
                     </Box>
@@ -234,3 +244,29 @@ function ArtistHeader(props) {
 }
 
 export default ArtistHeader;
+
+/*
+{
+    "name": "SoFi Stadium",
+    "rating": 0,
+    "total": 0,
+    "image": "https://media.nbcsandiego.com/2020/08/SoFI-Blur-best.jpg?quality=85&strip=all",
+    "isVenue": 1,
+    "city": "Los Angeles, California",
+    "onTour": false,
+    "verified": false,
+    "images": []
+}
+*/
+ArtistHeader.propTypes = {
+    name: PropTypes.string,
+    rating: PropTypes.number,
+    total: PropTypes.number,
+    image: PropTypes.string,
+    isVenue: PropTypes.number,
+    city: PropTypes.string,
+    onTour: PropTypes.bool,
+    verified: PropTypes.bool,
+    images: PropTypes.arrayOf(PropTypes.string),
+    background_position: PropTypes.string,
+};
