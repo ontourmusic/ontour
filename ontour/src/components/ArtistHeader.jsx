@@ -14,7 +14,6 @@ import { Grid } from "@mui/material";
 import header_styles from "../Styles/header_styles";
 import { createClient } from '@supabase/supabase-js'
 import ImageModal from "./ImageModal";
-import CommentBox from "./CommentBox";
 
 const modal_styles = artist_styles.oldModal;
 const window_breakpoints = common_styles.window_breakpoints;
@@ -72,7 +71,6 @@ function ArtistHeader(props) {
         if (starBoxRef.current) {
             const starBoxHeight = starBoxRef.current.offsetHeight;
             const starBoxWidth = starBoxRef.current.offsetWidth;
-            // totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.65}px`;
             totalReviewTextRef.current.style.fontSize = `${starBoxHeight * 0.72}px`;
             totalReviewTextRef.current.style.marginLeft = `${starBoxWidth * 0.05}px`;
         }
@@ -188,7 +186,7 @@ function ArtistHeader(props) {
                         variant="outlined"
                         type='submit'
                         onClick={handleAllPhotosClick}>
-                        See All Photos
+                        See All {images.length} {images.length === 1 ? 'Photo' : 'Photos'}
                     </Button>
                 </div>
                 <Modal

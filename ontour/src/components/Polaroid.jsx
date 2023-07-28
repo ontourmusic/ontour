@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import '../index.css';
-import { Card, CardMedia, CardContent } from '@mui/material';
 
 import polaroid_styles from "../Styles/polaroid_styles";
 

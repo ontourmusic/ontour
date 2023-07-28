@@ -1,5 +1,3 @@
-import OnTourColors from "./colors";
-import common_styles from "./common_styles";
 
 const polaroid_image = {
   height: "100%",

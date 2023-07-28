@@ -1,10 +1,8 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, CardContent, Grid, Typography, Button } from "@mui/material";
+import {CardContent, Grid, Typography, Button } from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
 import category_styles from "../Styles/category_styles";
 
-import cdIcon from "../icons/icons8-cd-100.png";
 import dancingIcon from "../icons/icons8-dancing-100.png";
 import frequencyIcon from "../icons/icons8-frequency-100.png";
 import mandolinIcon from "../icons/icons8-mandolin-100.png";

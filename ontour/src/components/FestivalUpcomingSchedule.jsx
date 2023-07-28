@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import '../index.css';
-import Show from "./Show";
 import {useState, useEffect} from "react";
 import { format } from 'date-fns';
 import Schedule from "./Schedule";

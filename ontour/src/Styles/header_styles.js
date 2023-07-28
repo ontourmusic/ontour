@@ -1,4 +1,3 @@
-import common_styles from "./common_styles";
 
 const button_position = {
     height: "100%",

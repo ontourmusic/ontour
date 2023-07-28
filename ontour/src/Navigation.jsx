@@ -2,11 +2,9 @@ import React from "react";
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 const Navigation = () => {
-  const { user, isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark">

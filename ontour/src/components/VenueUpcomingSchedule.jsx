@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import '../index.css';
-import Show from "./Show";
 import {useState, useEffect} from "react";
 import Schedule from "./Schedule";
 
@@ -14,7 +13,6 @@ class UpcomingEvent {
         this.eventTime = eventTime;
         this.price = price;
         this.isVenue = isVenue;
-
     }
 }
 

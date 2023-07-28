@@ -1,13 +1,10 @@
 import React from "react";
 import {createSearchParams, useNavigate} from "react-router-dom";
 import {useState} from "react";
-import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import SearchBar from "./components/SearchBar";
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 function Navigation() 
 {

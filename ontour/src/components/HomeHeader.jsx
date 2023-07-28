@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import home_styles from "../Styles/home_styles";
 import SearchBar from "./SearchBar";
 

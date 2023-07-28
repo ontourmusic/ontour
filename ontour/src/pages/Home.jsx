@@ -10,7 +10,7 @@ import Categories from "../components/Categories";
 import HomeTile from "../components/HomeTile";
 import HomeReview from "../components/HomeReview";
 import HomeHeader from "../components/HomeHeader";
-import { Grid} from "@mui/material";
+import { Grid } from "@mui/material";
 import Schedule from "../components/Schedule";
 import { GoogleMap, MarkerF, InfoWindowF} from '@react-google-maps/api';
 

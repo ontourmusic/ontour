@@ -42,7 +42,6 @@ const Schedule = ({ eventArray, darkMode, hideTitle }) => {
 
                 </div>
                 : <p style={{ marginTop: "30px" }}>No Upcoming Shows</p>}
-
         </div>
     )
 }
