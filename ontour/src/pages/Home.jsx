@@ -56,7 +56,12 @@ function Home() {
     ];
     const [isOpen, setIsOpen] = useState(false);
     const [infoWindowData, setInfoWindowData] = useState();
+    const [hoveredVenue, setHoveredVenue] = useState();
     
+    const handleHoveredIndexChange = (index) => {
+        setHoveredVenue(index);
+        setInfoWindowData({ id: index, venue: index });
+    }
 
     const navigate = useNavigate();
     const routeChange = (artist) => {
@@ -189,7 +194,6 @@ function Home() {
             });
 
 
-
     setRatings(()=> {
       return starsResults
     });
@@ -284,7 +288,6 @@ function Home() {
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
-        console.log(reviewCount);
     }, [artistList.name]);
 
     const display = loading ? "hidden" : "visible";
@@ -367,7 +370,7 @@ function Home() {
                   </Grid>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={6}>
-                             <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} />
+                             <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} onHoveredIndexChange={handleHoveredIndexChange} />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <GoogleMap
@@ -384,14 +387,13 @@ function Home() {
                                             handleMarkerClick(ind, lat, lng, venue);
                                         }}
                                     >
-                                        {isOpen && infoWindowData.id === ind && (
+                                        {(hoveredVenue == venue || isOpen && infoWindowData.id === ind) && (
                                             <InfoWindowF onCloseclick={() => {setIsOpen(false)}}>
                                                 <div>{infoWindowData.venue}</div>
                                             </InfoWindowF>
                                         )}
                                     </MarkerF>
                                 ))}
-                               
                             </GoogleMap>
                         </Grid>
                     </Grid>

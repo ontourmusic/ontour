@@ -4,16 +4,18 @@ import '../index.css';
 import Show from "./Show";
 import { useState, useEffect } from "react";
 
-const Schedule = ({ eventArray, darkMode, hideTitle }) => {
+const Schedule = ({ eventArray, darkMode, hideTitle, onHoveredIndexChange }) => {
 
     const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
     const handleItemHover = (venue) => {
         setHoveredItemIndex(venue);
-        console.log(venue);
+        onHoveredIndexChange(venue);
+        
     }
 
     const handleItemHoverOff = () => {
         setHoveredItemIndex(null);
+        onHoveredIndexChange(null);
     }
     return (
         <div class="container shows"

@@ -174,7 +174,6 @@ const SearchBar = (props) => {
     }
 
     const onSelect = (selectedItem, displayField) => {
-        console.log(selectedItem);
         if (artistList.includes(selectedItem)) {
             navigate({
                 pathname: '/artist',
