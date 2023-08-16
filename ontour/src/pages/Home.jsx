@@ -13,6 +13,10 @@ import HomeHeader from "../components/HomeHeader";
 import { Grid } from "@mui/material";
 import Schedule from "../components/Schedule";
 import { GoogleMap, MarkerF, InfoWindowF} from '@react-google-maps/api';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import GeotaggingSearchbar from "../components/GeotaggingSearchbar";
+
 
 
 class UpcomingEvent {
@@ -49,6 +53,7 @@ function Home() {
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+    const [citySearchResults, setCitySearchResults] = useState([]);
     const markers = [
         { address: "Crypto", lat: 34.0430, lng: -118.267616 },
         { address: "Santa Monica", lat: 34.0195, lng: -118.4912 },
@@ -56,7 +61,12 @@ function Home() {
     ];
     const [isOpen, setIsOpen] = useState(false);
     const [infoWindowData, setInfoWindowData] = useState();
+    const [hoveredVenue, setHoveredVenue] = useState();
     
+    const handleHoveredIndexChange = (index) => {
+        setHoveredVenue(index);
+        setInfoWindowData({ id: index, venue: index });
+    }
 
     const navigate = useNavigate();
     const routeChange = (artist) => {
@@ -163,7 +173,7 @@ function Home() {
                 setLatitude(parseFloat(lat));
                 var lon = featureCollection.loc.split(",")[1];
                 setLongitude(parseFloat(lon));
-                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&classificationName=Music&radius=50&unit=miles`
+                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&classificationName=Music&radius=50&unit=miles&size=200`
                 const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
                     .then(featureCollection => {
                         console.log(featureCollection);
@@ -187,7 +197,6 @@ function Home() {
                         setUpcomingEvents(eventArray);
                     })
             });
-
 
 
     setRatings(()=> {
@@ -284,7 +293,6 @@ function Home() {
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
-        console.log(reviewCount);
     }, [artistList.name]);
 
     const display = loading ? "hidden" : "visible";
@@ -364,10 +372,11 @@ function Home() {
                 <Grid item xs={10} container>
                   <Grid item xs={12}>
                       <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
+                      {/* <GeotaggingSearchbar /> */}
                   </Grid>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} marginTop={3}>
                         <Grid item xs={12} md={6}>
-                             <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} />
+                             <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} onHoveredIndexChange={handleHoveredIndexChange} />
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <GoogleMap
@@ -384,14 +393,13 @@ function Home() {
                                             handleMarkerClick(ind, lat, lng, venue);
                                         }}
                                     >
-                                        {isOpen && infoWindowData.id === ind && (
+                                        {(hoveredVenue == venue || isOpen && infoWindowData.id === ind) && (
                                             <InfoWindowF onCloseclick={() => {setIsOpen(false)}}>
                                                 <div>{infoWindowData.venue}</div>
                                             </InfoWindowF>
                                         )}
                                     </MarkerF>
                                 ))}
-                               
                             </GoogleMap>
                         </Grid>
                     </Grid>

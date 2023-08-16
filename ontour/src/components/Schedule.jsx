@@ -2,8 +2,28 @@ import React from "react";
 import PropTypes from "prop-types";
 import '../index.css';
 import Show from "./Show";
+import { useState, useEffect } from "react";
 
-const Schedule = ({ eventArray, darkMode, hideTitle }) => {
+const Schedule = ({ eventArray, darkMode, hideTitle, onHoveredIndexChange }) => {
+
+    const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
+    const handleItemHover = (venue) => {
+        setHoveredItemIndex(venue);
+        if(onHoveredIndexChange)
+        {
+            onHoveredIndexChange(venue);
+        }
+        
+        
+    }
+
+    const handleItemHoverOff = () => {
+        setHoveredItemIndex(null);
+        if(onHoveredIndexChange)
+        {
+            onHoveredIndexChange(null);
+        }
+    }
     return (
         <div class="container shows"
             style={{
@@ -23,7 +43,11 @@ const Schedule = ({ eventArray, darkMode, hideTitle }) => {
                 <div id="upcoming-list">
                     {eventArray.map((item, index) => {
                         return (
-                            <a href={eventArray[index].eventURL} target="_blank" rel="noopener noreferrer">
+                            <a href={eventArray[index].eventURL} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            onMouseEnter={() => handleItemHover(eventArray[index].venue)}
+                            onMouseLeave={() => handleItemHoverOff()}>
                                 <Show
                                     time={eventArray[index].eventTime}
                                     isVenue={eventArray[index].isVenue}

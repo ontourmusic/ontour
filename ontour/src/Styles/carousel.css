@@ -38,3 +38,8 @@
     padding: 11px 20px;
     color: white;
 }
+
+.textfield__label
+{
+    color:aliceblue !important;
+}
