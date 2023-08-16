@@ -13,6 +13,10 @@ import HomeHeader from "../components/HomeHeader";
 import { Grid } from "@mui/material";
 import Schedule from "../components/Schedule";
 import { GoogleMap, MarkerF, InfoWindowF} from '@react-google-maps/api';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import GeotaggingSearchbar from "../components/GeotaggingSearchbar";
+
 
 
 class UpcomingEvent {
@@ -49,6 +53,7 @@ function Home() {
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
+    const [citySearchResults, setCitySearchResults] = useState([]);
     const markers = [
         { address: "Crypto", lat: 34.0430, lng: -118.267616 },
         { address: "Santa Monica", lat: 34.0195, lng: -118.4912 },
@@ -367,8 +372,9 @@ function Home() {
                 <Grid item xs={10} container>
                   <Grid item xs={12}>
                       <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
+                      {/* <GeotaggingSearchbar /> */}
                   </Grid>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} marginTop={3}>
                         <Grid item xs={12} md={6}>
                              <Schedule eventArray={upcomingEvents} darkMode={true} hideTitle={true} onHoveredIndexChange={handleHoveredIndexChange} />
                         </Grid>

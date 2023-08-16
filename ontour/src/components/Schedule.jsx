@@ -9,13 +9,20 @@ const Schedule = ({ eventArray, darkMode, hideTitle, onHoveredIndexChange }) => 
     const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
     const handleItemHover = (venue) => {
         setHoveredItemIndex(venue);
-        onHoveredIndexChange(venue);
+        if(onHoveredIndexChange)
+        {
+            onHoveredIndexChange(venue);
+        }
+        
         
     }
 
     const handleItemHoverOff = () => {
         setHoveredItemIndex(null);
-        onHoveredIndexChange(null);
+        if(onHoveredIndexChange)
+        {
+            onHoveredIndexChange(null);
+        }
     }
     return (
         <div class="container shows"
