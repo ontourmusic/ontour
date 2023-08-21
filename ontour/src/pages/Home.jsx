@@ -226,9 +226,12 @@ function Home() {
     var venue = eventInfo._embedded.venues[0].name;
     if(eventInfo.priceRanges)
     {
-        price = eventInfo.priceRanges[0].min;
-        price = price.toFixed(2);
-        price = "$" + price;
+        if(eventInfo.priceRanges[0].min)
+        {
+            price = eventInfo.priceRanges[0].min;
+            price = price.toFixed(2);
+            price = "$" + price;
+        }
     }
     var latitude = parseFloat(eventInfo._embedded.venues[0].location.latitude);
     var longitude = parseFloat(eventInfo._embedded.venues[0].location.longitude);
