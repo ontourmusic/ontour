@@ -212,7 +212,7 @@ const WriteReview = (props) => {
                   }
 
                 </Form.Select> </>} */}
-            <input type="text" class="form-control shadow-none" onChange={handleEventNameChange} placeholder={"Event"} required />
+            <input type="text" class="form-control shadow-none" onChange={handleEventNameChange} placeholder={"Venue"} required />
           </div>
           <div class="col">
                 <input type="date" class="form-control shadow-none" onChange={handleDateChange} placeholder={"Date"} required />
