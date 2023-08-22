@@ -18,6 +18,7 @@ const WriteReview = (props) => {
   const [unparsedName, setUnparsedName] = useState("");
   const [parsedName, setParsedName] = useState(["", " "]);
   const [eventName, setEvent] = useState("");
+  const [eventDate, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [rating, setRating] = useState("");
   const [reviews, setPastReviews] = useState([]);
@@ -99,8 +100,8 @@ const WriteReview = (props) => {
     var fname = parsedName[0];
     var lname = parsedName[1];
 
-    var eventDate = eventName.split(" • ")[0];
-    var event = eventName.split(" • ")[1];
+    // var eventDate = eventName.split(" • ")[0];
+    // var event = eventName.split(" • ")[1];
 
 
     const { data2, error2 } = await supabase
@@ -118,7 +119,7 @@ const WriteReview = (props) => {
     const { data, error } = await supabase
       .from('artist_reviews')
       .insert(
-        [{ 'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': name, 'event': event, 'eventDate': eventDate }]
+        [{ 'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': name, 'event': eventName, 'eventDate': eventDate }]
       );
 
 
@@ -161,6 +162,14 @@ const WriteReview = (props) => {
     }
   }
 
+  const handleEventNameChange = (event) => {
+    setEvent(event.target.value);
+  }
+
+  const handleDateChange = (event) => {
+    setDate(event.target.value);
+  }
+
   return (
     <div class="container" id="review">
       <hr></hr>
@@ -187,7 +196,7 @@ const WriteReview = (props) => {
         </div>
         <div class="row bottom">
           <div class="col">
-            {reviews.length > 0 &&
+            {/* {reviews.length > 0 &&
               <>
                 <Form.Select aria-label="Default select example" required onChange={handleFormChange}>
                   <option value="" selected>Select an event</option>
@@ -202,7 +211,11 @@ const WriteReview = (props) => {
                     maxEventCount < 20 ? <option value="extend">Select an Older Event</option> : <></>
                   }
 
-                </Form.Select> </>}
+                </Form.Select> </>} */}
+            <input type="text" class="form-control shadow-none" onChange={handleEventNameChange} placeholder={"Event"} required />
+          </div>
+          <div class="col">
+                <input type="date" class="form-control shadow-none" onChange={handleDateChange} placeholder={"Date"} required />
           </div>
         </div>
         <div class="row bottom">
