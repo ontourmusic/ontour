@@ -28,7 +28,6 @@ function Artist() {
     const [searchParams] = useSearchParams();
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
-    console.log(artistID);
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
@@ -73,6 +72,7 @@ function Artist() {
 
     const performSearch = async () => {
         try {
+            console.log(artistID); 
             //try the supabase query here
             const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', artistID);
             //Queries artist database with artistID passed by search bar
@@ -126,7 +126,7 @@ function Artist() {
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
-    }, [artistID]);
+    }, [artistID, fullName]);
     
     //parses the review data from the database
     function parseReviewData(reviewData) {
@@ -226,7 +226,7 @@ function Artist() {
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                         <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch} />
-                        {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} numReviews={totalReviews}/>}
+                        {fullName !== "" && <WriteReview artistId={artistID} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />

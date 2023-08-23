@@ -25,6 +25,8 @@ const WriteReview = (props) => {
   const [canSubmit, setCanSubmit] = useState(true);
   const [captchaVerified, setCaptcha] = useState(false);
   const [maxEventCount, setMaxEventCount] = useState(10);
+  const [dateList, setDateList] = useState([]);
+  const [venueList, setVenueList] = useState([]);
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -37,7 +39,6 @@ const WriteReview = (props) => {
     console.log(recaptchaResponse);
     setCaptcha(true);
   };
-
 
   const handleWriteReview = event => {
     event.preventDefault();
@@ -55,41 +56,15 @@ const WriteReview = (props) => {
 
   useEffect(() => {
     GetPastReviews();
-  }, [maxEventCount]);
+  }, [maxEventCount, props.artistId]);
 
   const GetPastReviews = async () => {
-    var adele = " ";
-    var url = " ";
     try {
-      if (props.name.includes("Adele")) {
-        adele = "Adele";
-        // url = `https://rest.bandsintown.com/artists/Adele/events?app_id=958313646c7db923871b501a616498a9&date=past`;
-        url = `https://rest.bandsintown.com/artists/Adele/events?app_id=31273060cd25147d49a2f4ab5d6a2f34&date=past`;
-      }
-      else {
-        var name = props.name.replace(" ", "%20");
-        // url = `https://rest.bandsintown.com/artists/${name}/events?app_id=958313646c7db923871b501a616498a9&date=past`;
-        url = `https://rest.bandsintown.com/artists/${name}/events?app_id=31273060cd25147d49a2f4ab5d6a2f34&date=past`;
-      }
-      const pastReviews = await fetch(url);
-      const pastData = await pastReviews.json();
-      pastData.reverse();
-      const eventList = [];
-      for (var i = 0; i < maxEventCount; i++) {
-        var date = pastData[i].datetime.split("T")[0];
-        date = date.split("-");
-        var year = date[0];
-        var month = date[1];
-        var day = date[2];
-        var mmddyyyy = month + "/" + day + "/" + year;
-        pastData[i].datetime = mmddyyyy;
-        eventList.push(pastData[i]);
-      }
-      if (eventList.length > 0) {
-        setReviewsSet(true);
-        setPastReviews(eventList);
-        setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
-      }
+      const artist = await supabase.from('artists').select('*').eq('artist_id', props.artistId);
+      const dates = artist["data"][0]["show_date"];
+      setDateList(dates);
+      const venues = artist["data"][0]["show_venue"];
+      setVenueList(venues);
     }
     catch (err) {
       console.log('API Error');
@@ -100,8 +75,16 @@ const WriteReview = (props) => {
     var fname = parsedName[0];
     var lname = parsedName[1];
 
-    // var eventDate = eventName.split(" • ")[0];
-    // var event = eventName.split(" • ")[1];
+    if(dateList)
+    {
+      var date = eventName.split(" • ")[0];
+      var event = eventName.split(" • ")[1];
+    }
+    else
+    {
+      var date = eventDate;
+      var event = eventName;
+    }
 
 
     const { data2, error2 } = await supabase
@@ -119,7 +102,7 @@ const WriteReview = (props) => {
     const { data, error } = await supabase
       .from('artist_reviews')
       .insert(
-        [{ 'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': name, 'event': eventName, 'eventDate': eventDate }]
+        [{ 'artist_id': props.artistId, 'rating': rating, 'review': description, 'name': name, 'event': event, 'eventDate': date }]
       );
 
 
@@ -196,14 +179,14 @@ const WriteReview = (props) => {
         </div>
         <div class="row bottom">
           <div class="col">
-            {/* {reviews.length > 0 &&
+            {dateList &&
               <>
                 <Form.Select aria-label="Default select example" required onChange={handleFormChange}>
                   <option value="" selected>Select an event</option>
                   {
-                    reviews.map((review) => (
-                      <option value={`${review.datetime.split("T")[0]} • ${review.venue.name} `}>
-                        {review.datetime} • {review.venue.name}
+                    dateList.map((date, index) => (
+                      <option value={`${date} • ${venueList[index]} `}>
+                        {date} • {venueList[index]}
                       </option>
                     ))
                   }
@@ -211,12 +194,14 @@ const WriteReview = (props) => {
                     maxEventCount < 20 ? <option value="extend">Select an Older Event</option> : <></>
                   }
 
-                </Form.Select> </>} */}
-            <input type="text" class="form-control shadow-none" onChange={handleEventNameChange} placeholder={"Venue"} required />
+                </Form.Select> </> }
+            {!dateList && <input type="text" class="form-control shadow-none" onChange={handleEventNameChange} placeholder={"Venue"} required />}
           </div>
-          <div class="col">
-                <input type="date" class="form-control shadow-none" onChange={handleDateChange} placeholder={"Date"} required />
-          </div>
+          {!dateList &&
+            <div class="col">
+                  <input type="date" class="form-control shadow-none" onChange={handleDateChange} placeholder={"Date"} required />
+            </div>
+          }
         </div>
         <div class="row bottom">
           <div class="col">
