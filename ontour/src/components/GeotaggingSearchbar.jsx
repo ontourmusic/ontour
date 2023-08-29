@@ -43,28 +43,7 @@ const styles = {
       searchType: "contains"
     }
   
-    const handleSearch = (location) => {
-      console.log(location);
-      var key = "AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA";
-      var url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${key}`;
-      var latitude;
-            var longitude;
-            const response = fetch(url).then(result => result.json())
-            .then(featureCollection => {
-                console.log(featureCollection);
-                latitude = featureCollection.results[0].geometry.location.lat;
-                longitude = featureCollection.results[0].geometry.location.lng;
-                console.log(latitude);
-                console.log(longitude);
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
-  
-  
-  export default function BasicExample() {
+  export default function BasicExample({getCoordinates}) {
     const [hasFocus, setHasFocus] = useState(false)
   
     // Style the container so on mobile devices the search box and results
@@ -74,6 +53,23 @@ const styles = {
         : 'containerNoFocus'
   
     const iconDisplayStyle = hasFocus ? 'hidden text-crystal-600' : 'inline-flex text-oldsilver-400'
+
+    const handleSearch = (location) => {
+      console.log(location);
+      var key = "AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA";
+      var url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${key}`;
+      var latitude;
+      var longitude;
+      const response = fetch(url).then(result => result.json())
+      .then(featureCollection => {
+          latitude = featureCollection.results[0].geometry.location.lat;
+          longitude = featureCollection.results[0].geometry.location.lng;
+          getCoordinates(latitude, longitude);
+      })
+      .catch(error => {
+          console.log(error);
+      });
+    }
   
     const onBlur = () => setHasFocus(false)
     const onFocus = () => setHasFocus(true)
@@ -95,6 +91,7 @@ const styles = {
           placeholder="Enter a city"
           styles={styles}
           onEnter = {(e) => handleSearch(e)}
+          onClick = {(e) => handleSearch(e)}
           Clear={Clear}
         />
       </div>

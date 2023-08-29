@@ -53,7 +53,7 @@ function Artist() {
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [showResults, setShowResults] = useState(false);
     const [onTour, setOnTour] = useState(false);
-
+    
     const searchReviews = (searchTerm) => {
         const options = {
             keys: ["review", "event"],
@@ -72,7 +72,6 @@ function Artist() {
 
     const performSearch = async () => {
         try {
-            console.log(artistID); 
             //try the supabase query here
             const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', artistID);
             //Queries artist database with artistID passed by search bar
@@ -126,7 +125,7 @@ function Artist() {
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
-    }, [artistID, fullName]);
+    }, [artistID]);
     
     //parses the review data from the database
     function parseReviewData(reviewData) {
