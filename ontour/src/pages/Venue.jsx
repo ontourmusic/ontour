@@ -120,11 +120,15 @@ function Venue() {
     var cumulativeRating = 0;
     for(var i = 0; i < reviewData.length; i++) {
       reviewsArray.push({
+        "id": reviewData[i].id,                                             // review id
         "review":reviewData[i].review,                                       // review description
         "rating":reviewData[i].rating,                                       // review rating
         "name":reviewData[i].name,                                         // review author
         "artist":reviewData[i].artist,                                        // review event
         "eventDate":reviewData[i].eventDate,                                    // review date
+        "likeCount": reviewData[i].likeCount,                                // review like count
+        "likedUsers": reviewData[i].likedUsers,                              // review liked users
+        "dislikedUsers": reviewData[i].dislikedUsers                         // review disliked users
       });
 
       cumulativeRating += reviewData[i].rating;
@@ -190,7 +194,16 @@ function Venue() {
             slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3} 
             isVenue={1} 
             venueID={venueIDGlobal} />
-          <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch}/>
+          <ArtistContent 
+          allReviews={allReviews} 
+          filteredReviews={filteredReviews} 
+          aggregateRating={aggregateRating} 
+          onFormChange={formChange} 
+          onRatingChange={ratingFilter} 
+          onReviewSearch={searchReviews} 
+          searchResults={showResults} 
+          onClearSearch={clearSearch}
+          reviewTable={"venue_reviews"}/>
           {venue_name !== "" && <WriteVenueReview venueId={venueIdNumber} name={venue_name} numReviews={totalReviews}/>}
         </Grid>
         <Grid item xs={12} md={4}>

@@ -27,7 +27,18 @@ const ArtistContent = (props) => {
         return (
             <>
                 {currentItems && currentItems.map(function (review, index) {
-                    return <Review user={review.name} date={review.eventDate} key={index} rating={review.rating} venue={review.event} text={review.review} />
+                    return <Review 
+                    id={review.id} 
+                    user={review.name} 
+                    date={review.eventDate} 
+                    key={index} 
+                    rating={review.rating} 
+                    venue={review.event} 
+                    text={review.review} 
+                    count={review.likeCount}
+                    likedUsers={review.likedUsers}
+                    dislikedUsers={review.dislikedUsers} 
+                    reviewTable={props.reviewTable}/>
                 })}
             </>
         )

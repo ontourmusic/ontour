@@ -596,12 +596,12 @@ small {
   font-size: 15px;
 }
 
-#helpful-button, .dropdown .form-select {
+.dropdown .form-select {
   border: 1px solid #c8c9ca !important;
 }
 
 #helpful-button {
-  width: 93px;
+  width: 45px;
   height: 35px;
 }
 

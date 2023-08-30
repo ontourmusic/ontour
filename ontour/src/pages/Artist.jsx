@@ -134,11 +134,15 @@ function Artist() {
         var cumulativeRating = 0;
         for (var i = 0; i < reviewData.length; i++) {
             reviewsArray.push({
-                "review": reviewData[i].review,                                       // review description
-                "rating": reviewData[i].rating,                                       // review rating
-                "name": reviewData[i].name,                                         // review author
+                "id": reviewData[i].id,                                              // review id
+                "review": reviewData[i].review,                                      // review description
+                "rating": reviewData[i].rating,                                      // review rating
+                "name": reviewData[i].name,                                          // review author
                 "event": reviewData[i].event,                                        // review event
-                "eventDate": reviewData[i].eventDate,                                    // review date
+                "eventDate": reviewData[i].eventDate,                                // review date
+                "likeCount": reviewData[i].likeCount,                                // review like count
+                "likedUsers": reviewData[i].likedUsers,                              // review liked users
+                "dislikedUsers": reviewData[i].dislikedUsers                         // review disliked users
             });
             cumulativeRating += reviewData[i].rating;
         }
@@ -225,7 +229,17 @@ function Artist() {
                     <Grid item xs={12} md={8}>
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
-                        <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch} />
+                        <ArtistContent 
+                        allReviews={allReviews} 
+                        filteredReviews={filteredReviews} 
+                        aggregateRating={aggregateRating} 
+                        onFormChange={formChange} 
+                        onRatingChange={ratingFilter} 
+                        onReviewSearch={searchReviews} 
+                        searchResults={showResults} 
+                        onClearSearch={clearSearch} 
+                        reviewTable={"artist_reviews"}
+                            />
                         {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>

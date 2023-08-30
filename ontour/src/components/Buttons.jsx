@@ -249,13 +249,38 @@ const AddMediaButton = (props) => {
 const HelpfulButton = (props) => {
     return (
         <div class="d-flex w-100 justify-content-start pb-1">
-            <button onClick={props.onPress} style={{ backgroundColor: props.isActive ? '' : '#e7e8e8' }} id="helpful-button" type="button" class="btn btn-outline-light align-self-center">
+            <button 
+                onClick={props.onPress} 
+                style={{ backgroundColor: props.isHelpfulActive ? '' : '#e7e8e8' }} 
+                id="helpful-button" 
+                type="button" 
+                class="btn btn-outline-light align-self-center"
+                disabled={!props.isUnhelpfulActive}
+                >
                 <div class="row">
                     <div class="col-1">
-                        <img id="helpful-icon" src={props.isActive ? "../../images/helpful.png" : "../../images/helpful_selected.png"} alt=""></img>
+                        <img id="helpful-icon" src={props.isHelpfulActive ? "../../images/helpful.png" : "../../images/helpful_selected.png"} alt=""></img>
                     </div>
-                    <div id="helpful" class="col-1">
-                        Helpful
+                </div>
+            </button>
+        </div>
+    )
+}
+
+const UnhelpfulButton = (props) => {
+    return (
+        <div class="d-flex w-100 justify-content-start pb-1">
+            <button 
+            onClick={props.onPress} 
+            style={{ backgroundColor: props.isUnhelpfulActive ? '' : '#e7e8e8' }} 
+            id="helpful-button" 
+            type="button" 
+            class="btn btn-outline-light align-self-center"
+            disabled={!props.isHelpfulActive}
+            >
+                <div class="row">
+                    <div class="col-1">
+                        <img id="helpful-icon" src={props.isUnhelpfulActive ? "../../images/unhelpful.png" : "../../images/unhelpful_selected.png"} alt=""></img>
                     </div>
                 </div>
             </button>
@@ -288,7 +313,7 @@ const ResponsiveButtonStyle = {
     },
 };
 
-export { TwoColumnButton, AddMediaButton, HelpfulButton };
+export { TwoColumnButton, AddMediaButton, HelpfulButton, UnhelpfulButton };
 
 TwoColumnButton.propTypes = {
     text: PropTypes.string.isRequired,
