@@ -237,8 +237,6 @@ function Home() {
     var longitude = parseFloat(eventInfo._embedded.venues[0].location.longitude);
     var event = new UpcomingEvent(name, fullDate, eventId, eventURL, timezone, time, venue, city, state, price, latitude, longitude, false);
     return event;
-
-
   }
 
   function parseTimezone(timezone){
