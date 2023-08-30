@@ -91,8 +91,6 @@ const styles = {
     return (
       <div className={containerStyles}>
         <Turnstone
-          autoFocus={true}
-          //ref={turnstoneRef}
           clearButton={true}
           id="autocomplete"
           listbox={listbox}
