@@ -415,6 +415,5 @@ function Home() {
             </Grid>
         </Grid>
     )
-
 }
 export default Home;
