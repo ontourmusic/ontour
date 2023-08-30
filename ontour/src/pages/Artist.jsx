@@ -28,7 +28,6 @@ function Artist() {
     const [searchParams] = useSearchParams();
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
-    console.log(artistID);
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
@@ -54,7 +53,7 @@ function Artist() {
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [showResults, setShowResults] = useState(false);
     const [onTour, setOnTour] = useState(false);
-
+    
     const searchReviews = (searchTerm) => {
         const options = {
             keys: ["review", "event"],
