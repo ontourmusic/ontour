@@ -20,7 +20,6 @@ const styles = {
   const maxItems = 10
 
   const Clear = () => <FontAwesomeIcon icon={faXmark} />
-
   const box = ["pizza", "burger", "pasta"];
   // Set up listbox contents. We are fetching cities and airports from two different
   // API endpoints. 10 from each but ideally we only want to show 8 cities and 2 airports.
@@ -43,9 +42,13 @@ const styles = {
       searchType: "contains"
     }
   
-  export default function BasicExample({getCoordinates}) {
+  const GeotaggingSearchbar = React.memo(({getCoordinates}) => {
+
+
     const [hasFocus, setHasFocus] = useState(false)
-  
+    const [currentCity, setCurrentCity] = useState("");
+    const onSelectTrigger = useRef(false);
+
     // Style the container so on mobile devices the search box and results
     // take up the whole screen
     const containerStyles = hasFocus
@@ -55,25 +58,35 @@ const styles = {
     const iconDisplayStyle = hasFocus ? 'hidden text-crystal-600' : 'inline-flex text-oldsilver-400'
 
     const handleSearch = (location) => {
-      console.log(location);
-      var key = "AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA";
-      var url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${key}`;
-      var latitude;
-      var longitude;
-      const response = fetch(url).then(result => result.json())
-      .then(featureCollection => {
-          latitude = featureCollection.results[0].geometry.location.lat;
-          longitude = featureCollection.results[0].geometry.location.lng;
-          getCoordinates(latitude, longitude);
-      })
-      .catch(error => {
-          console.log(error);
-      });
+      console.log("in search");
+      if(location)
+      {
+        var key = "AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA";
+        var url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${key}`;
+        var latitude;
+        var longitude;
+        const response = fetch(url).then(result => result.json())
+        .then(featureCollection => {
+            latitude = featureCollection.results[0].geometry.location.lat;
+            longitude = featureCollection.results[0].geometry.location.lng;
+            getCoordinates(latitude, longitude);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+      }
+    }
+
+    const handleSelect = (location) => {
+      if(location != currentCity)
+      {
+        setCurrentCity(location);
+        handleSearch(location);
+      }
     }
   
     const onBlur = () => setHasFocus(false)
     const onFocus = () => setHasFocus(true)
-    //const turnstoneRef = useRef()
   
     return (
       <div className={containerStyles}>
@@ -91,9 +104,11 @@ const styles = {
           placeholder="Enter a city"
           styles={styles}
           onEnter = {(e) => handleSearch(e)}
-          onClick = {(e) => handleSearch(e)}
+          onSelect = {(e) => handleSelect(e)}
           Clear={Clear}
         />
       </div>
     )
-  }
+  });
+
+  export default GeotaggingSearchbar;

@@ -381,7 +381,7 @@ function Home() {
                 {/* ADD GEOLOCATING CODE */}
                 <Grid item xs={10} container>
                   <Grid item xs={12}>
-                      <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
+                      <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Popular Events</h1>
                       <GeotaggingSearchbar getCoordinates={setNewCoordinates}/>
                   </Grid>
                     <Grid container spacing={2} marginTop={3}>
