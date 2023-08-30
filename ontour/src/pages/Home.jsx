@@ -51,8 +51,9 @@ function Home() {
     const [venueList, setVenueList] = useState({});
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     const [upcomingEvents, setUpcomingEvents] = useState([]);
-    const [latitude, setLatitude] = useState(0);
-    const [longitude, setLongitude] = useState(0);
+    const [latitude, setLatitude] = useState(39.8355);
+    const [longitude, setLongitude] = useState(-99.0909);
+    const [mapZoom, setMapZoom] = useState(3);
     const [citySearchResults, setCitySearchResults] = useState([]);
     const markers = [
         { address: "Crypto", lat: 34.0430, lng: -118.267616 },
@@ -164,40 +165,7 @@ function Home() {
             venueReviewCount[venueName] = newVenueCount[venueID];
         }
 
-
-        //try geolocating
-        var url = "https://ipinfo.io/json?token=fb31edba4fabb9";
-        const response = fetch(url).then(result => result.json())
-            .then(featureCollection => {
-                var lat = featureCollection.loc.split(",")[0];
-                setLatitude(parseFloat(lat));
-                var lon = featureCollection.loc.split(",")[1];
-                setLongitude(parseFloat(lon));
-                var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${lat},${lon}&classificationName=Music&radius=50&unit=miles&size=200`
-                const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
-                    .then(featureCollection => {
-                        console.log(featureCollection);
-                        var eventArray = [];
-                        var sorted = featureCollection._embedded.events.sort(function (a, b) {
-                            var dateA = new Date(a.dates.start.localDate), dateB = new Date(b.dates.start.localDate);
-                            return dateA - dateB;
-                        }
-                        );
-                        for (let i = 0; i < sorted.length; i++) {
-                          if(eventArray.length <= 7)
-                          {
-                            var event = createEvent(sorted[i]);
-                            eventArray.push(event);
-                          }
-                          else{
-                            break;
-                          }
-                        }
-                        console.log(eventArray);
-                        setUpcomingEvents(eventArray);
-                    })
-            });
-
+        Geolocate();
 
     setRatings(()=> {
       return starsResults
@@ -209,6 +177,38 @@ function Home() {
       return artistIDList
     })
     setLoading(false);
+  }
+
+  function Geolocate(newLat, newLon)
+  {
+    if(newLat)
+    {
+        var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&latlong=${newLat},${newLon}&classificationName=Music&radius=50&unit=miles&size=200`
+    }
+    else{
+        var ticketmasterurl = `https://app.ticketmaster.com/discovery/v2/events.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=Music&size=200`
+    }
+    const ticketmasterresponse = fetch(ticketmasterurl).then(result => result.json())
+        .then(featureCollection => {
+            console.log(featureCollection);
+            var eventArray = [];
+            var sorted = featureCollection._embedded.events.sort(function (a, b) {
+                var dateA = new Date(a.dates.start.localDate), dateB = new Date(b.dates.start.localDate);
+                return dateA - dateB;
+            }
+            );
+            for (let i = 0; i < sorted.length; i++) {
+                if(eventArray.length <= 7)
+                {
+                var event = createEvent(sorted[i]);
+                eventArray.push(event);
+                }
+                else{
+                break;
+                }
+            }
+            setUpcomingEvents(eventArray);
+        })
   }
 
   function createEvent(eventInfo)
@@ -293,6 +293,13 @@ function Home() {
         setIsOpen(true);
     }
 
+    const setNewCoordinates = (latitude, longitude) => {
+        setLatitude(latitude);
+        setLongitude(longitude);
+        setMapZoom(10);
+        Geolocate(latitude, longitude);
+    }
+
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
@@ -374,8 +381,8 @@ function Home() {
                 {/* ADD GEOLOCATING CODE */}
                 <Grid item xs={10} container>
                   <Grid item xs={12}>
-                      <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Events Near You</h1>
-                      {/* <GeotaggingSearchbar /> */}
+                      <h1 style={{ color: "#FFFFFF" }} class="homebanner">Upcoming Popular Events</h1>
+                      <GeotaggingSearchbar getCoordinates={setNewCoordinates}/>
                   </Grid>
                     <Grid container spacing={2} marginTop={3}>
                         <Grid item xs={12} md={6}>
@@ -385,7 +392,7 @@ function Home() {
                             <GoogleMap
                                 googleMapsApiKey="AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA"
                                 mapContainerStyle={{width: "100%", height: "80vh"}} 
-                                zoom={10}
+                                zoom={mapZoom}
                                 onClick={() => setIsOpen(false)}
                                 center={{lat: latitude, lng: longitude}}>
                                 {upcomingEvents.map(({ venue, lat, lng }, ind) => (
