@@ -140,10 +140,14 @@ const Festival = (props) => {
         var cumulativeRating = 0;
         for (var i = 0; i < reviewData.length; i++) {
             reviewsArray.push({
+                "id": reviewData[i].id, 
                 "review": reviewData[i].review,                                       // review description
                 "rating": reviewData[i].rating,                                       // review rating
                 "name": reviewData[i].name,                                         // review author                                       // review event
                 "eventDate": reviewData[i].eventDate,                                    // review date
+                "likeCount": reviewData[i].likeCount,                                // review like count
+                "likedUsers": reviewData[i].likedUsers,                              // review liked users
+                "dislikedUsers": reviewData[i].dislikedUsers                         // review disliked users
             });
 
             cumulativeRating += reviewData[i].rating;
@@ -226,7 +230,16 @@ const Festival = (props) => {
                         slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3}
                         isVenue={1}
                         venueID={festivalIDGlobal} />
-                    <ArtistContent allReviews={allReviews} filteredReviews={filteredReviews} aggregateRating={aggregateRating} onFormChange={formChange} onRatingChange={ratingFilter} onReviewSearch={searchReviews} searchResults={showResults} onClearSearch={clearSearch} />
+                    <ArtistContent 
+                    allReviews={allReviews} 
+                    filteredReviews={filteredReviews} 
+                    aggregateRating={aggregateRating} 
+                    onFormChange={formChange} 
+                    onRatingChange={ratingFilter} 
+                    onReviewSearch={searchReviews} 
+                    searchResults={showResults} 
+                    onClearSearch={clearSearch} 
+                    reviewTable={"festival_reviews"}/>
                     {festival_name !== "" && <WriteFestivalReview festivalId={festivalIDGlobal} name={festival_name} numReviews={totalReviews} />}
                 </Grid>
                 <Grid item xs={12} md={4}>
