@@ -86,7 +86,7 @@ const styles = {
     }
   
     const onBlur = () => setHasFocus(false)
-    const onFocus = () => setHasFocus(true)
+    // const onFocus = () => setHasFocus(true)
   
     return (
       <div className={containerStyles}>
@@ -98,7 +98,7 @@ const styles = {
           maxItems={maxItems}
           noItemsMessage="We found no places that match your search"
           onBlur={onBlur}
-          onFocus={onFocus}
+          // onFocus={onFocus}
           placeholder="Enter a city"
           styles={styles}
           onEnter = {(e) => handleSearch(e)}
