@@ -222,7 +222,11 @@ function Home() {
     var time = parseTime(eventInfo.dates.start.localTime);
     var price = -1;
     var city = eventInfo._embedded.venues[0].city.name;
-    var state = eventInfo._embedded.venues[0].state.stateCode;
+    var state = "";
+    if(eventInfo._embedded.venues[0].state)
+    {
+        state = eventInfo._embedded.venues[0].state.stateCode;
+    }
     var venue = eventInfo._embedded.venues[0].name;
     if(eventInfo.priceRanges)
     {
