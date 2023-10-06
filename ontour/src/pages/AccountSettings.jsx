@@ -4,12 +4,10 @@ import "react-multi-carousel/lib/styles.css";
 import { Helmet } from "react-helmet";
 import { Grid } from "@mui/material";
 
-import HomeHeader from "../components/HomeHeader";
+import Navigation from "../Navigation";
 
 function AccountSettings() {
     //functions 
-
-
 
     return (
         <>
@@ -17,7 +15,7 @@ function AccountSettings() {
             </Helmet>
             <Grid container spacing={0}>
                 <Grid item xs={12}>
-                    <HomeHeader />
+                    <Navigation navbar={false}/>
                 </Grid>
             </Grid >
         </>
