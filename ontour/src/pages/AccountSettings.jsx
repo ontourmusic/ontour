@@ -7,6 +7,9 @@ import { Grid } from "@mui/material";
 import HomeHeader from "../components/HomeHeader";
 
 function AccountSettings() {
+    //functions 
+
+
 
     return (
         <>
