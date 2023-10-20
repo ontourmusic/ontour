@@ -12,6 +12,7 @@ import Footer from "../components/Footer";
 import ExternalLink from "../components/ExternalLink";
 // import EditableTextBox from '../components/EditableTextBox';
 import ResetPassword from '../components/ResetPassword';
+import EditSettingsTable from '../components/EditSettingsTable';
 
 
 function AccountSettings() {
@@ -40,6 +41,9 @@ function AccountSettings() {
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <BusinessSidebar />
+                </Grid>
+                <Grid item xs={12} md={9}>
+                    <EditSettingsTable />
                 </Grid>
                 <Grid container
                     direction="column"
