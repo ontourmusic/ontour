@@ -13,6 +13,7 @@ import ExternalLink from "../components/ExternalLink";
 //import EditableTextBox from '../components/EditableTextBox';
 import ResetPassword from '../components/ResetPassword';
 import { createClient } from '@supabase/supabase-js';
+import EditSettingsTable from '../components/EditSettingsTable';
 
 
 function AccountSettings() {
@@ -38,9 +39,11 @@ function AccountSettings() {
     
     const getLinks = async () => {
         try {
-            const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', 20);
+            const getArtistSupabase = await supabase.from('business_user_data').select('*').eq('id', 20);
             const artistData = getArtistSupabase["data"][0];
-
+            setInstaLink(artistData["instagram_link"]);
+            console.log(instaLink);
+            console.log(artistData["instagram_link"]);
         }
         catch {
             console.log('Webpage error. Please reload the page.');
@@ -57,6 +60,9 @@ function AccountSettings() {
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <BusinessSidebar />
+                </Grid>
+                <Grid item xs={12} md={9}>
+                    <EditSettingsTable />
                 </Grid>
                 <Grid container
                     direction="column"
