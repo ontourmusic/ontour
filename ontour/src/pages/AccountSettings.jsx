@@ -46,24 +46,28 @@ function AccountSettings() {
                     alignItems="center"
                 rowSpacing={1} md={2}>
                     <TextField
+                    margin="normal" 
                     value={textLink1} //draw from database
                     label="Enter your Instagram link"
                     onChange={(e) => { 
                         setTextLink1(e.target.value); 
                         }} />
                     <TextField
+                    margin="normal" 
                     value={textLink1} //draw from database
                     label="Enter your Twitter link"
                     onChange={(e) => { 
                         setTextLink1(e.target.value); 
                         }} />
                     <TextField
+                    margin="normal" 
                     value={textLink1} //draw from database
                     label="Enter your Spotify link"
                     onChange={(e) => { 
                         setTextLink1(e.target.value); 
                         }} />
                     <TextField
+                    margin="normal" 
                     value={textLink1} //draw from database
                     label="Enter your Website link"
                     onChange={(e) => { 
