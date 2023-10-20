@@ -18,9 +18,7 @@ import EditSettingsTable from '../components/EditSettingsTable';
 
 function AccountSettings() {
     //functions 
-    let linkPairs = [["www.https://open.spotify.com/artist/06HL4z0CvFAxyc27GXpf02", "images/spotify_icon.png"], ["https://www.instagram.com/taylorswift/?hl=en", "images/instagram.png.webp"], ["https://twitter.com/taylorswift13?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor", "images/twitter.png"]];
-    const [textLink1, setTextLink1] = useState('');  // Initial text is empty 
-    //textLink1 = "https://www.instagram.com/taylorswift/?hl=en";
+    //let linkPairs = [["www.https://open.spotify.com/artist/06HL4z0CvFAxyc27GXpf02", "images/spotify_icon.png"], ["https://www.instagram.com/taylorswift/?hl=en", "images/instagram.png.webp"], ["https://twitter.com/taylorswift13?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor", "images/twitter.png"]];
     /**
      * {linkPairs && 
                 <div>
@@ -34,6 +32,7 @@ function AccountSettings() {
     const [spotifyLink, setSpotifyLink] = useState("");
     const [instaLink, setInstaLink] = useState("");
     const [twitterLink, setTwitterLink] = useState("");
+    const [websiteLink, setWebsiteLink] = useState("");
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     
@@ -43,12 +42,13 @@ function AccountSettings() {
             const artistData = getArtistSupabase["data"][0];
             setInstaLink(artistData["instagram_link"]);
             console.log(instaLink);
-            console.log(artistData["instagram_link"]);
+            //console.log(artistData["instagram_link"]);
         }
         catch {
             console.log('Webpage error. Please reload the page.');
         }
     }
+    getLinks();
 
     return (
         <>
@@ -70,32 +70,36 @@ function AccountSettings() {
                     alignItems="center"
                 rowSpacing={1} md={2}>
                     <TextField
+                    id="instagram_link"
                     margin="normal" 
-                    value={textLink1} //draw from database 
+                    value={instaLink} //draw from database 
                     label="Enter your Instagram link"
                     onChange={(e) => { 
-                        setTextLink1(e.target.value); 
+                        setInstaLink(e.target.value); 
                         }} />
                     <TextField
+                        id="twitter_link"
                     margin="normal" 
-                    value={textLink1} //draw from database 
+                    value={twitterLink} //draw from database 
                     label="Enter your Twitter link"
                     onChange={(e) => { 
-                        setTextLink1(e.target.value); 
+                        setTwitterLink(e.target.value); 
                         }} />
                     <TextField
-                    margin="normal" 
-                    value={textLink1} //draw from database
+                        margin="normal" 
+                        id="spotify_link"
+                    value={spotifyLink} //draw from database
                     label="Enter your Spotify link"
                     onChange={(e) => { 
-                        setTextLink1(e.target.value); 
+                        setSpotifyLink(e.target.value); 
                         }} />
                     <TextField
                     margin="normal" 
-                    value={textLink1} //draw from database
+                    id="website_link"
+                    value={websiteLink} //draw from database
                     label="Enter your Website link"
                     onChange={(e) => { 
-                        setTextLink1(e.target.value); 
+                        setWebsiteLink(e.target.value); 
                     }} />
                 </Grid>
                 <Grid item xs={12} md={3}>
