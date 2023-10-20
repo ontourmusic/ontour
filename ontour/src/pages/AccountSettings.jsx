@@ -1,5 +1,5 @@
 //import React from "react";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "../index.css";
 import "react-multi-carousel/lib/styles.css"; 
 import { Helmet } from "react-helmet";
@@ -34,21 +34,26 @@ function AccountSettings() {
     const [twitterLink, setTwitterLink] = useState("");
     const [websiteLink, setWebsiteLink] = useState("");
 
-    // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     
     const getLinks = async () => {
         try {
             const getArtistSupabase = await supabase.from('business_user_data').select('*').eq('id', 20);
             const artistData = getArtistSupabase["data"][0];
             setInstaLink(artistData["instagram_link"]);
-            console.log(instaLink);
+            // console.log(instaLink);
             //console.log(artistData["instagram_link"]);
+            console.log('get link')
         }
         catch {
             console.log('Webpage error. Please reload the page.');
         }
     }
-    getLinks();
+    // useEffect(getLinks, []);
+    // getLinks();
+    useEffect(() => {
+        getLinks();
+    }, []);
 
     return (
         <>
@@ -76,6 +81,7 @@ function AccountSettings() {
                     label="Enter your Instagram link"
                     onChange={(e) => { 
                         setInstaLink(e.target.value); 
+                        console.log(e.target.value);
                         }} />
                     <TextField
                         id="twitter_link"
