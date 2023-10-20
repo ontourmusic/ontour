@@ -7,10 +7,11 @@ import { Grid, TextField } from "@mui/material";
 
 import Navigation from "../Navigation";
 import BusinessSidebar from "../components/BusinessSidebar";
-import SideContent from "../components/SideContent";
+// import SideContent from "../components/SideContent";
 import Footer from "../components/Footer";
 import ExternalLink from "../components/ExternalLink";
-import EditableTextBox from '../components/EditableTextBox';
+// import EditableTextBox from '../components/EditableTextBox';
+import ResetPassword from '../components/ResetPassword';
 
 
 function AccountSettings() {
@@ -73,6 +74,9 @@ function AccountSettings() {
                     onChange={(e) => { 
                         setTextLink1(e.target.value); 
                     }} />
+                </Grid>
+                <Grid item xs={12} md={3}>
+                    <ResetPassword />
                 </Grid>
                 <Grid item xs={12}>
                     <hr id="artist-footer"></hr>
