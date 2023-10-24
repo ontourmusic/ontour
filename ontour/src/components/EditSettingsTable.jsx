@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, TextField, Button } from '@mui/material';
+import ResetPassword from './ResetPassword';
 
 // const EditSettingsTable = () => {
 //   return (
@@ -40,12 +41,13 @@ const EditSettingsTable = () => {
   
         <Grid item xs={12} container>
           <Grid item xs={9}>
-            <TextField 
+            {/* <TextField 
               fullWidth
               label="Password" 
               type="password" 
               variant="outlined" 
-            />
+            /> */}
+            <ResetPassword></ResetPassword>
           </Grid>
         </Grid>
   
