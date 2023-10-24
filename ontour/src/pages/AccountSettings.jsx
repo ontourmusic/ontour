@@ -108,9 +108,6 @@ function AccountSettings() {
                         setWebsiteLink(e.target.value); 
                     }} />
                 </Grid>
-                <Grid item xs={12} md={3}>
-                    <ResetPassword />
-                </Grid>
                 <Grid item xs={12}>
                     <hr id="artist-footer"></hr>
                     <Footer />
