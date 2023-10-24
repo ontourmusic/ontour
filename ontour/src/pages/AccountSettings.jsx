@@ -1,9 +1,9 @@
-//import React from "react";
 import React, { useEffect, useState } from 'react';
 import "../index.css";
 import "react-multi-carousel/lib/styles.css"; 
 import { Helmet } from "react-helmet";
-import { Grid, TextField } from "@mui/material";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Grid, TextField, Button} from "@mui/material";
 
 import Navigation from "../Navigation";
 import BusinessSidebar from "../components/BusinessSidebar";
@@ -29,6 +29,15 @@ function AccountSettings() {
                     }
                         </div>}
      */
+    const { isAuthenticated, user } = useAuth0();
+    const [userEmail, setUserEmail] = useState("");
+
+    useEffect(() => {
+      if (isAuthenticated && user && user.email) {
+          setUserEmail(user.email);
+      }
+    }, [user, isAuthenticated]);
+
     const [spotifyLink, setSpotifyLink] = useState("");
     const [instaLink, setInstaLink] = useState("");
     const [twitterLink, setTwitterLink] = useState("");
@@ -83,9 +92,106 @@ function AccountSettings() {
                     <BusinessSidebar />
                 </Grid>
                 <Grid item xs={12} md={9}>
-                    <EditSettingsTable />
+                    {/* <EditSettingsTable /> */}   
+                    <Grid container spacing={4} direction="column" sx={{ padding: '20px' }}>
+                        <Grid item xs={12} container>
+                            <Grid item xs={9}>
+                                <TextField 
+                                fullWidth
+                                label="Email"
+                                variant="outlined" 
+                                value={userEmail}
+                                onChange={(e) => { 
+                                    setUserEmail(e.target.value); 
+                                }}
+                                />
+                            </Grid>
+                        </Grid>
+                
+                        <Grid item xs={12} container>
+                            <Grid item xs={9}>
+                                <ResetPassword></ResetPassword>
+                            </Grid>
+                        </Grid>
+                
+                        <Grid item xs={12} container alignItems="center">
+                            <Grid item xs={9}>
+                                <TextField 
+                                fullWidth
+                                label="Official Profile Name" 
+                                variant="outlined" 
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
+                                <Button variant="text">Request Edit Access</Button>
+                            </Grid>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Grid item xs={9}>
+                                <TextField
+                                    fullWidth
+                                    id="instagram_link"
+                                    margin="normal"
+                                    value={instaLink}
+                                    label="Enter your Instagram link"
+                                    onChange={(e) => {
+                                        setInstaLink(e.target.value);
+                                    }} />
+                            </Grid>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Grid item xs={9}>
+                                <TextField
+                                fullWidth
+                                id="twitter_link"
+                                margin="normal"
+                                value={twitterLink}
+                                label="Enter your Twitter link"
+                                onChange={(e) => {
+                                    setTwitterLink(e.target.value);
+                                }} />
+                            </Grid>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Grid item xs={9}>
+                                <TextField
+                                fullWidth
+                                id="spotify_link"
+                                margin="normal"
+                                value={spotifyLink}
+                                label="Enter your Spotify link"
+                                onChange={(e) => {
+                                    setSpotifyLink(e.target.value);
+                                }} />
+                            </Grid>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Grid item xs={9}>
+                                <TextField
+                                fullWidth
+                                id="website_link"
+                                margin="normal"
+                                value={websiteLink}
+                                label="Enter your Website link"
+                                onChange={(e) => {
+                                    setWebsiteLink(e.target.value);
+                                }} />
+                            </Grid>
+                        </Grid>
+
+                        <Grid item xs={12}>
+                            <Button variant="contained" color="primary">
+                                Save Changes
+                            </Button>
+                        </Grid>
+                        
+                    </Grid>
                 </Grid>
-                <Grid container
+                {/* <Grid container
                     direction="column"
                     justifyContent="center"
                     alignItems="center"
@@ -123,7 +229,8 @@ function AccountSettings() {
                     onChange={(e) => { 
                         setWebsiteLink(e.target.value); 
                     }} />
-                </Grid>
+                </Grid> */}
+                
                 <Grid item xs={12}>
                     <hr id="artist-footer"></hr>
                     <Footer />
