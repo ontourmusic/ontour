@@ -126,7 +126,7 @@ function AccountSettings() {
                 </Grid>
                 <Grid item xs={12} md={9}>
                     {/* <EditSettingsTable /> */}   
-                    <Grid container spacing={4} direction="column" sx={{ padding: '20px' }}>
+                    <Grid container spacing={4} direction="column" sx={{ padding: '10px' }}>
                         <Grid item xs={12} container>
                             <Grid item xs={9}>
                                 <TextField 
@@ -142,7 +142,15 @@ function AccountSettings() {
                         </Grid>
                 
                         <Grid item xs={12} container>
-                            <Grid item xs={9}>
+                            <Grid item xs={6}>
+                                <TextField 
+                                fullWidth
+                                label="Password" 
+                                type="password" 
+                                variant="outlined" 
+                                />
+                            </Grid>
+                            <Grid item xs={3}>
                                 <ResetPassword></ResetPassword>
                             </Grid>
                         </Grid>
@@ -217,9 +225,11 @@ function AccountSettings() {
                         </Grid>
 
                         <Grid item xs={12}>
-                            <Button variant="contained" color="primary">
-                                Save Changes
-                            </Button>
+                            <Grid item xs={9}>
+                                <Button variant="contained" color="primary">
+                                    Save Changes
+                                </Button>
+                            </Grid>
                         </Grid>
                         
                     </Grid>
