@@ -36,21 +36,37 @@ function AccountSettings() {
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     
+    //hardcoding artist ID 
+    //
     const getLinks = async () => {
         try {
-            const getArtistSupabase = await supabase.from('business_user_data').select('*').eq('id', 20);
+            const getArtistSupabase = await supabase.from('business_user_data').select('*').eq('id', 20); 
             const artistData = getArtistSupabase["data"][0];
             setInstaLink(artistData["instagram_link"]);
+            setTwitterLink(artistData["twitter_link"]);
+            setSpotifyLink(artistData["spotify_link"]);
+            setWebsiteLink(artistData["website_link"]);
             // console.log(instaLink);
             //console.log(artistData["instagram_link"]);
-            console.log('get link')
+            //console.log('get link')
         }
         catch {
             console.log('Webpage error. Please reload the page.');
         }
     }
-    // useEffect(getLinks, []);
-    // getLinks();
+
+    //called when save changes is pressed
+    const sendLink = async (twitterLink) => {
+        try {
+            const {data, error}  = await supabase.from('business_user_data').update({twitter_link: twitterLink}).eq('id', 20); //add mutable artist id 
+            //const artistData = getArtistSupabase["data"][0];
+            //take data from the 4 textboxes and insert into the 4 link data table columns
+        }
+        catch {
+            console.log('Webpage error. Please reload the page.');
+        }
+    }
+    
     useEffect(() => {
         getLinks();
     }, []);
@@ -81,7 +97,7 @@ function AccountSettings() {
                     label="Enter your Instagram link"
                     onChange={(e) => { 
                         setInstaLink(e.target.value); 
-                        console.log(e.target.value);
+                        //console.log(e.target.value);
                         }} />
                     <TextField
                         id="twitter_link"
