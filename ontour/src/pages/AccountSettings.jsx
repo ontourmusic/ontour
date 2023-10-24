@@ -65,9 +65,42 @@ function AccountSettings() {
     }
 
     //called when save changes is pressed
-    const sendLink = async (twitterLink) => {
+    const sendTwitterLink = async (twitterLink) => {
         try {
             const {data, error}  = await supabase.from('business_user_data').update({twitter_link: twitterLink}).eq('id', 20); //add mutable artist id 
+            //const artistData = getArtistSupabase["data"][0];
+            //take data from the 4 textboxes and insert into the 4 link data table columns
+        }
+        catch {
+            console.log('Webpage error. Please reload the page.');
+        }
+    }
+
+    const sendInstaLink = async (instagramLink) => {
+        try {
+            const {data, error}  = await supabase.from('business_user_data').update({instagram_link: instagramLink}).eq('id', 20); //add mutable artist id 
+            //const artistData = getArtistSupabase["data"][0];
+            //take data from the 4 textboxes and insert into the 4 link data table columns
+        }
+        catch {
+            console.log('Webpage error. Please reload the page.');
+        }
+    }
+
+    const sendWebsiteLink = async (websiteLink) => {
+        try {
+            const {data, error}  = await supabase.from('business_user_data').update({website_link: websiteLink}).eq('id', 2); //add mutable artist id 
+            //const artistData = getArtistSupabase["data"][0];
+            //take data from the 4 textboxes and insert into the 4 link data table columns
+        }
+        catch {
+            console.log('Webpage error. Please reload the page.');
+        }
+    }
+
+    const sendSpotifyLink = async (spotifyLink) => {
+        try {
+            const {data, error}  = await supabase.from('business_user_data').update({spotify_link: spotifyLink}).eq('id', 2); //add mutable artist id 
             //const artistData = getArtistSupabase["data"][0];
             //take data from the 4 textboxes and insert into the 4 link data table columns
         }
