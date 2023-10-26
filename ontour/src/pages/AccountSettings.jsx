@@ -49,7 +49,7 @@ function AccountSettings() {
     //
     const getLinks = async () => {
         try {
-            const getArtistSupabase = await supabase.from('business_user_data').select('*').eq('id', 20); 
+            const getArtistSupabase = await supabase.from('business_user_data').select('*').eq('id', 2); 
             const artistData = getArtistSupabase["data"][0];
             setInstaLink(artistData["instagram_link"]);
             setTwitterLink(artistData["twitter_link"]);
@@ -67,7 +67,7 @@ function AccountSettings() {
     //called when save changes is pressed
     const sendTwitterLink = async (twitterLink) => {
         try {
-            const {data, error}  = await supabase.from('business_user_data').update({twitter_link: twitterLink}).eq('id', 20); //add mutable artist id 
+            const {data, error}  = await supabase.from('business_user_data').update({twitter_link: twitterLink}).eq('id', 2); //add mutable artist id 
             //const artistData = getArtistSupabase["data"][0];
             //take data from the 4 textboxes and insert into the 4 link data table columns
         }
@@ -78,7 +78,7 @@ function AccountSettings() {
 
     const sendInstaLink = async (instagramLink) => {
         try {
-            const {data, error}  = await supabase.from('business_user_data').update({instagram_link: instagramLink}).eq('id', 20); //add mutable artist id 
+            const {data, error}  = await supabase.from('business_user_data').update({instagram_link: instagramLink}).eq('id', 2); //add mutable artist id 
             //const artistData = getArtistSupabase["data"][0];
             //take data from the 4 textboxes and insert into the 4 link data table columns
         }
@@ -100,17 +100,24 @@ function AccountSettings() {
 
     const sendSpotifyLink = async (spotifyLink) => {
         try {
-            const {data, error}  = await supabase.from('business_user_data').update({spotify_link: spotifyLink}).eq('id', 2); //add mutable artist id 
-            //const artistData = getArtistSupabase["data"][0];
-            //take data from the 4 textboxes and insert into the 4 link data table columns
+            const { data, error } = await supabase.from('business_user_data').update({ spotify_link: spotifyLink }).eq('id', 2); //add mutable artist id 
         }
         catch {
             console.log('Webpage error. Please reload the page.');
         }
     }
+
+    const sendLinks = async () => {
+        console.log("sent");
+        sendInstaLink(instaLink);
+        sendTwitterLink(twitterLink);
+        sendWebsiteLink(websiteLink);
+        sendSpotifyLink(spotifyLink);
+    }
     
     useEffect(() => {
         getLinks();
+        console.log("got links");
     }, []);
 
     return (
@@ -226,7 +233,7 @@ function AccountSettings() {
 
                         <Grid item xs={12}>
                             <Grid item xs={9}>
-                                <Button variant="contained" color="primary">
+                                <Button id="savebutton" variant="contained" color="primary" onClick={() => {sendLinks();}}>
                                     Save Changes
                                 </Button>
                             </Grid>
