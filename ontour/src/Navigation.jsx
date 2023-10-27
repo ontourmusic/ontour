@@ -1,10 +1,13 @@
 import React from "react";
+import SettDashButton from "./components/SettDashbarButton";
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
+import { useLocation } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Navigation = () => {
   const { isAuthenticated } = useAuth0();
+  const location = useLocation();
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -14,6 +17,7 @@ const Navigation = () => {
         </a>
         {!isAuthenticated && <LoginButton></LoginButton>}
         {isAuthenticated && <div>
+          {location.pathname !== "/Account" && <SettDashButton></SettDashButton>}
           <LogoutButton></LogoutButton>
         </div> }
       </div>

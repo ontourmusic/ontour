@@ -8,7 +8,8 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import OnTourTheme from "./Styles/OnTourTheme";
 import SearchResults from "./pages/SearchResults";
 import Festival from "./pages/Festival";
-import AccountSettings from "./pages/AccountSettings"
+import AccountSettings from "./pages/AccountSettings";
+import ProfilePage from "./pages/ProfilePage";
 
 // import {
 //   createBrowserRouter,
@@ -69,6 +70,7 @@ function App() {
             <Route path="/venue" element={<Venue />} />
             <Route path="/festival" element={<Festival />} />
             <Route path="/account" element={<AccountSettings />} />
+            <Route path="/profile" element={<ProfilePage />} />
           </Routes>
         </Router>
         {/* <RouterProvider router={router} /> */}
