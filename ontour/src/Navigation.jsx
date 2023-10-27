@@ -8,6 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Navigation = () => {
   const { isAuthenticated } = useAuth0();
   const location = useLocation();
+  const pathsToHideButton = ["/Account", "/profile"];
 
   return (
     <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -17,7 +18,7 @@ const Navigation = () => {
         </a>
         {!isAuthenticated && <LoginButton></LoginButton>}
         {isAuthenticated && <div>
-          {location.pathname !== "/Account" && <SettDashButton></SettDashButton>}
+          {!pathsToHideButton.includes(location.pathname) && <SettDashButton></SettDashButton>}
           <LogoutButton></LogoutButton>
         </div> }
       </div>

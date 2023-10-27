@@ -6,8 +6,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Grid, TextField, Button} from "@mui/material";
 
 import Navigation from "../Navigation";
-import BusinessSidebar from "../components/BusinessSidebar";
-import SideContent from "../components/SideContent";
 import Footer from "../components/Footer";
 import ResetPassword from '../components/ResetPassword';
 
@@ -20,18 +18,14 @@ function ProfilePage() {
 
 
     useEffect(() => {
-      if (isAuthenticated && user && user.email) {
-            setUserEmail(user.email);
-            if (user['https://tourscout.comapp_metadata'] && user['https://tourscout.comapp_metadata'].username) { // Adjust the namespace to what you set in the action
-                setUsername(user['https://tourscout.comapp_metadata'].username);
-                setOfficialProfileName(user['https://tourscout.comapp_metadata'].username);
-            }
-            console.log(user);
-            console.log(user.email);
-            //console.log(user['https://tourscout.com'].username);
-            console.log(officialProfileName);
-            console.log("officialname");
-      }
+        if (isAuthenticated && user && user.email) {
+                setUserEmail(user.email);
+                if (user['https://tourscout.comuser_metadata'] && user['https://tourscout.comuser_metadata'].username) {
+                    setUsername(user['https://tourscout.comuser_metadata'].username);
+                    setOfficialProfileName(user['https://tourscout.comuser_metadata'].username);
+                }
+        }
+        console.log(user);
     }, [user, isAuthenticated]);
 
     return (
@@ -41,7 +35,7 @@ function ProfilePage() {
                 <Grid item xs={12}>
                     <Navigation navbar={false}/>
                 </Grid>
-                <Grid item xs={12} md={8}> {/* Adjusted width for better centering */}
+                <Grid item xs={12} md={8}>
                     <Grid container spacing={4} direction="column" sx={{ padding: '10px' }}>
                         <Grid item xs={12} container justifyContent="center">
                             <Grid item xs={9}>
@@ -77,7 +71,7 @@ function ProfilePage() {
                                 fullWidth
                                 label="Official Profile Name" 
                                 variant="outlined" 
-                                value={officialProfileName} // <-- Set the value here
+                                value={officialProfileName}
                                 onChange={(e) => { 
                                     setOfficialProfileName(e.target.value); 
                                 }}
