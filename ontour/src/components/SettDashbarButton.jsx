@@ -1,12 +1,17 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import button_styles from "../Styles/button_styles";
 
 const SettingsButton = () => {
   const navigate = useNavigate();
-
+  const { isAuthenticated, user } = useAuth0();
   const navigateToSettings = () => {
-    navigate('Account');
+    if(isAuthenticated && user && user['https://tourscout.comapp_metadata'].artist_id) {
+      navigate('Account');
+    } else {
+      navigate('Profile');
+    }
   }
 
   return (

@@ -18,6 +18,7 @@ function ProfilePage() {
 
 
     useEffect(() => {
+<<<<<<< Updated upstream
         if (isAuthenticated && user && user.email) {
                 setUserEmail(user.email);
                 if (user['https://tourscout.comuser_metadata'] && user['https://tourscout.comuser_metadata'].username) {
@@ -26,6 +27,21 @@ function ProfilePage() {
                 }
         }
         console.log(user);
+=======
+      if (isAuthenticated && user && user.email) {
+            setUserEmail(user.email);
+            if (user['https://tourscout.comapp_metadata'] && user['https://tourscout.comapp_metadata'].username) { // Adjust the namespace to what you set in the action
+                setUsername(user['https://tourscout.comapp_metadata'].username);
+                setOfficialProfileName(user['https://tourscout.comapp_metadata'].username);
+            }
+            console.log(user['https://tourscout.comapp_metadata'].user_id);
+            console.log(user);
+            console.log(user.email);
+            //console.log(user['https://tourscout.com'].username);
+            console.log(officialProfileName);
+            console.log("officialname");
+      }
+>>>>>>> Stashed changes
     }, [user, isAuthenticated]);
 
     return (
