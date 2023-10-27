@@ -15,10 +15,22 @@ import ResetPassword from '../components/ResetPassword';
 function ProfilePage() {
     const { isAuthenticated, user } = useAuth0();
     const [userEmail, setUserEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [officialProfileName, setOfficialProfileName] = useState("");
+
 
     useEffect(() => {
       if (isAuthenticated && user && user.email) {
-          setUserEmail(user.email);
+            setUserEmail(user.email);
+            if (user['https://tourscout.comapp_metadata'] && user['https://tourscout.comapp_metadata'].username) { // Adjust the namespace to what you set in the action
+                setUsername(user['https://tourscout.comapp_metadata'].username);
+                setOfficialProfileName(user['https://tourscout.comapp_metadata'].username);
+            }
+            console.log(user);
+            console.log(user.email);
+            //console.log(user['https://tourscout.com'].username);
+            console.log(officialProfileName);
+            console.log("officialname");
       }
     }, [user, isAuthenticated]);
 
@@ -65,6 +77,10 @@ function ProfilePage() {
                                 fullWidth
                                 label="Official Profile Name" 
                                 variant="outlined" 
+                                value={officialProfileName} // <-- Set the value here
+                                onChange={(e) => { 
+                                    setOfficialProfileName(e.target.value); 
+                                }}
                                 />
                             </Grid>
                             {/* <Grid item xs={3}>
