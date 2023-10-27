@@ -20,9 +20,9 @@ function ProfilePage() {
     useEffect(() => {
         if (isAuthenticated && user && user.email) {
                 setUserEmail(user.email);
-                if (user['https://tourscout.comuser_metadata'] && user['https://tourscout.comuser_metadata'].username) {
-                    setUsername(user['https://tourscout.comuser_metadata'].username);
-                    setOfficialProfileName(user['https://tourscout.comuser_metadata'].username);
+                if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].username) {
+                    setUsername(user['https://tourscout.com/user_metadata'].username);
+                    setOfficialProfileName(user['https://tourscout.com/user_metadata'].username);
                 }
         }
         console.log(user);

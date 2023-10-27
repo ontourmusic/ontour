@@ -31,11 +31,18 @@ function AccountSettings() {
      */
     const { isAuthenticated, user } = useAuth0();
     const [userEmail, setUserEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [officialProfileName, setOfficialProfileName] = useState("");
 
     useEffect(() => {
-      if (isAuthenticated && user && user.email) {
-          setUserEmail(user.email);
-      }
+        if (isAuthenticated && user && user.email) {
+                setUserEmail(user.email);
+                if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].username) {
+                    setUsername(user['https://tourscout.com/user_metadata'].username);
+                    setOfficialProfileName(user['https://tourscout.com/user_metadata'].username);
+                }
+        }
+        console.log(user);
     }, [user, isAuthenticated]);
 
     const [spotifyLink, setSpotifyLink] = useState("");
@@ -135,7 +142,7 @@ function AccountSettings() {
                     {/* <EditSettingsTable /> */}   
                     <Grid container spacing={4} direction="column" sx={{ padding: '10px' }}>
                         <Grid item xs={12} container>
-                            <Grid item xs={9}>
+                            <Grid item xs={6}>
                                 <TextField 
                                 fullWidth
                                 label="Email"
@@ -146,9 +153,12 @@ function AccountSettings() {
                                 }}
                                 />
                             </Grid>
+                            <Grid item xs={3}>
+                                <ResetPassword></ResetPassword>
+                            </Grid>
                         </Grid>
                 
-                        <Grid item xs={12} container>
+                        {/* <Grid item xs={12} container>
                             <Grid item xs={6}>
                                 <TextField 
                                 fullWidth
@@ -160,7 +170,7 @@ function AccountSettings() {
                             <Grid item xs={3}>
                                 <ResetPassword></ResetPassword>
                             </Grid>
-                        </Grid>
+                        </Grid> */}
                 
                         <Grid item xs={12} container alignItems="center">
                             <Grid item xs={9}>
@@ -168,6 +178,10 @@ function AccountSettings() {
                                 fullWidth
                                 label="Official Profile Name" 
                                 variant="outlined" 
+                                value={officialProfileName}
+                                onChange={(e) => { 
+                                    setOfficialProfileName(e.target.value); 
+                                }}
                                 />
                             </Grid>
                             <Grid item xs={3}>
@@ -241,45 +255,6 @@ function AccountSettings() {
                         
                     </Grid>
                 </Grid>
-                {/* <Grid container
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                rowSpacing={1} md={2}>
-                    <TextField
-                    id="instagram_link"
-                    margin="normal" 
-                    value={instaLink} //draw from database 
-                    label="Enter your Instagram link"
-                    onChange={(e) => { 
-                        setInstaLink(e.target.value); 
-                        //console.log(e.target.value);
-                        }} />
-                    <TextField
-                        id="twitter_link"
-                    margin="normal" 
-                    value={twitterLink} //draw from database 
-                    label="Enter your Twitter link"
-                    onChange={(e) => { 
-                        setTwitterLink(e.target.value); 
-                        }} />
-                    <TextField
-                        margin="normal" 
-                        id="spotify_link"
-                    value={spotifyLink} //draw from database
-                    label="Enter your Spotify link"
-                    onChange={(e) => { 
-                        setSpotifyLink(e.target.value); 
-                        }} />
-                    <TextField
-                    margin="normal" 
-                    id="website_link"
-                    value={websiteLink} //draw from database
-                    label="Enter your Website link"
-                    onChange={(e) => { 
-                        setWebsiteLink(e.target.value); 
-                    }} />
-                </Grid> */}
                 
                 <Grid item xs={12}>
                     <hr id="artist-footer"></hr>
