@@ -71,6 +71,7 @@ function App() {
             <Route path="/artist" element={<Artist />} />
             <Route path="/results" element={<SearchResults />} />
             <Route path="/venue" element={<Venue />} />
+            <Route path="/fans" element={<FanAnalytics />} />
             <Route path="/festival" element={<Festival />} />
             <Route path="/account" element={<AccountSettings />} />
             <Route path="/profile" element={<ProfilePage />} />

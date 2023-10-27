@@ -6,17 +6,15 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Grid, TextField, Button} from "@mui/material";
 
 import Navigation from "../Navigation";
-import BusinessSidebar from "../components/BusinessSidebar";
+//import BusinessSidebar from "../components/BusinessSidebar";
 import SideContent from "../components/SideContent";
 import Footer from "../components/Footer";
 import ExternalLink from "../components/ExternalLink";
-//import EditableTextBox from '../components/EditableTextBox';
-import ResetPassword from '../components/ResetPassword';
+//import ResetPassword from '../components/ResetPassword';
 import { createClient } from '@supabase/supabase-js';
-import EditSettingsTable from '../components/EditSettingsTable';
 
 
-function AccountSettings() {
+function FanAnalytics() {
   
     const { isAuthenticated, user } = useAuth0();
     const [userEmail, setUserEmail] = useState("");
@@ -46,7 +44,6 @@ function AccountSettings() {
                     <Navigation navbar={false}/>
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <BusinessSidebar />
                 </Grid>
                 <Grid item xs={12}>
                     <hr id="artist-footer"></hr>
@@ -56,4 +53,5 @@ function AccountSettings() {
         </>
     );
 }
-export default AccountSettings;
+
+export default FanAnalytics;
