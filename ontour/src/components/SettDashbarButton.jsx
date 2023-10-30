@@ -7,7 +7,8 @@ const SettingsButton = () => {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth0();
   const navigateToSettings = () => {
-    if(isAuthenticated && user && user['https://tourscout.com/app_metadata'].artist_id) {
+    console.log(user['https://tourscout.com/user_metadata']);
+    if(isAuthenticated && user && user['https://tourscout.com/user_metadata'].artist_id) {
       navigate('account');
     } else {
       navigate('profile');

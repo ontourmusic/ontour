@@ -33,17 +33,24 @@ function AccountSettings() {
     const [userEmail, setUserEmail] = useState("");
     const [username, setUsername] = useState("");
     const [officialProfileName, setOfficialProfileName] = useState("");
+    const [currArtistID, setArtistID] = useState("");
 
     useEffect(() => {
         if (isAuthenticated && user && user.email) {
-                setUserEmail(user.email);
-                if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].username) {
+            setUserEmail(user.email);
+            console.log("test1");
+                if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/app_metadata'].username && user['https://tourscout.com/user_metadata'].artist_id) {
                     setUsername(user['https://tourscout.com/user_metadata'].username);
                     setOfficialProfileName(user['https://tourscout.com/user_metadata'].username);
+                    setArtistID(user['https://tourscout.com/user_metadata'].artist_id);
+                    console.log(currArtistID);
+                    getLinks();
+                    console.log("test2");
                 }
         }
         console.log(user);
-    }, [user, isAuthenticated]);
+    }, [user, isAuthenticated, currArtistID]);
+
 
     const [spotifyLink, setSpotifyLink] = useState("");
     const [instaLink, setInstaLink] = useState("");
@@ -56,8 +63,10 @@ function AccountSettings() {
     //
     const getLinks = async () => {
         try {
-            const getArtistSupabase = await supabase.from('business_user_data').select('*').eq('id', 2); 
+            const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', currArtistID); 
             const artistData = getArtistSupabase["data"][0];
+            console.log("printing artist data");
+            console.log(currArtistID);
             setInstaLink(artistData["instagram_link"]);
             setTwitterLink(artistData["twitter_link"]);
             setSpotifyLink(artistData["spotify_link"]);
@@ -74,7 +83,9 @@ function AccountSettings() {
     //called when save changes is pressed
     const sendTwitterLink = async (twitterLink) => {
         try {
-            const {data, error}  = await supabase.from('business_user_data').update({twitter_link: twitterLink}).eq('id', 2); //add mutable artist id 
+            const {data, error}  = await supabase.from('artists').update({twitter_link: twitterLink}).eq('artist_id', currArtistID); //add mutable artist id 
+            console.log("sent twitter");
+            console.log(currArtistID);
             //const artistData = getArtistSupabase["data"][0];
             //take data from the 4 textboxes and insert into the 4 link data table columns
         }
@@ -85,7 +96,7 @@ function AccountSettings() {
 
     const sendInstaLink = async (instagramLink) => {
         try {
-            const {data, error}  = await supabase.from('business_user_data').update({instagram_link: instagramLink}).eq('id', 2); //add mutable artist id 
+            const {data, error}  = await supabase.from('artists').update({instagram_link: instagramLink}).eq('artist_id', currArtistID); //add mutable artist id 
             //const artistData = getArtistSupabase["data"][0];
             //take data from the 4 textboxes and insert into the 4 link data table columns
         }
@@ -96,7 +107,7 @@ function AccountSettings() {
 
     const sendWebsiteLink = async (websiteLink) => {
         try {
-            const {data, error}  = await supabase.from('business_user_data').update({website_link: websiteLink}).eq('id', 2); //add mutable artist id 
+            const {data, error}  = await supabase.from('artists').update({website_link: websiteLink}).eq('artist_id', currArtistID); //add mutable artist id 
             //const artistData = getArtistSupabase["data"][0];
             //take data from the 4 textboxes and insert into the 4 link data table columns
         }
@@ -107,7 +118,7 @@ function AccountSettings() {
 
     const sendSpotifyLink = async (spotifyLink) => {
         try {
-            const { data, error } = await supabase.from('business_user_data').update({ spotify_link: spotifyLink }).eq('id', 2); //add mutable artist id 
+            const { data, error } = await supabase.from('artists').update({ spotify_link: spotifyLink }).eq('artist_id', currArtistID); //add mutable artist id 
         }
         catch {
             console.log('Webpage error. Please reload the page.');
@@ -122,11 +133,6 @@ function AccountSettings() {
         sendSpotifyLink(spotifyLink);
     }
     
-    useEffect(() => {
-        getLinks();
-        console.log("got links");
-    }, []);
-
     return (
         <>
             <Helmet>
