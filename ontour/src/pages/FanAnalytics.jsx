@@ -12,12 +12,11 @@ import Footer from "../components/Footer";
 import ExternalLink from "../components/ExternalLink";
 //import ResetPassword from '../components/ResetPassword';
 import { createClient } from '@supabase/supabase-js';
-import { useGoogleLogin } from '@react-oauth/google';
-import { GoogleOAuthProvider } from '@react-oauth/google'; 
+import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 
 import axios from 'axios';
 
-function GoogleLoginComponent(){
+function googleLoginComponent(){
     const googleLogin = useGoogleLogin({
         onSuccess: async tokenResponse => {
           console.log(tokenResponse);
@@ -32,6 +31,19 @@ function GoogleLoginComponent(){
         useEffect( () => {
         }, [googleLogin.tokenResponse] );
 }
+
+const handleLogin = useGoogleLogin({
+    onSuccess: async tokenResponse => {
+      console.log(tokenResponse);
+        // fetching userinfo can be done on the client or the server
+        
+      const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        }).then(res => res.data);
+        console.log(userInfo);
+        console.log("in handlelogin");
+    },
+    });
 
 
 function FanAnalytics() {
@@ -68,18 +80,19 @@ function FanAnalytics() {
 
     //create function to get google api info 
 
-    console.log("returned API json");
+   // console.log("returned API json");
 
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     
+    googleLoginComponent();
 
     useEffect(() => {
-        console.log('tester');
+        console.log("tester");
+
     }, []);
 
     return (
-        <GoogleOAuthProvider clientId="1016386142171-pff2e18h3ju98feni7ueia6op8f0q49p.apps.googleusercontent.com">
             <>
                 <Helmet>
                 </Helmet>
@@ -88,6 +101,9 @@ function FanAnalytics() {
                         <Navigation navbar={false}/>
                     </Grid>
                     <Grid item xs={12} md={3}>
+                    <GoogleOAuthProvider clientId="1016386142171-pff2e18h3ju98feni7ueia6op8f0q49p.apps.googleusercontent.com">
+                        <GoogleLogin onSuccess={handleLogin} />
+                    </GoogleOAuthProvider>
                     </Grid>
                     <Grid item xs={12}>
                         <hr id="artist-footer"></hr>
@@ -95,7 +111,6 @@ function FanAnalytics() {
                     </Grid>
                 </Grid >
             </>
-        </GoogleOAuthProvider>
     );
 }
 
