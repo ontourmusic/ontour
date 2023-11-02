@@ -13,17 +13,11 @@ import ExternalLink from "../components/ExternalLink";
 //import ResetPassword from '../components/ResetPassword';
 import { createClient } from '@supabase/supabase-js';
 import { useGoogleLogin } from '@react-oauth/google';
+import { GoogleOAuthProvider } from '@react-oauth/google'; 
+
 import axios from 'axios';
 
-
-function FanAnalytics() {
-  
-    const { isAuthenticated, user } = useAuth0();
-    const [userEmail, setUserEmail] = useState("");
-    const propertyId = '359931760';
-    const startDate = 'yyyy-mm-dd';
-    const endDate = 'yyyy-mm-dd';
-
+function GoogleLoginComponent(){
     const googleLogin = useGoogleLogin({
         onSuccess: async tokenResponse => {
           console.log(tokenResponse);
@@ -35,6 +29,33 @@ function FanAnalytics() {
         },
         });
         
+        useEffect( () => {
+        }, [googleLogin.tokenResponse] );
+}
+
+
+function FanAnalytics() {
+  
+    const { isAuthenticated, user } = useAuth0();
+    const [userEmail, setUserEmail] = useState("");
+    const propertyId = '359931760';
+    const startDate = 'yyyy-mm-dd';
+    const endDate = 'yyyy-mm-dd';
+
+    // const googleLogin = useGoogleLogin({
+    //     onSuccess: async tokenResponse => {
+    //       console.log(tokenResponse);
+    //       // fetching userinfo can be done on the client or the server
+    //       const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+    //           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+    //         }).then(res => res.data);
+    //      console.log(userInfo);
+    //     },
+    //     });
+    
+    //     useEffect( () => {
+    //     }, [googleLogin.tokenResponse] );
+        
 
     /** useEffect(() => {
       if (isAuthenticated && user && user.email) {
@@ -42,8 +63,8 @@ function FanAnalytics() {
       }
     }, [user, isAuthenticated]); **/
 
-    useEffect( () => {
-      }, [googleLogin.tokenResponse] );
+    // useEffect( () => {
+    //   }, [googleLogin.tokenResponse] );
 
     //create function to get google api info 
 
@@ -58,21 +79,23 @@ function FanAnalytics() {
     }, []);
 
     return (
-        <>
-            <Helmet>
-            </Helmet>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <Navigation navbar={false}/>
-                </Grid>
-                <Grid item xs={12} md={3}>
-                </Grid>
-                <Grid item xs={12}>
-                    <hr id="artist-footer"></hr>
-                    <Footer />
-                </Grid>
-            </Grid >
-        </>
+        <GoogleOAuthProvider clientId="1016386142171-pff2e18h3ju98feni7ueia6op8f0q49p.apps.googleusercontent.com">
+            <>
+                <Helmet>
+                </Helmet>
+                <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                        <Navigation navbar={false}/>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <hr id="artist-footer"></hr>
+                        <Footer />
+                    </Grid>
+                </Grid >
+            </>
+        </GoogleOAuthProvider>
     );
 }
 export default FanAnalytics;
