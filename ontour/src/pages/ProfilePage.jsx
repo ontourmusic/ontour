@@ -4,18 +4,15 @@ import "react-multi-carousel/lib/styles.css";
 import { Helmet } from "react-helmet";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Grid, TextField, Button} from "@mui/material";
-
 import Navigation from "../Navigation";
 import Footer from "../components/Footer";
 import ResetPassword from '../components/ResetPassword';
-
 
 function ProfilePage() {
     const { isAuthenticated, user } = useAuth0();
     const [userEmail, setUserEmail] = useState("");
     const [username, setUsername] = useState("");
     const [officialProfileName, setOfficialProfileName] = useState("");
-
 
     useEffect(() => {
         if (isAuthenticated && user && user.email) {
@@ -54,20 +51,6 @@ function ProfilePage() {
                             </Grid>
                         </Grid>
     
-                        {/* <Grid item xs={12} container justifyContent="center">
-                            <Grid item xs={6}>
-                                <TextField 
-                                fullWidth
-                                label="Password" 
-                                type="password" 
-                                variant="outlined" 
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <ResetPassword></ResetPassword>
-                            </Grid>
-                        </Grid> */}
-    
                         <Grid item xs={12} container ="center" justifyContent="center">
                             <Grid item xs={9}>
                                 <TextField 
@@ -80,9 +63,6 @@ function ProfilePage() {
                                 }}
                                 />
                             </Grid>
-                            {/* <Grid item xs={3}>
-                                <Button variant="text">Request Edit Access</Button>
-                            </Grid> */}
                         </Grid>
                     </Grid>
                 </Grid>
@@ -94,7 +74,5 @@ function ProfilePage() {
             </Grid >
         </>
     );
-    
-
 }
 export default ProfilePage;

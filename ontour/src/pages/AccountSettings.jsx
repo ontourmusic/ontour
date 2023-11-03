@@ -4,31 +4,13 @@ import "react-multi-carousel/lib/styles.css";
 import { Helmet } from "react-helmet";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Grid, TextField, Button} from "@mui/material";
-
 import Navigation from "../Navigation";
 import BusinessSidebar from "../components/BusinessSidebar";
-import SideContent from "../components/SideContent";
 import Footer from "../components/Footer";
-import ExternalLink from "../components/ExternalLink";
-//import EditableTextBox from '../components/EditableTextBox';
 import ResetPassword from '../components/ResetPassword';
 import { createClient } from '@supabase/supabase-js';
-import EditSettingsTable from '../components/EditSettingsTable';
-
 
 function AccountSettings() {
-    //functions 
-    //let linkPairs = [["www.https://open.spotify.com/artist/06HL4z0CvFAxyc27GXpf02", "images/spotify_icon.png"], ["https://www.instagram.com/taylorswift/?hl=en", "images/instagram.png.webp"], ["https://twitter.com/taylorswift13?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor", "images/twitter.png"]];
-    /**
-     * {linkPairs && 
-                <div>
-                    {
-                        linkPairs.map((pair) => {
-                            return <ExternalLink mediaLink={pair[0]} iconLink={pair[1]} />
-                        })
-                    }
-                        </div>}
-     */
     const { isAuthenticated, user } = useAuth0();
     const [userEmail, setUserEmail] = useState("");
     const [username, setUsername] = useState("");
@@ -38,19 +20,15 @@ function AccountSettings() {
     useEffect(() => {
         if (isAuthenticated && user && user.email) {
             setUserEmail(user.email);
-            console.log("test1");
                 if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/app_metadata'].username && user['https://tourscout.com/user_metadata'].artist_id) {
                     setUsername(user['https://tourscout.com/user_metadata'].username);
                     setOfficialProfileName(user['https://tourscout.com/user_metadata'].username);
                     setArtistID(user['https://tourscout.com/user_metadata'].artist_id);
-                    console.log(currArtistID);
                     getLinks();
-                    console.log("test2");
                 }
         }
         console.log(user);
     }, [user, isAuthenticated, currArtistID]);
-
 
     const [spotifyLink, setSpotifyLink] = useState("");
     const [instaLink, setInstaLink] = useState("");
@@ -59,21 +37,15 @@ function AccountSettings() {
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     
-    //hardcoding artist ID 
-    //
+    // Artist ID is hardcoded through Auth0
     const getLinks = async () => {
         try {
             const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', currArtistID); 
             const artistData = getArtistSupabase["data"][0];
-            console.log("printing artist data");
-            console.log(currArtistID);
             setInstaLink(artistData["instagram_link"]);
             setTwitterLink(artistData["twitter_link"]);
             setSpotifyLink(artistData["spotify_link"]);
             setWebsiteLink(artistData["website_link"]);
-            // console.log(instaLink);
-            //console.log(artistData["instagram_link"]);
-            //console.log('get link')
         }
         catch {
             console.log('Webpage error. Please reload the page.');
@@ -84,10 +56,6 @@ function AccountSettings() {
     const sendTwitterLink = async (twitterLink) => {
         try {
             const {data, error}  = await supabase.from('artists').update({twitter_link: twitterLink}).eq('artist_id', currArtistID); //add mutable artist id 
-            console.log("sent twitter");
-            console.log(currArtistID);
-            //const artistData = getArtistSupabase["data"][0];
-            //take data from the 4 textboxes and insert into the 4 link data table columns
         }
         catch {
             console.log('Webpage error. Please reload the page.');
@@ -97,8 +65,6 @@ function AccountSettings() {
     const sendInstaLink = async (instagramLink) => {
         try {
             const {data, error}  = await supabase.from('artists').update({instagram_link: instagramLink}).eq('artist_id', currArtistID); //add mutable artist id 
-            //const artistData = getArtistSupabase["data"][0];
-            //take data from the 4 textboxes and insert into the 4 link data table columns
         }
         catch {
             console.log('Webpage error. Please reload the page.');
@@ -108,8 +74,6 @@ function AccountSettings() {
     const sendWebsiteLink = async (websiteLink) => {
         try {
             const {data, error}  = await supabase.from('artists').update({website_link: websiteLink}).eq('artist_id', currArtistID); //add mutable artist id 
-            //const artistData = getArtistSupabase["data"][0];
-            //take data from the 4 textboxes and insert into the 4 link data table columns
         }
         catch {
             console.log('Webpage error. Please reload the page.');
@@ -144,8 +108,7 @@ function AccountSettings() {
                 <Grid item xs={12} md={3}>
                     <BusinessSidebar />
                 </Grid>
-                <Grid item xs={12} md={9}>
-                    {/* <EditSettingsTable /> */}   
+                <Grid item xs={12} md={9}> 
                     <Grid container spacing={4} direction="column" sx={{ padding: '10px' }}>
                         <Grid item xs={12} container>
                             <Grid item xs={6}>
@@ -163,20 +126,6 @@ function AccountSettings() {
                                 <ResetPassword></ResetPassword>
                             </Grid>
                         </Grid>
-                
-                        {/* <Grid item xs={12} container>
-                            <Grid item xs={6}>
-                                <TextField 
-                                fullWidth
-                                label="Password" 
-                                type="password" 
-                                variant="outlined" 
-                                />
-                            </Grid>
-                            <Grid item xs={3}>
-                                <ResetPassword></ResetPassword>
-                            </Grid>
-                        </Grid> */}
                 
                         <Grid item xs={12} container alignItems="center">
                             <Grid item xs={9}>
