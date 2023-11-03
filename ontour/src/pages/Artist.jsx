@@ -12,7 +12,7 @@ import ArtistNavigation from "../ArtistNavigation"
 
 import artist_styles from "../Styles/artist_styles";
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js';
 import common_styles from "../Styles/common_styles";
 import Fuse from 'fuse.js'
 

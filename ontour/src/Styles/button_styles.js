@@ -35,9 +35,21 @@ const loginButton = {
   fontSize: "14px"
 }
 
+const settingsButton = {
+  backgroundColor: "transparent",
+  borderColor: "white",
+  borderRadius: "5px",
+  color: "white",
+  width: "fit-content",
+  fontWeight: "bold",
+  fontSize: "14px",
+  marginRight: "5px",
+}
+
 const button_styles = {
   two_column_button,
   loginButton,
+  settingsButton,
 };
 
 export default button_styles;
