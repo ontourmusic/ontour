@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import "../index.css";
 import "react-multi-carousel/lib/styles.css"; 
+import Form from 'react-bootstrap/Form';
 import { Helmet } from "react-helmet";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Grid, TextField, Button} from "@mui/material";
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import Navigation from "../Navigation";
 import ReactPaginate from 'react-paginate';
 import BusinessSidebar from "../components/BusinessSidebar";
@@ -14,7 +16,8 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { createClient } from '@supabase/supabase-js';
 import Review from "../components/Review";
 import PropTypes from 'prop-types';
-import Form from 'react-bootstrap/Form';
+import ReviewSummary from '../components/ReviewSummary';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const review_display_styles = artist_styles.review_display;
 
 
@@ -59,6 +62,15 @@ function ManageReviews() {
   const { isAuthenticated, user } = useAuth0();
   const [artistID, setArtistID] = useState("");
   const [allReviews, setAllReviews] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const inputChange = (event) => {
+      setSearchTerm(event.target.value);
+  }
+
+  const reviewSearch = () => {
+      onReviewSearch(searchTerm);
+  }
 
   // Getting artist id
   useEffect(() => {
@@ -74,7 +86,7 @@ function ManageReviews() {
   // Getting artist reviews
   const getReviews = async () => {
     try {
-      const getReviewsSupabase = await supabase.from('artist_reviews').select('*').eq('artist_id', 13);
+      const getReviewsSupabase = await supabase.from('artist_reviews').select('*').eq('artist_id', artistID);
       const reviewData = getReviewsSupabase["data"];
 
       setAllReviews(parseReviewData(reviewData));
@@ -126,6 +138,18 @@ function ManageReviews() {
     // setTotalReviews(reviewData.length);
     return reviewsArray;
   } 
+
+  function onReviewSearch() {
+    
+  }
+
+  function onFormChange() {
+
+  }
+
+  function onRatingChange() {
+
+  }
 
   function PaginatedItems({ itemsPerPage }) {
     // Here we use item offsets; we could also use page offsets
@@ -184,8 +208,6 @@ function ManageReviews() {
 
   return (
       <>
-            <Helmet>
-            </Helmet>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <Navigation navbar={false}/>
@@ -194,6 +216,58 @@ function ManageReviews() {
                     <BusinessSidebar />
                 </Grid>
                 <Grid item xs={12} md={9}> 
+                  <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                      <hr />
+                  </Grid>
+                  <Grid item xs={12}>
+                      <ReviewSummary allReviews={allReviews} />
+                  </Grid>
+                  <Grid item xs={12} container spacing={1} style={{
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                  }}>
+                      <Grid item xs={12} md={6}>
+                          <div className='d-flex justify-content-left align-content-center'>
+                              <TextField id="standard-basic" label="Search Reviews" variant="outlined" onChange={inputChange}
+                                  style={{
+                                      width: "-webkit-fill-available"
+                                  }}
+                              />
+                              <button type="button" class="btn btn-primary btn-sm" onClick={reviewSearch}
+                                  style={{
+                                      marginLeft: '3px',
+                                      height: "auto",
+                                  }}
+                              >
+                                  <FontAwesomeIcon icon={faSearch} size="sm" />
+                              </button>
+                          </div>
+                      </Grid>
+                      <Grid item xs={6} md={3}>
+                          <Form.Select onChange={onFormChange} aria-label="Default select example">
+                              <option>Recommended</option>
+                              <option value="1">Newest First</option>
+                              <option value="2">Oldest First</option>
+                              <option value="3">Highest Rated</option>
+                              <option value="4">Lowest Rated</option>
+                          </Form.Select>
+                      </Grid>
+                      <Grid item xs={6} md={3}>
+                          {/* <div class="dropdown p-3"> */}
+                          <Form.Select onChange={onRatingChange} aria-label="Default select example">
+                              <option value="0">Filter by Rating</option>
+                              <option value="1">1 Star</option>
+                              <option value="2">2 Stars</option>
+                              <option value="3">3 Stars</option>
+                              <option value="4">4 Stars</option>
+                              <option value="5">5 Stars</option>
+                          </Form.Select>
+                          {/* </div> */}
+                      </Grid>
+                </Grid>
+
+                </Grid>
                   <PaginatedItems itemsPerPage={10} />
                 </Grid>
                 <Grid item xs={12}>
