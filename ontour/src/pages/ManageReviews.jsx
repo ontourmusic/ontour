@@ -62,6 +62,7 @@ function ManageReviews() {
   const { isAuthenticated, user } = useAuth0();
   const [artistID, setArtistID] = useState("");
   const [allReviews, setAllReviews] = useState([]);
+  const [reviewsToShow, setReviewsToShow] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   const inputChange = (event) => {
@@ -80,17 +81,21 @@ function ManageReviews() {
       }
     }
     console.log(artistID);
+    getReviews();
   }, [user, isAuthenticated, artistID]);
 
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
   // Getting artist reviews
   const getReviews = async () => {
     try {
+      console.log('artistid',artistID);
       const getReviewsSupabase = await supabase.from('artist_reviews').select('*').eq('artist_id', artistID);
       const reviewData = getReviewsSupabase["data"];
 
       setAllReviews(parseReviewData(reviewData));
-
+      console.log('reviews all', allReviews);
+      console.log('reviews all', reviewsToShow);
+      setReviewsToShow(allReviews)
     } catch {
       console.log('Webpage error. Please reload the page.');
     }
@@ -143,8 +148,35 @@ function ManageReviews() {
     
   }
 
-  function onFormChange() {
-
+  function onFormChange(event) {
+    var tempArray = allReviews;
+        if (event.target.value == 3) {
+            tempArray.sort(function (a, b) {
+                return b.rating > a.rating ? 1 : -1;
+            });
+        }
+        //lowest to highest
+        else if (event.target.value == 4) {
+            tempArray.sort(function (a, b) {
+                console.log(a.rating + " " + b.rating);
+                return a.rating > b.rating ? 1 : -1;
+            });
+        }
+        //oldest to newest
+        else if (event.target.value == 2) {
+            tempArray.sort(function (a, b) {
+                return new Date(b.eventDate) < new Date(a.eventDate) ? 1 : -1;
+            });
+        }
+        //newest to oldest
+        else if (event.target.value == 1) {
+            tempArray.sort(function (a, b) {
+                return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
+            });
+        }
+        
+        // setFilteredReviews(tempArray);
+        // forceUpdate();
   }
 
   function onRatingChange() {
@@ -201,80 +233,79 @@ function ManageReviews() {
 }
 
 
-  useEffect(() => {
-    getReviews();
-    // console.log(allReviews);
-  }, []);
+  // useEffect(() => {
+  //   getReviews();
+  //   // console.log(allReviews);
+  // }, []);
 
   return (
       <>
-            <Grid container spacing={1}>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <Navigation navbar={false}/>
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <BusinessSidebar />
+          </Grid>
+          <Grid item xs={12} md={9}> 
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <hr />
+              </Grid>
                 <Grid item xs={12}>
-                    <Navigation navbar={false}/>
+                  <ReviewSummary allReviews={allReviews} />
                 </Grid>
-                <Grid item xs={12} md={3}>
-                    <BusinessSidebar />
-                </Grid>
-                <Grid item xs={12} md={9}> 
-                  <Grid container spacing={2}>
-                  <Grid item xs={12}>
-                      <hr />
+                <Grid item xs={12} container spacing={1} style={{
+                  paddingTop: "10px",
+                  paddingBottom: "10px",
+                }}>
+                  <Grid item xs={12} md={6}>
+                    <div className='d-flex justify-content-left align-content-center'>
+                      <TextField id="standard-basic" label="Search Reviews" variant="outlined" onChange={inputChange}
+                        style={{
+                          width: "-webkit-fill-available"
+                        }}
+                      />
+                      <button type="button" class="btn btn-primary btn-sm" onClick={reviewSearch}
+                        style={{
+                          marginLeft: '3px',
+                          height: "auto",
+                        }}
+                        >
+                         <FontAwesomeIcon icon={faSearch} size="sm" />
+                        </button>
+                    </div>
                   </Grid>
-                  <Grid item xs={12}>
-                      <ReviewSummary allReviews={allReviews} />
+                  <Grid item xs={6} md={3}>
+                    <Form.Select onChange={onFormChange} aria-label="Default select example">
+                      <option>Recommended</option>
+                      <option value="1">Newest First</option>
+                      <option value="2">Oldest First</option>
+                      <option value="3">Highest Rated</option>
+                      <option value="4">Lowest Rated</option>
+                    </Form.Select>
                   </Grid>
-                  <Grid item xs={12} container spacing={1} style={{
-                      paddingTop: "10px",
-                      paddingBottom: "10px",
-                  }}>
-                      <Grid item xs={12} md={6}>
-                          <div className='d-flex justify-content-left align-content-center'>
-                              <TextField id="standard-basic" label="Search Reviews" variant="outlined" onChange={inputChange}
-                                  style={{
-                                      width: "-webkit-fill-available"
-                                  }}
-                              />
-                              <button type="button" class="btn btn-primary btn-sm" onClick={reviewSearch}
-                                  style={{
-                                      marginLeft: '3px',
-                                      height: "auto",
-                                  }}
-                              >
-                                  <FontAwesomeIcon icon={faSearch} size="sm" />
-                              </button>
-                          </div>
-                      </Grid>
-                      <Grid item xs={6} md={3}>
-                          <Form.Select onChange={onFormChange} aria-label="Default select example">
-                              <option>Recommended</option>
-                              <option value="1">Newest First</option>
-                              <option value="2">Oldest First</option>
-                              <option value="3">Highest Rated</option>
-                              <option value="4">Lowest Rated</option>
-                          </Form.Select>
-                      </Grid>
-                      <Grid item xs={6} md={3}>
-                          {/* <div class="dropdown p-3"> */}
-                          <Form.Select onChange={onRatingChange} aria-label="Default select example">
-                              <option value="0">Filter by Rating</option>
-                              <option value="1">1 Star</option>
-                              <option value="2">2 Stars</option>
-                              <option value="3">3 Stars</option>
-                              <option value="4">4 Stars</option>
-                              <option value="5">5 Stars</option>
-                          </Form.Select>
-                          {/* </div> */}
-                      </Grid>
-                </Grid>
-
-                </Grid>
-                  <PaginatedItems itemsPerPage={10} />
-                </Grid>
-                <Grid item xs={12}>
-                    <hr id="artist-footer"></hr>
-                    <Footer />
-                </Grid>
-            </Grid >
+                  <Grid item xs={6} md={3}>
+                    {/* <div class="dropdown p-3"> */}
+                    <Form.Select onChange={onRatingChange} aria-label="Default select example">
+                      <option value="0">Filter by Rating</option>
+                      <option value="1">1 Star</option>
+                      <option value="2">2 Stars</option>
+                      <option value="3">3 Stars</option>
+                      <option value="4">4 Stars</option>
+                      <option value="5">5 Stars</option>
+                    </Form.Select>
+                    {/* </div> */}
+                  </Grid>
+                <PaginatedItems itemsPerPage={10} />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <hr id="artist-footer"></hr>
+            <Footer />
+          </Grid>
+        </Grid >
       </>
   );
 }
