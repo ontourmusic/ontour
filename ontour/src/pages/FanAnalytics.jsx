@@ -113,4 +113,5 @@ function FanAnalytics() {
             </>
     );
 }
+
 export default FanAnalytics;

@@ -8,6 +8,11 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import OnTourTheme from "./Styles/OnTourTheme";
 import SearchResults from "./pages/SearchResults";
 import Festival from "./pages/Festival";
+import AccountSettings from "./pages/AccountSettings";
+import ProfilePage from "./pages/ProfilePage";
+import FanAnalytics from "./pages/FanAnalytics";
+import Tours from "./pages/Tours";
+import ManageReviews from "./pages/ManageReviews";
 import FanAnalytics from "./pages/FanAnalytics";
 
 // import {
@@ -68,7 +73,13 @@ function App() {
             <Route path="/results" element={<SearchResults />} />
             <Route path="/venue" element={<Venue />} />
             <Route path="/fans" element={<FanAnalytics />} />
+            <Route path="/fans" element={<FanAnalytics />} />
             <Route path="/festival" element={<Festival />} />
+            <Route path="/account" element={<AccountSettings />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/fan-analytics" element={<FanAnalytics />} />
+            <Route path="/tours" element={<Tours />} />
+            <Route path="/manage-reviews" element={<ManageReviews/>} />
           </Routes>
         </Router>
         {/* <RouterProvider router={router} /> */}
