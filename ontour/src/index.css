@@ -247,6 +247,14 @@ h4 {
   font-size: 15px;
 }
 
+#review-response-text {
+  font-size: 15px;
+  padding: 10px; /* Optional: Add padding to create space between text and border */
+  width: 100%;
+  display: border-box; /* Ensures the border wraps around the text without taking full width */
+
+}
+
 .dropdown {
   float: right;
   padding-top: 25px;

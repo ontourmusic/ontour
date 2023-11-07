@@ -13,7 +13,46 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { createClient } from '@supabase/supabase-js';
 import Review from "../components/Review";
+import PropTypes from 'prop-types';
+import Form from 'react-bootstrap/Form';
 const review_display_styles = artist_styles.review_display;
+
+
+
+var myProps = {
+    "id": 4,
+    "user": "Noah",
+    "date": "2017-03-25",
+    "rating": 4,
+    "venue": "Mt Smart Stadium",
+    "text": "Great !",
+    "count": -1,
+    "likedUsers": [],
+    "dislikedUsers": [],
+    "reviewTable": "artist_reviews", 
+    "response": "Glad you enjoyed",
+};
+/**
+ * 
+ * @returns =======
+      <div>
+        <h1>Under Construction</h1>
+            <p>This page is currently under construction. Please check back later.</p>
+            <Review id={4}
+                user={"Noah"}
+                date={"2017-03-25"}
+                key={300}
+                rating={4}
+                venue={"Mt Smart Stadium"}
+                text={"Great !"}
+                count={-1}
+                likedUsers={[]}
+                dislikedUsers={[]}
+                reviewTable={"artist_reviews"}
+                 />
+      </div>
+>>>>>>> Stashed changes
+ */
 
 function ManageReviews() {
 
@@ -133,6 +172,7 @@ function ManageReviews() {
                 />
             </div>
         </>
+
     );
 }
 

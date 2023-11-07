@@ -16,6 +16,8 @@ const review_display_styles = artist_styles.review_display;
 
 
 const ArtistContent = (props) => {
+    console.log("artist_content_props");
+    console.log(props);
     const [searchTerm, setSearchTerm] = useState("");
     const reviewSearch = () => {
         props.onReviewSearch(searchTerm);

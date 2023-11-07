@@ -9,14 +9,18 @@ import { createClient } from '@supabase/supabase-js'
 import { UnhelpfulButton } from "./Buttons";
 import artist_styles from "../Styles/artist_styles";
 import { useAuth0 } from "@auth0/auth0-react";
+import { TextField } from "@mui/material";
 
 const review_styles = artist_styles.review_display.review;
 
 export default function Review(props) {
+    console.log("review-print-test");
+    console.log(props);
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [isHelpfulActive, setIsHelpfulActive] = useState(isAuthenticated && !props.likedUsers.includes(user.username));
     const [isUnhelpfulActive, setIsUnhelpfulActive] = useState(isAuthenticated && !props.dislikedUsers.includes(user.username));
     const [count, setCount] = useState(props.count);
+    const [artistResponse, setResponse] = useState("");
     const reviewTable = props.reviewTable;
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
@@ -123,6 +127,15 @@ export default function Review(props) {
             <div class="d-flex w-100 justify-content-start">
                 <p id="rating-text" style={{ whiteSpace: "pre-wrap" }} class="mb-2" align="left">{props.text}</p>
             </div>
+            <div class="d-flex w-100 justify-content-start">
+                <TextField id="review-response-text"
+                                label="Artist Response" 
+                                variant="outlined" 
+                                value={props.response}
+                                onChange={(e) => { 
+                                    setResponse(e.target.value); 
+                                }} align="left"/>
+            </div>
             {isAuthenticated ? 
                 <>
                 <div className = "d-flex justify-content-start" >
@@ -145,5 +158,6 @@ Review.propTypes = {
     rating: PropTypes.number,
     date: PropTypes.string,
     venue: PropTypes.string,
-    text: PropTypes.string
+    text: PropTypes.string, 
+    response: PropTypes.string
 };
