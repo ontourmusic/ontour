@@ -17,12 +17,18 @@ export default function Review(props) {
     console.log("review-print-test");
     console.log(props);
     const { user, isAuthenticated, isLoading } = useAuth0();
+    const [userEmail, setUserEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [currArtistID, setArtistID] = useState("");
     const [isHelpfulActive, setIsHelpfulActive] = useState(isAuthenticated && !props.likedUsers.includes(user.username));
     const [isUnhelpfulActive, setIsUnhelpfulActive] = useState(isAuthenticated && !props.dislikedUsers.includes(user.username));
     const [count, setCount] = useState(props.count);
     const [artistResponse, setResponse] = useState("");
+    const [userHasPermissions, setUserHasPermissions] = useState(false);
     const reviewTable = props.reviewTable;
+    //maybe set props to pass the artist ID or the permissions
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+
 
     const handleHelpful = event => {
 
@@ -91,6 +97,31 @@ export default function Review(props) {
             .update({ likeCount: currCount })
             .eq('id', props.id)
     }
+
+    const checkUserPermissions = () => {
+        if (props.key == currArtistID) {
+            setUserHasPermissions(true);
+        }
+        console.log("!!!!!!!!!!!!!!!!!!!");
+        console.log("testing props calls");
+        console.log(props.key);
+        console.log("testing currUserID calls");
+        console.log(currArtistID);
+        console.log("***************");
+      };
+
+      useEffect(() => {
+        if (isAuthenticated && user && user.email) {
+            setUserEmail(user.email);
+                if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/app_metadata'].username && user['https://tourscout.com/user_metadata'].artist_id) {
+                    setUsername(user['https://tourscout.com/user_metadata'].username);
+                    setArtistID(user['https://tourscout.com/user_metadata'].artist_id);
+                    checkUserPermissions();
+                }
+        }
+
+      }, [user, isAuthenticated, currArtistID]);
+    
 
     return (
         <div style={review_styles.item}>
