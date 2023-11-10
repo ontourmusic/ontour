@@ -10,6 +10,8 @@ import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ArtistNavigation from "../ArtistNavigation"
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 import artist_styles from "../Styles/artist_styles";
 
 import { createClient } from '@supabase/supabase-js';
@@ -25,11 +27,22 @@ import ImageCarousel from "../components/ImageCarousel";
 
 
 function Artist() {
+    const { isAuthenticated, user } = useAuth0();
+    const [currArtistID, setArtistID] = useState("");
     const [searchParams] = useSearchParams();
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
+
+    useEffect(() => {
+        if (isAuthenticated && user) {
+            if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id) {
+                setArtistID(user['https://tourscout.com/user_metadata'].artist_id);
+            }
+        }
+        console.log(user);
+    }, [user, isAuthenticated, currArtistID]);
 
     const [artistData, setArtistData] = useState({
         fullName: "",
@@ -237,6 +250,12 @@ function Artist() {
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
+                        {
+                            currArtistID === artistID && <>
+                                <ImageCarousel artistID={artistID} images={imageArray} 
+                                slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
+                            </>
+                        }
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                         <ImageCarousel artistID={artistID} images={imageArray} 
