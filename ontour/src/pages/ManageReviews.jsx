@@ -88,7 +88,7 @@ function ManageReviews() {
   // Getting artist reviews
   const getReviews = async () => {
     try {
-      console.log('artistid',artistID);
+      console.log('artistid', artistID);
       const getReviewsSupabase = await supabase.from('artist_reviews').select('*').eq('artist_id', artistID);
       const reviewData = getReviewsSupabase["data"];
 
@@ -106,17 +106,18 @@ function ManageReviews() {
         <>
             {currentItems && currentItems.map(function (review, index) {
                 return <Review 
-                id={review.id} 
-                user={review.name} 
-                date={review.eventDate} 
-                key={index} 
-                rating={review.rating} 
-                venue={review.event} 
-                text={review.review} 
-                count={review.likeCount}
-                likedUsers={review.likedUsers}
-                dislikedUsers={review.dislikedUsers} 
-                reviewTable={"artist_reviews"}/>
+                  id={review.id}
+                  user={review.name}
+                  date={review.eventDate}
+                  key={index}
+                  rating={review.rating}
+                  venue={review.event}
+                  text={review.review}
+                  count={review.likeCount}
+                  likedUsers={review.likedUsers}
+                  dislikedUsers={review.dislikedUsers}
+                  reviewTable={"artist_reviews"}
+                  response={review.response} />
             })}
         </>
     )
@@ -135,9 +136,12 @@ function ManageReviews() {
             "eventDate": reviewData[i].eventDate,                                // review date
             "likeCount": reviewData[i].likeCount,                                // review like count
             "likedUsers": reviewData[i].likedUsers,                              // review liked users
-            "dislikedUsers": reviewData[i].dislikedUsers                         // review disliked users
+          "dislikedUsers": reviewData[i].dislikedUsers,                         // review disliked users
+            "response":reviewData[i].artist_response
         });
-        cumulativeRating += reviewData[i].rating;
+      cumulativeRating += reviewData[i].rating;
+      console.log("check tester!");
+      console.log(reviewData);
     }
     // setAggregateRating(cumulativeRating / reviewData.length);
     // setTotalReviews(reviewData.length);

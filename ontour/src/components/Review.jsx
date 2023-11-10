@@ -9,7 +9,7 @@ import { createClient } from '@supabase/supabase-js'
 import { UnhelpfulButton } from "./Buttons";
 import artist_styles from "../Styles/artist_styles";
 import { useAuth0 } from "@auth0/auth0-react";
-import { TextField } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 
 const review_styles = artist_styles.review_display.review;
 
@@ -24,8 +24,9 @@ export default function Review(props) {
     const [isUnhelpfulActive, setIsUnhelpfulActive] = useState(isAuthenticated && !props.dislikedUsers.includes(user.username));
     const reviewArtistID = props.key;
     const [count, setCount] = useState(props.count);
-    const [artistResponse, setResponse] = useState("");
+   // const [artistResponse, setResponse] = useState("");
     const [isRespondMode, setIsRespondMode] = useState(false);
+    const [newResponse, setNewResponse] = useState("");
     const reviewTable = props.reviewTable;
     //maybe set props to pass the artist ID or the permissions
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
@@ -102,19 +103,29 @@ export default function Review(props) {
     const checkEditPermissions = async () => {
         const getArtistSupabase = await supabase.from(reviewTable).select('*').eq('id', props.id); 
         const artistData = getArtistSupabase["data"][0];
-       console.log(artistData["artist_id"]);
+       console.log("checked permissions");
         if (artistData["artist_id"] == currArtistID) {
-            console.log("set respond mode on");
+            //console.log("set respond mode on");
             setIsRespondMode(true);
             return true;
         }
         else {
-            console.log("set respond mode OFF");
-            console.log(reviewArtistID);
-            console.log(currArtistID);
+            //console.log("set respond mode OFF");
+            setIsRespondMode(false);
+            //console.log(reviewArtistID);
+            //console.log(currArtistID);
             return false;
         }
-      };
+    };
+    
+    const sendNewReponse = async (newResponse) => {
+        try {
+            const {data, error}  = await supabase.from(reviewTable).update({artist_response: newResponse}).eq('id', props.id); //add mutable artist id 
+        }
+        catch {
+            console.log('Webpage error. Please reload the page.');
+        }
+    }
 
       useEffect(() => {
         if (isAuthenticated && user && user.email) {
@@ -123,6 +134,9 @@ export default function Review(props) {
                     setUsername(user['https://tourscout.com/user_metadata'].username);
                     setArtistID(user['https://tourscout.com/user_metadata'].artist_id);
                     //setReviewArtistID(props.key);
+                    setNewResponse(props.response);
+                    checkEditPermissions();
+                    console.log("used effect")
                 }
         }
 
@@ -164,17 +178,20 @@ export default function Review(props) {
             <div class="d-flex w-100 justify-content-start">
                 <p id="rating-text" style={{ whiteSpace: "pre-wrap" }} class="mb-2" align="left">{props.text}</p>
             </div>
-            { checkEditPermissions(props.key) ?     <>       
+            { isRespondMode ?     <>       
             <div class="d-flex w-100 justify-content-start">
                 <TextField id="review-response-text"
                                 label="Artist Response" 
                                 variant="outlined" 
-                                value={props.response}
+                                value={newResponse}
                                 onChange={(e) => { 
-                                    setResponse(e.target.value); 
-                                }} align="left"/>
-                </div> </> 
-            : <></> }
+                                    setNewResponse(e.target.value); 
+                        }} align="left" />
+                    <Button id="publishbutton" variant="contained" color="primary" onClick={() => {sendNewReponse(newResponse);}}>
+                                    Publish Response
+                                </Button>
+                </div> </>  
+                : <>  <div> {(props.response != null || props.response != undefined || props.response != "") ? <p>{"test yes!"}</p> : <p>{"test no!"}</p>}</div></> }
             { isAuthenticated ? 
                 <>
                 <div className = "d-flex justify-content-start" >
