@@ -64,6 +64,8 @@ function ManageReviews() {
   const [allReviews, setAllReviews] = useState([]);
   const [reviewsToShow, setReviewsToShow] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [, updateState] = React.useState();
+  const forceUpdate = React.useCallback(() => updateState({}), []);
 
   const inputChange = (event) => {
       setSearchTerm(event.target.value);
@@ -93,9 +95,9 @@ function ManageReviews() {
       const reviewData = getReviewsSupabase["data"];
 
       setAllReviews(parseReviewData(reviewData));
+      setReviewsToShow(parseReviewData(reviewData));
       console.log('reviews all', allReviews);
-      console.log('reviews all', reviewsToShow);
-      setReviewsToShow(allReviews)
+      console.log('reviews show', reviewsToShow);
     } catch {
       console.log('Webpage error. Please reload the page.');
     }
@@ -154,6 +156,7 @@ function ManageReviews() {
 
   function onFormChange(event) {
     var tempArray = allReviews;
+    // console.log('temt',reviewsToShow);
         if (event.target.value == 3) {
             tempArray.sort(function (a, b) {
                 return b.rating > a.rating ? 1 : -1;
@@ -178,13 +181,22 @@ function ManageReviews() {
                 return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
             });
         }
-        
+        console.log('form chagn');
+        console.log(tempArray);
+        setReviewsToShow(tempArray);
         // setFilteredReviews(tempArray);
-        // forceUpdate();
+        forceUpdate();
   }
 
-  function onRatingChange() {
-
+  function onRatingChange(event) {
+    var tempArray = allReviews;
+    if (event.target.value > 0) {
+      tempArray = tempArray.filter(review => {
+          return review.rating == event.target.value
+      });
+  }
+    setReviewsToShow(tempArray);
+    forceUpdate();
   }
 
   function PaginatedItems({ itemsPerPage }) {
@@ -197,12 +209,12 @@ function ManageReviews() {
     // from an API endpoint with useEffect and useState)
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    const currentItems = allReviews.slice(itemOffset, endOffset);
-    const pageCount = Math.ceil(allReviews.length / itemsPerPage);
+    const currentItems = reviewsToShow.slice(itemOffset, endOffset);
+    const pageCount = Math.ceil(reviewsToShow.length / itemsPerPage);
 
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % allReviews.length;
+        const newOffset = (event.selected * itemsPerPage) % reviewsToShow.length;
         console.log(
             `User requested page number ${event.selected}, which is offset ${newOffset}`
         );
@@ -232,7 +244,6 @@ function ManageReviews() {
                 />
             </div>
         </>
-
     );
 }
 
