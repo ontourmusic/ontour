@@ -228,6 +228,8 @@ function Artist() {
                     <Grid item xs={12} md={8}>
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
+                        <ImageCarousel artistID={artistID} images={imageArray} 
+                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
                         <ArtistContent 
                         allReviews={allReviews} 
                         filteredReviews={filteredReviews} 
