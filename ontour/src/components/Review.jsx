@@ -136,10 +136,10 @@ export default function Review(props) {
                     //setReviewArtistID(props.key);
                     setNewResponse(props.response);
                     checkEditPermissions();
-                    console.log("used effect")
+                    console.log("used effect");
                 }
         }
-
+        console.log(props.response);
       }, [user, isAuthenticated, currArtistID]);
     
 
@@ -191,7 +191,7 @@ export default function Review(props) {
                                     Publish Response
                                 </Button>
                 </div> </>  
-                : <>  <div> {(props.response != null || props.response != undefined || props.response != "") ? <p>{"test yes!"}</p> : <p>{"test no!"}</p>}</div></> }
+                : <>  <div > {(props.response) ? <div> <p id="responseTitle">{"Response from the Artist:"}</p> <p id="textbox" class="mb-2" align="left">{props.response}</p></div> : <p></p>}</div></> }
             { isAuthenticated ? 
                 <>
                 <div className = "d-flex justify-content-start" >
@@ -204,7 +204,7 @@ export default function Review(props) {
                     </div>
                 </div>
                 </>
-                : <></> }
+                : <> </> }
         </div>
     )
 }

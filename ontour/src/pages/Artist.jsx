@@ -141,7 +141,8 @@ function Artist() {
                 "eventDate": reviewData[i].eventDate,                                // review date
                 "likeCount": reviewData[i].likeCount,                                // review like count
                 "likedUsers": reviewData[i].likedUsers,                              // review liked users
-                "dislikedUsers": reviewData[i].dislikedUsers                         // review disliked users
+                "dislikedUsers": reviewData[i].dislikedUsers,                         // review disliked users
+                "response": reviewData[i].artist_response
             });
             cumulativeRating += reviewData[i].rating;
         }
