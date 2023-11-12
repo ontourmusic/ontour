@@ -48,6 +48,7 @@ function Artist() {
     const [ticketLink, setTicketLink] = useState("");
     const [instaLink, setInstaLink] = useState("");
     const [twitterLink, setTwitterLink] = useState("");
+    const [websiteLink, setWebsiteLink] = useState("");
     const [imageArray, setImageArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
@@ -120,7 +121,7 @@ function Artist() {
             setInstaLink(artistData["instagram_link"]);
             setTwitterLink(artistData["twitter_link"]);
             setSpotifyLink(artistData["spotify_link"]);
-            //setWebsiteLink(artistData["website_link"]);
+            setWebsiteLink(artistData["website_link"]);
             const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
             const tmData = await tmArtist.json();
             var tickets = tmData._embedded.attractions[0].url;
@@ -254,7 +255,7 @@ function Artist() {
                         {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />
+                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"], [websiteLink, "images/person_icon.png"]]} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
