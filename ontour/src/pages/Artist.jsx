@@ -65,6 +65,7 @@ function Artist() {
     const [twitterLink, setTwitterLink] = useState("");
     const [websiteLink, setWebsiteLink] = useState("");
     const [imageArray, setImageArray] = useState([]);
+    const [promoImageArray, setPromoImageArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [showResults, setShowResults] = useState(false);
@@ -119,6 +120,18 @@ function Artist() {
             }
             //set the image array to the state
             setImageArray(imageArray);
+            
+            const promoImageGallerySupabase = await supabase.from('promo_images').select('*').eq('artist_id', artistID);
+            //initialize an array to hold the artist uploaded promo images
+            var promoImageArray = []
+            //loop through the data and push the images into the array
+            for (var i = 0; i < promoImageGallerySupabase.data.length; i++) {
+                console.log(promoImageGallerySupabase.data[i].image_url);
+                promoImageArray.push(promoImageGallerySupabase.data[i].image_url);
+            }
+            //set the image array to the state
+            setPromoImageArray(promoImageArray);
+
 
             //gets the tickemaster artist details 
             /** 
@@ -253,13 +266,15 @@ function Artist() {
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
                         {
-                            currArtistID === artistID && <>
-                                <ImageCarousel artistID={artistID} images={imageArray} 
+                            // always show image carousel with promo if the curr user/artist is on their own page
+                            // show image carousel to all other users if there are promo images to show
+                            (currArtistID === artistID || promoImageArray.length > 0) && <>
+                                <ImageCarousel artistID={artistID} images={promoImageArray} isPromo={true} currArtistID={currArtistID}
                                 slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                             </>
                         }
-                        <ImageCarousel artistID={artistID} images={imageArray} 
-                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
+                        {/* <ImageCarousel artistID={artistID} images={imageArray} 
+                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} /> */}
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
                         <ImageCarousel artistID={artistID} images={imageArray} 

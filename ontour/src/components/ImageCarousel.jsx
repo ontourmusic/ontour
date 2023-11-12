@@ -48,6 +48,23 @@ const ImageCarousel = (props) => {
             setModel(true);
 
         }
+        else if(props.isPromo) {
+            const { data, error } = await supabase
+                .from('promo_images')
+                .select('id')
+                .eq('image_url', e.target.src)
+                .single()
+
+            if (error) {
+                console.error(error)
+                return null
+            }
+            setImageData(data);
+            console.log("image_id: ", data.id)
+            setOpen(true);
+            setTemp(e.target.src);
+            setModel(true);
+        }
         else {
             const { data, error } = await supabase
                 .from('artist_images')
@@ -75,10 +92,24 @@ const ImageCarousel = (props) => {
     return (
         <>
             <div style={carousel_styles.titleBar}>
-                <Typography variant="h5" align="left" className="fw-bold" style={{
-                    marginRight: "15px",
-                }}>Captured Moments</Typography>
-                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
+                {
+                    props.isPromo? (
+                    <Typography variant="h5" align="left" className="fw-bold" style={{
+                        marginRight: "15px",
+                    }}>Artist Featured</Typography>
+                    ) :
+                    (
+                        <Typography variant="h5" align="left" className="fw-bold" style={{
+                            marginRight: "15px",
+                        }}>Captured Moments</Typography>
+                    )
+                }
+                { 
+                    // show add media button if it isn't promo carousel
+                    // if it is promo carousel then show button if artist is on their own page
+                    (!props.isPromo || (props.currArtistID === props.artistID)) &&
+                    <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} isPromo={props.isPromo}/>
+                }
             </div>
             <CarouselProvider
                 orientation="horizontal"
@@ -135,6 +166,8 @@ ImageCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
+    isPromo: PropTypes.bool,
+    currArtistID: PropTypes.string,
 
     // you only need one of these two
     artistID: PropTypes.string,

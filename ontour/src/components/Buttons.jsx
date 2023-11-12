@@ -69,6 +69,13 @@ const AddMediaButton = (props) => {
             [{'image_url':publicURL, 'venue_id': venueID}]
             );
         }
+        else if(props.isPromo) {
+            const { data, insertError } = await supabase
+            .from('promo_images')
+            .insert(
+            [{'image_url':publicURL, 'artist_id': artistID}]
+            );
+        }
         else{
             var eventDate = eventName.split(" • ")[0];
             var event = eventName.split(" • ")[1];
@@ -323,7 +330,8 @@ TwoColumnButton.propTypes = {
 };
 
 AddMediaButton.propTypes = {
-    onPress: PropTypes.func.isRequired
+    onPress: PropTypes.func.isRequired,
+    isPromo: PropTypes.bool,
 };
 
 HelpfulButton.propTypes = {
