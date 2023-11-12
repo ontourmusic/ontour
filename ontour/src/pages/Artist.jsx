@@ -262,6 +262,8 @@ function Artist() {
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
+                        <ImageCarousel artistID={artistID} images={imageArray} 
+                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 5} />
                         <ArtistContent 
                         allReviews={allReviews} 
                         filteredReviews={filteredReviews} 
