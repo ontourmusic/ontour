@@ -105,17 +105,26 @@ function Artist() {
             setImageArray(imageArray);
 
             //gets the tickemaster artist details 
-            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
-            const tmData = await tmArtist.json();
+            /** 
             console.log(tmData);
             var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
             var instagram = tmData._embedded.attractions[0].externalLinks.instagram[0].url;
             var twitter = tmData._embedded.attractions[0].externalLinks.twitter[0].url;
-            var tickets = tmData._embedded.attractions[0].url;
+           
             setInstaLink(instagram);
             setTwitterLink(twitter);
+            
+            setSpotifyLink(spotify); **/
+           // const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', currArtistID); 
+           // const artistData = getArtistSupabase["data"][0];
+            setInstaLink(artistData["instagram_link"]);
+            setTwitterLink(artistData["twitter_link"]);
+            setSpotifyLink(artistData["spotify_link"]);
+            //setWebsiteLink(artistData["website_link"]);
+            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
+            const tmData = await tmArtist.json();
+            var tickets = tmData._embedded.attractions[0].url;
             setTicketLink(tickets);
-            setSpotifyLink(spotify);
         }
         catch {
             console.log('Webpage error. Please reload the page.');
