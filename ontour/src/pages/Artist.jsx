@@ -38,7 +38,9 @@ function Artist() {
     useEffect(() => {
         if (isAuthenticated && user) {
             if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id) {
-                setArtistID(user['https://tourscout.com/user_metadata'].artist_id);
+                setArtistID(user['https://tourscout.com/user_metadata'].artist_id.toString());
+                console.log('currartistid' + currArtistID);
+                console.log('currrrartistid' + artistID);
             }
         }
         console.log(user);
