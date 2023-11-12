@@ -14,17 +14,13 @@ import { TextField, Button } from "@mui/material";
 const review_styles = artist_styles.review_display.review;
 
 export default function Review(props) {
-    //console.log("review-print-test");
-    //console.log(props);
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [userEmail, setUserEmail] = useState("");
     const [username, setUsername] = useState("");
     const [currArtistID, setArtistID] = useState("");
     const [isHelpfulActive, setIsHelpfulActive] = useState(isAuthenticated && !props.likedUsers.includes(user.username));
     const [isUnhelpfulActive, setIsUnhelpfulActive] = useState(isAuthenticated && !props.dislikedUsers.includes(user.username));
-    const reviewArtistID = props.key;
     const [count, setCount] = useState(props.count);
-   // const [artistResponse, setResponse] = useState("");
     const [isRespondMode, setIsRespondMode] = useState(false);
     const [newResponse, setNewResponse] = useState("");
     const reviewTable = props.reviewTable;
@@ -105,15 +101,11 @@ export default function Review(props) {
         const artistData = getArtistSupabase["data"][0];
        console.log("checked permissions");
         if (artistData["artist_id"] == currArtistID) {
-            //console.log("set respond mode on");
             setIsRespondMode(true);
             return true;
         }
         else {
-            //console.log("set respond mode OFF");
             setIsRespondMode(false);
-            //console.log(reviewArtistID);
-            //console.log(currArtistID);
             return false;
         }
     };
@@ -133,13 +125,10 @@ export default function Review(props) {
                 if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/app_metadata'].username && user['https://tourscout.com/user_metadata'].artist_id) {
                     setUsername(user['https://tourscout.com/user_metadata'].username);
                     setArtistID(user['https://tourscout.com/user_metadata'].artist_id);
-                    //setReviewArtistID(props.key);
                     setNewResponse(props.response);
                     checkEditPermissions();
-                    console.log("used effect");
                 }
         }
-        console.log(props.response);
       }, [user, isAuthenticated, currArtistID]);
     
 
