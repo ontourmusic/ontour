@@ -5,9 +5,9 @@ export default function ExternalLink(props) {
     if (!props.mediaLink || props.mediaLink=="") {
         console.log("gray icons");
         return (
-            <a href={props.mediaLink} class="social-media-icon" id="grayMedia" target="_blank" rel="noopener noreferrer">
+            <div href={props.mediaLink} class="social-media-icon" id="grayMedia" target="_blank" rel="noopener noreferrer">
                 <img src={props.iconLink} alt="link"  />
-            </a>
+            </div>
         )
     }
     else {

@@ -779,3 +779,18 @@ select:invalid option:not(:disabled) {
 #stars {
   padding-top: 5px;
 }
+
+.response-title {
+  font-weight: bold;
+  font-size: 1rem; /* Adjust the size as needed */
+  margin-bottom: 0.5rem; /* Provides space below the title */
+  text-align: left;
+}
+
+.artist-response {
+  text-align: left;
+  font-size: 1rem; /* Adjust the size as needed */
+  border: none; /* Removes any border */
+  background: none; /* Removes any background */
+  box-shadow: none; /* Removes any shadow */
+}
