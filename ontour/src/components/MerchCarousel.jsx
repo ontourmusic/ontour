@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import '../Styles/carousel.css';
 import { Polaroid } from "./Polaroid";
-import { AddMediaButton } from "./Buttons";
+import { AddMerchButton } from "./Buttons";
 import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import MerchModal from "./MerchModal";
@@ -78,7 +78,7 @@ const MerchCarousel = (props) => {
                 <Typography variant="h5" align="left" className="fw-bold" style={{
                     marginRight: "15px",
                 }}>Merch</Typography>
-                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
+                <AddMerchButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
             </div>
             <CarouselProvider
                 orientation="horizontal"
