@@ -24,7 +24,7 @@ import { Grid } from "@mui/material";
 import SideContent from "../components/SideContent";
 import ArtistContent from "../components/ArtistContent";
 import ImageCarousel from "../components/ImageCarousel";
-
+import MerchCarousel from "../components/MerchCarousel";
 
 function Artist() {
     const { isAuthenticated, user } = useAuth0();
@@ -66,6 +66,7 @@ function Artist() {
     const [websiteLink, setWebsiteLink] = useState("");
     const [imageArray, setImageArray] = useState([]);
     const [promoImageArray, setPromoImageArray] = useState([]);
+    const [merchArray, setMerchArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [showResults, setShowResults] = useState(false);
@@ -111,13 +112,22 @@ function Artist() {
             setOnTour(artistData["on_tour"]);
 
             const imageGallerySupabase = await supabase.from('artist_images').select('*').eq('artist_id', artistID);
+            const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
             var imageArray = [];
+            var merchArray = [];
             //loop through the data and push the images into the array
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
                 console.log(imageGallerySupabase.data[i].image_url);
                 imageArray.push(imageGallerySupabase.data[i].image_url);
             }
+
+            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
+                //console.log(merchGallerySupabase.data[i].image_url);
+                console.log("Merch");
+                merchArray.push(merchGallerySupabase.data[i].image_url);
+            }
+        
             //set the image array to the state
             setImageArray(imageArray);
             
@@ -131,6 +141,7 @@ function Artist() {
             }
             //set the image array to the state
             setPromoImageArray(promoImageArray);
+            setMerchArray(merchArray);
 
 
             //gets the tickemaster artist details 
@@ -277,7 +288,7 @@ function Artist() {
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} /> */}
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
-                        <ImageCarousel artistID={artistID} images={imageArray} 
+                        <MerchCarousel artistID={artistID} images={merchArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 5} />
                         <ArtistContent 
                         allReviews={allReviews} 
