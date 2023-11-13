@@ -9,9 +9,9 @@ const SettingsButton = () => {
   const navigateToSettings = () => {
     console.log(user['https://tourscout.com/user_metadata']);
     if(isAuthenticated && user && user['https://tourscout.com/user_metadata'].artist_id) {
-      navigate('account');
+      navigate('/account');
     } else {
-      navigate('profile');
+      navigate('/profile');
     }
   }
 
