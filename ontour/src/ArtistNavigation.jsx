@@ -28,7 +28,7 @@ function Navigation()
       if (isAuthenticated && user && user.email) {
           setUserEmail(user.email);
               if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/app_metadata'].username && user['https://tourscout.com/user_metadata'].artist_id) {
-                  setUsername(user['https://tourscout.com/user_metadata'].username);
+                  setUsername(user['https://tourscout.com/app_metadata'].username);
               }
       }
       console.log(user);
