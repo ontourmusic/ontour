@@ -255,13 +255,10 @@ const AddMediaButton = (props) => {
 
 
 const AddMerchButton = (props) => {
-    const [eventName, setEvent] = useState("");
-    const [reviews, setPastReviews] = useState([]);
-    const [reviewsSet, setReviewsSet] = useState(false);
-    const [maxEventCount, setMaxEventCount] = useState(10);
     const [open, setOpen] = useState(false);
-    const [description, setDescription] = useState("");
     const [image, setImage] = useState(null);
+    const [storeLink, setStoreLink] = useState("");
+    const [price, setPrice] = useState(null);
     const [mediaFile, setFile] = useState(null);
     const artistID = props.artistID;
     const venueID = props.venueID;
@@ -278,6 +275,20 @@ const AddMerchButton = (props) => {
         setImage(fileName);
     };
 
+    const handleStoreLink = event => {
+        var word = event.target.value;
+        word.replace(/\n\r?/g, '<br />');
+        setStoreLink(word);
+        console.log(storeLink);
+    }
+
+    const handlePrice = event => {
+        var num = parseFloat(event.target.value);
+        var amount = (Math.round(num * 100) / 100).toFixed(2);
+        setPrice(amount);
+        console.log(price);
+    }
+
     const postData = async (event) => {
         const blob = new Blob([mediaFile], { type: mediaFile.type });
         const timestamp = Date.now();
@@ -291,107 +302,25 @@ const AddMerchButton = (props) => {
             alert('File uploaded successfully!');
         }
         const publicURL = "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/" + fileName;
-        if(props.isVenue){
-            const { data, insertError } = await supabase
-            .from('venue_carousel_images')
-            .insert(
-            [{'image_url':publicURL, 'venue_id': venueID}]
-            );
-        }
-        else{
-            var eventDate = eventName.split(" • ")[0];
-            var event = eventName.split(" • ")[1];
-            const { data, insertError } = await supabase
-            .from('artist_images')
-            .insert(
-            [{'image_url':publicURL, 'artist_id': artistID, 'event': event, 'eventDate': eventDate, 'description': description}]
-            );
-        }
+        const { data, insertError } = await supabase
+        .from('merch_images')
+        .insert(
+        [{'artist_id':artistID ,'image_url':publicURL, 'price': price, 'store_link': storeLink}]
+        );
         window.location.reload();
-    }
-
-    const GetPastReviews = async () => {
-        let artistName;
-        const { data, error } = await supabase
-            .from('artists')
-            .select('name')
-            .eq('artist_id', artistID)
-            .single()
-
-            if (error) {
-                console.error(error)
-                return null
-            }
-            artistName = data.name;
-        var adele = " ";
-        var url = " ";
-        try {
-          if (artistName.includes("Adele")) {
-            adele = "Adele";
-            // url = `https://rest.bandsintown.com/artists/Adele/events?app_id=958313646c7db923871b501a616498a9&date=past`;
-            url = `https://rest.bandsintown.com/artists/Adele/events?app_id=31273060cd25147d49a2f4ab5d6a2f34&date=past`;
-          }
-          else {
-            var name = artistName.replace(" ", "%20");
-            // url = `https://rest.bandsintown.com/artists/${name}/events?app_id=958313646c7db923871b501a616498a9&date=past`;
-            url = `https://rest.bandsintown.com/artists/${name}/events?app_id=31273060cd25147d49a2f4ab5d6a2f34&date=past`;
-          }
-          const pastReviews = await fetch(url);
-          const pastData = await pastReviews.json();
-          pastData.reverse();
-          const eventList = [];
-          for (var i = 0; i < maxEventCount; i++) {
-              var date = pastData[i].datetime.split("T")[0];
-              date = date.split("-");
-              var year = date[0];
-              var month = date[1];
-              var day = date[2];
-              var mmddyyyy = month + "/" + day + "/" + year;
-              pastData[i].datetime = mmddyyyy;
-              eventList.push(pastData[i]);
-          }
-          if (eventList.length > 0) {
-            setReviewsSet(true);
-            setPastReviews(eventList);
-            setEvent(`${eventList[0].datetime.split("T")[0]} • ${eventList[0].venue.name}`);
-          }
-        }
-        catch (err) {
-          console.log('API Error');
-          console.log(err);
-        }
     }
 
     const handleMerchButtonPress = () => {
         setOpen(true);
     }
 
-    const handleFormChange = (event) => {
-        if(event.target.value == "extend"){
-          setMaxEventCount(maxEventCount+10);
-        }
-        else{
-          setEvent(event.target.value);
-        }
-    }
-
-    const handleDescription = event => {
-        var word = event.target.value;
-        word.replace(/\n\r?/g, '<br />');
-        setDescription(word);
-    }
-
     const handleClear = () => {
         setImage(null);
-        setEvent("");
-        setDescription("");
-        const dropdown = document.getElementById("event-dropdown");
-        dropdown.value = "";
+        setStoreLink("");
+        setPrice(0);
+        // const dropdown = document.getElementById("event-dropdown");
+        // dropdown.value = "";
     }
-
-    useEffect(() => {
-        GetPastReviews();
-      }, [maxEventCount]);
 
     return (
         <>
@@ -424,33 +353,29 @@ const AddMerchButton = (props) => {
                         {image && <div>{image}</div>}
                     </div>
                     <div style={modal_styles.formItem}>
-                        {reviews.length > 0 &&
-                        <>
-                            <Form.Select id="event-dropdown" aria-label="Default select example" required onChange={handleFormChange}>
-                            <option value="" selected>Select an event</option>
-                            {
-                                reviews.map((review) => (
-                                    <option value={`${review.datetime.split("T")[0]} • ${review.venue.name} `}>
-                                    {review.datetime} • {review.venue.name}
-                                    </option>
-                                ))
-                            }
-                            {
-                            maxEventCount < 20 ? <option value="extend">Select an Older Event</option> : <></>
-                            }
-                            
-                            </Form.Select> </>}
-                    </div>
-                    <div style={modal_styles.formItem}>
                         <textarea
                         class="form-control shadow-none"
                         style={{ whiteSpace: "pre-wrap" }}
-                        rows="5" cols="100"
-                        id="description"
+                        rows="1" cols="8"
+                        id="store_link"
+                        onChange={handleStoreLink}
+                        value={storeLink}
                         maxLength={5000}
-                        onChange={handleDescription}
-                        value={description}
-                        placeholder="Enter a description..." required
+                        placeholder="Enter the store link to item..." required
+                        />
+                    </div>
+                    <div style={modal_styles.formItem}>
+                        <input
+                        class="form-control shadow-none"
+                        style={{ whiteSpace: "pre-wrap" , width:200}}
+                        type="number"
+                        min="0.01"
+                        step="0.01"
+                        id="price"
+                        onChange={handlePrice}
+                        value={price}
+                        maxLength={5000}
+                        placeholder="Price" required
                         />
                     </div>
                     <div

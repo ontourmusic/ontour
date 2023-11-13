@@ -169,18 +169,37 @@ export default function Review(props) {
             </div>
             { isRespondMode ?     <>       
             <div class="d-flex w-100 justify-content-start">
-                <TextField id="review-response-text"
-                                label="Artist Response" 
-                                variant="outlined" 
-                                value={newResponse}
-                                onChange={(e) => { 
-                                    setNewResponse(e.target.value); 
-                        }} align="left" />
-                    <Button id="publishbutton" variant="contained" color="primary" onClick={() => {sendNewReponse(newResponse);}}>
-                                    Publish Response
-                                </Button>
-                </div> </>  
-                : <>  <div > {(props.response) ? <div> <p id="responseTitle">{"Response from the Artist:"}</p> <p id="textbox" class="mb-2" align="left">{props.response}</p></div> : <p></p>}</div></> }
+                <TextField 
+                    id="review-response-text"
+                    label="Artist Response" 
+                    variant="outlined" 
+                    value={newResponse}
+                    onChange={(e) => { setNewResponse(e.target.value); }} 
+                    align="left" />
+                    <Button 
+                    id="publishbutton" 
+                    variant="contained" 
+                    color="primary" 
+                    onClick={() => {sendNewReponse(newResponse);}}>
+                        Publish Response
+                    </Button>
+                </div> 
+                </>  
+                 : (
+                <>  
+                    <div>
+                    {props.response && (
+                        <div>
+                        <p className="response-title">Response from the Artist:</p> {/* Updated class name */}
+                        <p className="artist-response">{props.response}</p> {/* Updated class name */}
+                        </div>
+                    )}
+                    </div>
+                </>
+                )}
+                {/* // : <>  
+                // <div > {(props.response) ? <div> <p id="responseTitle">{"Response from the Artist:"}</p> <p id="textbox" class="mb-2" align="left">{props.response}</p></div> : <p></p>}</div></> } */}
+            
             { isAuthenticated ? 
                 <>
                 <div className = "d-flex justify-content-start" >
