@@ -22,7 +22,8 @@ images: array of image urls
 const MerchCarousel = (props) => {
     const [images, setImages] = useState([]);
     const [prices, setPrices] = useState([]);
-    const [titles, setTitles] = useState([]);
+    //const [titles, setTitles] = useState([]);
+    const [fullMerchArray, setFullMerchArray] = useState([]);
     const [storeLinks, setStoreLinks] = useState([]);
     const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
@@ -81,6 +82,7 @@ const MerchCarousel = (props) => {
                 console.error(error2)
                 return null
             }
+            
             setPrices(data2);
             //get store link data
             const { data3, error3 } = await supabase
@@ -103,6 +105,12 @@ const MerchCarousel = (props) => {
             setImages(props.images);
             setPrices(props.prices);
             setStoreLinks(props.links);
+            var merchArray = [];
+            for (var i = 0; i < images.length; i++) {
+                merchArray.push([images[i], prices[i], storeLinks[i]]);
+            }
+            console.log(merchArray);
+            setFullMerchArray(merchArray);
         }
     }, [props.images, props.links, props.prices]);
 
@@ -134,16 +142,16 @@ const MerchCarousel = (props) => {
                 style={carousel_styles.container}
             >
                 <Slider>
-                    {images.map((image, index) => {
+                    {fullMerchArray.map((merchObj, index) => {
                         return (
                             <Slide index={index}
                                 style={carousel_styles.slide}
                             >
                                 <div>
-                               <a href={"https://dominicfike.shop/products/sunburn-standard-vinyl"} >
-                                    <img src={image}  class="d-block w-100" style={polaroid_styles.polaroid_image} />
+                               <a href={merchObj[2]} >
+                                    <img src={merchObj[0]}  class="d-block w-100" style={polaroid_styles.polaroid_image} />
                                 </a>
-                                    <p id="price">{"$38.99"}</p>
+                                    <p id="price"> {merchObj[1]}</p>
                                     </div>
                             </Slide>
                         );
