@@ -12,6 +12,8 @@ import { Typography } from "@mui/material";
 import MerchModal from "./MerchModal";
 
 import artist_styles from "../Styles/artist_styles";
+import polaroid_styles from "../Styles/polaroid_styles";
+
 const carousel_styles = artist_styles.carousel;
 
 /*
@@ -19,6 +21,9 @@ images: array of image urls
 */
 const MerchCarousel = (props) => {
     const [images, setImages] = useState([]);
+    const [prices, setPrices] = useState([]);
+    const [titles, setTitles] = useState([]);
+    const [storeLinks, setStoreLinks] = useState([]);
     const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
     const [tempImg, setTemp] = useState('');
@@ -27,6 +32,7 @@ const MerchCarousel = (props) => {
     const [imageData, setImageData] = useState([]);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
+  
     const handleImageClick = async (e) => {
         console.log("handleImageClick: ", e.target.src);
 
@@ -60,17 +66,54 @@ const MerchCarousel = (props) => {
                 return null
             }
             setImageData(data);
-            setOpen(true);
-            setTemp(e.target.src);
-            setModel(true);
+           // setOpen(true);
+            //setTemp(e.target.src);
+            // setModel(true);
+
+            //get price data
+            const { data2, error2 } = await supabase
+                .from('merch_images')
+                .select('*')
+                .eq('price', e.target.src)
+                .single()
+
+            if (error) {
+                console.error(error2)
+                return null
+            }
+            setPrices(data2);
+            //get store link data
+            const { data3, error3 } = await supabase
+                .from('merch_images')
+                .select('*')
+                .eq('store_link', e.target.src)
+                .single()
+
+            if (error) {
+                console.error(error3)
+                return null
+            }
+            setStoreLinks(data3);
         }
     }
+
     useEffect(() => {
         if (props.images.length > 0) {
             setImageLoad(true);
             setImages(props.images);
+            setPrices(props.prices);
+            setStoreLinks(props.links);
         }
-    }, [props.images]);
+    }, [props.images, props.links, props.prices]);
+
+    /**
+     *  <MerchModal 
+                        handleClose={handleClose} 
+                        image={tempImg} 
+                        imageData={imageData}
+                        isVenue={props.isVenue}
+                    />
+     */
 
     return (
         <>
@@ -96,23 +139,19 @@ const MerchCarousel = (props) => {
                             <Slide index={index}
                                 style={carousel_styles.slide}
                             >
-                                <Polaroid
-                                    key={index}
-                                    onPress={handleImageClick}
-                                    imageURL={image}
-                                />
+                                <div>
+                               <a href={"https://dominicfike.shop/products/sunburn-standard-vinyl"} >
+                                    <img src={image}  class="d-block w-100" style={polaroid_styles.polaroid_image} />
+                                </a>
+                                    <p id="price">{"$38.99"}</p>
+                                    </div>
                             </Slide>
                         );
 
                     })}
                 </Slider>
                 {open && 
-                    <MerchModal 
-                        handleClose={handleClose} 
-                        image={tempImg} 
-                        imageData={imageData}
-                        isVenue={props.isVenue}
-                    />
+                    <a href={"https://dominicfike.shop/products/sunburn-standard-vinyl"}> </a>
                     }
                 <div className="controls">
                     <ButtonBack className="btn-arrow" style={{ color: "black" }}>
@@ -133,6 +172,8 @@ export default MerchCarousel;
 
 MerchCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
+    links: PropTypes.arrayOf(PropTypes.string),
+    prices: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
 
