@@ -66,7 +66,9 @@ function Artist() {
     const [websiteLink, setWebsiteLink] = useState("");
     const [imageArray, setImageArray] = useState([]);
     const [promoImageArray, setPromoImageArray] = useState([]);
-    const [merchArray, setMerchArray] = useState([]);
+    const [merchImgArray, setMerchImgArray] = useState([]);
+    const [merchPriceArray, setMerchPriceArray] = useState([]);
+    const [merchLinkArray, setMerchLinkArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [showResults, setShowResults] = useState(false);
@@ -112,24 +114,40 @@ function Artist() {
             setOnTour(artistData["on_tour"]);
 
             const imageGallerySupabase = await supabase.from('artist_images').select('*').eq('artist_id', artistID);
-            const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
+
             //initialize an array to hold the images
             var imageArray = [];
-            var merchArray = [];
+
             //loop through the data and push the images into the array
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
                 console.log(imageGallerySupabase.data[i].image_url);
                 imageArray.push(imageGallerySupabase.data[i].image_url);
             }
+                 //set the image array to the state
+            setImageArray(imageArray);
+            
+            const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
 
+            var merchImgArray = [];
+            var merchPriceArray = [];
+            var merchLinkArray = [];
             for (var i = 0; i < merchGallerySupabase.data.length; i++) {
                 //console.log(merchGallerySupabase.data[i].image_url);
-                console.log("Merch");
-                merchArray.push(merchGallerySupabase.data[i].image_url);
+                merchImgArray.push(merchGallerySupabase.data[i].image_url);
             }
+            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
+                //console.log(merchGallerySupabase.data[i].image_url);
+                merchPriceArray.push(merchGallerySupabase.data[i].price);
+            }
+            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
+                //console.log(merchGallerySupabase.data[i].image_url);
+                merchLinkArray.push(merchGallerySupabase.data[i].store_link);
+            }
+            setMerchImgArray(merchImgArray);
+            setMerchPriceArray(merchPriceArray);
+            setMerchLinkArray(merchLinkArray);
         
-            //set the image array to the state
-            setImageArray(imageArray);
+       
             
             const promoImageGallerySupabase = await supabase.from('promo_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the artist uploaded promo images
@@ -141,7 +159,7 @@ function Artist() {
             }
             //set the image array to the state
             setPromoImageArray(promoImageArray);
-            setMerchArray(merchArray);
+           
 
 
             //gets the tickemaster artist details 
@@ -288,7 +306,7 @@ function Artist() {
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} /> */}
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
-                        <MerchCarousel artistID={artistID} images={merchArray} 
+                        <MerchCarousel artistID={artistID} images={merchImgArray} prices={merchPriceArray} links={merchLinkArray}
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 5} />
                         <ArtistContent 
                         allReviews={allReviews} 
