@@ -173,14 +173,38 @@ export default function Review(props) {
                     id="review-response-text"
                     label="Artist Response" 
                     variant="outlined" 
+                    fullWidth
+                    multiline
                     value={newResponse}
                     onChange={(e) => { setNewResponse(e.target.value); }} 
-                    align="left" />
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            '&.Mui-focused fieldset': {
+                                borderColor: 'black', // use the color you want
+                            },
+                        },
+                        '& .MuiInputLabel-outlined.Mui-focused': {
+                            color: 'gray', 
+                        },
+                        width: '100%', // This will make the TextField full width within its parent container
+                        my: 1, // This adds margin on the top and bottom
+                        mx: 2, // This adds margin on the left and right
+                        '.MuiInputBase-input': {
+                            p: '10px', // This adds padding within the input area of the TextField
+                        }
+                    }}
+                    align="left"/>
                     <Button 
-                    id="publishbutton" 
-                    variant="contained" 
-                    color="primary" 
-                    onClick={() => {sendNewReponse(newResponse);}}>
+                        id="publishbutton" 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={() => {sendNewReponse(newResponse);}}
+                        sx={{
+                            whiteSpace: 'nowrap', // Prevents the button text from wrapping
+                            py: 2, // Adjust padding top and bottom as needed
+                            px: 3, // Adjust padding left and right as needed
+                            alignSelf: 'center', // Center the button vertically with respect to the TextField
+                        }}>
                         Publish Response
                     </Button>
                 </div> 
