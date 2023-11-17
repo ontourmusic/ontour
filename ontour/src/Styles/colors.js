@@ -22,7 +22,8 @@ const OnTourColors = {
         dark2: "#ccc8cc",
         dark3: "#b2afb2",
         dark4: "#999699",
-        dark5: "#7f7d7f",
+      dark5: "#7f7d7f",
+      dark6: "#000000",
     },
     star: {
         // Gold (the rating star color)

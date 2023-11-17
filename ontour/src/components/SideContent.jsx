@@ -21,7 +21,6 @@ Props:
 */
 
 const SideContent = ({name, linkPairs, venue, festival}) => {
-    console.log("name: " + name);
     if(venue)
     {
         console.log("yes");

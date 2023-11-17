@@ -69,6 +69,7 @@ function Artist() {
     const [merchImgArray, setMerchImgArray] = useState([]);
     const [merchPriceArray, setMerchPriceArray] = useState([]);
     const [merchLinkArray, setMerchLinkArray] = useState([]);
+    const [merchTitleArray, setMerchTitleArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [showResults, setShowResults] = useState(false);
@@ -131,6 +132,7 @@ function Artist() {
             var merchImgArray = [];
             var merchPriceArray = [];
             var merchLinkArray = [];
+            var merchTitleArray = [];
             for (var i = 0; i < merchGallerySupabase.data.length; i++) {
                 //console.log(merchGallerySupabase.data[i].image_url);
                 merchImgArray.push(merchGallerySupabase.data[i].image_url);
@@ -143,9 +145,14 @@ function Artist() {
                 //console.log(merchGallerySupabase.data[i].image_url);
                 merchLinkArray.push(merchGallerySupabase.data[i].store_link);
             }
+            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
+                //console.log(merchGallerySupabase.data[i].image_url);
+                merchTitleArray.push(merchGallerySupabase.data[i].title);
+            }
             setMerchImgArray(merchImgArray);
             setMerchPriceArray(merchPriceArray);
             setMerchLinkArray(merchLinkArray);
+            setMerchTitleArray(merchTitleArray);
         
        
             
@@ -306,8 +313,12 @@ function Artist() {
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} /> */}
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
-                        <MerchCarousel artistID={artistID} images={merchImgArray} prices={merchPriceArray} links={merchLinkArray}
-                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 5} />
+                        {
+                            (currArtistID === artistID || merchImgArray.length > 0) && <>
+                                <MerchCarousel artistID={artistID} images={merchImgArray} prices={merchPriceArray} links={merchLinkArray} titles={merchTitleArray}
+                                slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 5} />
+                                </>
+                        }
                         <ArtistContent 
                         allReviews={allReviews} 
                         filteredReviews={filteredReviews} 

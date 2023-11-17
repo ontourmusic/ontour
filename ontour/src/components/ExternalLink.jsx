@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import '../index.css';
 export default function ExternalLink(props) {
     if (!props.mediaLink || props.mediaLink=="") {
-        console.log("gray icons");
         return (
             <div href={props.mediaLink} class="social-media-icon" id="grayMedia" target="_blank" rel="noopener noreferrer">
                 <img src={props.iconLink} alt="link"  />
@@ -11,7 +10,6 @@ export default function ExternalLink(props) {
         )
     }
     else {
-        console.log("normal icons");
         return (
             <a href={props.mediaLink} class="social-media-icon" target="_blank" rel="noopener noreferrer">
                 <img src={props.iconLink} alt="link" />

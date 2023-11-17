@@ -22,7 +22,7 @@ images: array of image urls
 const MerchCarousel = (props) => {
     const [images, setImages] = useState([]);
     const [prices, setPrices] = useState([]);
-    //const [titles, setTitles] = useState([]);
+    const [titles, setTitles] = useState([]);
     const [fullMerchArray, setFullMerchArray] = useState([]);
     const [storeLinks, setStoreLinks] = useState([]);
     const [imageLoad, setImageLoad] = useState(false);
@@ -78,12 +78,13 @@ const MerchCarousel = (props) => {
                 .eq('price', e.target.src)
                 .single()
 
-            if (error) {
+            if (error2) {
                 console.error(error2)
                 return null
             }
             
             setPrices(data2);
+
             //get store link data
             const { data3, error3 } = await supabase
                 .from('merch_images')
@@ -91,11 +92,23 @@ const MerchCarousel = (props) => {
                 .eq('store_link', e.target.src)
                 .single()
 
-            if (error) {
+            if (error3) {
                 console.error(error3)
                 return null
             }
             setStoreLinks(data3);
+            //set titles
+            const { data4, error4 } = await supabase
+                .from('merch_images')
+                .select('*')
+                .eq('title', e.target.src)
+                .single()
+
+            if (error4) {
+                console.error(error4)
+                return null
+            }
+            setTitles(data4);
         }
     }
 
@@ -105,14 +118,16 @@ const MerchCarousel = (props) => {
             setImages(props.images);
             setPrices(props.prices);
             setStoreLinks(props.links);
+            setTitles(props.titles);
             var merchArray = [];
             for (var i = 0; i < images.length; i++) {
-                merchArray.push([images[i], prices[i], storeLinks[i]]);
+                merchArray.push([images[i], prices[i], storeLinks[i], titles[i]]);
             }
+            console.log("merch test");
             console.log(merchArray);
             setFullMerchArray(merchArray);
         }
-    }, [props.images, props.links, props.prices]);
+    }, [props.images, props.links, props.prices, props.titles]);
 
     /**
      *  <MerchModal 
@@ -141,7 +156,7 @@ const MerchCarousel = (props) => {
                 isIntrinsicHeight={true}
                 style={carousel_styles.container}
             >
-                <Slider>
+                <Slider style={carousel_styles.slider}>
                     {fullMerchArray.map((merchObj, index) => {
                         return (
                             <Slide index={index}
@@ -150,7 +165,8 @@ const MerchCarousel = (props) => {
                                 <div>
                                <a href={merchObj[2]} >
                                     <img src={merchObj[0]}  class="d-block w-100" style={polaroid_styles.polaroid_image} />
-                                </a>
+                                    </a>
+                                    <p id="title"> {merchObj[3]}</p>
                                     <p id="price"> {"$" + merchObj[1]}</p>
                                     </div>
                             </Slide>
@@ -182,6 +198,7 @@ MerchCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
     links: PropTypes.arrayOf(PropTypes.string),
     prices: PropTypes.arrayOf(PropTypes.string),
+    titles: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
 
