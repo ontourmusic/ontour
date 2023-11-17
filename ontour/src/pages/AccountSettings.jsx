@@ -22,7 +22,7 @@ function AccountSettings() {
             setUserEmail(user.email);
                 if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/app_metadata'].username && user['https://tourscout.com/user_metadata'].artist_id) {
                     setUsername(user['https://tourscout.com/user_metadata'].username);
-                    setOfficialProfileName(user['https://tourscout.com/user_metadata'].username);
+                    setOfficialProfileName(user['https://tourscout.com/app_metadata'].username);
                     setArtistID(user['https://tourscout.com/user_metadata'].artist_id);
                     getLinks();
                 }
@@ -120,6 +120,17 @@ function AccountSettings() {
                                 onChange={(e) => { 
                                     setUserEmail(e.target.value); 
                                 }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                      '&.Mui-focused fieldset': {
+                                        borderColor: 'black', // use the color you want
+                                      },
+                                    },
+                                    '& .MuiInputLabel-outlined.Mui-focused': {
+                                        color: 'gray', 
+                                    },
+                                }}
+                                
                                 />
                             </Grid>
                             <Grid item xs={3}>
@@ -137,11 +148,21 @@ function AccountSettings() {
                                 onChange={(e) => { 
                                     setOfficialProfileName(e.target.value); 
                                 }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                      '&.Mui-focused fieldset': {
+                                        borderColor: 'black', // use the color you want
+                                      },
+                                    },
+                                    '& .MuiInputLabel-outlined.Mui-focused': {
+                                        color: 'gray', 
+                                    },
+                                }}
                                 />
                             </Grid>
-                            <Grid item xs={3}>
+                            {/* <Grid item xs={3}>
                                 <Button variant="text">Request Edit Access</Button>
-                            </Grid>
+                            </Grid> */}
                         </Grid>
 
                         <Grid item xs={12}>
@@ -154,7 +175,17 @@ function AccountSettings() {
                                     label="Enter your Instagram link"
                                     onChange={(e) => {
                                         setInstaLink(e.target.value);
-                                    }} />
+                                    }} 
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                          '&.Mui-focused fieldset': {
+                                            borderColor: 'black', // use the color you want
+                                          },
+                                        },
+                                        '& .MuiInputLabel-outlined.Mui-focused': {
+                                            color: 'gray', 
+                                        },
+                                    }}/>
                             </Grid>
                         </Grid>
 
@@ -168,7 +199,17 @@ function AccountSettings() {
                                 label="Enter your Twitter link"
                                 onChange={(e) => {
                                     setTwitterLink(e.target.value);
-                                }} />
+                                }} 
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                      '&.Mui-focused fieldset': {
+                                        borderColor: 'black', // use the color you want
+                                      },
+                                    },
+                                    '& .MuiInputLabel-outlined.Mui-focused': {
+                                        color: 'gray', 
+                                    },
+                                }}/>
                             </Grid>
                         </Grid>
 
@@ -182,7 +223,17 @@ function AccountSettings() {
                                 label="Enter your Spotify link"
                                 onChange={(e) => {
                                     setSpotifyLink(e.target.value);
-                                }} />
+                                }} 
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                      '&.Mui-focused fieldset': {
+                                        borderColor: 'black', // use the color you want
+                                      },
+                                    },
+                                    '& .MuiInputLabel-outlined.Mui-focused': {
+                                        color: 'gray', 
+                                    },
+                                }}/>
                             </Grid>
                         </Grid>
 
@@ -196,7 +247,17 @@ function AccountSettings() {
                                 label="Enter your Website link"
                                 onChange={(e) => {
                                     setWebsiteLink(e.target.value);
-                                }} />
+                                }} 
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                      '&.Mui-focused fieldset': {
+                                        borderColor: 'black', // use the color you want
+                                      },
+                                    },
+                                    '& .MuiInputLabel-outlined.Mui-focused': {
+                                        color: 'gray', 
+                                    },
+                                }}/>
                             </Grid>
                         </Grid>
 

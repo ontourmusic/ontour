@@ -11,15 +11,13 @@ import ResetPassword from '../components/ResetPassword';
 function ProfilePage() {
     const { isAuthenticated, user } = useAuth0();
     const [userEmail, setUserEmail] = useState("");
-    const [username, setUsername] = useState("");
     const [officialProfileName, setOfficialProfileName] = useState("");
 
     useEffect(() => {
         if (isAuthenticated && user && user.email) {
                 setUserEmail(user.email);
                 if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].username) {
-                    setUsername(user['https://tourscout.com/user_metadata'].username);
-                    setOfficialProfileName(user['https://tourscout.com/user_metadata'].username);
+                    setOfficialProfileName(user['https://tourscout.com/app_metadata'].username);
                 }
         }
         console.log(user);
@@ -28,12 +26,15 @@ function ProfilePage() {
     return (
         <>
             <Helmet></Helmet>
-            <Grid container spacing={1} justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
+            {/* <Grid container spacing={1} justifyContent="center" alignItems="center"> */}
+            <Grid container sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                 <Grid item xs={12}>
                     <Navigation navbar={false}/>
                 </Grid>
-                <Grid item xs={12} md={8}>
-                    <Grid container spacing={4} direction="column" sx={{ padding: '10px' }}>
+                {/* <Grid item xs={12} md={8}>
+                    <Grid container spacing={4} direction="column" sx={{ padding: '10px' }}> */}
+                <Grid item xs={12} md={8} sx={{ alignItems: 'center', justifyContent: 'center' }}>
+                    <Grid container spacing={4} direction="column" sx={{ padding: '10px', width: '100%', maxWidth: '960px', margin: 'auto' }}>
                         <Grid item xs={12} container justifyContent="center">
                             <Grid item xs={6}>
                                 <TextField 
@@ -43,6 +44,16 @@ function ProfilePage() {
                                 value={userEmail}
                                 onChange={(e) => { 
                                     setUserEmail(e.target.value); 
+                                }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                      '&.Mui-focused fieldset': {
+                                        borderColor: 'black', // use the color you want
+                                      },
+                                    },
+                                    '& .MuiInputLabel-outlined.Mui-focused': {
+                                        color: 'gray', 
+                                    },
                                 }}
                                 />
                             </Grid>
@@ -61,13 +72,23 @@ function ProfilePage() {
                                 onChange={(e) => { 
                                     setOfficialProfileName(e.target.value); 
                                 }}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                      '&.Mui-focused fieldset': {
+                                        borderColor: 'black', // use the color you want
+                                      },
+                                    },
+                                    '& .MuiInputLabel-outlined.Mui-focused': {
+                                        color: 'gray', 
+                                    },
+                                }}
                                 />
                             </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
                 
-                <Grid item xs={12}>
+                <Grid item xs={12} sx={{ mt: 'auto' }}>
                     <hr id="artist-footer"></hr>
                     <Footer />
                 </Grid>
