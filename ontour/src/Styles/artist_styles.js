@@ -55,6 +55,10 @@ const carousel = {
   slide: {
     margin: "0 4px 0 4px",
   },
+  slider: {
+    border: "0.25px solid",
+    borderColor: OnTourColors.palette.tertiary.dark3,
+  },
 };
 
 const modal = {
@@ -131,6 +135,13 @@ const mediaUploadModal = {
     backgroundColor: "rgba(211, 211, 211, 0.9)"
   },
   addMediaButton: {
+    backgroundColor:'#21252B', 
+    textTransform: 'none', 
+    fontFamily: "Helvetica", 
+    fontWeight:'bold', 
+    fontSize: 15
+  },
+  addMerchButton: {
     backgroundColor:'#21252B', 
     textTransform: 'none', 
     fontFamily: "Helvetica", 

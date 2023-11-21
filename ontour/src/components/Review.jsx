@@ -9,16 +9,24 @@ import { createClient } from '@supabase/supabase-js'
 import { UnhelpfulButton } from "./Buttons";
 import artist_styles from "../Styles/artist_styles";
 import { useAuth0 } from "@auth0/auth0-react";
+import { TextField, Button } from "@mui/material";
 
 const review_styles = artist_styles.review_display.review;
 
 export default function Review(props) {
     const { user, isAuthenticated, isLoading } = useAuth0();
+    const [userEmail, setUserEmail] = useState("");
+    const [username, setUsername] = useState("");
+    const [currArtistID, setArtistID] = useState("");
     const [isHelpfulActive, setIsHelpfulActive] = useState(isAuthenticated && !props.likedUsers.includes(user.username));
     const [isUnhelpfulActive, setIsUnhelpfulActive] = useState(isAuthenticated && !props.dislikedUsers.includes(user.username));
     const [count, setCount] = useState(props.count);
+    const [isRespondMode, setIsRespondMode] = useState(false);
+    const [newResponse, setNewResponse] = useState("");
     const reviewTable = props.reviewTable;
+    //maybe set props to pass the artist ID or the permissions
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+
 
     const handleHelpful = event => {
 
@@ -82,11 +90,47 @@ export default function Review(props) {
     }
 
     const postData = async (currCount) => {
-        const {data, error} = await supabase
+        const { data, error } = await supabase
             .from(reviewTable)
             .update({ likeCount: currCount })
-            .eq('id', props.id)
+            .eq('id', props.id);
     }
+
+    const checkEditPermissions = async () => {
+        const getArtistSupabase = await supabase.from(reviewTable).select('*').eq('id', props.id); 
+        const artistData = getArtistSupabase["data"][0];
+       console.log("checked permissions");
+        if (artistData["artist_id"] == currArtistID) {
+            setIsRespondMode(true);
+            return true;
+        }
+        else {
+            setIsRespondMode(false);
+            return false;
+        }
+    };
+    
+    const sendNewReponse = async (newResponse) => {
+        try {
+            const {data, error}  = await supabase.from(reviewTable).update({artist_response: newResponse}).eq('id', props.id); //add mutable artist id 
+        }
+        catch {
+            console.log('Webpage error. Please reload the page.');
+        }
+    }
+
+      useEffect(() => {
+        if (isAuthenticated && user && user.email) {
+            setUserEmail(user.email);
+                if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/app_metadata'].username && user['https://tourscout.com/user_metadata'].artist_id) {
+                    setUsername(user['https://tourscout.com/user_metadata'].username);
+                    setArtistID(user['https://tourscout.com/user_metadata'].artist_id);
+                    setNewResponse(props.response);
+                    checkEditPermissions();
+                }
+        }
+      }, [user, isAuthenticated, currArtistID]);
+    
 
     return (
         <div style={review_styles.item}>
@@ -123,7 +167,64 @@ export default function Review(props) {
             <div class="d-flex w-100 justify-content-start">
                 <p id="rating-text" style={{ whiteSpace: "pre-wrap" }} class="mb-2" align="left">{props.text}</p>
             </div>
-            {isAuthenticated ? 
+            { isRespondMode ?     <>       
+            <div class="d-flex w-100 justify-content-start">
+                <TextField 
+                    id="review-response-text"
+                    label="Artist Response" 
+                    variant="outlined" 
+                    fullWidth
+                    multiline
+                    value={newResponse}
+                    onChange={(e) => { setNewResponse(e.target.value); }} 
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            '&.Mui-focused fieldset': {
+                                borderColor: 'black', // use the color you want
+                            },
+                        },
+                        '& .MuiInputLabel-outlined.Mui-focused': {
+                            color: 'gray', 
+                        },
+                        width: '100%', // This will make the TextField full width within its parent container
+                        my: 1, // This adds margin on the top and bottom
+                        mx: 2, // This adds margin on the left and right
+                        '.MuiInputBase-input': {
+                            p: '10px', // This adds padding within the input area of the TextField
+                        }
+                    }}
+                    align="left"/>
+                    <Button 
+                        id="publishbutton" 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={() => {sendNewReponse(newResponse);}}
+                        sx={{
+                            whiteSpace: 'nowrap', // Prevents the button text from wrapping
+                            py: 2, // Adjust padding top and bottom as needed
+                            px: 3, // Adjust padding left and right as needed
+                            alignSelf: 'center', // Center the button vertically with respect to the TextField
+                        }}>
+                        Publish Response
+                    </Button>
+                </div> 
+                </>  
+                 : (
+                <>  
+                    <div>
+                    {props.response && (
+                        <div>
+                        <p className="response-title">Response from the Artist:</p> {/* Updated class name */}
+                        <p className="artist-response">{props.response}</p> {/* Updated class name */}
+                        </div>
+                    )}
+                    </div>
+                </>
+                )}
+                {/* // : <>  
+                // <div > {(props.response) ? <div> <p id="responseTitle">{"Response from the Artist:"}</p> <p id="textbox" class="mb-2" align="left">{props.response}</p></div> : <p></p>}</div></> } */}
+            
+            { isAuthenticated ? 
                 <>
                 <div className = "d-flex justify-content-start" >
                     <div className="mr-3">
@@ -135,7 +236,7 @@ export default function Review(props) {
                     </div>
                 </div>
                 </>
-                : <></> }
+                : <> </> }
         </div>
     )
 }
@@ -145,5 +246,6 @@ Review.propTypes = {
     rating: PropTypes.number,
     date: PropTypes.string,
     venue: PropTypes.string,
-    text: PropTypes.string
+    text: PropTypes.string, 
+    response: PropTypes.string
 };

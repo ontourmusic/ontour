@@ -21,7 +21,6 @@ Props:
 */
 
 const SideContent = ({name, linkPairs, venue, festival}) => {
-    console.log("name: " + name);
     if(venue)
     {
         console.log("yes");
@@ -37,8 +36,9 @@ const SideContent = ({name, linkPairs, venue, festival}) => {
                 {linkPairs && 
                 <div style={sidebar_styles.icon_container}>
                     {
-                        linkPairs.map((pair) => {
-                            return <ExternalLink mediaLink={pair[0]} iconLink={pair[1]} />
+                            linkPairs.map((pair) => {
+                                    return <ExternalLink mediaLink={pair[0]} iconLink={pair[1]} />
+                            
                         })
                     }
                 </div> }

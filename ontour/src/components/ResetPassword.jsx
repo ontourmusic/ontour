@@ -6,10 +6,11 @@ import button_styles from "../Styles/button_styles"
 const ResetPassword = () => {
     // const { loginWithRedirect } = useAuth0();
     const { user } = useAuth0();
-    
+    const [buttonText, setButtonText] = useState('Reset Password');
+    const [buttonDisabled, setButtonDisabled] = useState(false);
     // const [email, setEmail] = useState('');
     const apiURL = "https://dev-uujtiin6xxo47cy3.us.auth0.com/";
-    const handleResetPassword = async () => {
+    const handleResetPassword = async (event) => {
         try {
             // const accessToken = await getAccessTokenSilently();
             // console.log(accessToken);
@@ -37,6 +38,8 @@ const ResetPassword = () => {
             console.log(options);
             const response = await fetch(apiURL + 'dbconnections/change_password', options);
             console.log(response);
+            setButtonText('Reset Email Sent');
+            setButtonDisabled(true);
             console.log('Password change request sent successfully');
         } catch (error) {
             console.log('error');
@@ -53,8 +56,8 @@ const ResetPassword = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             /> */}
-            <Button variant="contained" color="primary" onClick={handleResetPassword}>
-            Reset Password
+            <Button disabled={buttonDisabled} variant="contained" color="primary" onClick={handleResetPassword}>
+            {buttonText}
             </Button>
             {/* <button onClick={handleResetPassword}>Reset Password</button> */}
         </div>
