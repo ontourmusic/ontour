@@ -10,6 +10,7 @@ import { AddMediaButton } from "./Buttons";
 import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
+import {Button} from '@mui/material';
 
 import artist_styles from "../Styles/artist_styles";
 const carousel_styles = artist_styles.carousel;
@@ -51,7 +52,7 @@ const ImageCarousel = (props) => {
         else if(props.isPromo) {
             const { data, error } = await supabase
                 .from('promo_images')
-                .select('id')
+                .select('*')
                 .eq('image_url', e.target.src)
                 .single()
 
@@ -82,12 +83,17 @@ const ImageCarousel = (props) => {
             setModel(true);
         }
     }
+    
     useEffect(() => {
         if (props.images.length > 0) {
             setImageLoad(true);
             setImages(props.images);
         }
     }, [props.images]);
+
+    const handleImageDelete = async (imageURL) => {
+        console.log(imageURL);
+    };
 
     return (
         <>
@@ -132,6 +138,7 @@ const ImageCarousel = (props) => {
                                     onPress={handleImageClick}
                                     imageURL={image}
                                 />
+                                <Button key={index} imageURL={image} variant="contained" color="primary" onClick={() => handleImageDelete(image)}>Delete</Button>
                             </Slide>
                         );
 
