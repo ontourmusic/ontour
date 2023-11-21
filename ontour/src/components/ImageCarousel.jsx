@@ -150,7 +150,7 @@ const ImageCarousel = (props) => {
                                     imageURL={image}
                                 />
                                 {
-                                    props.isPromo &&
+                                    props.isPromo && (props.currArtistID === props.artistID) &&
                                     <Button key={index} imageURL={image} variant="contained" color="primary" onClick={() => handleImageDelete(image)}>Delete</Button>
                                 }
                            </Slide>
