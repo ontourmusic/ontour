@@ -10,6 +10,7 @@ import { AddMerchButton } from "./Buttons";
 import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import MerchModal from "./MerchModal";
+import '../index.css';
 
 import artist_styles from "../Styles/artist_styles";
 import polaroid_styles from "../Styles/polaroid_styles";

@@ -333,7 +333,7 @@ function Artist() {
                         {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"], [websiteLink, "images/person_icon.png"]]} />
+                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"], [websiteLink, "images/star.png"]]} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
