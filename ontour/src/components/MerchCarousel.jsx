@@ -166,7 +166,11 @@ const MerchCarousel = (props) => {
                                <a href={merchObj[2]} >
                                     <img src={merchObj[0]}  class="d-block w-100" style={polaroid_styles.polaroid_image} />
                                     </a>
-                                    <p id="title"> {merchObj[3]}</p>
+                                    <div id="merch-wrap">
+                                        <p id="merch-title"> {merchObj[3]}
+                                        </p>
+                                    </div>
+                                    
                                     <p id="price"> {"$" + merchObj[1]}</p>
                                     </div>
                             </Slide>
