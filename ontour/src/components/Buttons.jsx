@@ -73,7 +73,7 @@ const AddMediaButton = (props) => {
             const { data, insertError } = await supabase
             .from('promo_images')
             .insert(
-            [{'image_url':publicURL, 'artist_id': artistID}]
+            [{'image_url':publicURL, 'artist_id': artistID, 'description': description}]
             );
         }
         else{
