@@ -92,7 +92,18 @@ const ImageCarousel = (props) => {
     }, [props.images]);
 
     const handleImageDelete = async (imageURL) => {
-        console.log(imageURL);
+        const { data, error } = await supabase
+            .from('promo_images')
+            .delete()
+            .eq('image_url', imageURL)
+            .single();
+        if (error) {
+            console.error(error)
+            return null
+        } else {
+            window.location.reload(false);
+            // console.log('image deleted');
+        }
     };
 
     return (
@@ -138,8 +149,11 @@ const ImageCarousel = (props) => {
                                     onPress={handleImageClick}
                                     imageURL={image}
                                 />
-                                <Button key={index} imageURL={image} variant="contained" color="primary" onClick={() => handleImageDelete(image)}>Delete</Button>
-                            </Slide>
+                                {
+                                    props.isPromo &&
+                                    <Button key={index} imageURL={image} variant="contained" color="primary" onClick={() => handleImageDelete(image)}>Delete</Button>
+                                }
+                           </Slide>
                         );
 
                     })}
