@@ -26,7 +26,13 @@ const ImageCarousel = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
+
+    // New state to track highlighted images
+    const [highlightedImages, setHighlightedImages] = useState([]);
+
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+
+
 
     const handleImageClick = async (e) => {
         console.log("handleImageClick: ", e.target.src);
@@ -106,6 +112,22 @@ const ImageCarousel = (props) => {
         }
     };
 
+    //Function to handle the highlight action
+    const toggleHighlight = (image) => {
+        setHighlightedImages(prev => {
+            if (prev.includes(image)) {
+                // Remove image from highlighted list if already present
+                return prev.filter(img => img !== image);
+            } else {
+                // Add image to the start of the highlighted list
+                return [image, ...prev];
+            }
+        });
+    };
+
+    // Prioritize highlighted images in the carousel
+    const sortedImages = [...highlightedImages, ...images.filter(img => !highlightedImages.includes(img))];
+
     return (
         <>
             <div style={carousel_styles.titleBar}>
@@ -131,14 +153,17 @@ const ImageCarousel = (props) => {
             <CarouselProvider
                 orientation="horizontal"
                 visibleSlides={props.slideCount}
-                totalSlides={props.images.length}
+                //totalSlides={props.images.length}
+                totatSlides = {sortedImages.slideCount}
                 step={props.slideCount}
                 naturalSlideWidth={50}
                 naturalSlideHeight={50}
                 isIntrinsicHeight={true}
                 style={carousel_styles.container}
             >
-                <Slider>
+    
+    
+   /* <Slider>
                     {images.map((image, index) => {
                         return (
                             <Slide index={index}
@@ -157,7 +182,29 @@ const ImageCarousel = (props) => {
                         );
 
                     })}
+                </Slider> 
+*/
+
+//Handles Highlight State and Heart Icon 
+         <Slider>
+                    {sortedImages.map((image, index) => (
+                        <Slide index={index} style={carousel_styles.slide}>
+                            <Polaroid
+                                key={index}
+                                onPress={handleImageClick}
+                                imageURL={image}
+                            />
+                            {/* Highlight Button */}
+                            <IconButton onClick={() => toggleHighlight(image)}>
+                                <FontAwesomeIcon icon={faHeart} color={highlightedImages.includes(image) ? "red" : "grey"} />
+                            </IconButton>
+                            {props.isPromo && (props.currArtistID === props.artistID) &&
+                                <Button variant="contained" color="primary" onClick={() => handleImageDelete(image)}>Delete</Button>
+                            }
+                        </Slide>
+                    ))}
                 </Slider>
+
                 {open && 
                     <ImageModal 
                         handleClose={handleClose} 
