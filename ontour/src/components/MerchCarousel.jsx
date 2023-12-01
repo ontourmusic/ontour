@@ -11,6 +11,7 @@ import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import MerchModal from "./MerchModal";
 import '../index.css';
+import {Button} from '@mui/material';
 
 import artist_styles from "../Styles/artist_styles";
 import polaroid_styles from "../Styles/polaroid_styles";
@@ -130,6 +131,22 @@ const MerchCarousel = (props) => {
         }
     }, [props.images, props.links, props.prices, props.titles]);
 
+    const handleMerchDelete = async (merchURL) => {
+        const { data, error } = await supabase
+            .from('merch_images')
+            .delete()
+            .eq('image_url', merchURL)
+            .single();
+        console.log(merchURL);
+        if (error) {
+            console.error(error)
+            return null
+        } else {
+            window.location.reload(false);
+            // console.log('image deleted');
+        }
+    };
+
     /**
      *  <MerchModal 
                         handleClose={handleClose} 
@@ -177,6 +194,10 @@ const MerchCarousel = (props) => {
                                     
                                     <p id="price"> {"$" + merchObj[1]}</p>
                                     </div>
+                                    {
+                                        (props.currArtistID === props.artistID) &&
+                                        <Button key={index} merchURL={merchObj[0]} variant="contained" color="primary" onClick={() => handleMerchDelete(merchObj[0])}>Delete</Button>
+                                    }
                             </Slide>
                         );
 
