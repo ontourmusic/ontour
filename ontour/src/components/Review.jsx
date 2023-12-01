@@ -99,7 +99,7 @@ export default function Review(props) {
     const checkEditPermissions = async () => {
         const getArtistSupabase = await supabase.from(reviewTable).select('*').eq('id', props.id); 
         const artistData = getArtistSupabase["data"][0];
-       console.log("checked permissions");
+       //console.log("checked permissions");
         if (artistData["artist_id"] == currArtistID) {
             setIsRespondMode(true);
             return true;

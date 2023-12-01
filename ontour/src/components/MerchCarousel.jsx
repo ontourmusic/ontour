@@ -145,7 +145,10 @@ const MerchCarousel = (props) => {
                 <Typography variant="h5" align="left" className="fw-bold" style={{
                     marginRight: "15px",
                 }}>Merch</Typography>
-                <AddMerchButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
+                {
+                    (props.currArtistID === props.artistID) &&
+                    <AddMerchButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
+                }
             </div>
             <CarouselProvider
                 orientation="horizontal"
