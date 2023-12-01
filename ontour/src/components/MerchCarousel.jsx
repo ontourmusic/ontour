@@ -209,6 +209,7 @@ MerchCarousel.propTypes = {
     titles: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
+    currArtistID: PropTypes.string,
 
     // you only need one of these two
     artistID: PropTypes.string,
