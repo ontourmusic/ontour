@@ -142,7 +142,7 @@ function ManageReviews() {
             "response":reviewData[i].artist_response
         });
       cumulativeRating += reviewData[i].rating;
-      console.log("check tester!");
+      //console.log("check tester!");
       console.log(reviewData);
     }
     // setAggregateRating(cumulativeRating / reviewData.length);
@@ -292,12 +292,12 @@ function ManageReviews() {
                     </div>
                   </Grid>
                   <Grid item xs={6} md={3}>
-                    <Form.Select onChange={onFormChange} aria-label="Default select example">
-                      <option>Recommended</option>
+                <Form.Select onChange={onFormChange} aria-label="Default select example">
                       <option value="1">Newest First</option>
                       <option value="2">Oldest First</option>
                       <option value="3">Highest Rated</option>
                       <option value="4">Lowest Rated</option>
+                      <option>Recommended</option>
                     </Form.Select>
                   </Grid>
                   <Grid item xs={6} md={3}>
