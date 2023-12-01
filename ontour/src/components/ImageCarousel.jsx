@@ -112,7 +112,7 @@ const ImageCarousel = (props) => {
         }
     };
 
-    //Function to handle the highlight action
+    //Function to handle the highlight / pin action
     const toggleHighlight = (image) => {
         setHighlightedImages(prev => {
             if (prev.includes(image)) {
