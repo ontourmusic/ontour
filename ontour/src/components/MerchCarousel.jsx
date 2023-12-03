@@ -125,7 +125,7 @@ const MerchCarousel = (props) => {
             for (var i = 0; i < images.length; i++) {
                 merchArray.push([images[i], prices[i], storeLinks[i], titles[i]]);
             }
-            console.log("merch test");
+            console.log("test " + merchArray.length);
             console.log(merchArray);
             setFullMerchArray(merchArray);
         }

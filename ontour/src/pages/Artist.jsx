@@ -121,10 +121,9 @@ function Artist() {
 
             //loop through the data and push the images into the array
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
-                console.log(imageGallerySupabase.data[i].image_url);
                 imageArray.push(imageGallerySupabase.data[i].image_url);
             }
-                 //set the image array to the state
+            //set the image array to the state
             setImageArray(imageArray);
             
             const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
@@ -134,22 +133,19 @@ function Artist() {
             var merchLinkArray = [];
             var merchTitleArray = [];
             for (var i = 0; i < merchGallerySupabase.data.length; i++) {
-                //console.log(merchGallerySupabase.data[i].image_url);
                 merchImgArray.push(merchGallerySupabase.data[i].image_url);
             }
             for (var i = 0; i < merchGallerySupabase.data.length; i++) {
-                //console.log(merchGallerySupabase.data[i].image_url);
                 merchPriceArray.push(merchGallerySupabase.data[i].price);
             }
             for (var i = 0; i < merchGallerySupabase.data.length; i++) {
-                //console.log(merchGallerySupabase.data[i].image_url);
                 merchLinkArray.push(merchGallerySupabase.data[i].store_link);
             }
             for (var i = 0; i < merchGallerySupabase.data.length; i++) {
-                //console.log(merchGallerySupabase.data[i].image_url);
                 merchTitleArray.push(merchGallerySupabase.data[i].title);
             }
             setMerchImgArray(merchImgArray);
+            
             setMerchPriceArray(merchPriceArray);
             setMerchLinkArray(merchLinkArray);
             setMerchTitleArray(merchTitleArray);
@@ -180,16 +176,14 @@ function Artist() {
             setTwitterLink(twitter);
             
             setSpotifyLink(spotify); **/
-           // const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', currArtistID); 
-           // const artistData = getArtistSupabase["data"][0];
             setInstaLink(artistData["instagram_link"]);
             setTwitterLink(artistData["twitter_link"]);
             setSpotifyLink(artistData["spotify_link"]);
             setWebsiteLink(artistData["website_link"]);
-            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
-            const tmData = await tmArtist.json();
-            var tickets = tmData._embedded.attractions[0].url;
-            setTicketLink(tickets);
+           // const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
+           // const tmData = await tmArtist.json();
+            //var tickets = tmData._embedded.attractions[0].url;
+           // setTicketLink(tickets);
         }
         catch {
             console.log('Webpage error. Please reload the page.');
