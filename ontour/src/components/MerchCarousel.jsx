@@ -13,6 +13,7 @@ import MerchModal from "./MerchModal";
 import '../index.css';
 import {Button} from '@mui/material';
 
+
 import artist_styles from "../Styles/artist_styles";
 import polaroid_styles from "../Styles/polaroid_styles";
 

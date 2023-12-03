@@ -37,7 +37,6 @@ var myProps = {
 };
 /**
  * 
- * @returns =======
       <div>
         <h1>Under Construction</h1>
             <p>This page is currently under construction. Please check back later.</p>
@@ -54,7 +53,6 @@ var myProps = {
                 reviewTable={"artist_reviews"}
                  />
       </div>
->>>>>>> Stashed changes
  */
 
 function ManageReviews() {
@@ -142,7 +140,6 @@ function ManageReviews() {
             "response":reviewData[i].artist_response
         });
       cumulativeRating += reviewData[i].rating;
-      //console.log("check tester!");
       console.log(reviewData);
     }
     // setAggregateRating(cumulativeRating / reviewData.length);
@@ -209,6 +206,7 @@ function ManageReviews() {
     // from an API endpoint with useEffect and useState)
     const endOffset = itemOffset + itemsPerPage;
     //console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+
     const currentItems = reviewsToShow.slice(itemOffset, endOffset);
     const pageCount = Math.ceil(reviewsToShow.length / itemsPerPage);
 

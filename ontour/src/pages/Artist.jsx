@@ -123,7 +123,7 @@ function Artist() {
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
                 imageArray.push(imageGallerySupabase.data[i].image_url);
             }
-            //set the image array to the state
+                 //set the image array to the state
             setImageArray(imageArray);
             
             const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
@@ -145,7 +145,6 @@ function Artist() {
                 merchTitleArray.push(merchGallerySupabase.data[i].title);
             }
             setMerchImgArray(merchImgArray);
-            
             setMerchPriceArray(merchPriceArray);
             setMerchLinkArray(merchLinkArray);
             setMerchTitleArray(merchTitleArray);
@@ -176,6 +175,8 @@ function Artist() {
             setTwitterLink(twitter);
             
             setSpotifyLink(spotify); **/
+           // const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', currArtistID); 
+           // const artistData = getArtistSupabase["data"][0];
             setInstaLink(artistData["instagram_link"]);
             setTwitterLink(artistData["twitter_link"]);
             setSpotifyLink(artistData["spotify_link"]);
