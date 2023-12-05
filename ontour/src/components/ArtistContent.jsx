@@ -16,8 +16,6 @@ const review_display_styles = artist_styles.review_display;
 
 
 const ArtistContent = (props) => {
-    //console.log("artist_content_props");
-   // console.log(props);
     const [searchTerm, setSearchTerm] = useState("");
     const reviewSearch = () => {
         props.onReviewSearch(searchTerm);
@@ -30,18 +28,17 @@ const ArtistContent = (props) => {
             <>
                 {currentItems && currentItems.map(function (review, index) {
                     return <Review 
-                        id={review.id}
-                        user={review.name}
-                        date={review.eventDate}
-                        key={index}
-                        rating={review.rating}
-                        venue={review.event}
-                        text={review.review}
-                        count={review.likeCount}
-                        likedUsers={review.likedUsers}
-                        dislikedUsers={review.dislikedUsers}
-                        reviewTable={props.reviewTable}
-                        response={review.response}  />
+                    id={review.id} 
+                    user={review.name} 
+                    date={review.eventDate} 
+                    key={index} 
+                    rating={review.rating} 
+                    venue={review.event} 
+                    text={review.review} 
+                    count={review.likeCount}
+                    likedUsers={review.likedUsers}
+                    dislikedUsers={review.dislikedUsers} 
+                    reviewTable={props.reviewTable}/>
                 })}
             </>
         )

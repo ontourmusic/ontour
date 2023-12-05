@@ -10,10 +10,11 @@ import { AddMediaButton } from "./Buttons";
 import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
-import {Button} from '@mui/material';
 
 import artist_styles from "../Styles/artist_styles";
 const carousel_styles = artist_styles.carousel;
+
+
 
 /*
 images: array of image urls
@@ -49,23 +50,6 @@ const ImageCarousel = (props) => {
             setModel(true);
 
         }
-        else if(props.isPromo) {
-            const { data, error } = await supabase
-                .from('promo_images')
-                .select('*')
-                .eq('image_url', e.target.src)
-                .single()
-
-            if (error) {
-                console.error(error)
-                return null
-            }
-            setImageData(data);
-            console.log("image_id: ", data.id)
-            setOpen(true);
-            setTemp(e.target.src);
-            setModel(true);
-        }
         else {
             const { data, error } = await supabase
                 .from('artist_images')
@@ -83,7 +67,6 @@ const ImageCarousel = (props) => {
             setModel(true);
         }
     }
-    
     useEffect(() => {
         if (props.images.length > 0) {
             setImageLoad(true);
@@ -91,42 +74,13 @@ const ImageCarousel = (props) => {
         }
     }, [props.images]);
 
-    const handleImageDelete = async (imageURL) => {
-        const { data, error } = await supabase
-            .from('promo_images')
-            .delete()
-            .eq('image_url', imageURL)
-            .single();
-        if (error) {
-            console.error(error)
-            return null
-        } else {
-            window.location.reload(false);
-            // console.log('image deleted');
-        }
-    };
-
     return (
         <>
             <div style={carousel_styles.titleBar}>
-                {
-                    props.isPromo? (
-                    <Typography variant="h5" align="left" className="fw-bold" style={{
-                        marginRight: "15px",
-                    }}>Artist Featured</Typography>
-                    ) :
-                    (
-                        <Typography variant="h5" align="left" className="fw-bold" style={{
-                            marginRight: "15px",
-                        }}>Captured Moments</Typography>
-                    )
-                }
-                { 
-                    // show add media button if it isn't promo carousel
-                    // if it is promo carousel then show button if artist is on their own page
-                    (!props.isPromo || (props.currArtistID === props.artistID)) &&
-                    <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} isPromo={props.isPromo}/>
-                }
+                <Typography variant="h5" align="left" className="fw-bold" style={{
+                    marginRight: "15px",
+                }}>Captured Moments</Typography>
+                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
             </div>
             <CarouselProvider
                 orientation="horizontal"
@@ -140,6 +94,7 @@ const ImageCarousel = (props) => {
             >
                 <Slider>
                     {images.map((image, index) => {
+                        console.log(image,"image")
                         return (
                             <Slide index={index}
                                 style={carousel_styles.slide}
@@ -147,15 +102,10 @@ const ImageCarousel = (props) => {
                                 <Polaroid
                                     key={index}
                                     onPress={handleImageClick}
-                                    imageURL={image}
+                                    url={image}
                                 />
-                                {
-                                    props.isPromo && (props.currArtistID === props.artistID) &&
-                                    <Button key={index} imageURL={image} variant="contained" color="primary" onClick={() => handleImageDelete(image)}>Delete</Button>
-                                }
-                           </Slide>
+                            </Slide>
                         );
-
                     })}
                 </Slider>
                 {open && 
@@ -175,9 +125,7 @@ const ImageCarousel = (props) => {
                         <FontAwesomeIcon icon={faAngleRight} size="lg" />
                     </ButtonNext>
                 </div>
-            </CarouselProvider>
-            
-            </>
+            </CarouselProvider></>
     )
 };
 
@@ -187,8 +135,6 @@ ImageCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
-    isPromo: PropTypes.bool,
-    currArtistID: PropTypes.string,
 
     // you only need one of these two
     artistID: PropTypes.string,
