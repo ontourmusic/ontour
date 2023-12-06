@@ -117,9 +117,7 @@ function AccountSettings() {
                                 label="Email"
                                 variant="outlined" 
                                 value={userEmail}
-                                onChange={(e) => { 
-                                    setUserEmail(e.target.value); 
-                                }}
+                                disabled
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                       '&.Mui-focused fieldset': {
@@ -145,9 +143,10 @@ function AccountSettings() {
                                 label="Official Profile Name" 
                                 variant="outlined" 
                                 value={officialProfileName}
-                                onChange={(e) => { 
-                                    setOfficialProfileName(e.target.value); 
-                                }}
+                                disabled
+                                // onChange={(e) => { 
+                                //     setOfficialProfileName(e.target.value); 
+                                // }}
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                       '&.Mui-focused fieldset': {
