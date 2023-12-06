@@ -21,6 +21,7 @@ images: array of image urls
 */
 const ImageCarousel = (props) => {
     const [images, setImages] = useState([]);
+    const [videos,setVideos] = useState([])
     const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
     const [tempImg, setTemp] = useState('');
@@ -31,12 +32,13 @@ const ImageCarousel = (props) => {
 
     const handleImageClick = async (e) => {
         console.log("handleImageClick: ", e.target.src);
-
+        console.log(e.target)
+        var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
         if (props.isVenue) {
             const { data, error } = await supabase
                 .from('venue_carousel_images')
                 .select('id')
-                .eq('image_url', e.target.src)
+                .eq(urlTag, e.target.src)
                 .single()
 
             if (error) {
@@ -54,7 +56,7 @@ const ImageCarousel = (props) => {
             const { data, error } = await supabase
                 .from('artist_images')
                 .select('*')
-                .eq('image_url', e.target.src)
+                .eq(urlTag, e.target.src)
                 .single()
 
             if (error) {
@@ -72,7 +74,11 @@ const ImageCarousel = (props) => {
             setImageLoad(true);
             setImages(props.images);
         }
-    }, [props.images]);
+        if (props.videos.length > 0) {
+           
+            setVideos(props.videos);
+        }
+    }, [props.images,props.videos]);
 
     return (
         <>
@@ -92,7 +98,7 @@ const ImageCarousel = (props) => {
                 isIntrinsicHeight={true}
                 style={carousel_styles.container}
             >
-                <Slider>
+                {/* <Slider>
                     {images.map((image, index) => {
                         console.log(image,"image")
                         return (
@@ -106,7 +112,43 @@ const ImageCarousel = (props) => {
                                 />
                             </Slide>
                         );
-                    })}
+                    })}                    
+                </Slider> */}
+                <Slider>
+                                             
+                            {images.length && images.map((image, index) => {
+                                console.log(image,"image")
+                                if(image){
+                                    return (
+                                        <Slide style={carousel_styles.slide}> 
+                                            <Polaroid
+                                                key={index}
+                                                onPress={handleImageClick}
+                                                imageUrl={image}
+                                                 
+                                            />
+                                        </Slide>
+                                    );
+                                }
+                               
+                            })}
+                             {videos.length && videos.map((video, index) => {
+                                console.log(video,"video")
+                                if(video){
+                                    return (
+                                        <Slide style={carousel_styles.slide}> 
+                                            <Polaroid
+                                                key={index}
+                                                onPress={handleImageClick}
+                                                videoUrl={video}
+    
+                                            />
+                                                </Slide>
+                                    );
+                                }
+                               
+                            })}
+                      
                 </Slider>
                 {open && 
                     <ImageModal 

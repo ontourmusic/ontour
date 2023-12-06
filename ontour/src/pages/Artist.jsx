@@ -10,8 +10,6 @@ import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ArtistNavigation from "../ArtistNavigation"
 
-import { useAuth0 } from "@auth0/auth0-react";
-
 import artist_styles from "../Styles/artist_styles";
 
 import { createClient } from '@supabase/supabase-js';
@@ -24,27 +22,14 @@ import { Grid } from "@mui/material";
 import SideContent from "../components/SideContent";
 import ArtistContent from "../components/ArtistContent";
 import ImageCarousel from "../components/ImageCarousel";
-import MerchCarousel from "../components/MerchCarousel";
+
 
 function Artist() {
-    const { isAuthenticated, user } = useAuth0();
-    const [currArtistID, setArtistID] = useState("");
     const [searchParams] = useSearchParams();
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
 
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
-
-    useEffect(() => {
-        if (isAuthenticated && user) {
-            if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id) {
-                setArtistID(user['https://tourscout.com/user_metadata'].artist_id.toString());
-                console.log('currartistid' + currArtistID);
-                console.log('currrrartistid' + artistID);
-            }
-        }
-        console.log(user);
-    }, [user, isAuthenticated, currArtistID]);
 
     const [artistData, setArtistData] = useState({
         fullName: "",
@@ -63,13 +48,8 @@ function Artist() {
     const [ticketLink, setTicketLink] = useState("");
     const [instaLink, setInstaLink] = useState("");
     const [twitterLink, setTwitterLink] = useState("");
-    const [websiteLink, setWebsiteLink] = useState("");
     const [imageArray, setImageArray] = useState([]);
-    const [promoImageArray, setPromoImageArray] = useState([]);
-    const [merchImgArray, setMerchImgArray] = useState([]);
-    const [merchPriceArray, setMerchPriceArray] = useState([]);
-    const [merchLinkArray, setMerchLinkArray] = useState([]);
-    const [merchTitleArray, setMerchTitleArray] = useState([]);
+    const [videoArray,setVideoArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [showResults, setShowResults] = useState(false);
@@ -115,81 +95,35 @@ function Artist() {
             setOnTour(artistData["on_tour"]);
 
             const imageGallerySupabase = await supabase.from('artist_images').select('*').eq('artist_id', artistID);
-
             //initialize an array to hold the images
             var imageArray = [];
-
             //loop through the data and push the images into the array
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
                 console.log(imageGallerySupabase.data[i].image_url);
                 imageArray.push(imageGallerySupabase.data[i].image_url);
             }
-                 //set the image array to the state
-            setImageArray(imageArray);
-            
-            const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
+            var videoArray = []
+            for (var i = 0; i < imageGallerySupabase.data.length; i++) {
+                console.log(imageGallerySupabase.data[i].video_url);
+                videoArray.push(imageGallerySupabase.data[i].video_url);
+            }
 
-            var merchImgArray = [];
-            var merchPriceArray = [];
-            var merchLinkArray = [];
-            var merchTitleArray = [];
-            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
-                //console.log(merchGallerySupabase.data[i].image_url);
-                merchImgArray.push(merchGallerySupabase.data[i].image_url);
-            }
-            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
-                //console.log(merchGallerySupabase.data[i].image_url);
-                merchPriceArray.push(merchGallerySupabase.data[i].price);
-            }
-            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
-                //console.log(merchGallerySupabase.data[i].image_url);
-                merchLinkArray.push(merchGallerySupabase.data[i].store_link);
-            }
-            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
-                //console.log(merchGallerySupabase.data[i].image_url);
-                merchTitleArray.push(merchGallerySupabase.data[i].title);
-            }
-            setMerchImgArray(merchImgArray);
-            setMerchPriceArray(merchPriceArray);
-            setMerchLinkArray(merchLinkArray);
-            setMerchTitleArray(merchTitleArray);
-        
-       
-            
-            const promoImageGallerySupabase = await supabase.from('promo_images').select('*').eq('artist_id', artistID);
-            //initialize an array to hold the artist uploaded promo images
-            var promoImageArray = []
-            //loop through the data and push the images into the array
-            for (var i = 0; i < promoImageGallerySupabase.data.length; i++) {
-                console.log(promoImageGallerySupabase.data[i].image_url);
-                promoImageArray.push(promoImageGallerySupabase.data[i].image_url);
-            }
             //set the image array to the state
-            setPromoImageArray(promoImageArray);
-           
-
+            setImageArray(imageArray);
+            setVideoArray(videoArray);
 
             //gets the tickemaster artist details 
-            /** 
+            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
+            const tmData = await tmArtist.json();
             console.log(tmData);
             var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
             var instagram = tmData._embedded.attractions[0].externalLinks.instagram[0].url;
             var twitter = tmData._embedded.attractions[0].externalLinks.twitter[0].url;
-           
+            var tickets = tmData._embedded.attractions[0].url;
             setInstaLink(instagram);
             setTwitterLink(twitter);
-            
-            setSpotifyLink(spotify); **/
-           // const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', currArtistID); 
-           // const artistData = getArtistSupabase["data"][0];
-            setInstaLink(artistData["instagram_link"]);
-            setTwitterLink(artistData["twitter_link"]);
-            setSpotifyLink(artistData["spotify_link"]);
-            setWebsiteLink(artistData["website_link"]);
-            const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
-            const tmData = await tmArtist.json();
-            var tickets = tmData._embedded.attractions[0].url;
             setTicketLink(tickets);
+            setSpotifyLink(spotify);
         }
         catch {
             console.log('Webpage error. Please reload the page.');
@@ -215,8 +149,7 @@ function Artist() {
                 "eventDate": reviewData[i].eventDate,                                // review date
                 "likeCount": reviewData[i].likeCount,                                // review like count
                 "likedUsers": reviewData[i].likedUsers,                              // review liked users
-                "dislikedUsers": reviewData[i].dislikedUsers,                         // review disliked users
-                "response": reviewData[i].artist_response
+                "dislikedUsers": reviewData[i].dislikedUsers                         // review disliked users
             });
             cumulativeRating += reviewData[i].rating;
         }
@@ -301,24 +234,8 @@ function Artist() {
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
-                        {
-                            // always show image carousel with promo if the curr user/artist is on their own page
-                            // show image carousel to all other users if there are promo images to show
-                            (currArtistID === artistID || promoImageArray.length > 0) && <>
-                                <ImageCarousel artistID={artistID} images={promoImageArray} isPromo={true} currArtistID={currArtistID}
-                                slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
-                            </>
-                        }
-                        {/* <ImageCarousel artistID={artistID} images={imageArray} 
-                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} /> */}
-                        <ImageCarousel artistID={artistID} images={imageArray} 
-                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
-                        {
-                            (currArtistID === artistID || merchImgArray.length > 0) && <>
-                                <MerchCarousel artistID={artistID} images={merchImgArray} prices={merchPriceArray} links={merchLinkArray} titles={merchTitleArray}
-                                slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 5} />
-                                </>
-                        }
+                        <ImageCarousel artistID={artistID} images={imageArray} videos={videoArray}
+                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                         <ArtistContent 
                         allReviews={allReviews} 
                         filteredReviews={filteredReviews} 
@@ -328,12 +245,12 @@ function Artist() {
                         onReviewSearch={searchReviews} 
                         searchResults={showResults} 
                         onClearSearch={clearSearch} 
-                        reviewTable={"artist_reviews"}
-                            />
+                        reviewTable={"artist_reviews"} 
+                        />
                         {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"], [websiteLink, "images/star.png"]]} />
+                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>

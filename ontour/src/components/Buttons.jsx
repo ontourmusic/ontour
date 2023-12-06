@@ -36,7 +36,7 @@ const AddMediaButton = (props) => {
     const [mediaFile, setFile] = useState(null);
     const [video, setVideo] = useState(null);
     const [videoFile, setVideoFile] = useState(null);
-    let uploaded = false
+    const [uploaded,setUploaded] = useState(false)
     const artistID = props.artistID;
     const venueID = props.venueID;
     const [sizeError, setSizeError] = useState("")
@@ -91,11 +91,71 @@ const AddMediaButton = (props) => {
             }
         }
     }
+    const postBoth = async (mediaFile,videoFile) => {
+        // console.log(mediaFile,mediaFile.length);
+        // console.log(mediaFile.type,"media")
+        const blobMedia = new Blob([mediaFile], { type: mediaFile.type });
+        const timestampMedia = Date.now();
+        const fileNameMedia = `${artistID}-${timestampMedia}.${mediaFile.type.split('/')[1]}`;
+        const { errorMedia } = await supabase.storage.from('user-images').upload(fileNameMedia, blobMedia);
+        // if (errorMedia) {
+        //     console.error(errorMedia);
+        //     return;
+        // }
+        // else{
+        //     console.log('Image uploaded successfully!');
+        //     alert('Image uploaded successfully!');
+        //     // uploaded = true
+        // }
+        const publicURLMedia = "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/" + fileNameMedia;
+       
+        const blobVideo = new Blob([videoFile], { type: videoFile.type });
+        const timestampVideo = Date.now();
+        const fileNameVideo = `${artistID}-${timestampVideo}.${videoFile.type.split('/')[1]}`;
+        const { errorVedio } = await supabase.storage.from('user-videos').upload(fileNameVideo, blobVideo);
+        if (errorVedio || errorMedia) {
+            console.error("Error occured while uploading");
+            return;
+        }
+        else{
+            const publicURLVedio = "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-videos/" + fileNameVideo;
+            if (props.isVenue) {
+                const { data, insertError } = await supabase
+                    .from('venue_carousel_images')
+                    .insert(
+                        [{ 'image_url' : publicURLMedia, 'venue_id': venueID }]
+                    );
+            }
+            else {
+                var eventDate = eventName.split(" • ")[0];
+                var event = eventName.split(" • ")[1];
+                const { data, insertError } = await supabase
+                    .from('artist_images')
+                    .insert(
+                        [{ 'image_url' : publicURLMedia, 'artist_id': artistID, 'event': event, 'eventDate': eventDate, 'description': description,'video_url': publicURLVedio }
+                    
+                    ]
+                    );
+            }
+            console.log('Files uploaded successfully!');
+            alert('Files uploaded successfully!');
+            // uploaded = true
+        }
+       
+
+        window.location.reload();
+    } 
     const post = async (mediaFile) => {
+        // console.log(mediaFile,mediaFile.length);
+        console.log(mediaFile.type,"media")
+        
+        
         const blob = new Blob([mediaFile], { type: mediaFile.type });
         const timestamp = Date.now();
         const fileName = `${artistID}-${timestamp}.${mediaFile.type.split('/')[1]}`;
+
         const { error } = await supabase.storage.from('user-images').upload(fileName, blob);
+        var mediaUrl = mediaFile.type.includes('image')?'image_url':'video_url';
         if (error) {
             console.error(error);
             return;
@@ -105,11 +165,12 @@ const AddMediaButton = (props) => {
             // uploaded = true
         }
         const publicURL = "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/" + fileName;
+       
         if (props.isVenue) {
             const { data, insertError } = await supabase
                 .from('venue_carousel_images')
                 .insert(
-                    [{ 'image_url': publicURL, 'venue_id': venueID }]
+                    [{ [mediaUrl] : publicURL, 'venue_id': venueID }]
                 );
         }
         else {
@@ -118,22 +179,26 @@ const AddMediaButton = (props) => {
             const { data, insertError } = await supabase
                 .from('artist_images')
                 .insert(
-                    [{ 'image_url': publicURL, 'artist_id': artistID, 'event': event, 'eventDate': eventDate, 'description': description }]
+                    [{ [mediaUrl] : publicURL, 'artist_id': artistID, 'event': event, 'eventDate': eventDate, 'description': description }
+                
+                ]
                 );
         }
-
         window.location.reload();
     }
 
 
     const postData = (event) => {
-        if (mediaFile) {
+        
+        if(mediaFile && videoFile){
+            postBoth(mediaFile,videoFile)
+        }
+        else if (mediaFile) {
             post(mediaFile)
         }
-        if (videoFile) {
+        else if(videoFile){
             post(videoFile)
         }
-        // {uploaded && alert('Files uploaded successfully!');}
     }
 
     const GetPastReviews = async () => {
@@ -233,7 +298,8 @@ const AddMediaButton = (props) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description">
                 <Box sx={modal_styles.container}>
-                    <h1 style={{ textAlign: "center" }}>Upload Medias</h1>
+                    <h1  style={{ textAlign: "center" }}>Upload Media</h1>
+                       
                     <div style={{ display: "flex", justifyContent: 'space-between' }}>
                         <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '20vw', }}>
                             <input
@@ -259,7 +325,7 @@ const AddMediaButton = (props) => {
 
                             <input
                                 type="file"
-                                accept="video/mp4,video/mkv, video/x-m4v"
+                                accept="video/mp4,video/mkv,video/x-m4v"
                                 style={{ display: 'none' }}
                                 id="contained-button-file1"
                                 onChange={handleVideoUpload}
@@ -308,6 +374,7 @@ const AddMediaButton = (props) => {
 
                                 </Form.Select> </>}
                     </div>
+                    {/* {uploaded && <span>Successfully uploaded</span>} */}
                     <div style={modal_styles.formItem}>
                         <textarea
                             class="form-control shadow-none"

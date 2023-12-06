@@ -127,7 +127,7 @@ const mediaUploadModal = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "min(800px, 80vw)",
-    height: "min(500px, 80vh)",
+    height: "auto",
     bgcolor: OnTourColors.palette.primary.main,
     boxShadow: 24,
     p: 4,
