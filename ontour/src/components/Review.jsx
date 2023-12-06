@@ -18,6 +18,8 @@ export default function Review(props) {
     const [userEmail, setUserEmail] = useState("");
     const [username, setUsername] = useState("");
     const [currArtistID, setArtistID] = useState("");
+    const [buttonText, setButtonText] = useState('Publish Response');
+    const [buttonDisabled, setButtonDisabled] = useState(false);
     const [isHelpfulActive, setIsHelpfulActive] = useState(isAuthenticated && !props.likedUsers.includes(user.username));
     const [isUnhelpfulActive, setIsUnhelpfulActive] = useState(isAuthenticated && !props.dislikedUsers.includes(user.username));
     const [count, setCount] = useState(props.count);
@@ -99,7 +101,7 @@ export default function Review(props) {
     const checkEditPermissions = async () => {
         const getArtistSupabase = await supabase.from(reviewTable).select('*').eq('id', props.id); 
         const artistData = getArtistSupabase["data"][0];
-       console.log("checked permissions");
+       //console.log("checked permissions");
         if (artistData["artist_id"] == currArtistID) {
             setIsRespondMode(true);
             return true;
@@ -113,6 +115,8 @@ export default function Review(props) {
     const sendNewReponse = async (newResponse) => {
         try {
             const {data, error}  = await supabase.from(reviewTable).update({artist_response: newResponse}).eq('id', props.id); //add mutable artist id 
+            setButtonDisabled(true);
+            setButtonText('Response Sent');
         }
         catch {
             console.log('Webpage error. Please reload the page.');
@@ -199,13 +203,14 @@ export default function Review(props) {
                         variant="contained" 
                         color="primary" 
                         onClick={() => {sendNewReponse(newResponse);}}
+                        disabled={buttonDisabled}
                         sx={{
                             whiteSpace: 'nowrap', // Prevents the button text from wrapping
                             py: 2, // Adjust padding top and bottom as needed
                             px: 3, // Adjust padding left and right as needed
                             alignSelf: 'center', // Center the button vertically with respect to the TextField
                         }}>
-                        Publish Response
+                        {buttonText}
                     </Button>
                 </div> 
                 </>  

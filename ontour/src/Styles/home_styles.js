@@ -2,9 +2,16 @@ const header = {
   container: {
     backgroundImage:
       "url('https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80')",
+      //"url('https://cdn.pixabay.com/photo/2016/11/23/15/48/audience-1853662_1280.jpg')",
+       //"url('https://cdn.pixabay.com/photo/2018/05/10/11/34/concert-3387324_1280.jpg')",
+      //"url('https://cdn.pixabay.com/photo/2017/07/21/23/57/concert-2527495_1280.jpg')",
+      // "url('https://cdn.pixabay.com/photo/2017/08/02/13/09/confetti-2571539_1280.jpg')",
+      //"url('https://cdn.pixabay.com/photo/2016/11/22/18/56/audience-1850022_1280.jpg')",
+      //"url('https://cdn.pixabay.com/photo/2020/01/15/17/35/concert-4768496_1280.jpg')",
+      //"url('https://cdn.pixabay.com/photo/2020/02/06/08/19/band-4823341_1280.jpg')",
     backgroundSize: "cover",
     backgroundPosition: "center bottom",
-    height: "100vh",
+    height: "70vh",
     color: "white",
 
     display: "flex",
@@ -16,7 +23,8 @@ const header = {
   },
   title: {
     textShadow: "0px 0px 10px rgba(0,0,0,0.55)",
-    fontSize: "max(48px, 5vw)",
+    // fontSize: "max(48px, 5vw)",
+    fontSize: "max(36px, 4vw)",
     paddingBottom: "20px",
     fontWeight: "lighter",
   },
