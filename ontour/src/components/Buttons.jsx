@@ -47,6 +47,10 @@ const AddMediaButton = (props) => {
     }
 
     const handleImageUpload = async (event) => {
+        // console.log(event.target.files.length)
+        if(!event.target.files.length){
+         return
+        }
         const file = event.target.files[0];
         setFile(file);
         const fileName = file.name;
@@ -300,27 +304,38 @@ const AddMediaButton = (props) => {
                 <Box sx={modal_styles.container}>
                     <h1  style={{ textAlign: "center" }}>Upload Media</h1>
                        
-                    <div style={{ display: "flex", justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '20vw', }}>
+                    <div style={{ display: "flex", justifyContent: 'space-around' }}>
+                        <div style={{ border:'1px solid grey',borderRadius:'5px',padding:'5px 0px', display: 'flex', alignItems: 'center', flexDirection: 'column', width: '22vh', position:'relative'}}>
                             <input
                                 type="file"
                                 accept="image/*"
                                 style={{ "display": "none" }}
                                 id="contained-button-file"
                                 onChange={handleImageUpload} />
-                            <label htmlFor="contained-button-file">
-                                <Button variant="contained" component="span" style={modal_styles.addMediaButton}>
+                            <label htmlFor="contained-button-file" >
+                                <Button variant="contained" component="span" style={{ ...modal_styles.addMediaButton, width: '20vh' }}>
                                     <div style={{ paddingRight: 5, color: 'white' }}><CameraAlt /></div>
                                     <div style={{ color: 'white' }}>Add Image</div>
                                 </Button>
+                                {/* <div></div>
+                                <CameraAlt/> */}
                             </label>
 
-                            {<img id="image" style={{ width: "20vh", height: "20vh",marginTop:20 }} />}
+                         
+                           <img id="image" style={{ width: "20vh", height: "20vh",marginTop:20,borderRadius:'5px',objectFit:'cover' }} />
+                          
+                          
+                          {!mediaFile && <div style={{position:'absolute',width:'20vh',height:'21vh',backgroundColor:'rgba(33,37,43,.3)',display:'flex',alignItems:'center',justifyContent:'center',top:'5vh',fontWeight:'bold',borderRadius:'5px',flexDirection:'column'}}>
+                          <CameraAlt style={{fontSize:'4rem',color:'grey'}} />
+                            <div>No image selected</div>
+                            </div>} 
+                     
+                           
 
                             {/* {image && <>{image}</>} */}
 
                         </div>
-                        <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', width: '20vw', }}>
+                        <div style={{ border:'1px solid grey',borderRadius:'5px',padding:'5px 0px', display: 'flex', alignItems: 'center', flexDirection: 'column', width: '22vh', position:'relative'}}>
 
 
                             <input
@@ -332,7 +347,7 @@ const AddMediaButton = (props) => {
                             />
                             <label htmlFor="contained-button-file1">
 
-                                <Button variant="contained" component="span" style={modal_styles.addMediaButton}>
+                            <Button variant="contained" component="span" style={{ ...modal_styles.addMediaButton, width: '20vh' }}>
                                     <div style={{ paddingRight: 5, color: 'white' }}><PlayArrowIcon /></div>
                                     <div style={{ color: 'white' }}>Add Video</div>
                                 </Button>
@@ -340,20 +355,24 @@ const AddMediaButton = (props) => {
 
                             </label>
                             {
-                                <video style={{ width: "20vh", height: "20vh",marginTop:20,objectFit:'fill' }} id="video"></video>
+                                <video style={{ width: "20vh", height: "20vh",marginTop:20,borderRadius:'5px',objectFit:'cover' }} id="video"></video>
                             }
+ {!videoFile && <div style={{position:'absolute',width:'20vh',height:'21vh',backgroundColor:'rgba(33,37,43,.3)',display:'flex',alignItems:'center',justifyContent:'center',top:'5vh',fontWeight:'bold',borderRadius:'5px',flexDirection:'column'}}>
+                          <PlayArrowIcon style={{fontSize:'4rem',color:'grey'}} />
+                            <div>No video selected</div>
+                            </div>} 
 
-
-                            <span style={{ "color": 'red' }}>{sizeError}</span>
+                          
 
 
 
 
                             {/* {video && <span>{video}</span>} */}
 
-                        </div>
+                        </div>  
+                      
                     </div>
-
+  <div style={{ "color": 'red','textAlign':'center' }}>{sizeError}</div>
 
 
                     <div style={modal_styles.formItem}>
