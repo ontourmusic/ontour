@@ -8,7 +8,7 @@ import '../Styles/carousel.css';
 import { Polaroid } from "./Polaroid";
 import { AddMediaButton } from "./Buttons";
 import { createClient } from '@supabase/supabase-js'
-import { Typography } from "@mui/material";
+import { Typography, IconButton } from "@mui/material";
 import ImageModal from "./ImageModal";
 import {Button} from '@mui/material';
 
