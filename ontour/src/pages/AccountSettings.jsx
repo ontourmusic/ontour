@@ -14,6 +14,8 @@ function AccountSettings() {
     const { isAuthenticated, user } = useAuth0();
     const [userEmail, setUserEmail] = useState("");
     const [username, setUsername] = useState("");
+    const [buttonText, setButtonText] = useState('Save Changes');
+    const [buttonDisabled, setButtonDisabled] = useState(false);
     const [officialProfileName, setOfficialProfileName] = useState("");
     const [currArtistID, setArtistID] = useState("");
 
@@ -95,6 +97,8 @@ function AccountSettings() {
         sendTwitterLink(twitterLink);
         sendWebsiteLink(websiteLink);
         sendSpotifyLink(spotifyLink);
+        setButtonDisabled(true);
+        setButtonText('Changes Saved');
     }
     
     return (
@@ -262,8 +266,8 @@ function AccountSettings() {
 
                         <Grid item xs={12}>
                             <Grid item xs={9}>
-                                <Button id="savebutton" variant="contained" color="primary" onClick={() => {sendLinks();}}>
-                                    Save Changes
+                                <Button disabled={buttonDisabled} id="savebutton" variant="contained" color="primary" onClick={() => {sendLinks();}}>
+                                    {buttonText}
                                 </Button>
                             </Grid>
                         </Grid>
