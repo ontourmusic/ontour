@@ -314,10 +314,10 @@ function Artist() {
                         <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
                         {
-                            (currArtistID === artistID || merchImgArray.length > 0) && <>
+                          /*  (currArtistID === artistID || merchImgArray.length > 0) && <>
                                 <MerchCarousel artistID={artistID} images={merchImgArray} prices={merchPriceArray} links={merchLinkArray} titles={merchTitleArray}
                                 slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 5} />
-                                </>
+                                </>    */
                         }
                         <ArtistContent 
                         allReviews={allReviews} 
