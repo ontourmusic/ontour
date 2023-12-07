@@ -130,6 +130,7 @@ const mediaUploadModal = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "column",
     height: "auto",
     bgcolor: OnTourColors.palette.primary.main,
     boxShadow: 24,
