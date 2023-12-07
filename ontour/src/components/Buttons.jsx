@@ -81,7 +81,7 @@ const AddMediaButton = (props) => {
         setVideo(fileName);
         const video = document.getElementById("video");
         const videourl = URL.createObjectURL(file);
-        video.setAttribute("src", videourl);
+        video.setAttribute("src", videourl+"#t=0.001");
         // video.addEventListener('onmouseover',()=>{video.play()})
         video.addEventListener("mouseenter", () => {
           video.play();
@@ -97,7 +97,7 @@ const AddMediaButton = (props) => {
         setVideo(fileName);
         const video = document.getElementById("video");
         const videourl = URL.createObjectURL(file);
-        video.setAttribute("src", videourl);
+        video.setAttribute("src", videourl+"#t=0.001");
         // video.addEventListener('onmouseover',()=>{video.play()})
         video.addEventListener("mouseenter", () => {
           video.play();
@@ -387,27 +387,30 @@ const AddMediaButton = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={modal_styles.container}>
-          <h1 style={{ textAlign: "center" }}>Upload Media</h1>
-
+        <Box sx={modal_styles.container} >
+          <div className="row  ">
+            <div className="col-12 ">
+              <h1 >Upload Media</h1>
+            </div>
+          </div>
           <div
             style={{
               display: "flex",
               justifyContent: "space-around",
-              width: "30rem",
             }}
-          >
+            className="row ">
             <div
               style={{
-                border: "1px solid grey",
+                // border: "1px solid grey",
                 borderRadius: "5px",
                 padding: "5px 0px",
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "column",
-                width: "22vh",
+              
                 position: "relative",
               }}
+              className=" col-5 "
             >
               <input
                 type="file"
@@ -420,7 +423,7 @@ const AddMediaButton = (props) => {
                 <Button
                   variant="contained"
                   component="span"
-                  style={{ ...modal_styles.addMediaButton, width: "20vh" }}
+                  style={{ ...modal_styles.addMediaButton, width: "100%" }}
                 >
                   <div style={{ paddingRight: 5, color: "white" }}>
                     <CameraAlt />
@@ -434,9 +437,9 @@ const AddMediaButton = (props) => {
               <img
                 id="image"
                 style={{
-                  width: "20vh",
+                  width: "100%",
                   height: "20vh",
-                  marginTop: 20,
+                  marginTop: 10,
                   borderRadius: "5px",
                   objectFit: "cover",
                 }}
@@ -446,20 +449,21 @@ const AddMediaButton = (props) => {
                 <div
                   style={{
                     position: "absolute",
-                    width: "20vh",
-                    height: "21vh",
+                    width: "100%",
+                    height: "20vh",
                     backgroundColor: "rgba(33,37,43,.3)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    top: "5vh",
+                    top: "20%",
                     fontWeight: "bold",
                     borderRadius: "5px",
                     flexDirection: "column",
                   }}
+                    id = "previewImg"
                 >
                   <CameraAlt style={{ fontSize: "4rem", color: "grey" }} />
-                  <div>No image selected</div>
+                  <div className="text-center">No image selected</div>
                 </div>
               )}
 
@@ -467,15 +471,16 @@ const AddMediaButton = (props) => {
             </div>
             <div
               style={{
-                border: "1px solid grey",
+                // border: "1px solid grey",
                 borderRadius: "5px",
                 padding: "5px 0px",
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "column",
-                width: "22vh",
+                
                 position: "relative",
               }}
+              className="col-5 ms-2"
             >
               <input
                 type="file"
@@ -488,7 +493,7 @@ const AddMediaButton = (props) => {
                 <Button
                   variant="contained"
                   component="span"
-                  style={{ ...modal_styles.addMediaButton, width: "20vh" }}
+                  style={{ ...modal_styles.addMediaButton, width: "100%"  }}
                 >
                   <div style={{ paddingRight: 5, color: "white" }}>
                     <PlayArrowIcon />
@@ -499,9 +504,9 @@ const AddMediaButton = (props) => {
               {
                 <video
                   style={{
-                    width: "20vh",
+                    width: "100%",
                     height: "20vh",
-                    marginTop: 20,
+                    marginTop: 10,
                     borderRadius: "5px",
                     objectFit: "cover",
                   }}
@@ -512,20 +517,25 @@ const AddMediaButton = (props) => {
                 <div
                   style={{
                     position: "absolute",
-                    width: "20vh",
-                    height: "21vh",
+                    width: "100%",
+                    height: "20vh",
                     backgroundColor: "rgba(33,37,43,.3)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    top: "5vh",
+                    top: "20%",
                     fontWeight: "bold",
                     borderRadius: "5px",
                     flexDirection: "column",
                   }}
+                  id = "previewImg"
                 >
+                 
                   <PlayArrowIcon style={{ fontSize: "4rem", color: "grey" }} />
-                  <div>No video selected</div>
+                  <div className="text-center">No video selected</div>
+                 
+                  
+                 
                 </div>
               )}
 

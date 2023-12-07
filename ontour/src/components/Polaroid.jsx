@@ -44,6 +44,7 @@ const Polaroid = (props) => {
             style={polaroid_styles.polaroid_container}
           >
             <video
+              playsInline
               src={props.videoUrl}
               class="d-block w-100"
               style={polaroid_styles.polaroid_image}

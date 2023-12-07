@@ -127,16 +127,18 @@ const mediaUploadModal = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "min(800px, 80vw)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "column",
-    height: "auto",
+    // maxHeight: "min(500px, 80vh)",  // Set maxHeight instead of height
+    overflowY: "auto",  // Set overflow to "auto"
+    height:'70vh',
     bgcolor: OnTourColors.palette.primary.main,
     boxShadow: 24,
     p: 4,
     borderRadius: "10px",
-    backgroundColor: "rgba(211, 211, 211, 0.9)"
+    backgroundColor: "rgba(211, 211, 211, 0.9)",
+    display:'flex',
+    alignItems:'center',
+    flexDirection:'column',
+    WebkitScrollbarWidth:'0'
   },
   addMediaButton: {
     backgroundColor:'#21252B', 
