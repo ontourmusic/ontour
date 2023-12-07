@@ -114,8 +114,7 @@ const ImageCarousel = (props) => {
                         );
                     })}                    
                 </Slider> */}
-                <Slider>
-                                             
+                <Slider>                                         
                             {images.length && images.map((image, index) => {
                                 console.log(image,"image")
                                 if(image){
@@ -143,7 +142,7 @@ const ImageCarousel = (props) => {
                                                 videoUrl={video}
     
                                             />
-                                                </Slide>
+                                            </Slide>
                                     );
                                 }
                                

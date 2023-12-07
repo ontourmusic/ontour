@@ -12,7 +12,7 @@ const ImageModal = (props) => {
     const [modalBackgroundColour, setModalBackgroundColour] = useState("rgba(76, 78, 120, 0.9)");
     const [imageBackgroundColour, setImageBackgroundColour] = useState("rgba(5, 2, 14, 1.0)");
     const [textColor, setTextColor] = useState("white");
-
+    const videoExtensions = ['mp4', 'mkv', 'x-m4v', 'quicktime'];
     const handleAverageColorButton = (url) => {
         console.log("Average Color Button Clicked");
         const imageUrl = "https://imagez.tmz.com/image/3a/4by3/2021/11/14/3a1b784d843e44bdbd609f17b17bee03_xl.jpg";
@@ -33,7 +33,7 @@ const ImageModal = (props) => {
         linear-gradient(110deg, #4c4e78, 42%, #05020e)
         */
     }, []);
-
+    console.log(props.image)
     return (
         <Modal
             open={true}
@@ -53,7 +53,12 @@ const ImageModal = (props) => {
                 }}
             >
                 <Grid item xs={12} md={8} style={modal_styles.imageContainer}>
-                    <img src={props.image} style={modal_styles.image} />
+                    {
+                        videoExtensions.some(ext => props.image.includes(ext))?
+                        <video playsInline controls loop src={props.image} style={modal_styles.image} />:
+                        <img src={props.image} style={modal_styles.image} />
+                    }
+                    
                 </Grid>
                 <Grid item xs={12} md={4}
                     sx={{
