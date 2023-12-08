@@ -55,7 +55,7 @@ const ImageModal = (props) => {
                 <Grid item xs={12} md={8} style={modal_styles.imageContainer}>
                     {
                         videoExtensions.some(ext => props.image.includes(ext))?
-                        <video playsInline controls loop src={props.image} style={modal_styles.image} />:
+                        <video playsInline preload="metadata" controls loop src={props.image+"#t=0.001"} style={modal_styles.image} />:
                         <img src={props.image} style={modal_styles.image} />
                     }
                     

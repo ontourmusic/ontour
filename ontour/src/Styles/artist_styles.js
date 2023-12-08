@@ -126,10 +126,8 @@ const mediaUploadModal = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "min(800px, 80vw)",
-    // maxHeight: "min(500px, 80vh)",  // Set maxHeight instead of height
-    overflowY: "auto",  // Set overflow to "auto"
-    height:'70vh',
+    width: "min(800px, 90vw)",
+   
     bgcolor: OnTourColors.palette.primary.main,
     boxShadow: 24,
     p: 4,
@@ -138,7 +136,7 @@ const mediaUploadModal = {
     display:'flex',
     alignItems:'center',
     flexDirection:'column',
-    WebkitScrollbarWidth:'0'
+   
   },
   addMediaButton: {
     backgroundColor:'#21252B', 

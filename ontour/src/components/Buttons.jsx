@@ -410,7 +410,7 @@ const AddMediaButton = (props) => {
               
                 position: "relative",
               }}
-              className=" col-5 "
+              className=" col-6 "
             >
               <input
                 type="file"
@@ -419,7 +419,7 @@ const AddMediaButton = (props) => {
                 id="contained-button-file"
                 onChange={handleImageUpload}
               />
-              <label htmlFor="contained-button-file">
+              <label htmlFor="contained-button-file" style={{width:"97%"}}>
                 <Button
                   variant="contained"
                   component="span"
@@ -437,9 +437,9 @@ const AddMediaButton = (props) => {
               <img
                 id="image"
                 style={{
-                  width: "100%",
+                  width: "97%",
                   height: "20vh",
-                  marginTop: 10,
+                  marginTop: "5px",
                   borderRadius: "5px",
                   objectFit: "cover",
                 }}
@@ -449,7 +449,7 @@ const AddMediaButton = (props) => {
                 <div
                   style={{
                     position: "absolute",
-                    width: "100%",
+                    width: "97%",
                     height: "20vh",
                     backgroundColor: "rgba(33,37,43,.3)",
                     display: "flex",
@@ -463,7 +463,7 @@ const AddMediaButton = (props) => {
                     id = "previewImg"
                 >
                   <CameraAlt style={{ fontSize: "4rem", color: "grey" }} />
-                  <div className="text-center">No image selected</div>
+                  <div className="text-center" style={{ fontSize: "1.1rem" }} >No image selected</div>
                 </div>
               )}
 
@@ -480,7 +480,7 @@ const AddMediaButton = (props) => {
                 
                 position: "relative",
               }}
-              className="col-5 ms-2"
+              className="col-6 "
             >
               <input
                 type="file"
@@ -489,7 +489,7 @@ const AddMediaButton = (props) => {
                 id="contained-button-file1"
                 onChange={handleVideoUpload}
               />
-              <label htmlFor="contained-button-file1">
+              <label htmlFor="contained-button-file1" style={{width:"97%"}}>
                 <Button
                   variant="contained"
                   component="span"
@@ -504,9 +504,9 @@ const AddMediaButton = (props) => {
               {
                 <video
                   style={{
-                    width: "100%",
+                    width: "97%",
                     height: "20vh",
-                    marginTop: 10,
+                    marginTop: "5px",
                     borderRadius: "5px",
                     objectFit: "cover",
                   }}
@@ -517,7 +517,7 @@ const AddMediaButton = (props) => {
                 <div
                   style={{
                     position: "absolute",
-                    width: "100%",
+                    width: "97%",
                     height: "20vh",
                     backgroundColor: "rgba(33,37,43,.3)",
                     display: "flex",
@@ -532,7 +532,7 @@ const AddMediaButton = (props) => {
                 >
                  
                   <PlayArrowIcon style={{ fontSize: "4rem", color: "grey" }} />
-                  <div className="text-center">No video selected</div>
+                  <div className="text-center" style={{ fontSize: "1.1rem" }} >No video selected</div>
                  
                   
                  
