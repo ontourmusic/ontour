@@ -50,6 +50,7 @@ const AddMediaButton = (props) => {
     setVideo(null);
     setFile(null);
     setVideoFile(null);
+    setDescription(null);
   };
 
   const handleImageUpload = async (event) => {
@@ -159,74 +160,7 @@ const AddMediaButton = (props) => {
     }
   };
   
-//   const postBoth = async (mediaFile, videoFile) => {
-//     // console.log(mediaFile,mediaFile.length);
-//     // console.log(mediaFile.type,"media")
-//     setSubmitClicked(true)
-//     const blobMedia = new Blob([mediaFile], { type: mediaFile.type });
-//     const timestampMedia = Date.now();
-//     const fileNameMedia = `${artistID}-${timestampMedia}.${
-//       mediaFile.type.split("/")[1]
-//     }`;
-//     const { errorMedia } = await supabase.storage
-//       .from("user-images")
-//       .upload(fileNameMedia, blobMedia);
-//     // if (errorMedia) {
-//     //     console.error(errorMedia);
-//     //     return;
-//     // }
-//     // else{
-//     //     console.log('Image uploaded successfully!');
-//     //     alert('Image uploaded successfully!');
-//     //     // uploaded = true
-//     // }
-//     const publicURLMedia =
-//       "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/" +
-//       fileNameMedia;
 
-//     const blobVideo = new Blob([videoFile], { type: videoFile.type });
-//     const timestampVideo = Date.now();
-//     const fileNameVideo = `${artistID}-${timestampVideo}.${
-//       videoFile.type.split("/")[1]
-//     }`;
-//     const { errorVedio } = await supabase.storage
-//       .from("user-videos")
-//       .upload(fileNameVideo, blobVideo);
-//     if (errorVedio || errorMedia) {
-//       console.error("Error occured while uploading");
-//       return;
-//     } else {
-//       const publicURLVedio =
-//         "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-videos/" +
-//         fileNameVideo;
-//       if (props.isVenue) {
-//         const { data, insertError } = await supabase
-//           .from("venue_carousel_images")
-//           .insert([{ image_url: publicURLMedia, venue_id: venueID }]);
-//       } else {
-//         var eventDate = eventName.split(" • ")[0];
-//         var event = eventName.split(" • ")[1];
-//         const { data, insertError } = await supabase
-//           .from("artist_images")
-//           .insert([
-//             {
-//               image_url: publicURLMedia,
-//               artist_id: artistID,
-//               event: event,
-//               eventDate: eventDate,
-//               description: description,
-//               video_url: publicURLVedio,
-//             },
-//           ]);
-//       }
-//       console.log("Files uploaded successfully!");
-//       setSubmitClicked(false)
-//       alert("Files uploaded successfully!");
-//       // uploaded = true
-//     }
-
-//     window.location.reload();
-//   };
   const post = async (mediaFile) => {
     // console.log(mediaFile,mediaFile.length);
     console.log(mediaFile.type, "media");
@@ -387,7 +321,11 @@ const AddMediaButton = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
+        
         <Box sx={modal_styles.container} >
+        <div style={{position:'absolute',top:'2%',right:'4%',fontSize:'1.5rem',cursor:'pointer',fontWeight:'bold'}} onClick={handleClose}>
+             <span >X</span>
+        </div>
           <div className="row  ">
             <div className="col-12 ">
               <h1 >Upload Media</h1>
@@ -503,6 +441,8 @@ const AddMediaButton = (props) => {
               </label>
               {
                 <video
+                 preload="metadata"
+                 playsInline
                   style={{
                     width: "97%",
                     height: "20vh",
@@ -592,6 +532,7 @@ const AddMediaButton = (props) => {
 
             <textarea
               class="form-control shadow-none"
+            
               style={{ whiteSpace: "pre-wrap" }}
               rows="5"
               cols="100"
@@ -601,6 +542,7 @@ const AddMediaButton = (props) => {
               value={description}
               placeholder="Enter a description..."
               required
+              
             />
           </div>
           <div

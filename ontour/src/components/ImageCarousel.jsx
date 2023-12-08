@@ -31,14 +31,16 @@ const ImageCarousel = (props) => {
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
     const handleImageClick = async (e) => {
+        console.log("video dataset attribute",e.target.dataset.src)
         console.log("handleImageClick: ", e.target.src);
         console.log(e.target)
+        const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
         var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
         if (props.isVenue) {
             const { data, error } = await supabase
                 .from('venue_carousel_images')
                 .select('id')
-                .eq(urlTag, e.target.src)
+                .eq(urlTag, source)
                 .single()
 
             if (error) {
@@ -48,7 +50,7 @@ const ImageCarousel = (props) => {
             setImageData(data);
             console.log("image_id: ", data.id)
             setOpen(true);
-            setTemp(e.target.src);
+            setTemp(source);
             setModel(true);
 
         }
@@ -56,7 +58,7 @@ const ImageCarousel = (props) => {
             const { data, error } = await supabase
                 .from('artist_images')
                 .select('*')
-                .eq(urlTag, e.target.src)
+                .eq(urlTag, source)
                 .single()
 
             if (error) {
@@ -65,7 +67,7 @@ const ImageCarousel = (props) => {
             }
             setImageData(data);
             setOpen(true);
-            setTemp(e.target.src);
+            setTemp(source);
             setModel(true);
         }
     }

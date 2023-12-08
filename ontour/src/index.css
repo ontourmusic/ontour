@@ -40,6 +40,9 @@ h4 {
     justify-content: center !important;
     flex-direction: column !important; */
   }
+  #description{
+    width:18rem
+  }
   .home-title {
     font-size: 15px;
   }
