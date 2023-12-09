@@ -38,7 +38,7 @@ const AddMediaButton = (props) => {
   const [image, setImage] = useState(null);
   const [mediaFile, setFile] = useState(null);
   const [video, setVideo] = useState(null);
-  const [videoFile, setVideoFile] = useState(null);
+  let [videoFile, setVideoFile] = useState(null);
   const [uploaded, setUploaded] = useState(false);
   const artistID = props.artistID;
   const venueID = props.venueID;
@@ -82,13 +82,23 @@ const AddMediaButton = (props) => {
       const video = document.getElementById("video");
       const videourl = URL.createObjectURL(file);
       video.setAttribute("src", videourl);
-  
-      const playVideo = () => video.play();
-      const pauseVideo = () => video.pause();
-  
-      video.addEventListener("mouseenter", playVideo);
-      video.addEventListener("mouseleave", pauseVideo);
-  
+      video.play();
+      var x = false
+      const playVideo = () => {
+        x = false;
+        video.play();
+       
+        console.log("played",x);
+      };
+      const pauseVideo = () => {
+        x = true;
+        video.pause();
+      
+        console.log("paused",x);
+      }
+      // video.addEventListener("mouseenter", playVideo);
+      // video.addEventListener("mouseleave", pauseVideo);
+      video.addEventListener("click",()=>{x?playVideo():pauseVideo()})
       return () => {
         video.removeEventListener("mouseenter", playVideo);
         video.removeEventListener("mouseleave", pauseVideo);
@@ -339,6 +349,7 @@ const AddMediaButton = (props) => {
               }}
               className=" col-6 "
             >
+              <form id="myImageForm">
               <input
                 type="file"
                 accept="image/*"
@@ -346,6 +357,8 @@ const AddMediaButton = (props) => {
                 id="contained-button-file"
                 onChange={handleImageUpload}
               />
+              </form>
+              
               <label htmlFor="contained-button-file" style={{width:"97%"}}>
                 <Button
                   variant="contained"
@@ -375,6 +388,7 @@ const AddMediaButton = (props) => {
                 mediaFile && <span onClick={
                   ()=>{
                     setFile(null);
+                    document.getElementById('myImageForm').reset();
                     const image = document.getElementById("image");
                     image.removeAttribute("src")
                     
@@ -420,6 +434,7 @@ const AddMediaButton = (props) => {
               }}
               className="col-6 "
             >
+              <form id="myVideoForm">
               <input
                 type="file"
                 accept="video/mp4,video/mkv,video/x-m4v,video/quicktime,video/ogg"
@@ -427,6 +442,8 @@ const AddMediaButton = (props) => {
                 id="contained-button-file1"
                 onChange={handleVideoUpload}
               />
+              </form>
+              
               <label htmlFor="contained-button-file1" style={{width:"97%"}}>
                 <Button
                   variant="contained"
@@ -458,6 +475,7 @@ const AddMediaButton = (props) => {
                 videoFile && <span  style={{cursor:"pointer"}} onClick={
                   ()=>{
                     setVideoFile(null);
+                    document.getElementById('myVideoForm').reset();
                     const video = document.getElementById("video");
                     video.setAttribute("src","")
                     
