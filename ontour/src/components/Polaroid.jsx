@@ -23,8 +23,8 @@ const Polaroid = (props) => {
   const handleMouseLeave = () => {
     setIsHovering(false);
   };
-  console.log(props.imageUrl, "imgurl");
-  console.log(props.videoUrl, "videourl");
+  // console.log(props.imageUrl, "imgurl");
+  // console.log(props.videoUrl, "videourl");
   return (
     <>
       {props.imageUrl != null && (
@@ -64,9 +64,11 @@ const Polaroid = (props) => {
                 onMouseLeave={handleMouseLeave}
           >
            
+             
+                    &#9658;
+              {/* <FontAwesomeIcon data-src1 = {props.videoUrl}   icon={faPlay} /> */}
               
-                  <FontAwesomeIcon data-src1 = {props.videoUrl}
-                  onClick={props.onPress}  icon={faPlay} />
+                 
                 
             
             </div>
@@ -78,7 +80,7 @@ const Polaroid = (props) => {
               autoplay
               playsInline
               preload="metadata"
-              src={props.videoUrl}
+              src={props.videoUrl+"#t=0.2"}
               class="d-block w-100"
               style={polaroid_styles.polaroid_image}
             />

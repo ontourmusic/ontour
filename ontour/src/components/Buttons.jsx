@@ -66,50 +66,36 @@ const AddMediaButton = (props) => {
     const imageurl = URL.createObjectURL(file);
     image.setAttribute("src", imageurl.toString());
   };
-
   const handleVideoUpload = async (event) => {
-    console.log(event.target.files[0]);
-    if (event.target.files[0]) {
-      const videoSize = event.target.files[0].size;
+    const file = event.target.files[0];
+  
+    if (file) {
+      const videoSize = file.size;
       const maxSize = 10485760;
-      if (videoSize > maxSize) {
-        setSizeError(
-          "This file size exceed 10MB. Please choose any other video."
-        );
-        const file = event.target.files[0];
-        setVideoFile(file);
-        const fileName = file.name;
-        setVideo(fileName);
-        const video = document.getElementById("video");
-        const videourl = URL.createObjectURL(file);
-        video.setAttribute("src", videourl+"#t=0.001");
-        // video.addEventListener('onmouseover',()=>{video.play()})
-        video.addEventListener("mouseenter", () => {
-          video.play();
-        });
-        video.addEventListener("mouseleave", () => {
-          video.pause();
-        });
-      } else {
-        setSizeError("");
-        const file = event.target.files[0];
-        setVideoFile(file);
-        const fileName = file.name;
-        setVideo(fileName);
-        const video = document.getElementById("video");
-        const videourl = URL.createObjectURL(file);
-        video.setAttribute("src", videourl+"#t=0.001");
-        // video.addEventListener('onmouseover',()=>{video.play()})
-        video.addEventListener("mouseenter", () => {
-          video.play();
-        });
-        video.addEventListener("mouseleave", () => {
-          video.pause();
-        });
-        // video.play();
-      }
+  
+      setSizeError(videoSize > maxSize ? "This file size exceeds 10MB. Please choose another video." : "");
+  
+      setVideoFile(file);
+      setVideo(file.name);
+  
+      const video = document.getElementById("video");
+      const videourl = URL.createObjectURL(file);
+      video.setAttribute("src", `${videourl}#t=0.2`);
+  
+      const playVideo = () => video.play();
+      const pauseVideo = () => video.pause();
+  
+      video.addEventListener("mouseenter", playVideo);
+      video.addEventListener("mouseleave", pauseVideo);
+  
+      return () => {
+        video.removeEventListener("mouseenter", playVideo);
+        video.removeEventListener("mouseleave", pauseVideo);
+      };
     }
   };
+  
+  
   const postBoth = async (mediaFile, videoFile) => {
     try {
       setSubmitClicked(true);
@@ -382,6 +368,17 @@ const AddMediaButton = (props) => {
                   objectFit: "cover",
                 }}
               />
+              {
+                mediaFile && <span onClick={
+                  ()=>{
+                    setFile(null);
+                    const image = document.getElementById("image");
+                    image.removeAttribute("src")
+                    
+                    } 
+                          } style={{cursor:"pointer"}}>Remove</span>
+              }
+             
 
               {!mediaFile && (
                 <div
@@ -452,6 +449,16 @@ const AddMediaButton = (props) => {
                   }}
                   id="video"
                 ></video>
+              }
+                {
+                videoFile && <span  style={{cursor:"pointer"}} onClick={
+                  ()=>{
+                    setVideoFile(null);
+                    const video = document.getElementById("video");
+                    video.setAttribute("src","")
+                    
+                    } 
+                          }>Remove</span>
               }
               {!videoFile && (
                 <div

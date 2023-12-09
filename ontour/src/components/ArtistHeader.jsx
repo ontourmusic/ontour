@@ -277,7 +277,7 @@ function ArtistHeader(props) {
                         <video
                           preload="metadata"
                           playsInline
-                          src={video}
+                          src={video+"#t=0.2"}
                           style={{
                             ...header_styles.imageTile.image,
                             ...(index === hoveredIndex &&
@@ -315,8 +315,9 @@ function ArtistHeader(props) {
                       onMouseEnter={handleMouseEnterIcon}
                       onMouseLeave={handleMouseLeaveIcon}
                       data-src1={video} onClick={handleImageClick}>
-                         <FontAwesomeIcon data-src1 = {props.videoUrl}
-                  onClick={props.onPress}  icon={faPlay} />
+                          &#9658;
+                         {/* <FontAwesomeIcon data-src1 = {props.videoUrl}
+                  onClick={props.onPress}  icon={faPlay} /> */}
                         </div>
                       </div>
                       

@@ -31,8 +31,8 @@ const ImageCarousel = (props) => {
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
     const handleImageClick = async (e) => {
-        console.log("video dataset attribute",e.target.dataset.src)
-        console.log("handleImageClick: ", e.target.src);
+        console.log("video dataset attribute",e.target.dataset.src1)
+        // console.log("handleImageClick: ", e.target.src1);
         console.log(e.target)
         const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
         var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
