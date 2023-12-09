@@ -44,6 +44,7 @@ const AddMediaButton = (props) => {
   const venueID = props.venueID;
   const [sizeError, setSizeError] = useState("");
   const [submitClick,setSubmitClicked] = useState(false)
+  const [videoFileType,setVideoFileType] = useState(null);
   const handleClose = () => {
     setOpen(false);
     setImage(null);
@@ -72,9 +73,9 @@ const AddMediaButton = (props) => {
     if (file) {
       const videoSize = file.size;
       const maxSize = 10485760;
-  
+      
       setSizeError(videoSize > maxSize ? "This file size exceeds 10MB. Please choose another video." : "");
-  
+      setVideoFileType(file.type)
       setVideoFile(file);
       setVideo(file.name);
       console.log(file)
@@ -441,7 +442,7 @@ const AddMediaButton = (props) => {
               {
                 <video
                  preload="metadata"
-                 type="video/quicktime"
+                 type= {videoFileType}
                  playsInline
                   style={{
                     width: "97%",
