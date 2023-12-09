@@ -475,6 +475,7 @@ const AddMediaButton = (props) => {
                 videoFile && <span  style={{cursor:"pointer"}} onClick={
                   ()=>{
                     setVideoFile(null);
+                    setSizeError("");
                     document.getElementById('myVideoForm').reset();
                     const video = document.getElementById("video");
                     video.setAttribute("src","")
