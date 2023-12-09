@@ -240,7 +240,7 @@ function ArtistHeader(props) {
               {images.map((image, index) => {
                 if (image) {
                   return (
-                    <Grid item xs={6} md={4} lg={3}>
+                    <Grid item xs={12} md={4} lg={3}>
                       <div
                         // onClick={() => {handleTileClick()}}
                         style={header_styles.imageTile.container}
@@ -269,7 +269,7 @@ function ArtistHeader(props) {
               {videos.map((video, index) => {
                 if (video) {
                   return (
-                    <Grid item xs={6} md={4} lg={3}>
+                    <Grid item xs={12} md={4} lg={3}>
                       <div
                         // onClick={() => {handleTileClick()}}
                         style={header_styles.imageTile.container}
