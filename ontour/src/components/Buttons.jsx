@@ -77,10 +77,10 @@ const AddMediaButton = (props) => {
   
       setVideoFile(file);
       setVideo(file.name);
-  
+      console.log(file)
       const video = document.getElementById("video");
       const videourl = URL.createObjectURL(file);
-      video.setAttribute("src", `${videourl}#t=0.2`);
+      video.setAttribute("src", videourl);
   
       const playVideo = () => video.play();
       const pauseVideo = () => video.pause();
@@ -310,11 +310,13 @@ const AddMediaButton = (props) => {
         
         <Box sx={modal_styles.container} >
         <div style={{position:'absolute',top:'2%',right:'4%',fontSize:'1.5rem',cursor:'pointer',fontWeight:'bold'}} onClick={handleClose}>
-             <span >X</span>
+              <button onClick={handleClose} style={{float:'right'}} className="btn btn-dark" >X</button>
         </div>
+       
           <div className="row  ">
             <div className="col-12 ">
               <h1 >Upload Media</h1>
+             
             </div>
           </div>
           <div
@@ -439,7 +441,7 @@ const AddMediaButton = (props) => {
               {
                 <video
                  preload="metadata"
-               poster="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png"
+                 type="video/quicktime"
                  playsInline
                   style={{
                     width: "97%",

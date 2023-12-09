@@ -231,11 +231,15 @@ function ArtistHeader(props) {
           aria-describedby="modal-modal-description"
         >
           <Box sx={{ ...modal_styles.container, overflowY: 'auto' }} >
+         
             <Grid item xs={12} container spacing={2}>
+            
               <Grid item xs={12}>
+              <button onClick={handleClose} style={{float:'right'}} className="btn btn-dark" >X</button>
                 <h1 style={{ color: "black" }} class="homebanner">
                   Photos of {props.name}
                 </h1>
+                
               </Grid>
               {images.map((image, index) => {
                 if (image) {

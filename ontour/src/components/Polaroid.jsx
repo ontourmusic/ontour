@@ -73,10 +73,13 @@ const Polaroid = (props) => {
             
             </div>
           <div
-            // onClick={props.onPress}
+            onClick={props.onPress}
+            data-src1 = {props.videoUrl}
             style={polaroid_styles.polaroid_container}
           >
             <video
+            onClick={props.onPress}
+            data-src1 = {props.videoUrl}
               autoplay
               playsInline
               preload="metadata"

@@ -32,7 +32,7 @@ const ImageCarousel = (props) => {
 
     const handleImageClick = async (e) => {
         console.log("video dataset attribute",e.target.dataset.src1)
-        // console.log("handleImageClick: ", e.target.src1);
+        console.log("handleImageClick: ", e.target.src);
         console.log(e.target)
         const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
         var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
