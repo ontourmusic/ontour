@@ -83,7 +83,7 @@ const AddMediaButton = (props) => {
       const videourl = URL.createObjectURL(file);
       video.setAttribute("src", videourl);
       video.play();
-      var x = false
+      var x = false;
       const playVideo = () => {
         x = false;
         video.play();
@@ -437,7 +437,7 @@ const AddMediaButton = (props) => {
               <form id="myVideoForm">
               <input
                 type="file"
-                accept="video/mp4,video/mkv,video/x-m4v,video/quicktime,video/ogg"
+                accept="video/mp4,video/mkv,video/x-m4v,video/ogg,video/quicktime"
                 style={{ display: "none" }}
                 id="contained-button-file1"
                 onChange={handleVideoUpload}
@@ -456,7 +456,9 @@ const AddMediaButton = (props) => {
                   <div style={{ color: "white" }}>Add Video</div>
                 </Button>
               </label>
+             
               {
+                
                 <video
                  preload="metadata"
                  type= {videoFileType}
@@ -471,11 +473,13 @@ const AddMediaButton = (props) => {
                   id="video"
                 ></video>
               }
+                 {video && <span style={{ width: "97%",backgroundColor: "rgba(33,37,43)", borderRadius: "5px",marginTop:'.2rem',fontSize:'.8rem',padding:'.3rem',color:'white',textAlign:'center',wordBreak:'break-all'}}>{video}</span>}
                 {
-                videoFile && <span  style={{cursor:"pointer"}} onClick={
+                videoFile && <span  style={{cursor:"pointer",color:'red'}} onClick={
                   ()=>{
                     setVideoFile(null);
                     setSizeError("");
+                    setVideo(null);
                     document.getElementById('myVideoForm').reset();
                     const video = document.getElementById("video");
                     video.setAttribute("src","")
@@ -483,6 +487,7 @@ const AddMediaButton = (props) => {
                     } 
                           }>Remove</span>
               }
+           
               {!videoFile && (
                 <div
                   style={{
