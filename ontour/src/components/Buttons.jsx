@@ -45,6 +45,7 @@ const AddMediaButton = (props) => {
   const [sizeError, setSizeError] = useState("");
   const [submitClick,setSubmitClicked] = useState(false)
   const [videoFileType,setVideoFileType] = useState(null);
+ 
   const handleClose = () => {
     setOpen(false);
     setImage(null);
@@ -67,42 +68,83 @@ const AddMediaButton = (props) => {
     const imageurl = URL.createObjectURL(file);
     image.setAttribute("src", imageurl.toString());
   };
+  function isVideoPlayable(url) {
+    let canvas = document.getElementById('canvas');
+    let videotest = document.getElementById('videotest');
+    videotest.setAttribute('src', URL.createObjectURL(url).toString() + "#t=2");
+  
+    let canvsObj = canvas.getContext("2d");
+    canvsObj.clearRect(0, 0, canvas.width, canvas.height);
+    return new Promise((resolve, reject) => {
+    
+        let i = 0;
+        let x = setInterval(() => {
+          canvsObj.drawImage(videotest, 0, 0, canvas.width, canvas.height);
+          console.log(canvas.toDataURL(), canvas.toDataURL().length, "before");
+          i = i + 1;
+          if (canvas.toDataURL().length > 1000) {
+            console.log("true");
+            clearInterval(x);
+            resolve(true);
+          } else if (i > 3) {
+            console.log("false");
+            clearInterval(x);
+            resolve(false);
+          }
+        }, 1000);
+      
+  
+      
+    });
+  }
   const handleVideoUpload = async (event) => {
     const file = event.target.files[0];
   
     if (file) {
       const videoSize = file.size;
       const maxSize = 10485760;
-      
-      setSizeError(videoSize > maxSize ? "This file size exceeds 10MB. Please choose another video." : "");
-      setVideoFileType(file.type)
-      setVideoFile(file);
-      setVideo(file.name);
-      console.log(file)
-      const video = document.getElementById("video");
-      const videourl = URL.createObjectURL(file);
-      video.setAttribute("src", videourl);
-      video.play();
-      var x = false;
-      const playVideo = () => {
-        x = false;
-        video.play();
-       
-        console.log("played",x);
-      };
-      const pauseVideo = () => {
-        x = true;
-        video.pause();
-      
-        console.log("paused",x);
-      }
-      // video.addEventListener("mouseenter", playVideo);
-      // video.addEventListener("mouseleave", pauseVideo);
-      video.addEventListener("click",()=>{x?playVideo():pauseVideo()})
-      return () => {
-        video.removeEventListener("mouseenter", playVideo);
-        video.removeEventListener("mouseleave", pauseVideo);
-      };
+      isVideoPlayable(file).then((x)=>{
+        const video = document.getElementById("video");
+        if(x){
+          setSizeError(videoSize > maxSize ? "This file size exceeds 10MB. Please choose another video." : "");
+          setVideoFileType(file.type)
+          setVideoFile(file);
+          setVideo(file.name);
+          console.log(file)
+          
+          const videourl = URL.createObjectURL(file);
+          video.setAttribute("src", videourl);
+          video.play();
+          var x = false;
+          const playVideo = () => {
+            x = false;
+            video.play();
+           
+            console.log("played",x);
+          };
+          const pauseVideo = () => {
+            x = true;
+            video.pause();
+          
+            console.log("paused",x);
+          }
+          // video.addEventListener("mouseenter", playVideo);
+          // video.addEventListener("mouseleave", pauseVideo);
+          video.addEventListener("click",()=>{x?playVideo():pauseVideo()})
+          return () => {
+            video.removeEventListener("mouseenter", playVideo);
+            video.removeEventListener("mouseleave", pauseVideo);
+          };
+        }
+        else{
+          video.setAttribute('poster', "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain");
+          setSizeError(videoSize > maxSize ? "This file size exceeds 10MB. Please choose another video." : "");
+          setVideoFileType(file.type)
+          setVideoFile(file);
+          setVideo(file.name);
+        }
+      })
+     
     }
   };
   
@@ -301,6 +343,7 @@ const AddMediaButton = (props) => {
 
   return (
     <>
+   
       <Button
         onClick={handleMediaButtonPress}
         variant="contained"
@@ -323,7 +366,8 @@ const AddMediaButton = (props) => {
         <div style={{position:'absolute',top:'2%',right:'4%',fontSize:'1.5rem',cursor:'pointer',fontWeight:'bold'}} onClick={handleClose}>
               <button onClick={handleClose} style={{float:'right'}} className="btn btn-dark" >X</button>
         </div>
-       
+        <canvas width="50" height="50" id="canvas" style={{display:'none'}}></canvas>
+                <video width="300" height="300" controls id="videotest" style={{display:'none'}}></video>
           <div className="row  ">
             <div className="col-12 ">
               <h1 >Upload Media</h1>
@@ -460,6 +504,7 @@ const AddMediaButton = (props) => {
               {
                 
                 <video
+              
                  preload="metadata"
                  type= {videoFileType}
                  playsInline
@@ -470,9 +515,13 @@ const AddMediaButton = (props) => {
                     borderRadius: "5px",
                     objectFit: "cover",
                   }}
+                  // poster={video && "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain"}
                   id="video"
                 ></video>
+               
               }
+              
+               
                  {video && <span style={{ width: "97%",backgroundColor: "rgba(33,37,43)", borderRadius: "5px",marginTop:'.2rem',fontSize:'.8rem',padding:'.3rem',color:'white',textAlign:'center',wordBreak:'break-all'}}>{video}</span>}
                 {
                 videoFile && <span  style={{cursor:"pointer",color:'red'}} onClick={
@@ -483,7 +532,7 @@ const AddMediaButton = (props) => {
                     document.getElementById('myVideoForm').reset();
                     const video = document.getElementById("video");
                     video.setAttribute("src","")
-                    
+                    video.setAttribute("poster","")
                     } 
                           }>Remove</span>
               }
