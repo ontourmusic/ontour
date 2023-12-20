@@ -45,6 +45,7 @@ const AddMediaButton = (props) => {
   const [sizeError, setSizeError] = useState("");
   const [submitClick,setSubmitClicked] = useState(false)
   const [videoFileType,setVideoFileType] = useState(null);
+  
  
   const handleClose = () => {
     setOpen(false);
@@ -69,25 +70,37 @@ const AddMediaButton = (props) => {
     image.setAttribute("src", imageurl.toString());
   };
   function isVideoPlayable(url) {
+    // return true
+    // console.log()
     let canvas = document.getElementById('canvas');
-    let videotest = document.getElementById('videotest');
-    videotest.setAttribute('src', URL.createObjectURL(url).toString() + "#t=2");
-  
+    // let videotest = document.getElementById('videotest');
+  let videotest = document.createElement('video');
+    console.log("Setting attribute")
+    // videotest.setAttribute('src', URL.createObjectURL(url) + "#t=2");
+   
+    videotest.src =  URL.createObjectURL(url);
+    videotest.currentTime = 2;
+    videotest.autoplay = true;
+    videotest.width = 300;
+    videotest.height = 300;
     let canvsObj = canvas.getContext("2d");
     canvsObj.clearRect(0, 0, canvas.width, canvas.height);
     return new Promise((resolve, reject) => {
-    
+        // resolve(true);
         let i = 0;
         let x = setInterval(() => {
           canvsObj.drawImage(videotest, 0, 0, canvas.width, canvas.height);
-          console.log(canvas.toDataURL(), canvas.toDataURL().length, "before");
+          console.log(canvas.toDataURL(), canvas.toDataURL().length, "canvas");
           i = i + 1;
           if (canvas.toDataURL().length > 1000) {
-            console.log("true");
+            console.log("true canvas");
             clearInterval(x);
+            // fetch.innerHTML = "";
+            videotest = null;
             resolve(true);
+     
           } else if (i > 3) {
-            console.log("false");
+            console.log("false canvas");
             clearInterval(x);
             resolve(false);
           }
@@ -99,11 +112,16 @@ const AddMediaButton = (props) => {
   }
   const handleVideoUpload = async (event) => {
     const file = event.target.files[0];
-  
+    var fetch = document.getElementById("fetchMsg");
+    fetch.innerHTML = "Generating Preview";
+    fetch.style.display = 'block';
     if (file) {
       const videoSize = file.size;
       const maxSize = 10485760;
+      console.log(fetch);
       isVideoPlayable(file).then((x)=>{
+        fetch.innerHTML = "";
+        fetch.style.display = 'none';
         const video = document.getElementById("video");
         if(x){
           setSizeError(videoSize > maxSize ? "This file size exceeds 10MB. Please choose another video." : "");
@@ -128,8 +146,6 @@ const AddMediaButton = (props) => {
           
             console.log("paused",x);
           }
-          // video.addEventListener("mouseenter", playVideo);
-          // video.addEventListener("mouseleave", pauseVideo);
           video.addEventListener("click",()=>{x?playVideo():pauseVideo()})
           return () => {
             video.removeEventListener("mouseenter", playVideo);
@@ -137,7 +153,8 @@ const AddMediaButton = (props) => {
           };
         }
         else{
-          video.setAttribute('poster', "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain");
+          video.setAttribute("src", "");
+          video.setAttribute('poster', "https://learning.knowbility.org/local/sitepages/upload/no-preview-available.png");
           setSizeError(videoSize > maxSize ? "This file size exceeds 10MB. Please choose another video." : "");
           setVideoFileType(file.type)
           setVideoFile(file);
@@ -366,8 +383,9 @@ const AddMediaButton = (props) => {
         <div style={{position:'absolute',top:'2%',right:'4%',fontSize:'1.5rem',cursor:'pointer',fontWeight:'bold'}} onClick={handleClose}>
               <button onClick={handleClose} style={{float:'right'}} className="btn btn-dark" >X</button>
         </div>
-        <canvas width="50" height="50" id="canvas" style={{display:'none'}}></canvas>
-                <video width="300" height="300" controls id="videotest" style={{display:'none'}}></video>
+       
+                {/* <video  muted width="300" height="300" controls id="videotest" style={{display:'block'}}></video> */}
+                <canvas width="50" height="50" id="canvas" style={{display:'none',border:'2px solid red'}}></canvas>
           <div className="row  ">
             <div className="col-12 ">
               <h1 >Upload Media</h1>
@@ -388,7 +406,7 @@ const AddMediaButton = (props) => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "column",
-              
+                height: 'auto',
                 position: "relative",
               }}
               className=" col-6 "
@@ -423,21 +441,24 @@ const AddMediaButton = (props) => {
                 style={{
                   width: "97%",
                   height: "20vh",
-                  marginTop: "5px",
+                  marginTop: "6%",
                   borderRadius: "5px",
                   objectFit: "cover",
+                  // border:'2px solid red'
                 }}
               />
+               {image && <span style={{ width: "97%",backgroundColor: "rgba(33,37,43)", borderRadius: "5px",marginTop:'.2rem',fontSize:'.8rem',padding:'.3rem',color:'white',textAlign:'center',wordBreak:'break-all',position:'absolute',bottom:'11.5%'}}>{image}</span>}
               {
                 mediaFile && <span onClick={
                   ()=>{
                     setFile(null);
+                    setImage(null)
                     document.getElementById('myImageForm').reset();
                     const image = document.getElementById("image");
                     image.removeAttribute("src")
                     
                     } 
-                          } style={{cursor:"pointer"}}>Remove</span>
+                          } style={{cursor:"pointer",color:'red'}}>Remove</span>
               }
              
 
@@ -451,7 +472,7 @@ const AddMediaButton = (props) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    top: "20%",
+                    marginTop:'18%',
                     fontWeight: "bold",
                     borderRadius: "5px",
                     flexDirection: "column",
@@ -473,7 +494,7 @@ const AddMediaButton = (props) => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "column",
-                
+                height:'auto',
                 position: "relative",
               }}
               className="col-6 "
@@ -501,28 +522,32 @@ const AddMediaButton = (props) => {
                 </Button>
               </label>
              
-              {
+              
                 
                 <video
-              
+                 autoplay loop
                  preload="metadata"
                  type= {videoFileType}
                  playsInline
                   style={{
                     width: "97%",
                     height: "20vh",
-                    marginTop: "5px",
+                    marginTop: "6%",
                     borderRadius: "5px",
                     objectFit: "cover",
+                    // border:'2px solid red'
                   }}
                   // poster={video && "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain"}
                   id="video"
                 ></video>
-               
-              }
+                
+              
               
                
-                 {video && <span style={{ width: "97%",backgroundColor: "rgba(33,37,43)", borderRadius: "5px",marginTop:'.2rem',fontSize:'.8rem',padding:'.3rem',color:'white',textAlign:'center',wordBreak:'break-all'}}>{video}</span>}
+                 {video && 
+                 <>
+                 <span style={{ width: "97%",backgroundColor: "rgba(33,37,43)", borderRadius: "5px",marginTop:'.2rem',fontSize:'.8rem',padding:'.3rem',color:'white',textAlign:'center',wordBreak:'break-all',position:'absolute',bottom:'11.5%'}}>{video}</span>
+                 </> }
                 {
                 videoFile && <span  style={{cursor:"pointer",color:'red'}} onClick={
                   ()=>{
@@ -547,25 +572,33 @@ const AddMediaButton = (props) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    top: "20%",
+                    marginTop: "18%",
                     fontWeight: "bold",
                     borderRadius: "5px",
                     flexDirection: "column",
                   }}
                   id = "previewImg"
                 >
-                 
+                  
                   <PlayArrowIcon style={{ fontSize: "4rem", color: "grey" }} />
+                  
                   <div className="text-center" style={{ fontSize: "1.1rem" }} >No video selected</div>
                  
                   
                  
                 </div>
               )}
-
+<span id="fetchMsg" style={{ color: 'white',
+    position: 'absolute',
+    top: '21%',
+    backgroundColor: 'rgba(33,37,43)',
+    padding: '5px',
+    width: '97%',
+    textAlign: 'center',display:'none' }}></span>  
               {/* {video && <span>{video}</span>} */}
             </div>
           </div>
+          
           <div style={{ color: "red", textAlign: "center" }}>{sizeError}</div>
 
           <div style={modal_styles.formItem}>
