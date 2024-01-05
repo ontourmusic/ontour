@@ -110,9 +110,40 @@ function ArtistHeader(props) {
   };
 
   const handleImageClick = async (image) => {
+    console.log(props);
     var urlTag = image.target.tagName == "IMG" ? "image_url" : "video_url";
     const source = image.target.dataset.src1?image.target.dataset.src1:image.target.src
-    const { data, error } = await supabase
+    if(props.isVenue){
+      const { data, error } = await supabase
+      .from("venue_carousel_images")
+      .select("*")
+      .eq(urlTag, source)
+      .single();
+
+    if (error) {
+      console.error(error);
+      return null;
+    }
+    setImageData(data);
+    setSelectedImage(source);
+    setIsChildModalOpen(true);
+    }  else if(props.isFestival){
+      const { data, error } = await supabase
+      .from("festival_carousel_images")
+      .select("*")
+      .eq(urlTag, source)
+      .single();
+
+    if (error) {
+      console.error(error);
+      return null;
+    }
+    setImageData(data);
+    setSelectedImage(source);
+    setIsChildModalOpen(true);
+    }
+    else{
+      const { data, error } = await supabase
       .from("artist_images")
       .select("*")
       .eq(urlTag, source)
@@ -125,6 +156,8 @@ function ArtistHeader(props) {
     setImageData(data);
     setSelectedImage(source);
     setIsChildModalOpen(true);
+    }
+    
   };
 
   const handleCloseChildModal = () => {
@@ -270,7 +303,7 @@ function ArtistHeader(props) {
                   );
                 }
               })}
-              {videos.map((video, index) => {
+              {videos && videos.map((video, index) => {
                 if (video) {
                   return (
                     <Grid item xs={12} md={4} lg={3}>

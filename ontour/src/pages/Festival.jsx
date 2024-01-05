@@ -31,6 +31,7 @@ const Festival = (props) => {
     const [festivalCity, setFestivalCity] = useState("");
     const [festivalState, setFestivalState] = useState("");
     const [festivalImages, setFestivalImages] = useState([]);
+    const [videoArray,setVideoArray] = useState([]);
     const [allReviews, setAllReviews] = useState([]);
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [filteredReviews, setFilteredReviews] = useState([]);
@@ -76,7 +77,13 @@ const Festival = (props) => {
             for (var i = 0; i < festivalGalleryData.data.length; i++) {
                 imageGallery.push(festivalGalleryData.data[i].image_url);
             }
+            var videoArray = [];
+            for (var i = 0; i < festivalGalleryData.data.length; i++) {
+                console.log(festivalGalleryData.data[i].video_url);
+                videoArray.push(festivalGalleryData.data[i].video_url);
+              }
             setFestivalImages(imageGallery);
+            setVideoArray(videoArray);
             const reviewData = await supabase.from('festival_reviews').select('*').eq('festival_id', festivalIDGlobal);
             setAllReviews(parseReviewData(reviewData["data"]));
             setFilteredReviews(parseReviewData(reviewData["data"]));
@@ -211,11 +218,12 @@ const Festival = (props) => {
                     rating={aggregateRating}
                     total={totalReviews}
                     image={banner_image}
-                    isVenue={0}
+                    isFestival={1}
                     city={festivalCity}
                     onTour={false}
                     verified={true}
-                    images={festivalImages} />
+                    images={festivalImages}
+                    videos={videoArray} />
             </Grid>
             <Grid container spacing={1} style={artist_styles.grid.body_container}>
                 <Grid item xs={12}>
@@ -226,10 +234,10 @@ const Festival = (props) => {
                 </Grid>
                 <Grid item xs={12} md={8}>
                     <ImageCarousel
-                        images={festivalImages}
+                        images={festivalImages} videos={videoArray}
                         slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3}
-                        isVenue={1}
-                        venueID={festivalIDGlobal} />
+                        isFestival={1}
+                        festivalId={festivalIDGlobal}  />
                     <ArtistContent 
                     allReviews={allReviews} 
                     filteredReviews={filteredReviews} 

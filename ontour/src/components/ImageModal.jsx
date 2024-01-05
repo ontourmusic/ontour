@@ -56,7 +56,7 @@ const ImageModal = (props) => {
     >
          
       <Grid
-      style={{position:'relative'}}
+        style={{position:'relative'}}
         container
         columnSpacing={0}
         rowSpacing={{ xs: 1, md: 0 }}
