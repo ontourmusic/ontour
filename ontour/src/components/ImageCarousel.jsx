@@ -39,7 +39,7 @@ const ImageCarousel = (props) => {
         if (props.isVenue) {
             const { data, error } = await supabase
                 .from('venue_carousel_images')
-                .select('id')
+                .select('*')
                 .eq(urlTag, source)
                 .single()
 
@@ -57,7 +57,7 @@ const ImageCarousel = (props) => {
         else if(props.isFestival){
             const { data, error } = await supabase
             .from('festival_carousel_images')
-            .select('id')
+            .select('*')
             .eq(urlTag, source)
             .single()
 

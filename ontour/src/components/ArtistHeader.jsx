@@ -34,6 +34,8 @@ function ChildModal(props) {
       handleClose={props.onClose}
       imageData={props.imageData}
       image={props.image}
+      isVenue={props.isVenue}
+                isFestival={props.isFestival}
     />
   );
 }
@@ -369,6 +371,8 @@ function ArtistHeader(props) {
                 open={isChildModalOpen}
                 imageData={imageData}
                 onClose={handleCloseChildModal}
+                isVenue={props.isVenue}
+                isFestival={props.isFestival}
               />
             )}
           </Box>

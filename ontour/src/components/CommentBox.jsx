@@ -14,7 +14,7 @@ const CommentBox = (props) => {
   const disabled = !name || !comment;
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
-  
+  console.log(props,"comments")
   useEffect(() => {
     // reset states
     setName('');
@@ -22,18 +22,43 @@ const CommentBox = (props) => {
     setComments([]);
 
     const fetchArtistName = async () => {
-      const { data, error } = await supabase
-        .from('artists')
+      if(props.isVenue){
+        const { data, error } = await supabase
+        .from('venues')
         .select('*')
-        .eq('artist_id', props.imageData.artist_id)
+        .eq('venue_id', props.imageData.venue_id)
         .single();
-  
         if (error) {
             console.error(error);
             return null;
         }
         setArtistName(data.name);
     }
+    else if(props.isFestival){
+      const { data, error } = await supabase
+      .from('festivals')
+      .select('*')
+      .eq('id', props.imageData.festival_id)
+      .single();
+      if (error) {
+          console.error(error);
+          return null;
+      }
+      setArtistName(data.name);
+    }else{
+      const { data, error } = await supabase
+      .from('artists')
+      .select('*')
+      .eq('artist_id', props.imageData.artist_id)
+      .single();
+      if (error) {
+          console.error(error);
+          return null;
+      }
+      setArtistName(data.name);
+    }
+      }
+      
     fetchArtistName();
 
     const currentDate = new Date();

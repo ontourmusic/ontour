@@ -16,6 +16,8 @@ const ImageModal = (props) => {
   );
   const [textColor, setTextColor] = useState("white");
   const videoExtensions = ["mp4", "mkv", "x-m4v", "quicktime"];
+  
+  console.log(props,"modal")
   const handleAverageColorButton = (url) => {
     console.log("Average Color Button Clicked");
     const imageUrl =
@@ -44,6 +46,7 @@ const ImageModal = (props) => {
         linear-gradient(110deg, #2d2d4e, 60%, #ccd0de)
         linear-gradient(110deg, #4c4e78, 42%, #05020e)
         */
+        console.log(props.image)
   }, []);
   console.log(props.image);
   return (
@@ -101,12 +104,12 @@ const ImageModal = (props) => {
             paddingLeft: { xs: "0px", md: "10px" },
           }}
         >
-         
-
+         {/* abcd */}
           <CommentBox
             textColor={textColor}
             imageData={props.imageData}
             isVenue={props.isVenue}
+            isFestival={props.isFestival}
           />
         </Grid>
       </Grid>
