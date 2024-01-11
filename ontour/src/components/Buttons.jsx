@@ -123,14 +123,14 @@ const AddMediaButton = (props) => {
     fetch.style.display = 'block';
     if (file) {
       const videoSize = file.size;
-      const maxSize = 10485760;
+      const maxSize = 52428800;
       console.log(fetch);
       isVideoPlayable(file).then((x)=>{
         fetch.innerHTML = "";
         fetch.style.display = 'none';
         const video = document.getElementById("video");
         if(x){
-          setSizeError(videoSize > maxSize ? "This file size exceeds 10MB. Please choose another video." : "");
+          setSizeError(videoSize > maxSize ? "This file size exceeds 50MB. Please choose another video." : "");
           setVideoFileType(file.type)
           setVideoFile(file);
           setVideo(file.name);
