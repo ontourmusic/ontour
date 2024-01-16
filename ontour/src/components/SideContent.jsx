@@ -23,11 +23,11 @@ Props:
 const SideContent = ({name, linkPairs, venue, festival}) => {
     if(venue)
     {
-        console.log("yes");
+       // console.log("yes");
     }
     else
     {
-        console.log("no");
+       // console.log("no");
     }
     return (
         <div style={{ position: "sticky", top: "15px" }}>

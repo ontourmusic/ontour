@@ -42,9 +42,10 @@ function ProfilePage() {
                                 label="Email"
                                 variant="outlined" 
                                 value={userEmail}
-                                onChange={(e) => { 
-                                    setUserEmail(e.target.value); 
-                                }}
+                                disabled
+                                // onChange={(e) => { 
+                                //     setUserEmail(e.target.value); 
+                                // }}
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                       '&.Mui-focused fieldset': {
@@ -69,9 +70,10 @@ function ProfilePage() {
                                 label="Official Profile Name" 
                                 variant="outlined" 
                                 value={officialProfileName}
-                                onChange={(e) => { 
-                                    setOfficialProfileName(e.target.value); 
+                                InputProps={{
+                                    readOnly: true,
                                 }}
+                                disabled
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                       '&.Mui-focused fieldset': {

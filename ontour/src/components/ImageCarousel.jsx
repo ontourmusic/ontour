@@ -124,7 +124,7 @@ const ImageCarousel = (props) => {
                             <Slide index={index}
                                 style={carousel_styles.slide}
                             >
-                                <Polaroid
+                                <Polaroid   
                                     key={index}
                                     onPress={handleImageClick}
                                     url={image}

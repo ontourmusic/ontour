@@ -99,22 +99,56 @@ function Artist() {
             var imageArray = [];
             //loop through the data and push the images into the array
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
-                console.log(imageGallerySupabase.data[i].image_url);
                 imageArray.push(imageGallerySupabase.data[i].image_url);
             }
+          
             var videoArray = []
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
                 console.log(imageGallerySupabase.data[i].video_url);
                 videoArray.push(imageGallerySupabase.data[i].video_url);
             }
-
             //set the image array to the state
             setImageArray(imageArray);
             setVideoArray(videoArray);
+            
+            const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
+
+            var merchImgArray = [];
+            var merchPriceArray = [];
+            var merchLinkArray = [];
+            var merchTitleArray = [];
+            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
+                merchImgArray.push(merchGallerySupabase.data[i].image_url);
+            }
+            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
+                merchPriceArray.push(merchGallerySupabase.data[i].price);
+            }
+            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
+                merchLinkArray.push(merchGallerySupabase.data[i].store_link);
+            }
+            for (var i = 0; i < merchGallerySupabase.data.length; i++) {
+                merchTitleArray.push(merchGallerySupabase.data[i].title);
+            }
+            setMerchImgArray(merchImgArray);
+            setMerchPriceArray(merchPriceArray);
+            setMerchLinkArray(merchLinkArray);
+            setMerchTitleArray(merchTitleArray);
+        
+       
+            
+            const promoImageGallerySupabase = await supabase.from('promo_images').select('*').eq('artist_id', artistID);
+            //initialize an array to hold the artist uploaded promo images
+            var promoImageArray = []
+            //loop through the data and push the images into the array
+            for (var i = 0; i < promoImageGallerySupabase.data.length; i++) {
+                console.log(promoImageGallerySupabase.data[i].image_url);
+                promoImageArray.push(promoImageGallerySupabase.data[i].image_url);
+            }
 
             //gets the tickemaster artist details 
             const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
             const tmData = await tmArtist.json();
+          /** 
             console.log(tmData);
             var spotify = tmData._embedded.attractions[0].externalLinks.spotify[0].url;
             var instagram = tmData._embedded.attractions[0].externalLinks.instagram[0].url;
@@ -122,8 +156,20 @@ function Artist() {
             var tickets = tmData._embedded.attractions[0].url;
             setInstaLink(instagram);
             setTwitterLink(twitter);
-            setTicketLink(tickets);
+
             setSpotifyLink(spotify);
+
+            setSpotifyLink(spotify); **/
+           // const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', currArtistID); 
+           // const artistData = getArtistSupabase["data"][0];
+            setInstaLink(artistData["instagram_link"]);
+            setTwitterLink(artistData["twitter_link"]);
+            setSpotifyLink(artistData["spotify_link"]);
+            setWebsiteLink(artistData["website_link"]);
+           // const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
+           // const tmData = await tmArtist.json();
+            //var tickets = tmData._embedded.attractions[0].url;
+           // setTicketLink(tickets);
         }
         catch {
             console.log('Webpage error. Please reload the page.');
@@ -234,8 +280,25 @@ function Artist() {
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
-                        <ImageCarousel artistID={artistID} images={imageArray} videos={videoArray}
-                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
+                      {
+                            // always show image carousel with promo if the curr user/artist is on their own page
+                            // show image carousel to all other users if there are promo images to show
+                            (currArtistID === artistID || promoImageArray.length > 0) && <>
+                                <ImageCarousel artistID={artistID} images={promoImageArray} isPromo={true} currArtistID={currArtistID}
+                                slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
+                            </>
+                        }
+                        {/* <ImageCarousel artistID={artistID} images={imageArray} 
+                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} /> */}
+                        <ImageCarousel artistID={artistID} images={imageArray} videos={videoArray}  
+                            slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
+                        {
+                            (currArtistID === artistID || merchImgArray.length > 0) && <>
+                                <MerchCarousel artistID={artistID} currArtistID={currArtistID} images={merchImgArray} prices={merchPriceArray} links={merchLinkArray} titles={merchTitleArray}
+                                slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 5} />
+                                </>    
+                        }
+
                         <ArtistContent 
                         allReviews={allReviews} 
                         filteredReviews={filteredReviews} 

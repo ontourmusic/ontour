@@ -11,6 +11,8 @@ import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import MerchModal from "./MerchModal";
 import '../index.css';
+import {Button} from '@mui/material';
+
 
 import artist_styles from "../Styles/artist_styles";
 import polaroid_styles from "../Styles/polaroid_styles";
@@ -124,11 +126,27 @@ const MerchCarousel = (props) => {
             for (var i = 0; i < images.length; i++) {
                 merchArray.push([images[i], prices[i], storeLinks[i], titles[i]]);
             }
-            console.log("merch test");
+            console.log("test " + merchArray.length);
             console.log(merchArray);
             setFullMerchArray(merchArray);
         }
     }, [props.images, props.links, props.prices, props.titles]);
+
+    const handleMerchDelete = async (merchURL) => {
+        const { data, error } = await supabase
+            .from('merch_images')
+            .delete()
+            .eq('image_url', merchURL)
+            .single();
+        console.log(merchURL);
+        if (error) {
+            console.error(error)
+            return null
+        } else {
+            window.location.reload(false);
+            // console.log('image deleted');
+        }
+    };
 
     /**
      *  <MerchModal 
@@ -145,7 +163,10 @@ const MerchCarousel = (props) => {
                 <Typography variant="h5" align="left" className="fw-bold" style={{
                     marginRight: "15px",
                 }}>Merch</Typography>
-                <AddMerchButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
+                {
+                    (props.currArtistID === props.artistID) &&
+                    <AddMerchButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} />
+                }
             </div>
             <CarouselProvider
                 orientation="horizontal"
@@ -174,6 +195,10 @@ const MerchCarousel = (props) => {
                                     
                                     <p id="price"> {"$" + merchObj[1]}</p>
                                     </div>
+                                    {
+                                        (props.currArtistID === props.artistID) &&
+                                        <Button key={index} merchURL={merchObj[0]} variant="contained" color="primary" onClick={() => handleMerchDelete(merchObj[0])}>Delete</Button>
+                                    }
                             </Slide>
                         );
 
@@ -206,6 +231,7 @@ MerchCarousel.propTypes = {
     titles: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
+    currArtistID: PropTypes.string,
 
     // you only need one of these two
     artistID: PropTypes.string,
