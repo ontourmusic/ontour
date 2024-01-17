@@ -702,6 +702,152 @@ const AddMediaButton = (props) => {
   );
 };
 
+const AddMerchButton = (props) => {
+  const [open, setOpen] = useState(false);
+  const [image, setImage] = useState(null);
+  const [storeLink, setStoreLink] = useState("");
+  const [price, setPrice] = useState(null);
+  const [mediaFile, setFile] = useState(null);
+  const artistID = props.artistID;
+  const venueID = props.venueID;
+
+  const handleClose = () => {
+      setOpen(false); 
+      setImage(null);
+  }
+
+  const handleImageUpload = async (event) => {
+      const file = event.target.files[0];
+      setFile(file);
+      const fileName = file.name;
+      setImage(fileName);
+  };
+
+  const handleStoreLink = event => {
+      var word = event.target.value;
+      word.replace(/\n\r?/g, '<br />');
+      setStoreLink(word);
+      console.log(storeLink);
+  }
+
+  const handlePrice = event => {
+      var num = parseFloat(event.target.value);
+      var amount = (Math.round(num * 100) / 100).toFixed(2);
+      setPrice(amount);
+      console.log(price);
+  }
+
+  const postData = async (event) => {
+      const blob = new Blob([mediaFile], { type: mediaFile.type });
+      const timestamp = Date.now();
+      const fileName = `${artistID}-${timestamp}.${mediaFile.type.split('/')[1]}`;
+      const { error } = await supabase.storage.from('user-images').upload(fileName, blob);
+      if (error) {
+          console.error(error);
+          return;
+      } else {
+          console.log('File uploaded successfully!');
+          alert('File uploaded successfully!');
+      }
+      const publicURL = "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/" + fileName;
+      const { data, insertError } = await supabase
+      .from('merch_images')
+      .insert(
+      [{'artist_id':artistID ,'image_url':publicURL, 'price': price, 'store_link': storeLink}]
+      );
+      window.location.reload();
+  }
+
+  const handleMerchButtonPress = () => {
+      setOpen(true);
+  }
+
+  const handleClear = () => {
+      setImage(null);
+      setStoreLink("");
+      setPrice(0);
+      // const dropdown = document.getElementById("event-dropdown");
+      // dropdown.value = "";
+  }
+
+  return (
+      <>
+          <Button onClick={handleMerchButtonPress} variant="contained" component="span" style={modal_styles.addMerchButton}>
+              <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
+              <div style={{color:'white'}}>Add Merch</div>
+          </Button>
+          <Modal
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description">
+              <Box sx={modal_styles.container}>
+                  <h1 style={{textAlign: "center"}}>Upload Merch</h1>
+                  <div style={modal_styles.formItem}>
+                      <input
+                          type="file"
+                          accept="image/*"
+                          style={{ display: 'none' }}
+                          id="contained-button-file"
+                          onChange={handleImageUpload} />
+                      <label htmlFor="contained-button-file">
+                          <Button variant="contained" component="span" style={modal_styles.addMerchButton}>
+                              <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
+                              <div style={{color:'white'}}>Add Image</div>
+                          </Button>
+                      </label>
+                  </div>
+                  <div style={modal_styles.formItem}>
+                      {image && <div>{image}</div>}
+                  </div>
+                  <div style={modal_styles.formItem}>
+                      <textarea
+                      class="form-control shadow-none"
+                      style={{ whiteSpace: "pre-wrap" }}
+                      rows="1" cols="8"
+                      id="store_link"
+                      onChange={handleStoreLink}
+                      value={storeLink}
+                      maxLength={5000}
+                      placeholder="Enter the store link to item..." required
+                      />
+                  </div>
+                  <div style={modal_styles.formItem}>
+                      <input
+                      class="form-control shadow-none"
+                      style={{ whiteSpace: "pre-wrap" , width:200}}
+                      type="number"
+                      min="0.01"
+                      step="0.01"
+                      id="price"
+                      onChange={handlePrice}
+                      value={price}
+                      maxLength={5000}
+                      placeholder="Price" required
+                      />
+                  </div>
+                  <div
+                      style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          gap: 10,
+                          margin: 10
+                      }}
+                      >
+                      <Button style={{marginRight: "10"}} variant="contained" onClick={postData}>
+                          Submit
+                      </Button>
+                      <Button variant="contained" onClick={handleClear}>
+                          Clear
+                      </Button>
+                  </div>
+              </Box>
+          </Modal>
+      </>
+  )
+};
+
 const HelpfulButton = (props) => {
   return (
     <div class="d-flex w-100 justify-content-start pb-1">
@@ -782,7 +928,7 @@ const ResponsiveButtonStyle = {
   },
 };
 
-export { TwoColumnButton, AddMediaButton, HelpfulButton, UnhelpfulButton };
+export { TwoColumnButton, AddMediaButton, AddMerchButton, HelpfulButton, UnhelpfulButton };
 
 TwoColumnButton.propTypes = {
   text: PropTypes.string.isRequired,
