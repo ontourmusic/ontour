@@ -22,7 +22,7 @@ import { Grid } from "@mui/material";
 import SideContent from "../components/SideContent";
 import ArtistContent from "../components/ArtistContent";
 import ImageCarousel from "../components/ImageCarousel";
-
+import MerchCarousel from "../components/MerchCarousel";
 
 function Artist() {
     const [searchParams] = useSearchParams();
