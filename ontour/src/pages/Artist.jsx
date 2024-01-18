@@ -293,7 +293,7 @@ function Artist() {
                             // always show image carousel with promo if the curr user/artist is on their own page
                             // show image carousel to all other users if there are promo images to show
                             (currArtistID === artistID || promoImageArray.length > 0) && <>
-                                <ImageCarousel artistID={artistID} images={promoImageArray} isPromo={true} currArtistID={currArtistID}
+                                <ImageCarousel artistID={artistID} images={promoImageArray} videos={[]} isPromo={true} currArtistID={currArtistID}
                                 slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                             </>
                         }

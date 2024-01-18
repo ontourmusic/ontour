@@ -105,7 +105,9 @@ const ImageCarousel = (props) => {
                 <Typography variant="h5" align="left" className="fw-bold" style={{
                     marginRight: "15px",
                 }}>Captured Moments</Typography>
-                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
+               {
+                !props.isPromo && <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
+               } 
             </div>
             <CarouselProvider
                 orientation="horizontal"
@@ -124,7 +126,7 @@ const ImageCarousel = (props) => {
                             <Slide index={index}
                                 style={carousel_styles.slide}
                             >
-                                <Polaroid   
+                                <Polaroid
                                     key={index}
                                     onPress={handleImageClick}
                                     url={image}
@@ -134,7 +136,7 @@ const ImageCarousel = (props) => {
                     })}                    
                 </Slider> */}
                 <Slider>                                         
-                            {images.length && images.map((image, index) => {
+                            {!!images.length && images.map((image, index) => {
                                 console.log(image,"image")
                                 if(image){
                                     return (
@@ -150,7 +152,7 @@ const ImageCarousel = (props) => {
                                 }
                                
                             })}
-                             {videos.length && videos.map((video, index) => {
+                             {!!videos.length && videos.map((video, index) => {
                                 console.log(video,"video")
                                 if(video){
                                     return (
