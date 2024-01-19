@@ -126,13 +126,17 @@ const mediaUploadModal = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "min(800px, 80vw)",
-    height: "min(500px, 80vh)",
+    width: "min(800px, 90vw)",
+   
     bgcolor: OnTourColors.palette.primary.main,
     boxShadow: 24,
     p: 4,
     borderRadius: "10px",
-    backgroundColor: "rgba(211, 211, 211, 0.9)"
+    backgroundColor: "rgba(211, 211, 211, 0.9)",
+    display:'flex',
+    alignItems:'center',
+    flexDirection:'column',
+   
   },
   addMediaButton: {
     backgroundColor:'#21252B', 

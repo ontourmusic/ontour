@@ -10,16 +10,18 @@ import { AddMediaButton } from "./Buttons";
 import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
-import {Button} from '@mui/material';
 
 import artist_styles from "../Styles/artist_styles";
 const carousel_styles = artist_styles.carousel;
+
+
 
 /*
 images: array of image urls
 */
 const ImageCarousel = (props) => {
     const [images, setImages] = useState([]);
+    const [videos,setVideos] = useState([])
     const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
     const [tempImg, setTemp] = useState('');
@@ -27,15 +29,18 @@ const ImageCarousel = (props) => {
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
-
+    // console.warn(props,"deepanshu")
     const handleImageClick = async (e) => {
+        console.log("video dataset attribute",e.target.dataset.src1)
         console.log("handleImageClick: ", e.target.src);
-
+        console.log(e.target)
+        const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
+        var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
         if (props.isVenue) {
             const { data, error } = await supabase
                 .from('venue_carousel_images')
-                .select('id')
-                .eq('image_url', e.target.src)
+                .select('*')
+                .eq(urlTag, source)
                 .single()
 
             if (error) {
@@ -45,32 +50,32 @@ const ImageCarousel = (props) => {
             setImageData(data);
             console.log("image_id: ", data.id)
             setOpen(true);
-            setTemp(e.target.src);
+            setTemp(source);
             setModel(true);
 
         }
-        else if(props.isPromo) {
+        else if(props.isFestival){
             const { data, error } = await supabase
-                .from('promo_images')
-                .select('*')
-                .eq('image_url', e.target.src)
-                .single()
+            .from('festival_carousel_images')
+            .select('*')
+            .eq(urlTag, source)
+            .single()
 
-            if (error) {
-                console.error(error)
-                return null
-            }
-            setImageData(data);
-            console.log("image_id: ", data.id)
-            setOpen(true);
-            setTemp(e.target.src);
-            setModel(true);
+        if (error) {
+            console.error(error)
+            return null
+        }
+        setImageData(data);
+        console.log("image_id: ", data.id)
+        setOpen(true);
+        setTemp(source);
+        setModel(true);
         }
         else {
             const { data, error } = await supabase
                 .from('artist_images')
                 .select('*')
-                .eq('image_url', e.target.src)
+                .eq(urlTag, source)
                 .single()
 
             if (error) {
@@ -79,54 +84,30 @@ const ImageCarousel = (props) => {
             }
             setImageData(data);
             setOpen(true);
-            setTemp(e.target.src);
+            setTemp(source);
             setModel(true);
         }
     }
-    
     useEffect(() => {
         if (props.images.length > 0) {
             setImageLoad(true);
             setImages(props.images);
         }
-    }, [props.images]);
-
-    const handleImageDelete = async (imageURL) => {
-        const { data, error } = await supabase
-            .from('promo_images')
-            .delete()
-            .eq('image_url', imageURL)
-            .single();
-        if (error) {
-            console.error(error)
-            return null
-        } else {
-            window.location.reload(false);
-            // console.log('image deleted');
+        if (props.videos.length > 0) {
+           
+            setVideos(props.videos);
         }
-    };
+    }, [props.images,props.videos]);
 
     return (
         <>
             <div style={carousel_styles.titleBar}>
-                {
-                    props.isPromo? (
-                    <Typography variant="h5" align="left" className="fw-bold" style={{
-                        marginRight: "15px",
-                    }}>Artist Featured</Typography>
-                    ) :
-                    (
-                        <Typography variant="h5" align="left" className="fw-bold" style={{
-                            marginRight: "15px",
-                        }}>Captured Moments</Typography>
-                    )
-                }
-                { 
-                    // show add media button if it isn't promo carousel
-                    // if it is promo carousel then show button if artist is on their own page
-                    (!props.isPromo || (props.currArtistID === props.artistID)) &&
-                    <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} isPromo={props.isPromo}/>
-                }
+                <Typography variant="h5" align="left" className="fw-bold" style={{
+                    marginRight: "15px",
+                }}>Captured Moments</Typography>
+               {
+                !props.isPromo && <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
+               } 
             </div>
             <CarouselProvider
                 orientation="horizontal"
@@ -138,25 +119,56 @@ const ImageCarousel = (props) => {
                 isIntrinsicHeight={true}
                 style={carousel_styles.container}
             >
-                <Slider>
+                {/* <Slider>
                     {images.map((image, index) => {
+                        console.log(image,"image")
                         return (
                             <Slide index={index}
                                 style={carousel_styles.slide}
                             >
-                                <Polaroid   
+                                <Polaroid
                                     key={index}
                                     onPress={handleImageClick}
-                                    imageURL={image}
+                                    url={image}
                                 />
-                                {
-                                    props.isPromo && (props.currArtistID === props.artistID) &&
-                                    <Button key={index} imageURL={image} variant="contained" color="primary" onClick={() => handleImageDelete(image)}>Delete</Button>
-                                }
-                           </Slide>
+                            </Slide>
                         );
-
-                    })}
+                    })}                    
+                </Slider> */}
+                <Slider>                                         
+                            {!!images.length && images.map((image, index) => {
+                                console.log(image,"image")
+                                if(image){
+                                    return (
+                                        <Slide style={carousel_styles.slide}> 
+                                            <Polaroid
+                                                key={index}
+                                                onPress={handleImageClick}
+                                                imageUrl={image}
+                                                 
+                                            />
+                                        </Slide>
+                                    );
+                                }
+                               
+                            })}
+                             {!!videos.length && videos.map((video, index) => {
+                                console.log(video,"video")
+                                if(video){
+                                    return (
+                                        <Slide style={carousel_styles.slide}> 
+                                            <Polaroid
+                                                key={index}
+                                                onPress={handleImageClick}
+                                                videoUrl={video}
+    
+                                            />
+                                            </Slide>
+                                    );
+                                }
+                               
+                            })}
+                      
                 </Slider>
                 {open && 
                     <ImageModal 
@@ -164,6 +176,7 @@ const ImageCarousel = (props) => {
                         image={tempImg} 
                         imageData={imageData}
                         isVenue={props.isVenue}
+                        isFestival={props.isFestival}
                     />
                     }
                 <div className="controls">
@@ -175,9 +188,7 @@ const ImageCarousel = (props) => {
                         <FontAwesomeIcon icon={faAngleRight} size="lg" />
                     </ButtonNext>
                 </div>
-            </CarouselProvider>
-            
-            </>
+            </CarouselProvider></>
     )
 };
 
@@ -187,8 +198,6 @@ ImageCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
-    isPromo: PropTypes.bool,
-    currArtistID: PropTypes.string,
 
     // you only need one of these two
     artistID: PropTypes.string,
