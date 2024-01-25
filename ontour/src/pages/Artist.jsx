@@ -5,7 +5,7 @@ import ArtistHeader from "../components/ArtistHeader";
 import WriteReview from "../components/WriteReview";
 import Footer from "../components/Footer";
 import { Helmet } from "react-helmet";
-
+import {supabase} from "../components/supabaseClient"
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ArtistNavigation from "../ArtistNavigation"
@@ -30,7 +30,7 @@ function Artist() {
     const artistName = searchParams.get("artist")
     const [currArtistID, setArtistID] = useState("");
 
-    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
+    // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
     const [artistData, setArtistData] = useState({
         fullName: "",
@@ -77,7 +77,6 @@ function Artist() {
         setShowResults(false);
         setFilteredReviews(allReviews);
     }
-
     const performSearch = async () => {
         try {
             //try the supabase query here
@@ -111,7 +110,7 @@ function Artist() {
           
             var videoArray = []
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
-                console.log(imageGallerySupabase.data[i].video_url);
+                // console.log(imageGallerySupabase.data[i].video_url);
                 videoArray.push(imageGallerySupabase.data[i].video_url);
             }
             //set the image array to the state
@@ -148,7 +147,7 @@ function Artist() {
             var promoImageArray = []
             //loop through the data and push the images into the array
             for (var i = 0; i < promoImageGallerySupabase.data.length; i++) {
-                console.log(promoImageGallerySupabase.data[i].image_url);
+                // console.log(promoImageGallerySupabase.data[i].image_url);
                 promoImageArray.push(promoImageGallerySupabase.data[i].image_url);
             }
             //set the image array to the state
@@ -319,7 +318,7 @@ function Artist() {
                         onClearSearch={clearSearch} 
                         reviewTable={"artist_reviews"} 
                         />
-                        {fullName !== "" && <WriteReview artistId={artistIdNumber} name={fullName} numReviews={totalReviews}/>}
+                        {fullName !== "" && <WriteReview artistId={artistID} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>
                         <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />
