@@ -28,13 +28,13 @@ function GetSearchTerm(name) {
     return lower.replace(" ", "_");
 }
 
-const SearchBar = (props) => {
+const SearchBar = React.memo( (props) => {
     const [hasFocus, setHasFocus] = useState(false);
     const [artistList, setArtistList] = useState([]);
     const [venueList, setVenueList] = useState([]);
     const [festivalList, setFestivalList] = useState([]);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
-
+    console.log("search bar reload")
     const loadSearchItems = async () => {
         var artists = await supabase.from('artists').select('*');
         var venues = await supabase.from('venues').select('*');
@@ -174,7 +174,10 @@ const SearchBar = (props) => {
     }
 
     const onSelect = (selectedItem, displayField) => {
+        turnstoneRef.current.clear();
+        // console.log("search bar on select", selectedItem, displayField)
         if (artistList.includes(selectedItem)) {
+            // console.log("nav1")
             navigate({
                 pathname: '/artist',
                 search: createSearchParams({
@@ -185,6 +188,7 @@ const SearchBar = (props) => {
         }
         else if (displayField !== undefined && selectedItem !== undefined) {
             if (venueList.includes(selectedItem)) {
+                // console.log("nav2")
                 navigate({
                     pathname: '/venue',
                     search: createSearchParams({
@@ -194,6 +198,7 @@ const SearchBar = (props) => {
                 });
             }
             else if (festivalList.includes(selectedItem)) {
+                // console.log("nav3")
                 navigate({
                     pathname: '/festival',
                     search: createSearchParams({
@@ -218,8 +223,8 @@ const SearchBar = (props) => {
                 styles={styles}
                 clearButton={true}
                 Clear={Clear}
-                onBlur={onBlur}
-                onFocus={onFocus}
+                // onBlur={onBlur}
+                // onFocus={onFocus}
                 onEnter={searchNavigate}
                 onTab={searchNavigate}
                 Item={SearchBarItem}
@@ -227,7 +232,7 @@ const SearchBar = (props) => {
             />
         </div>
     );
-}
+})
 
 export default SearchBar;
 
