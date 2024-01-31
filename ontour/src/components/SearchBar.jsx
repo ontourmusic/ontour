@@ -8,6 +8,7 @@ import { faSearch, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { createSearchParams, useNavigate } from "react-router-dom";
 import SearchBarItem from "./SearchBarItem";
 import { createClient } from '@supabase/supabase-js'
+import { ar } from "date-fns/locale";
 
 
 
@@ -33,7 +34,11 @@ const SearchBar = React.memo( (props) => {
     const [artistList, setArtistList] = useState([]);
     const [venueList, setVenueList] = useState([]);
     const [festivalList, setFestivalList] = useState([]);
+    
+    
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+    
+    
     console.log("search bar reload")
     const loadSearchItems = async () => {
         var artists = await supabase.from('artists').select('*');
@@ -56,8 +61,6 @@ const SearchBar = React.memo( (props) => {
             turnstoneRef.current.clear();
         }
     }
-
-
 
     const listbox = [
         {
@@ -85,7 +88,10 @@ const SearchBar = React.memo( (props) => {
     ];
 
     const onBlur = () => setHasFocus(false)
-    const onFocus = () => setHasFocus(true)
+    const onFocus = () => {
+        setHasFocus(true);
+        handleClear();
+    }
 
     const containerStyles = hasFocus
         ? 'containerFocus'
@@ -98,14 +104,14 @@ const SearchBar = React.memo( (props) => {
     }, []);
 
     const searchNavigate = async (textEntry, selectedItem) => {
+        turnstoneRef.current.clear();
         try {
             if (selectedItem.value) {
                 selectedItem = selectedItem.value;
             }
             const index = artistList.findIndex(artist => artist['name'] === textEntry);
             const venueIndex = venueList.findIndex(venue => venue['name'] === textEntry);
-            const festivalIndex = festivalList.findIndex(festival => festival['name'] === textEntry);
-            // const festivalIndex = 
+            const festivalIndex = festivalList.findIndex(festival => festival['name'] === textEntry); 
             if (index > -1) {
                 navigate({
                     pathname: '/artist',
@@ -115,7 +121,6 @@ const SearchBar = React.memo( (props) => {
                     }).toString()
                 });
             }
-
             else if (venueIndex > -1) {
                 navigate({
                     pathname: '/venue',
@@ -134,35 +139,37 @@ const SearchBar = React.memo( (props) => {
                     }).toString()
                 });
             }
-            if (typeof selectedItem.text !== undefined) {
-                if (artistList.includes(selectedItem)) {
-                    navigate({
-                        pathname: '/artist',
-                        search: createSearchParams({
-                            id: selectedItem.artist_id,
-                            artist: GetSearchTerm(selectedItem.name),
-                        }).toString()
-                    });
-                }
-                else if (venueList.includes(selectedItem)) {
-                    navigate({
-                        pathname: '/venue',
-                        search: createSearchParams({
-                            id: selectedItem.venue_id,
-                            venue: GetSearchTerm(selectedItem.name),
-                        }).toString()
-                    });
-                }
-                else if (festivalList.includes(selectedItem)) {
-                    navigate({
-                        pathname: '/festival',
-                        search: createSearchParams({
-                            id: selectedItem.id,
-                            festival: GetSearchTerm(selectedItem.name),
-                        }).toString()
-                    });
-                }
-            }
+
+            // if (typeof selectedItem.text !== undefined) {
+            //     console.log("search navigate selected item", selectedItem)
+            //     if (artistList.includes(selectedItem)) {
+            //         navigate({
+            //             pathname: '/artist',
+            //             search: createSearchParams({
+            //                 id: selectedItem.artist_id,
+            //                 artist: GetSearchTerm(selectedItem.name),
+            //             }).toString()
+            //         });
+            //     }
+            //     else if (venueList.includes(selectedItem)) {
+            //         navigate({
+            //             pathname: '/venue',
+            //             search: createSearchParams({
+            //                 id: selectedItem.venue_id,
+            //                 venue: GetSearchTerm(selectedItem.name),
+            //             }).toString()
+            //         });
+            //     }
+            //     else if (festivalList.includes(selectedItem)) {
+            //         navigate({
+            //             pathname: '/festival',
+            //             search: createSearchParams({
+            //                 id: selectedItem.id,
+            //                 festival: GetSearchTerm(selectedItem.name),
+            //             }).toString()
+            //         });
+            //     }
+            // }
         }
         catch {
             console.log('Search Error');
@@ -174,10 +181,9 @@ const SearchBar = React.memo( (props) => {
     }
 
     const onSelect = (selectedItem, displayField) => {
+        if(!selectedItem) return;
         turnstoneRef.current.clear();
-        // console.log("search bar on select", selectedItem, displayField)
-        if (artistList.includes(selectedItem)) {
-            // console.log("nav1")
+        if (artistList.some(element => element.artist_id === selectedItem.artist_id)) {
             navigate({
                 pathname: '/artist',
                 search: createSearchParams({
@@ -188,7 +194,6 @@ const SearchBar = React.memo( (props) => {
         }
         else if (displayField !== undefined && selectedItem !== undefined) {
             if (venueList.includes(selectedItem)) {
-                // console.log("nav2")
                 navigate({
                     pathname: '/venue',
                     search: createSearchParams({
@@ -198,7 +203,6 @@ const SearchBar = React.memo( (props) => {
                 });
             }
             else if (festivalList.includes(selectedItem)) {
-                // console.log("nav3")
                 navigate({
                     pathname: '/festival',
                     search: createSearchParams({
