@@ -44,6 +44,7 @@ const AddMediaButton = (props) => {
   const venueID = props.venueID;
   const festivalId = props.festivalID;
   const [sizeError, setSizeError] = useState("");
+
   const [submitClick,setSubmitClicked] = useState(false)
   const [videoFileType,setVideoFileType] = useState(null);
   // console.log(festivalId,"deep",props)
@@ -73,13 +74,13 @@ const AddMediaButton = (props) => {
   function isVideoPlayable(url) {
     // return true
     // console.log()
-    let canvas = document.getElementById('canvas');
+    let canvas = document.getElementById("canvas");
     // let videotest = document.getElementById('videotest');
-  let videotest = document.createElement('video');
-    console.log("Setting attribute")
+    let videotest = document.createElement("video");
+    console.log("Setting attribute");
     // videotest.setAttribute('src', URL.createObjectURL(url) + "#t=2");
-   
-    videotest.src =  URL.createObjectURL(url);
+
+    videotest.src = URL.createObjectURL(url);
     videotest.currentTime = 2;
     videotest.muted = true;
     videotest.autoplay = true;
@@ -89,53 +90,53 @@ const AddMediaButton = (props) => {
     let canvsObj = canvas.getContext("2d");
     canvsObj.clearRect(0, 0, canvas.width, canvas.height);
     return new Promise((resolve, reject) => {
-        // resolve(true);
-        let i = 0;
-        let x = setInterval(() => {
-          canvsObj.drawImage(videotest, 0, 0, canvas.width, canvas.height);
-          console.log(canvas.toDataURL(), canvas.toDataURL().length, "canvas");
-          i = i + 1;
-          if (canvas.toDataURL().length > 1000) {
-            console.log("true canvas");
-            clearInterval(x);
-            // fetch.innerHTML = "";
-            // videotest.pause();
-            videotest.src =  "";
-            resolve(true);
-     
-          } else if (i > 3) {
-            console.log("false canvas");
-            clearInterval(x);
-            videotest.src =  "";
-            // videotest = null;
-            resolve(false);
-          }
-        }, 1000);
-      
-  
-      
+      // resolve(true);
+      let i = 0;
+      let x = setInterval(() => {
+        canvsObj.drawImage(videotest, 0, 0, canvas.width, canvas.height);
+        console.log(canvas.toDataURL(), canvas.toDataURL().length, "canvas");
+        i = i + 1;
+        if (canvas.toDataURL().length > 1000) {
+          console.log("true canvas");
+          clearInterval(x);
+          // fetch.innerHTML = "";
+          // videotest.pause();
+          videotest.src = "";
+          resolve(true);
+        } else if (i > 3) {
+          console.log("false canvas");
+          clearInterval(x);
+          videotest.src = "";
+          // videotest = null;
+          resolve(false);
+        }
+      }, 1000);
     });
   }
   const handleVideoUpload = async (event) => {
     const file = event.target.files[0];
     var fetch = document.getElementById("fetchMsg");
     fetch.innerHTML = "Generating Preview";
-    fetch.style.display = 'block';
+    fetch.style.display = "block";
     if (file) {
       const videoSize = file.size;
       const maxSize = 52428800;
       console.log(fetch);
-      isVideoPlayable(file).then((x)=>{
+      isVideoPlayable(file).then((x) => {
         fetch.innerHTML = "";
-        fetch.style.display = 'none';
+        fetch.style.display = "none";
         const video = document.getElementById("video");
-        if(x){
-          setSizeError(videoSize > maxSize ? "This file size exceeds 50MB. Please choose another video." : "");
-          setVideoFileType(file.type)
+        if (x) {
+          setSizeError(
+            videoSize > maxSize
+              ? "This file size exceeds 50MB. Please choose another video."
+              : ""
+          );
+          setVideoFileType(file.type);
           setVideoFile(file);
           setVideo(file.name);
-          console.log(file)
-          
+          console.log(file);
+
           const videourl = URL.createObjectURL(file);
           video.setAttribute("src", videourl);
           video.play();
@@ -143,66 +144,87 @@ const AddMediaButton = (props) => {
           const playVideo = () => {
             x = false;
             video.play();
-           
-            console.log("played",x);
+
+            console.log("played", x);
           };
           const pauseVideo = () => {
             x = true;
             video.pause();
-          
-            console.log("paused",x);
-          }
-          video.addEventListener("click",()=>{x?playVideo():pauseVideo()})
+
+            console.log("paused", x);
+          };
+          video.addEventListener("click", () => {
+            x ? playVideo() : pauseVideo();
+          });
           return () => {
             video.removeEventListener("mouseenter", playVideo);
             video.removeEventListener("mouseleave", pauseVideo);
           };
-        }
-        else{
+        } else {
           video.setAttribute("src", "");
-          video.setAttribute('poster', "https://learning.knowbility.org/local/sitepages/upload/no-preview-available.png");
-          setSizeError(videoSize > maxSize ? "This file size exceeds 10MB. Please choose another video." : "");
-          setVideoFileType(file.type)
+          video.setAttribute(
+            "poster",
+            "https://learning.knowbility.org/local/sitepages/upload/no-preview-available.png"
+          );
+          setSizeError(
+            videoSize > maxSize
+              ? "This file size exceeds 10MB. Please choose another video."
+              : ""
+          );
+          setVideoFileType(file.type);
           setVideoFile(file);
           setVideo(file.name);
         }
-      })
-     
+      });
     }
   };
-  
-  
+
   const postBoth = async (mediaFile, videoFile) => {
     try {
       setSubmitClicked(true);
-  
+
       const processFile = async (file, folder) => {
         const blob = new Blob([file], { type: file.type });
         const timestamp = Date.now();
         const fileName = `${artistID}-${timestamp}.${file.type.split("/")[1]}`;
-        const { error } = await supabase.storage.from(folder).upload(fileName, blob);
+        const { error } = await supabase.storage
+          .from(folder)
+          .upload(fileName, blob);
         return { error, fileName };
       };
-  
+
       const [mediaResult, videoResult] = await Promise.all([
         processFile(mediaFile, "user-images"),
         processFile(videoFile, "user-videos"),
       ]);
-  
+
       if (mediaResult.error || videoResult.error) {
         console.error("Error occurred while uploading.");
         return;
       }
-  
+
       const publicURLMedia = `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/${mediaResult.fileName}`;
       const publicURLVideo = `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-videos/${videoResult.fileName}`;
-  
+
       if (props.isVenue) {
-        await supabase.from("venue_carousel_images").insert([{ image_url: publicURLMedia, venue_id: venueID,video_url: publicURLVideo, description: description }]);
-        console.log("abcdefgh")
-      }
-      else if(props.isFestival){
-        await supabase.from("festival_carousel_images").insert([{ image_url: publicURLMedia, festival_id: festivalId,video_url: publicURLVideo, description: description }]);
+        await supabase.from("venue_carousel_images").insert([
+          {
+            image_url: publicURLMedia,
+            venue_id: venueID,
+            video_url: publicURLVideo,
+            description: description,
+          },
+        ]);
+        console.log("abcdefgh");
+      } else if (props.isFestival) {
+        await supabase.from("festival_carousel_images").insert([
+          {
+            image_url: publicURLMedia,
+            festival_id: festivalId,
+            video_url: publicURLVideo,
+            description: description,
+          },
+        ]);
       } else {
         const [eventDate, event] = eventName.split(" • ");
         await supabase.from("artist_images").insert([
@@ -216,7 +238,7 @@ const AddMediaButton = (props) => {
           },
         ]);
       }
-  
+
       console.log("Files uploaded successfully!");
       setSubmitClicked(false);
       alert("Files uploaded successfully!");
@@ -225,16 +247,17 @@ const AddMediaButton = (props) => {
       console.error("An error occurred:", error.message);
     }
   };
-  
 
   const post = async (mediaFile) => {
     // console.log(mediaFile,mediaFile.length);
     console.log(mediaFile.type, "media");
-    setSubmitClicked(true)
+    setSubmitClicked(true);
     const blob = new Blob([mediaFile], { type: mediaFile.type });
     const timestamp = Date.now();
     const fileName = `${artistID}-${timestamp}.${mediaFile.type.split("/")[1]}`;
-    var mediaFolder = mediaFile.type.includes("image") ? "user-images" : "user-videos";
+    var mediaFolder = mediaFile.type.includes("image")
+      ? "user-images"
+      : "user-videos";
     const { error } = await supabase.storage
       .from(mediaFolder)
       .upload(fileName, blob);
@@ -244,20 +267,31 @@ const AddMediaButton = (props) => {
       return;
     } else {
       console.log("File uploaded successfully!");
-      setSubmitClicked(false)
+      setSubmitClicked(false);
       alert("File uploaded successfully!");
       // uploaded = true
     }
-   
-    const publicURL =
-      `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/${mediaFolder}/${fileName}`;
+
+    const publicURL = `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/${mediaFolder}/${fileName}`;
 
     if (props.isVenue) {
       const { data, insertError } = await supabase
         .from("venue_carousel_images")
-        .insert([{ [mediaUrl]: publicURL, venue_id: venueID , description: description, }]);
-    }else if(props.isFestival){
-      await supabase.from("festival_carousel_images").insert([{ [mediaUrl]: publicURL, festival_id: festivalId, description: description, }]);
+        .insert([
+          {
+            [mediaUrl]: publicURL,
+            venue_id: venueID,
+            description: description,
+          },
+        ]);
+    } else if (props.isFestival) {
+      await supabase.from("festival_carousel_images").insert([
+        {
+          [mediaUrl]: publicURL,
+          festival_id: festivalId,
+          description: description,
+        },
+      ]);
     } else {
       var eventDate = eventName.split(" • ")[0];
       var event = eventName.split(" • ")[1];
@@ -372,7 +406,6 @@ const AddMediaButton = (props) => {
 
   return (
     <>
-   
       <Button
         onClick={handleMediaButtonPress}
         variant="contained"
@@ -390,18 +423,37 @@ const AddMediaButton = (props) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        
-        <Box sx={modal_styles.container} >
-        <div style={{position:'absolute',top:'2%',right:'4%',fontSize:'1.5rem',cursor:'pointer',fontWeight:'bold'}} onClick={handleClose}>
-              <button onClick={handleClose} style={{float:'right'}} className="btn btn-dark" >X</button>
-        </div>
-       
-                {/* <video  muted width="300" height="300" controls id="videotest" style={{display:'block'}}></video> */}
-                <canvas width="50" height="50" id="canvas" style={{display:'none',border:'2px solid red'}}></canvas>
+        <Box sx={modal_styles.container}>
+          <div
+            style={{
+              position: "absolute",
+              top: "2%",
+              right: "4%",
+              fontSize: "1.5rem",
+              cursor: "pointer",
+              fontWeight: "bold",
+            }}
+            onClick={handleClose}
+          >
+            <button
+              onClick={handleClose}
+              style={{ float: "right" }}
+              className="btn btn-dark"
+            >
+              X
+            </button>
+          </div>
+
+          {/* <video  muted width="300" height="300" controls id="videotest" style={{display:'block'}}></video> */}
+          <canvas
+            width="50"
+            height="50"
+            id="canvas"
+            style={{ display: "none", border: "2px solid red" }}
+          ></canvas>
           <div className="row  ">
             <div className="col-12 ">
-              <h1 >Upload Media</h1>
-             
+              <h1>Upload Media</h1>
             </div>
           </div>
           <div
@@ -409,7 +461,8 @@ const AddMediaButton = (props) => {
               display: "flex",
               justifyContent: "space-around",
             }}
-            className="row ">
+            className="row "
+          >
             <div
               style={{
                 // border: "1px solid grey",
@@ -418,22 +471,22 @@ const AddMediaButton = (props) => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "column",
-                height: 'auto',
+                height: "auto",
                 position: "relative",
               }}
               className=" col-6 "
             >
               <form id="myImageForm">
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: "none" }}
-                id="contained-button-file"
-                onChange={handleImageUpload}
-              />
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  id="contained-button-file"
+                  onChange={handleImageUpload}
+                />
               </form>
-              
-              <label htmlFor="contained-button-file" style={{width:"97%"}}>
+
+              <label htmlFor="contained-button-file" style={{ width: "97%" }}>
                 <Button
                   variant="contained"
                   component="span"
@@ -459,20 +512,42 @@ const AddMediaButton = (props) => {
                   // border:'2px solid red'
                 }}
               />
-               {image && <span style={{ width: "97%",backgroundColor: "rgba(33,37,43)", borderRadius: "5px",marginTop:'.2rem',fontSize:'.8rem',padding:'.3rem',color:'white',textAlign:'center',wordBreak:'break-all',position:'absolute',bottom:'10%'}}>{image}</span>}
-              {
-                mediaFile && <span onClick={
-                  ()=>{
+              {image && (
+                <span
+                  style={{
+                    width: "97%",
+                    backgroundColor: "rgba(33,37,43)",
+                    borderRadius: "5px",
+                    marginTop: ".2rem",
+                    fontSize: ".8rem",
+                    padding: ".3rem",
+                    color: "white",
+                    textAlign: "center",
+                    wordBreak: "break-all",
+                    position: "absolute",
+                    bottom: "10%",
+                  }}
+                >
+                  {image}
+                </span>
+              )}
+              {mediaFile && (
+                <span
+                  onClick={() => {
                     setFile(null);
-                    setImage(null)
-                    document.getElementById('myImageForm').reset();
+                    setImage(null);
+                    document.getElementById("myImageForm").reset();
                     const image = document.getElementById("image");
-                    image.removeAttribute("src")
-                    
-                    } 
-                          } style={{cursor:"pointer",color:'red'}}>Remove</span>
-              }
-             
+                    image.removeAttribute("src");
+                  }}
+                  style={{
+                    // cursor: "pointer",
+                    color: "red",
+                  }}
+                >
+                  Remove
+                </span>
+              )}
 
               {!mediaFile && (
                 <div
@@ -484,15 +559,17 @@ const AddMediaButton = (props) => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    marginTop:'18%',
+                    marginTop: "18%",
                     fontWeight: "bold",
                     borderRadius: "5px",
                     flexDirection: "column",
                   }}
-                    id = "previewImg"
+                  id="previewImg"
                 >
                   <CameraAlt style={{ fontSize: "4rem", color: "grey" }} />
-                  <div className="text-center" style={{ fontSize: "1.1rem" }} >No image selected</div>
+                  <div className="text-center" style={{ fontSize: "1.1rem" }}>
+                    No image selected
+                  </div>
                 </div>
               )}
 
@@ -506,26 +583,26 @@ const AddMediaButton = (props) => {
                 display: "flex",
                 alignItems: "center",
                 flexDirection: "column",
-                height:'auto',
+                height: "auto",
                 position: "relative",
               }}
               className="col-6 "
             >
               <form id="myVideoForm">
-              <input
-                type="file"
-                accept="video/mp4,video/mkv,video/x-m4v,video/ogg,video/quicktime"
-                style={{ display: "none" }}
-                id="contained-button-file1"
-                onChange={handleVideoUpload}
-              />
+                <input
+                  type="file"
+                  accept="video/mp4,video/mkv,video/x-m4v,video/ogg,video/quicktime"
+                  style={{ display: "none" }}
+                  id="contained-button-file1"
+                  onChange={handleVideoUpload}
+                />
               </form>
-              
-              <label htmlFor="contained-button-file1" style={{width:"97%"}}>
+
+              <label htmlFor="contained-button-file1" style={{ width: "97%" }}>
                 <Button
                   variant="contained"
                   component="span"
-                  style={{ ...modal_styles.addMediaButton, width: "100%"  }}
+                  style={{ ...modal_styles.addMediaButton, width: "100%" }}
                 >
                   <div style={{ paddingRight: 5, color: "white" }}>
                     <PlayArrowIcon />
@@ -533,47 +610,63 @@ const AddMediaButton = (props) => {
                   <div style={{ color: "white" }}>Add Video</div>
                 </Button>
               </label>
-             
-              
-                
-                <video
-                 autoplay loop
-                 preload="metadata"
-                 type= {videoFileType}
-                 playsInline
-                  style={{
-                    width: "97%",
-                    height: "20vh",
-                    marginTop: "6%",
-                    borderRadius: "5px",
-                    objectFit: "cover",
-                    // border:'2px solid red'
-                  }}
-                  // poster={video && "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain"}
-                  id="video"
-                ></video>
-                
-              
-              
-               
-                 {video && 
-                 <>
-                 <span style={{ width: "97%",backgroundColor: "rgba(33,37,43)", borderRadius: "5px",marginTop:'.2rem',fontSize:'.8rem',padding:'.3rem',color:'white',textAlign:'center',wordBreak:'break-all',position:'absolute',bottom:'10%'}}>{video}</span>
-                 </> }
-                {
-                videoFile && <span  style={{cursor:"pointer",color:'red'}} onClick={
-                  ()=>{
+
+              <video
+                autoplay
+                loop
+                preload="metadata"
+                type={videoFileType}
+                playsInline
+                style={{
+                  width: "97%",
+                  height: "20vh",
+                  marginTop: "6%",
+                  borderRadius: "5px",
+                  objectFit: "cover",
+                  // border:'2px solid red'
+                }}
+                // poster={video && "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain"}
+                id="video"
+              ></video>
+
+              {video && (
+                <>
+                  <span
+                    style={{
+                      width: "97%",
+                      backgroundColor: "rgba(33,37,43)",
+                      borderRadius: "5px",
+                      marginTop: ".2rem",
+                      fontSize: ".8rem",
+                      padding: ".3rem",
+                      color: "white",
+                      textAlign: "center",
+                      wordBreak: "break-all",
+                      position: "absolute",
+                      bottom: "10%",
+                    }}
+                  >
+                    {video}
+                  </span>
+                </>
+              )}
+              {videoFile && (
+                <span
+                  style={{ cursor: "pointer", color: "red" }}
+                  onClick={() => {
                     setVideoFile(null);
                     setSizeError("");
                     setVideo(null);
-                    document.getElementById('myVideoForm').reset();
+                    document.getElementById("myVideoForm").reset();
                     const video = document.getElementById("video");
-                    video.setAttribute("src","")
-                    video.setAttribute("poster","")
-                    } 
-                          }>Remove</span>
-              }
-           
+                    video.setAttribute("src", "");
+                    video.setAttribute("poster", "");
+                  }}
+                >
+                  Remove
+                </span>
+              )}
+
               {!videoFile && (
                 <div
                   style={{
@@ -589,28 +682,32 @@ const AddMediaButton = (props) => {
                     borderRadius: "5px",
                     flexDirection: "column",
                   }}
-                  id = "previewImg"
+                  id="previewImg"
                 >
-                  
                   <PlayArrowIcon style={{ fontSize: "4rem", color: "grey" }} />
-                  
-                  <div className="text-center" style={{ fontSize: "1.1rem" }} >No video selected</div>
-                 
-                  
-                 
+
+                  <div className="text-center" style={{ fontSize: "1.1rem" }}>
+                    No video selected
+                  </div>
                 </div>
               )}
-<span id="fetchMsg" style={{ color: 'white',
-    position: 'absolute',
-    top: '21%',
-    backgroundColor: 'rgba(33,37,43)',
-    padding: '5px',
-    width: '97%',
-    textAlign: 'center',display:'none' }}></span>  
+              <span
+                id="fetchMsg"
+                style={{
+                  color: "white",
+                  position: "absolute",
+                  top: "21%",
+                  backgroundColor: "rgba(33,37,43)",
+                  padding: "5px",
+                  width: "97%",
+                  textAlign: "center",
+                  display: "none",
+                }}
+              ></span>
               {/* {video && <span>{video}</span>} */}
             </div>
           </div>
-          
+
           <div style={{ color: "red", textAlign: "center" }}>{sizeError}</div>
 
           <div style={modal_styles.formItem}>
@@ -645,8 +742,8 @@ const AddMediaButton = (props) => {
           </div>
           {/* {uploaded && <span>Successfully uploaded</span>} */}
           <div style={modal_styles.formItem}>
-            {
-            submitClick && <div
+            {submitClick && (
+              <div
                 style={{
                   position: "absolute",
                   zIndex: "1",
@@ -657,11 +754,10 @@ const AddMediaButton = (props) => {
               >
                 <Spinner animation="border" variant="secondary" />{" "}
               </div>
-            }
+            )}
 
             <textarea
               class="form-control shadow-none"
-            
               style={{ whiteSpace: "pre-wrap" }}
               rows="5"
               cols="100"
@@ -671,7 +767,6 @@ const AddMediaButton = (props) => {
               value={description}
               placeholder="Enter a description..."
               required
-              
             />
           </div>
           <div
@@ -712,140 +807,167 @@ const AddMerchButton = (props) => {
   const venueID = props.venueID;
 
   const handleClose = () => {
-      setOpen(false); 
-      setImage(null);
-  }
-
-  const handleImageUpload = async (event) => {
-      const file = event.target.files[0];
-      setFile(file);
-      const fileName = file.name;
-      setImage(fileName);
+    setOpen(false);
+    setImage(null);
   };
 
-  const handleStoreLink = event => {
-      var word = event.target.value;
-      word.replace(/\n\r?/g, '<br />');
-      setStoreLink(word);
-      console.log(storeLink);
-  }
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    setFile(file);
+    const fileName = file.name;
+    setImage(fileName);
+  };
 
-  const handlePrice = event => {
-      var num = parseFloat(event.target.value);
-      var amount = (Math.round(num * 100) / 100).toFixed(2);
-      setPrice(amount);
-      console.log(price);
-  }
+  const handleStoreLink = (event) => {
+    var word = event.target.value;
+    word.replace(/\n\r?/g, "<br />");
+    setStoreLink(word);
+    console.log(storeLink);
+  };
+
+  const handlePrice = (event) => {
+    var num = parseFloat(event.target.value);
+    var amount = (Math.round(num * 100) / 100).toFixed(2);
+    setPrice(amount);
+    console.log(price);
+  };
 
   const postData = async (event) => {
-      const blob = new Blob([mediaFile], { type: mediaFile.type });
-      const timestamp = Date.now();
-      const fileName = `${artistID}-${timestamp}.${mediaFile.type.split('/')[1]}`;
-      const { error } = await supabase.storage.from('user-images').upload(fileName, blob);
-      if (error) {
-          console.error(error);
-          return;
-      } else {
-          console.log('File uploaded successfully!');
-          alert('File uploaded successfully!');
-      }
-      const publicURL = "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/" + fileName;
-      const { data, insertError } = await supabase
-      .from('merch_images')
-      .insert(
-      [{'artist_id':artistID ,'image_url':publicURL, 'price': price, 'store_link': storeLink}]
-      );
-      window.location.reload();
-  }
+    const blob = new Blob([mediaFile], { type: mediaFile.type });
+    const timestamp = Date.now();
+    const fileName = `${artistID}-${timestamp}.${mediaFile.type.split("/")[1]}`;
+    const { error } = await supabase.storage
+      .from("user-images")
+      .upload(fileName, blob);
+    if (error) {
+      console.error(error);
+      return;
+    } else {
+      console.log("File uploaded successfully!");
+      alert("File uploaded successfully!");
+    }
+    const publicURL =
+      "https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-images/" +
+      fileName;
+    const { data, insertError } = await supabase.from("merch_images").insert([
+      {
+        artist_id: artistID,
+        image_url: publicURL,
+        price: price,
+        store_link: storeLink,
+      },
+    ]);
+    window.location.reload();
+  };
 
   const handleMerchButtonPress = () => {
-      setOpen(true);
-  }
+    setOpen(true);
+  };
 
   const handleClear = () => {
-      setImage(null);
-      setStoreLink("");
-      setPrice(0);
-      // const dropdown = document.getElementById("event-dropdown");
-      // dropdown.value = "";
-  }
+    setImage(null);
+    setStoreLink("");
+    setPrice(0);
+    // const dropdown = document.getElementById("event-dropdown");
+    // dropdown.value = "";
+  };
 
   return (
-      <>
-          <Button onClick={handleMerchButtonPress} variant="contained" component="span" style={modal_styles.addMerchButton}>
-              <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
-              <div style={{color:'white'}}>Add Merch</div>
-          </Button>
-          <Modal
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="modal-modal-title"
-              aria-describedby="modal-modal-description">
-              <Box sx={modal_styles.container}>
-                  <h1 style={{textAlign: "center"}}>Upload Merch</h1>
-                  <div style={modal_styles.formItem}>
-                      <input
-                          type="file"
-                          accept="image/*"
-                          style={{ display: 'none' }}
-                          id="contained-button-file"
-                          onChange={handleImageUpload} />
-                      <label htmlFor="contained-button-file">
-                          <Button variant="contained" component="span" style={modal_styles.addMerchButton}>
-                              <div style={{paddingRight: 5, color:'white'}}><CameraAlt /></div>
-                              <div style={{color:'white'}}>Add Image</div>
-                          </Button>
-                      </label>
-                  </div>
-                  <div style={modal_styles.formItem}>
-                      {image && <div>{image}</div>}
-                  </div>
-                  <div style={modal_styles.formItem}>
-                      <textarea
-                      class="form-control shadow-none"
-                      style={{ whiteSpace: "pre-wrap" }}
-                      rows="1" cols="8"
-                      id="store_link"
-                      onChange={handleStoreLink}
-                      value={storeLink}
-                      maxLength={5000}
-                      placeholder="Enter the store link to item..." required
-                      />
-                  </div>
-                  <div style={modal_styles.formItem}>
-                      <input
-                      class="form-control shadow-none"
-                      style={{ whiteSpace: "pre-wrap" , width:200}}
-                      type="number"
-                      min="0.01"
-                      step="0.01"
-                      id="price"
-                      onChange={handlePrice}
-                      value={price}
-                      maxLength={5000}
-                      placeholder="Price" required
-                      />
-                  </div>
-                  <div
-                      style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          gap: 10,
-                          margin: 10
-                      }}
-                      >
-                      <Button style={{marginRight: "10"}} variant="contained" onClick={postData}>
-                          Submit
-                      </Button>
-                      <Button variant="contained" onClick={handleClear}>
-                          Clear
-                      </Button>
-                  </div>
-              </Box>
-          </Modal>
-      </>
-  )
+    <>
+      <Button
+        onClick={handleMerchButtonPress}
+        variant="contained"
+        component="span"
+        style={modal_styles.addMerchButton}
+      >
+        <div style={{ paddingRight: 5, color: "white" }}>
+          <CameraAlt />
+        </div>
+        <div style={{ color: "white" }}>Add Merch</div>
+      </Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modal_styles.container}>
+          <h1 style={{ textAlign: "center" }}>Upload Merch</h1>
+          <div style={modal_styles.formItem}>
+            <input
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+              id="contained-button-file"
+              onChange={handleImageUpload}
+            />
+            <label htmlFor="contained-button-file">
+              <Button
+                variant="contained"
+                component="span"
+                style={modal_styles.addMerchButton}
+              >
+                <div style={{ paddingRight: 5, color: "white" }}>
+                  <CameraAlt />
+                </div>
+                <div style={{ color: "white" }}>Add Image</div>
+              </Button>
+            </label>
+          </div>
+          <div style={modal_styles.formItem}>{image && <div>{image}</div>}</div>
+          <div style={modal_styles.formItem}>
+            <textarea
+              class="form-control shadow-none"
+              style={{ whiteSpace: "pre-wrap" }}
+              rows="1"
+              cols="8"
+              id="store_link"
+              onChange={handleStoreLink}
+              value={storeLink}
+              maxLength={5000}
+              placeholder="Enter the store link to item..."
+              required
+            />
+          </div>
+          <div style={modal_styles.formItem}>
+            <input
+              class="form-control shadow-none"
+              style={{ whiteSpace: "pre-wrap", width: 200 }}
+              type="number"
+              min="0.01"
+              step="0.01"
+              id="price"
+              onChange={handlePrice}
+              value={price}
+              maxLength={5000}
+              placeholder="Price"
+              required
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 10,
+              margin: 10,
+            }}
+          >
+            <Button
+              style={{ marginRight: "10" }}
+              variant="contained"
+              onClick={postData}
+            >
+              Submit
+            </Button>
+            <Button variant="contained" onClick={handleClear}>
+              Clear
+            </Button>
+          </div>
+        </Box>
+      </Modal>
+    </>
+  );
 };
 
 const HelpfulButton = (props) => {
@@ -928,7 +1050,13 @@ const ResponsiveButtonStyle = {
   },
 };
 
-export { TwoColumnButton, AddMediaButton, AddMerchButton, HelpfulButton, UnhelpfulButton };
+export {
+  TwoColumnButton,
+  AddMediaButton,
+  AddMerchButton,
+  HelpfulButton,
+  UnhelpfulButton,
+};
 
 TwoColumnButton.propTypes = {
   text: PropTypes.string.isRequired,

@@ -35,7 +35,7 @@ function ChildModal(props) {
       imageData={props.imageData}
       image={props.image}
       isVenue={props.isVenue}
-                isFestival={props.isFestival}
+      isFestival={props.isFestival}
     />
   );
 }
@@ -114,52 +114,52 @@ function ArtistHeader(props) {
   const handleImageClick = async (image) => {
     console.log(props);
     var urlTag = image.target.tagName == "IMG" ? "image_url" : "video_url";
-    const source = image.target.dataset.src1?image.target.dataset.src1:image.target.src
-    if(props.isVenue){
+    const source = image.target.dataset.src1
+      ? image.target.dataset.src1
+      : image.target.src;
+    if (props.isVenue) {
       const { data, error } = await supabase
-      .from("venue_carousel_images")
-      .select("*")
-      .eq(urlTag, source)
-      .single();
+        .from("venue_carousel_images")
+        .select("*")
+        .eq(urlTag, source)
+        .single();
 
-    if (error) {
-      console.error(error);
-      return null;
-    }
-    setImageData(data);
-    setSelectedImage(source);
-    setIsChildModalOpen(true);
-    }  else if(props.isFestival){
+      if (error) {
+        console.error(error);
+        return null;
+      }
+      setImageData(data);
+      setSelectedImage(source);
+      setIsChildModalOpen(true);
+    } else if (props.isFestival) {
       const { data, error } = await supabase
-      .from("festival_carousel_images")
-      .select("*")
-      .eq(urlTag, source)
-      .single();
+        .from("festival_carousel_images")
+        .select("*")
+        .eq(urlTag, source)
+        .single();
 
-    if (error) {
-      console.error(error);
-      return null;
-    }
-    setImageData(data);
-    setSelectedImage(source);
-    setIsChildModalOpen(true);
-    }
-    else{
+      if (error) {
+        console.error(error);
+        return null;
+      }
+      setImageData(data);
+      setSelectedImage(source);
+      setIsChildModalOpen(true);
+    } else {
       const { data, error } = await supabase
-      .from("artist_images")
-      .select("*")
-      .eq(urlTag, source)
-      .single();
+        .from("artist_images")
+        .select("*")
+        .eq(urlTag, source)
+        .single();
 
-    if (error) {
-      console.error(error);
-      return null;
+      if (error) {
+        console.error(error);
+        return null;
+      }
+      setImageData(data);
+      setSelectedImage(source);
+      setIsChildModalOpen(true);
     }
-    setImageData(data);
-    setSelectedImage(source);
-    setIsChildModalOpen(true);
-    }
-    
   };
 
   const handleCloseChildModal = () => {
@@ -265,16 +265,19 @@ function ArtistHeader(props) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box sx={{ ...modal_styles.container, overflowY: 'auto' }} >
-         
+          <Box sx={{ ...modal_styles.container, overflowY: "auto" }}>
             <Grid item xs={12} container spacing={2}>
-            
               <Grid item xs={12}>
-              <button onClick={handleClose} style={{float:'right'}} className="btn btn-dark" >X</button>
+                <button
+                  onClick={handleClose}
+                  style={{ float: "right" }}
+                  className="btn btn-dark"
+                >
+                  X
+                </button>
                 <h1 style={{ color: "black" }} class="homebanner">
                   Photos of {props.name}
                 </h1>
-                
               </Grid>
               {images.map((image, index) => {
                 if (image) {
@@ -299,71 +302,72 @@ function ArtistHeader(props) {
                             handleMouseLeave();
                           }}
                         />
-                      
                       </div>
                     </Grid>
                   );
                 }
               })}
-              {videos && videos.map((video, index) => {
-                if (video) {
-                  return (
-                    <Grid item xs={12} md={4} lg={3}>
-                      <div
-                        // onClick={() => {handleTileClick()}}
-                        style={header_styles.imageTile.container}
-                      >
-                        <video
-                          preload="metadata"
-                          playsInline
-                          src={video+"#t=0.2"}
-                          style={{
-                            ...header_styles.imageTile.image,
-                            ...(index === hoveredIndex &&
-                              header_styles.imageTile.imageHover),
-                          }}
-                        //   onClick={handleImageClick}
-                          onMouseEnter={() => {
-                            handleMouseEnter(index);
-                          }}
-                          onMouseLeave={() => {
-                            handleMouseLeave();
-                          }}
-                        >
-                            
-                        </video>
+              {videos &&
+                videos.map((video, index) => {
+                  if (video) {
+                    return (
+                      <Grid item xs={12} md={4} lg={3}>
                         <div
-                      style={{
-                        backgroundColor: isHovering ?  "rgba(0,0,0,.5)": "rgba(0,0,0)",
-                        color: "white",
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%,-50%)",
-                        zIndex: 1,
-                        width: "4rem",
-                        height: "3rem",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        borderRadius: "10px",
-                        cursor: "pointer",
-                        pointerEvents: "auto",
-                        transition: "background-color 0.3s, width 0.3s",
-                      }}
-                      onMouseEnter={handleMouseEnterIcon}
-                      onMouseLeave={handleMouseLeaveIcon}
-                      data-src1={video} onClick={handleImageClick}>
-                          &#9658;
-                         {/* <FontAwesomeIcon data-src1 = {props.videoUrl}
+                          // onClick={() => {handleTileClick()}}
+                          style={header_styles.imageTile.container}
+                        >
+                          <video
+                            preload="metadata"
+                            playsInline
+                            src={video + "#t=0.2"}
+                            style={{
+                              ...header_styles.imageTile.image,
+                              ...(index === hoveredIndex &&
+                                header_styles.imageTile.imageHover),
+                            }}
+                            //   onClick={handleImageClick}
+                            onMouseEnter={() => {
+                              handleMouseEnter(index);
+                            }}
+                            onMouseLeave={() => {
+                              handleMouseLeave();
+                            }}
+                          ></video>
+                          <div
+                            style={{
+                              backgroundColor: isHovering
+                                ? "rgba(0,0,0,.5)"
+                                : "rgba(0,0,0)",
+                              color: "white",
+                              position: "absolute",
+                              top: "50%",
+                              left: "50%",
+                              transform: "translate(-50%,-50%)",
+                              zIndex: 1,
+                              width: "4rem",
+                              height: "3rem",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: "10px",
+                              // cursor: "pointer",
+                              pointerEvents: "auto",
+                              transition: "background-color 0.3s, width 0.3s",
+                            }}
+                            onMouseEnter={handleMouseEnterIcon}
+                            onMouseLeave={handleMouseLeaveIcon}
+                            data-src1={video}
+                            onClick={handleImageClick}
+                          >
+                            &#9658;
+                            {/* <FontAwesomeIcon data-src1 = {props.videoUrl}
                   onClick={props.onPress}  icon={faPlay} /> */}
+                          </div>
                         </div>
-                      </div>
-                      
-                    </Grid>
-                  );
-                }
-              })}
+                      </Grid>
+                    );
+                  }
+                })}
             </Grid>
             {selectedImage && (
               <ChildModal
