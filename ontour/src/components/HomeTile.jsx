@@ -6,7 +6,7 @@ import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import home_styles from "../Styles/home_styles";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function HomeTile(props) {
