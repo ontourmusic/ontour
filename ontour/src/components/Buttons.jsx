@@ -46,7 +46,7 @@ const AddMediaButton = (props) => {
   const [sizeError, setSizeError] = useState("");
   const [submitClick,setSubmitClicked] = useState(false)
   const [videoFileType,setVideoFileType] = useState(null);
-  console.log(festivalId,"deep",props)
+  // console.log(festivalId,"deep",props)
  
   const handleClose = () => {
     setOpen(false);

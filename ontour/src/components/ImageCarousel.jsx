@@ -137,7 +137,7 @@ const ImageCarousel = (props) => {
                 </Slider> */}
                 <Slider>                                         
                             {!!images.length && images.map((image, index) => {
-                                console.log(image,"image")
+                                // console.log(image,"image")
                                 if(image){
                                     return (
                                         <Slide style={carousel_styles.slide}> 
@@ -153,7 +153,7 @@ const ImageCarousel = (props) => {
                                
                             })}
                              {!!videos.length && videos.map((video, index) => {
-                                console.log(video,"video")
+                                // console.log(video,"video")
                                 if(video){
                                     return (
                                         <Slide style={carousel_styles.slide}> 
