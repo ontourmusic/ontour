@@ -44,10 +44,11 @@ const AddMediaButton = (props) => {
   const venueID = props.venueID;
   const festivalId = props.festivalID;
   const [sizeError, setSizeError] = useState("");
-  const [submitClick, setSubmitClicked] = useState(false);
-  const [videoFileType, setVideoFileType] = useState(null);
-  console.log(festivalId, "deep", props);
 
+  const [submitClick,setSubmitClicked] = useState(false)
+  const [videoFileType,setVideoFileType] = useState(null);
+  // console.log(festivalId,"deep",props)
+ 
   const handleClose = () => {
     setOpen(false);
     setImage(null);

@@ -9,17 +9,17 @@ import SettDashButton from "./components/SettDashbarButton";
 function Navigation() 
 {
   const { user, isAuthenticated } = useAuth0();
-  const [artist_name, setName] = useState('')
+  // const [artist_name, setName] = useState('')
 
-  const navigate = useNavigate(); 
-  const routeChange = (artist) =>{ 
-    navigate({
-      pathname: '/artist', 
-      search: createSearchParams({
-      artist: artist_name,
-      }).toString()
-    });
-  };
+  // const navigate = useNavigate(); 
+  // const routeChange = (artist) =>{ 
+  //   navigate({
+  //     pathname: '/artist', 
+  //     search: createSearchParams({
+  //     artist: artist_name,
+  //     }).toString()
+  //   });
+  // };
 
   const [username, setUsername] = useState("");
   const [userEmail, setUserEmail] = useState("");

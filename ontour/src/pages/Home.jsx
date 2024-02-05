@@ -16,6 +16,7 @@ import { GoogleMap, MarkerF, InfoWindowF} from '@react-google-maps/api';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import GeotaggingSearchbar from "../components/GeotaggingSearchbar";
+import {supabase} from "../components/supabaseClient"
 
 
 
@@ -49,7 +50,7 @@ function Home() {
     const [artistIDs, setArtistIDs] = useState({});
     const [artistList, setArtistList] = useState({ name: "", imageURL: "", artistID: -1 });
     const [venueList, setVenueList] = useState({});
-    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+    // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     const [upcomingEvents, setUpcomingEvents] = useState([]);
     const [latitude, setLatitude] = useState(39.8355);
     const [longitude, setLongitude] = useState(-99.0909);
