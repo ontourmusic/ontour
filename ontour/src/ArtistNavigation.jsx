@@ -49,7 +49,7 @@ function Navigation()
         {
           isAuthenticated ? 
           <div>
-            <span style={{ color: 'white', marginRight: '10px'}}>Logged in as {username}</span>
+            <span style={{ color: 'white', marginRight: '10px'}}>Logged in as {user.username}</span>
             <SettDashButton></SettDashButton>
             <LogoutButton></LogoutButton>
           </div> :

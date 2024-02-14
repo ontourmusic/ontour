@@ -10,8 +10,9 @@ import { AddMediaButton } from "./Buttons";
 import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
-
+import mixpanel from "mixpanel-browser";
 import artist_styles from "../Styles/artist_styles";
+import { useAuth0 } from "@auth0/auth0-react";
 const carousel_styles = artist_styles.carousel;
 
 
@@ -20,6 +21,7 @@ const carousel_styles = artist_styles.carousel;
 images: array of image urls
 */
 const ImageCarousel = (props) => {
+    const {user, isAuthenticated } = useAuth0();
     const [images, setImages] = useState([]);
     const [videos,setVideos] = useState([])
     const [imageLoad, setImageLoad] = useState(false);
@@ -29,11 +31,14 @@ const ImageCarousel = (props) => {
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+    mixpanel.init('046ea653daecc890e2168c762151eb85', {debug: true, track_pageview: true, persistence: 'localStorage'});
+
     // console.warn(props,"deepanshu")
     const handleImageClick = async (e) => {
         console.log("video dataset attribute",e.target.dataset.src1)
         console.log("handleImageClick: ", e.target.src);
         console.log(e.target)
+        
         const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
         var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
         if (props.isVenue) {
@@ -52,7 +57,7 @@ const ImageCarousel = (props) => {
             setOpen(true);
             setTemp(source);
             setModel(true);
-
+           
         }
         else if(props.isFestival){
             const { data, error } = await supabase
@@ -86,6 +91,11 @@ const ImageCarousel = (props) => {
             setOpen(true);
             setTemp(source);
             setModel(true);
+            mixpanel.track(urlTag=='image_url'?`imageClicked_${props.artistID}`:`videoClicked_${props.artistID}`,{
+                'url': `${source}`,
+                'id' : `${data.id}`,
+                'user_email' : user?`${user.email}`:`guest`
+              });
         }
     }
     useEffect(() => {
@@ -177,6 +187,8 @@ const ImageCarousel = (props) => {
                         imageData={imageData}
                         isVenue={props.isVenue}
                         isFestival={props.isFestival}
+                        user={user}
+                        // mixpanel = {mixpanel}
                     />
                     }
                 <div className="controls">

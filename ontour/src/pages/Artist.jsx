@@ -1,6 +1,7 @@
 import React from "react";
 import "../index.css";
 import "react-multi-carousel/lib/styles.css";
+import mixpanel from "mixpanel-browser";
 import ArtistHeader from "../components/ArtistHeader";
 import WriteReview from "../components/WriteReview";
 import Footer from "../components/Footer";
@@ -29,7 +30,8 @@ function Artist() {
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
     const [currArtistID, setArtistID] = useState("");
-
+    mixpanel.init('046ea653daecc890e2168c762151eb85', {debug: true, track_pageview: true, persistence: 'localStorage'});
+    mixpanel.track_pageview({"page": "Artist Page", "artistID": artistID, "artistName": artistName});
     // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
     // const [artistData, setArtistData] = useState({
@@ -299,7 +301,7 @@ function Artist() {
                         }
                         {/* <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} /> */}
-                        <ImageCarousel artistID={artistID} images={imageArray} videos={videoArray}  
+                        <ImageCarousel artistName={artistName} artistID={artistID} images={imageArray} videos={videoArray}  
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
                         {
                             (currArtistID === artistID || merchImgArray.length > 0) && <>

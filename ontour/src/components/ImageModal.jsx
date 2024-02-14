@@ -5,9 +5,11 @@ import CommentBox from "./CommentBox";
 import { Grid, Modal } from "@mui/material";
 import { useState, useEffect } from "react";
 import { GetAverageColor, getTextColor, rgbToHex } from "./ColorFunctions";
+import mixpanel from "mixpanel-browser";
 const modal_styles = artist_styles.modal;
 
 const ImageModal = (props) => {
+  mixpanel.init('046ea653daecc890e2168c762151eb85', {debug: true, track_pageview: true, persistence: 'localStorage'});
   const [modalBackgroundColour, setModalBackgroundColour] = useState(
     "rgba(76, 78, 120, 0.9)"
   );
@@ -46,9 +48,26 @@ const ImageModal = (props) => {
         linear-gradient(110deg, #2d2d4e, 60%, #ccd0de)
         linear-gradient(110deg, #4c4e78, 42%, #05020e)
         */
-        console.log(props.image)
+        console.log(props.image,"data")
   }, []);
   console.log(props.image);
+  let video = document.getElementById("video");
+  let closeBtn = document.getElementById("modalCloseBtn");
+  let x = 0;
+  function sendDataToMixPanel(){
+    if(x < Math.floor(video.currentTime.toFixed(2))){
+      x =   Math.floor(video.currentTime.toFixed(2))
+      mixpanel.track(`videoPlayed_${props.imageData.artist_id}`,{
+         "play_time" : `${x} secs`,
+         "video_id" : props.imageData.id,
+         "video_url" : props.imageData.video_url,
+         "user_email" : props.user?`${props.user.email}`:'guest'
+      });
+    }
+}
+  video && video.addEventListener("pause",sendDataToMixPanel)
+  video && closeBtn.addEventListener("click",sendDataToMixPanel)
+  
   return (
     <Modal
       open={true}
@@ -74,6 +93,7 @@ const ImageModal = (props) => {
       >
          <div style={{ position: "absolute", right: 10,height:'2rem' }}>
             <button
+              id = "modalCloseBtn"
               onClick={props.handleClose}
               style={{ float: "right" }}
               className="btn btn-light"
@@ -87,15 +107,14 @@ const ImageModal = (props) => {
               playsInline
               preload="metadata"
               controls
-              loop
               src={props.image + "#t=0.2"}
               style={modal_styles.image}
+              id = "video"
             />
           ) : (
             <img src={props.image} style={modal_styles.image} />
           )}
         </Grid>
-
         <Grid
           item
           xs={12}

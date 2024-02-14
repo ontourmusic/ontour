@@ -14,8 +14,10 @@ import {LoadScript} from '@react-google-maps/api';
 ReactGA.initialize("G-BE8WDNBGS7");
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
   <React.StrictMode>
+    
     <Auth0Provider 
       domain="dev-uujtiin6xxo47cy3.us.auth0.com"
       clientId="Net3dnd5HahABxD2GelMnUn9eSD1BFnv"
@@ -25,7 +27,9 @@ root.render(
       <LoadScript googleMapsApiKey="AIzaSyCZpLyl5Q2hyMNM-AnuDfsKfRCr_lTl6vA">
         <App />
       </LoadScript>
+   
     </Auth0Provider>
+   
   </React.StrictMode>
 );
 
