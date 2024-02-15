@@ -12,7 +12,6 @@ import ArtistNavigation from "../ArtistNavigation"
 
 import artist_styles from "../Styles/artist_styles";
 
-import { createClient } from '@supabase/supabase-js';
 import common_styles from "../Styles/common_styles";
 import Fuse from 'fuse.js'
 
@@ -30,14 +29,7 @@ function Artist() {
     const artistName = searchParams.get("artist")
     const [currArtistID, setArtistID] = useState("");
 
-    // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
-    // const [artistData, setArtistData] = useState({
-    //     fullName: "",
-    //     allReviews: [],
-    //     artistIdNumber: 0,
-    // });
-    console.log("Artist reload triggered")
 
     const [fullName, setFullName] = useState("");
     const [allReviews, setAllReviews] = useState([]);
@@ -284,6 +276,7 @@ function Artist() {
                 <Grid item xs={12}>
                     <ArtistNavigation />
                 </Grid>
+                
                 <Grid item xs={12}>
                     <ArtistHeader images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false}/>
                 </Grid>
