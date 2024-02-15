@@ -30,7 +30,6 @@ export default function HomeTile(props) {
   const navigate = useNavigate();
   const handleTileClick = () => {
     document.body.style.cursor = "initial";
-    console.log("clicked");
     navigate(link);
   };
 

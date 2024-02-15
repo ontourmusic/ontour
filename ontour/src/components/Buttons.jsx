@@ -12,7 +12,10 @@ import { createClient } from "@supabase/supabase-js";
 import artist_styles from "../Styles/artist_styles";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
+import Reaptcha from "reaptcha";
+import common_styles from "../Styles/common_styles";
 
+const window_breakpoints = common_styles.window_breakpoints;
 const two_column_button_style = button_style.two_column_button;
 const supabase = createClient(
   "https://zouczoaamusrlkkuoppu.supabase.co",
@@ -46,6 +49,7 @@ const AddMediaButton = (props) => {
   const [sizeError, setSizeError] = useState("");
   const [submitClick, setSubmitClicked] = useState(false);
   const [videoFileType, setVideoFileType] = useState(null);
+  const [captchaVerified, setCaptcha] = useState(false);
   console.log(festivalId, "deep", props);
 
   const handleClose = () => {
@@ -70,6 +74,12 @@ const AddMediaButton = (props) => {
     const imageurl = URL.createObjectURL(file);
     image.setAttribute("src", imageurl.toString());
   };
+
+  const onVerify = (recaptchaResponse) => {
+    console.log(recaptchaResponse);
+    setCaptcha(true);
+  };
+
   function isVideoPlayable(url) {
     // return true
     // console.log()
@@ -778,13 +788,33 @@ const AddMediaButton = (props) => {
             }}
           >
             {!sizeError && (
-              <Button
-                style={{ marginRight: "10" }}
-                variant="contained"
-                onClick={!sizeError && postData}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 10,
+                  margin: 10,
+                }}
               >
-                Submit
-              </Button>
+                <Reaptcha
+                  size={
+                    window.innerWidth < window_breakpoints.md
+                      ? "compact"
+                      : "normal"
+                  }
+                  sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI"
+                  onVerify={onVerify}
+                />
+                <Button
+                  disabled={!captchaVerified}
+                  variant="contained"
+                  onClick={!sizeError && postData}
+                >
+                  Submit
+                </Button>
+              </div>
             )}
             {/* <Button variant="contained" onClick={handleClear}>
                             Clear
