@@ -28,66 +28,52 @@ const ImageCarousel = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
+    const [imageId, setImageId] = useState([]);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     // console.warn(props,"deepanshu")
-    const handleImageClick = async (e) => {
-        console.log("video dataset attribute",e.target.dataset.src1)
+    const handleImageClick = async (e, index) => {
+        console.log("video dataset attribute", e.target.dataset.src1);
         console.log("handleImageClick: ", e.target.src);
-        console.log(e.target)
-        const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
-        var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
+        console.log("Clicked image index:", index);
+        console.log("Images in handleClick", props.images)
+        const source = e.target.dataset.src1 ? e.target.dataset.src1 : e.target.src;
+        var urlTag = e.target.tagName === 'IMG' ? "image_url" : "video_url"; 
+        console.log("Sources: ", source);
+        console.log("urlTag: ", urlTag);
+        let table = '';
         if (props.isVenue) {
-            const { data, error } = await supabase
-                .from('venue_carousel_images')
-                .select('*')
-                .eq(urlTag, source)
-                .single()
-
-            if (error) {
-                console.error(error)
-                return null
-            }
-            setImageData(data);
-            console.log("image_id: ", data.id)
-            setOpen(true);
-            setTemp(source);
-            setModel(true);
-
+            table = 'venue_carousel_images';
+        } else if (props.isFestival) {
+            table = 'festival_carousel_images';
+        } else {
+            table = 'artist_images';
         }
-        else if(props.isFestival){
+
+        for(let i=0; i<props.images.length; i++){
             const { data, error } = await supabase
-            .from('festival_carousel_images')
+            .from(table)
             .select('*')
-            .eq(urlTag, source)
-            .single()
-
-        if (error) {
-            console.error(error)
-            return null
-        }
-        setImageData(data);
-        console.log("image_id: ", data.id)
-        setOpen(true);
-        setTemp(source);
-        setModel(true);
-        }
-        else {
-            const { data, error } = await supabase
-                .from('artist_images')
-                .select('*')
-                .eq(urlTag, source)
-                .single()
-
+            .eq(urlTag, props.images[i])
+            .single();
+    
             if (error) {
-                console.error(error)
-                return null
+                console.error(error);
+                return;
             }
-            setImageData(data);
-            setOpen(true);
-            setTemp(source);
-            setModel(true);
+            imageId.push(data.id)
+            if(source == props.images[i]){
+                setImageData(data)
+            }
         }
-    }
+        console.log('imageID:', imageId)
+        setImageId(imageId)
+        setTemp(source); // Assuming you use this for something specific in your modal
+        setCurrentImageIndex(index);
+        console.log("Setting currentImageIndex to:", index);
+        setOpen(true);
+    };
+    
     useEffect(() => {
         if (props.images.length > 0) {
             setImageLoad(true);
@@ -136,49 +122,50 @@ const ImageCarousel = (props) => {
                     })}                    
                 </Slider> */}
                 <Slider>                                         
-                            {!!images.length && images.map((image, index) => {
-                                // console.log(image,"image")
-                                if(image){
-                                    return (
-                                        <Slide style={carousel_styles.slide}> 
-                                            <Polaroid
-                                                key={index}
-                                                onPress={handleImageClick}
-                                                imageUrl={image}
-                                                 
-                                            />
-                                        </Slide>
-                                    );
-                                }
-                               
-                            })}
-                             {!!videos.length && videos.map((video, index) => {
-                                // console.log(video,"video")
-                                if(video){
-                                    return (
-                                        <Slide style={carousel_styles.slide}> 
-                                            <Polaroid
-                                                key={index}
-                                                onPress={handleImageClick}
-                                                videoUrl={video}
-    
-                                            />
-                                            </Slide>
-                                    );
-                                }
-                               
-                            })}
-                      
+                    {!!images.length && images.map((image, index) => {
+                        // console.log(image,"image")
+                        if(image){
+                            return (
+                                <Slide key={index} style={carousel_styles.slide}> 
+                                    <Polaroid
+                                        onPress={(e) => handleImageClick(e, index)}
+                                        imageUrl={image}
+                                    />
+                                </Slide>
+                            );
+                        }
+                        
+                    })}
+                        {!!videos.length && videos.map((video, index) => {
+                        // console.log(video,"video")
+                        if(video){
+                            return (
+                                <Slide style={carousel_styles.slide}> 
+                                    <Polaroid
+                                        key={index}
+                                        onPress={handleImageClick}
+                                        videoUrl={video}
+
+                                    />
+                                    </Slide>
+                            );
+                        }
+                        
+                    })}
+                    
                 </Slider>
                 {open && 
                     <ImageModal 
                         handleClose={handleClose} 
-                        image={tempImg} 
+                        images={props.images}
+                        initialImageIndex={currentImageIndex} 
                         imageData={imageData}
                         isVenue={props.isVenue}
                         isFestival={props.isFestival}
+                        imageId = {imageId}
+
                     />
-                    }
+                }
                 <div className="controls">
                     <ButtonBack className="btn-arrow" style={{ color: "black" }}>
                         <FontAwesomeIcon icon={faAngleLeft} size="lg" />
@@ -198,7 +185,6 @@ ImageCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
-
     // you only need one of these two
     artistID: PropTypes.string,
     venueID: PropTypes.string,
