@@ -95,10 +95,10 @@ function Artist() {
 
             const imageGallerySupabase = await supabase.from('artist_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
-            var imageArray = [];
+            var imageArrayTmp = [];
             //loop through the data and push the images into the array
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
-                imageArray.push(imageGallerySupabase.data[i].image_url);
+                imageArrayTmp.push(imageGallerySupabase.data[i].image_url);
             }
           
             var videoArray = []
@@ -107,7 +107,7 @@ function Artist() {
                 videoArray.push(imageGallerySupabase.data[i].video_url);
             }
             //set the image array to the state
-            setImageArray(imageArray);
+            setImageArray(imageArrayTmp);
             setVideoArray(videoArray);
             
             const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
