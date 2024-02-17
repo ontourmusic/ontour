@@ -26,7 +26,7 @@ const ImageCarousel = (props) => {
     const [videos,setVideos] = useState([])
     const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
-    const [tempImg, setTemp] = useState('');
+    const [tempImg, setTemp] = useState('')
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
@@ -57,7 +57,12 @@ const ImageCarousel = (props) => {
             setOpen(true);
             setTemp(source);
             setModel(true);
-           
+            mixpanel.track(urlTag=='image_url'?`venue_imageClicked`:`venue_videoClicked`,{
+                'url': `${source}`,
+                [urlTag=='image_url'?`image_id`:`video_id`] : `${data.id}`,
+                'user_email' : user?`${user.email}`:`guest`,
+                'venue_id' : props.venueID
+              });
         }
         else if(props.isFestival){
             const { data, error } = await supabase
@@ -75,6 +80,12 @@ const ImageCarousel = (props) => {
         setOpen(true);
         setTemp(source);
         setModel(true);
+        mixpanel.track(urlTag=='image_url'?`festival_imageClicked`:`festival_videoClicked`,{
+            'url': `${source}`,
+            [urlTag=='image_url'?`image_id`:`video_id`] : `${data.id}`,
+            'user_email' : user?`${user.email}`:`guest`,
+            'festival_id' : props.festivalId
+          });
         }
         else {
             const { data, error } = await supabase
@@ -93,8 +104,9 @@ const ImageCarousel = (props) => {
             setModel(true);
             mixpanel.track(urlTag=='image_url'?`imageClicked_${props.artistID}`:`videoClicked_${props.artistID}`,{
                 'url': `${source}`,
-                'id' : `${data.id}`,
-                'user_email' : user?`${user.email}`:`guest`
+                [urlTag=='image_url'?`image_id`:`video_id`] : `${data.id}`,
+                'user_email' : user?`${user.email}`:`guest`,
+
               });
         }
     }

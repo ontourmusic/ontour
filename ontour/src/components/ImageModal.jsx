@@ -57,11 +57,12 @@ const ImageModal = (props) => {
   function sendDataToMixPanel(){
     if(x < Math.floor(video.currentTime.toFixed(2))){
       x =   Math.floor(video.currentTime.toFixed(2))
-      mixpanel.track(`videoPlayed_${props.imageData.artist_id}`,{
+      mixpanel.track(`videoPlayed_${props.imageData.artist_id?props.imageData.artist_id:(props.imageData.venue_id?"venue":"festival")}`,{
          "play_time" : `${x} secs`,
          "video_id" : props.imageData.id,
          "video_url" : props.imageData.video_url,
-         "user_email" : props.user?`${props.user.email}`:'guest'
+         "user_email" : props.user?`${props.user.email}`:'guest',
+         [!props.imageData.artist_id && (props.imageData.venue_id?"venue_id":"festival_id")] : props.imageData.venue_id?props.imageData.venue_id:props.imageData.festival_id
       });
     }
 }
