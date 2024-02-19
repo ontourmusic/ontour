@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@types/react-datepicker": "^6.0.1",
     "css-loader": "^6.10.0",
     "date-fns": "^3.3.1",
     "react-datepicker": "^4.25.0",
