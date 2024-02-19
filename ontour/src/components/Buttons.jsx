@@ -47,7 +47,7 @@ const AddMediaButton = (props) => {
   const venueID = props.venueID;
   const festivalId = props.festivalID;
   const [sizeError, setSizeError] = useState("");
-  const [submitClick, setSubmitClicked] = useState(false);
+  const [isSubmitClick, setIsSubmitClicked] = useState(false);
   const [videoFileType, setVideoFileType] = useState(null);
   const [captchaVerified, setCaptcha] = useState(false);
   console.log(festivalId, "deep", props);
@@ -190,7 +190,7 @@ const AddMediaButton = (props) => {
 
   const postBoth = async (mediaFile, videoFile) => {
     try {
-      setSubmitClicked(true);
+      setIsSubmitClicked(true);
 
       const processFile = async (file, folder) => {
         const blob = new Blob([file], { type: file.type });
@@ -249,7 +249,7 @@ const AddMediaButton = (props) => {
       }
 
       console.log("Files uploaded successfully!");
-      setSubmitClicked(false);
+      setIsSubmitClicked(false);
       alert("Files uploaded successfully!");
       window.location.reload();
     } catch (error) {
@@ -260,7 +260,7 @@ const AddMediaButton = (props) => {
   const post = async (mediaFile) => {
     // console.log(mediaFile,mediaFile.length);
     console.log(mediaFile.type, "media");
-    setSubmitClicked(true);
+    setIsSubmitClicked(true);
     const blob = new Blob([mediaFile], { type: mediaFile.type });
     const timestamp = Date.now();
     const fileName = `${artistID}-${timestamp}.${mediaFile.type.split("/")[1]}`;
@@ -276,7 +276,7 @@ const AddMediaButton = (props) => {
       return;
     } else {
       console.log("File uploaded successfully!");
-      setSubmitClicked(false);
+      setIsSubmitClicked(false);
       alert("File uploaded successfully!");
       // uploaded = true
     }
@@ -751,7 +751,7 @@ const AddMediaButton = (props) => {
           </div>
           {/* {uploaded && <span>Successfully uploaded</span>} */}
           <div style={modal_styles.formItem}>
-            {submitClick && (
+            {isSubmitClick && (
               <div
                 style={{
                   position: "absolute",
