@@ -10,6 +10,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import { Typography } from "@mui/material";
 import common_styles from "../Styles/common_styles";
+import Form from 'react-bootstrap/Form';
+
 const window_breakpoints = common_styles.window_breakpoints;
 
 
@@ -24,6 +26,11 @@ const WriteVenueReview = (props) => {
   const [artistName, setArtistName] = useState("");
   const [eventDate, setEventDate] = useState("");
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+  const [showDates, setShowDates] = useState([]);
+  const [selectedShow, setSelectedShow] = useState("");
+  const [dateList, setDateList] = useState([]);
+  const [venueList, setVenueList] = useState([]);
+  const [maxEventCount, setMaxEventCount] = useState(10);
 
   const { user, isAuthenticated, isLoading } = useAuth0();
 
@@ -52,32 +59,37 @@ const WriteVenueReview = (props) => {
 
   }
 
-  useEffect(() => {
-    //GetPastReviews();
-  }, []);
+  const handleFormChange = (event) => {
+    if (event.target.value == "extend") {
+      setMaxEventCount(maxEventCount + 10);
+    }
+    else {
+      setEvent(event.target.value);
+    }
+  }
+
+  const handleEventNameChange = (event) => {
+    setEvent(event.target.value);
+  }
+
+  const handleDateChange = (event) => {
+    setEventDate(event.target.value);
+  }
+
+useEffect(() => {
+    GetPastReviews();
+  }, [maxEventCount, props.venueId]);
 
   const GetPastReviews = async () => {
-    // NEED API CALL TO GET PAST EVENTS AT A VENUE
-    var url = " ";
-
-    const pastReviews = await fetch(url);
-    const pastData = await pastReviews.json();
-    pastData.reverse();
-    for (var i = 0; i < 10; i++) {
-      if (reviews.length < 10) {
-        var date = pastData[i].datetime.split("T")[0];
-        date = date.split("-");
-        var year = date[0];
-        var month = date[1];
-        var day = date[2];
-        var mmddyyyy = month + "/" + day + "/" + year;
-        pastData[i].datetime = mmddyyyy;
-        reviews.push(pastData[i]);
-      }
+    try {
+      const festival = await supabase.from('venues').select('*').eq('venue_id', props.venueId);
+      const dates = festival["data"][0]["show_date"];
+      setDateList(dates);
+      const venues = festival["data"][0]["show_artist"];
+      setVenueList(venues);
     }
-    if (reviews.length > 0) {
-      setReviewsSet(true);
-      setEvent(`${reviews[0].datetime.split("T")[0]} • ${reviews[0].venue.name}`);
+    catch (err) {
+      console.log('API Error');
     }
   }
 
@@ -134,13 +146,39 @@ const WriteVenueReview = (props) => {
             </div>
           }
         </div>
-        <div class="row bottom">
+        {/* <div class="row bottom">
           <div class="col">
             <input type="text" class="form-control shadow-none" onChange={artistName => setArtistName(artistName.target.value)} value={artistName} placeholder="Artist Name" required />
           </div>
           <div class='col'>
             <input type="date" class="form-control shadow-none" onChange={eventDate => setEventDate(eventDate.target.value)} value={eventDate} placeholder="Event Date" required />
           </div>
+        </div> */}
+        <div class="row bottom">
+          <div class="col">
+            {dateList &&
+              <>
+                <Form.Select aria-label="Default select example" required onChange={handleFormChange}>
+                  <option value="" selected>Select an event</option>
+                  {
+                    dateList.map((date, index) => (
+                      <option value={`${date} • ${venueList[index]} `}>
+                        {date} • {venueList[index]}
+                      </option>
+                    ))
+                  }
+                  {
+                    maxEventCount < 20 ? <option value="extend">Select an Older Event</option> : <></>
+                  }
+
+                </Form.Select> </> }
+            {!dateList && <input type="text" class="form-control shadow-none" onChange={handleEventNameChange} placeholder={"Venue"} required />}
+          </div>
+          {!dateList &&
+            <div class="col">
+                  <input type="date" class="form-control shadow-none" onChange={handleDateChange} placeholder={"Date"} required />
+            </div>
+          }
         </div>
         <div class="row bottom">
           <div class="col">
