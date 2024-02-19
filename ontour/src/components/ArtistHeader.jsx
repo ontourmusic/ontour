@@ -221,7 +221,8 @@ function ArtistHeader(props) {
 
           <h1 style={artist_styles.header.ArtistName} class="fw-bold">
             {props.name}{" "}
-            {props.isVenue == 1 && props.verified && (
+            {/* deleted "props.isVenue == 1 &&" here */}
+            { props.verified && (
               <img src="images/verifiedBadge.png" style={verified}></img>
             )}
             <br></br>

@@ -10,6 +10,7 @@ import { AddMediaButton } from "./Buttons";
 import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
+import CircularProgress from '@mui/material/CircularProgress'; 
 
 import artist_styles from "../Styles/artist_styles";
 const carousel_styles = artist_styles.carousel;
@@ -28,8 +29,12 @@ const ImageCarousel = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
+    const [loadingStatus, setLoadingStatus] = useState(() => props.images.map(() => true));
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     // console.warn(props,"deepanshu")
+    const handleImageLoaded = (index) => {
+        setLoadingStatus(prev => prev.map((item, idx) => idx === index ? false : item));
+    };
     const handleImageClick = async (e) => {
         console.log("video dataset attribute",e.target.dataset.src1)
         console.log("handleImageClick: ", e.target.src);
@@ -140,14 +145,20 @@ const ImageCarousel = (props) => {
                                 // console.log(image,"image")
                                 if(image){
                                     return (
-                                        <Slide style={carousel_styles.slide}> 
-                                            <Polaroid
-                                                key={index}
-                                                onPress={handleImageClick}
-                                                imageUrl={image}
-                                                 
-                                            />
+                                        <Slide key={index} style={carousel_styles.slide}>
+                                            {loadingStatus[index] ? (
+                                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                                    <CircularProgress />
+                                                </div>
+                                            ) : (
+                                                <Polaroid
+                                                    onPress={handleImageClick}
+                                                    imageUrl={image}
+                                                    onLoad={() => handleImageLoaded(index)}
+                                                />
+                                            )}
                                         </Slide>
+
                                     );
                                 }
                                
