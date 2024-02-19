@@ -31,6 +31,7 @@ const Polaroid = (props) => {
         <div onClick={props.onPress} style={polaroid_styles.polaroid_container}>
           <img
             src={props.imageUrl}
+            onLoad={props.onLoad} // Trigger the onLoad event when the image is loaded
             class="d-block w-100"
             style={polaroid_styles.polaroid_image}
             alt="..."
@@ -92,6 +93,7 @@ export { Polaroid };
 
 Polaroid.propTypes = {
   onPress: PropTypes.func,
-  imageURL: PropTypes.string,
+  imageUrl: PropTypes.string,
   link: PropTypes.string,
+  onLoad: PropTypes.func, // Add onLoad to propTypes
 };

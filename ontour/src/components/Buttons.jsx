@@ -52,6 +52,10 @@ const AddMediaButton = (props) => {
   const [captchaVerified, setCaptcha] = useState(false);
   console.log(festivalId, "deep", props);
 
+  const [submitClick,setSubmitClicked] = useState(false)
+  const [videoFileType,setVideoFileType] = useState(null);
+  // console.log(festivalId,"deep",props)
+ 
   const handleClose = () => {
     setOpen(false);
     setImage(null);
