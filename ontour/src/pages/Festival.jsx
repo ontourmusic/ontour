@@ -15,6 +15,7 @@ import ArtistContent from "../components/ArtistContent";
 import SideContent from "../components/SideContent";
 import WriteFestivalReview from "../components/WriteFestivalReview";
 import DisplayHeadliners from "../components/DisplayHeadliners";
+import { Helmet } from "react-helmet";
 
 
 
@@ -213,6 +214,10 @@ const Festival = (props) => {
 
 
     return (
+        <>
+        <Helmet>
+            <title>{festival_name}</title>
+        </Helmet>
         <Grid container spacing={0}>
             <Grid item xs={12}>
                 <ArtistNavigation />
@@ -264,6 +269,7 @@ const Festival = (props) => {
                 </Grid>
             </Grid>
         </Grid>
+        </>
     )
 }
 

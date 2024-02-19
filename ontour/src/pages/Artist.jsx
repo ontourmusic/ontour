@@ -12,7 +12,6 @@ import ArtistNavigation from "../ArtistNavigation"
 
 import artist_styles from "../Styles/artist_styles";
 
-import { createClient } from '@supabase/supabase-js';
 import common_styles from "../Styles/common_styles";
 import Fuse from 'fuse.js'
 
@@ -30,14 +29,7 @@ function Artist() {
     const artistName = searchParams.get("artist")
     const [currArtistID, setArtistID] = useState("");
 
-    // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
-    // const [artistData, setArtistData] = useState({
-    //     fullName: "",
-    //     allReviews: [],
-    //     artistIdNumber: 0,
-    // });
-    console.log("Artist reload triggered")
 
     const [fullName, setFullName] = useState("");
     const [allReviews, setAllReviews] = useState([]);
@@ -104,10 +96,10 @@ function Artist() {
 
             const imageGallerySupabase = await supabase.from('artist_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
-            var imageArray = [];
+            var imageArrayTmp = [];
             //loop through the data and push the images into the array
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
-                imageArray.push(imageGallerySupabase.data[i].image_url);
+                imageArrayTmp.push(imageGallerySupabase.data[i].image_url);
             }
           
             var videoArray = []
@@ -116,7 +108,7 @@ function Artist() {
                 videoArray.push(imageGallerySupabase.data[i].video_url);
             }
             //set the image array to the state
-            setImageArray(imageArray);
+            setImageArray(imageArrayTmp);
             setVideoArray(videoArray);
 
             setVerified(artistData.data[0]["verified"]);
@@ -287,6 +279,7 @@ function Artist() {
                 <Grid item xs={12}>
                     <ArtistNavigation />
                 </Grid>
+                
                 <Grid item xs={12}>
                     <ArtistHeader images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} verified={verified} image={artistImage} isVenue={0} onTour={onTour}/>
                 </Grid>

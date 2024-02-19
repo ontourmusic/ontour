@@ -16,6 +16,7 @@ import { createClient } from "@supabase/supabase-js";
 import ImageCarousel from "../components/ImageCarousel";
 import Fuse from "fuse.js";
 import common_styles from "../Styles/common_styles";
+import { Helmet } from "react-helmet";
 
 const window_breakpoints = common_styles.window_breakpoints;
 
@@ -214,6 +215,10 @@ function Venue() {
   };
 
   return (
+    <>
+    <Helmet>
+      <title>{venueName}</title>
+    </Helmet>
     <Grid container spacing={0}>
       <Grid item xs={12}>
         <ArtistNavigation />
@@ -272,6 +277,7 @@ function Venue() {
         <Footer />
       </Grid>
     </Grid>
+    </>
   );
 }
 export default Venue;
