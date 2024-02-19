@@ -62,6 +62,7 @@ function Artist() {
     const [promoImageArray, setPromoImageArray] = useState([]);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
+    const [verified, setVerified] = useState(true);
 
     const searchReviews = (searchTerm) => {
         const options = {
@@ -117,6 +118,8 @@ function Artist() {
             //set the image array to the state
             setImageArray(imageArray);
             setVideoArray(videoArray);
+
+            setVerified(artistData.data[0]["verified"]);
             
             const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
 
@@ -285,7 +288,7 @@ function Artist() {
                     <ArtistNavigation />
                 </Grid>
                 <Grid item xs={12}>
-                    <ArtistHeader images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false}/>
+                    <ArtistHeader images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} verified={verified} image={artistImage} isVenue={0} onTour={onTour}/>
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
@@ -322,7 +325,7 @@ function Artist() {
                         {fullName !== "" && <WriteReview artistId={artistID} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />
+                        <SideContent name={fullName} linkPairs={[[websiteLink, "images/web_icon.pic.jpg"], [spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
