@@ -9,6 +9,7 @@ import {createClient} from '@supabase/supabase-js'
 import common_styles from "../Styles/common_styles";
 
 //react date picker
+import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 
