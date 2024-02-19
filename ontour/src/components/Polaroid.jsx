@@ -80,6 +80,7 @@ const Polaroid = (props) => {
           }
           <img
             src={props.imageUrl}
+            onLoad={props.onLoad} // Trigger the onLoad event when the image is loaded
             class="d-block w-100"
             style={{ ...polaroid_styles.polaroid_image, opacity: props.loading ? 0 : 1}}
             alt="..."
@@ -149,7 +150,7 @@ export { MemoizedPolaroid as Polaroid };
 
 Polaroid.propTypes = {
   onPress: PropTypes.func,
-  imageURL: PropTypes.string,
+  imageUrl: PropTypes.string,
   link: PropTypes.string,
   loadFinished: PropTypes.func,
   loading: PropTypes.bool,

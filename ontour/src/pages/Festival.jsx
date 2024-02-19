@@ -41,6 +41,9 @@ const Festival = (props) => {
     const [headliners, setHeadliners] = useState([]);
     const [standardActs, setStandardActs] = useState([]);
     const window_breakpoints = common_styles.window_breakpoints;
+    const [websiteLink, setWebsiteLink] = useState("");
+    const [instaLink, setInstaLink] = useState("");
+    const [ticketLink, setTicketLink] = useState("");
 
     const searchReviews = (searchTerm) => {
         const options = {
@@ -71,6 +74,9 @@ const Festival = (props) => {
             setFestivalCity(cityState);
             setFestivalState(state);
             setBannerImage(banner_image);
+            setWebsiteLink(festivalData.data[0].website_link);
+            setInstaLink(festivalData.data[0].instagram_link);
+            setTicketLink(festivalData.data[0].ticket_link)
 
             const festivalGalleryData = await supabase.from('festival_carousel_images').select('*').eq('festival_id', festivalIDGlobal);
             var imageGallery = [];
@@ -256,7 +262,10 @@ const Festival = (props) => {
                     {festival_name !== "" && <WriteFestivalReview festivalId={festivalIDGlobal} name={festival_name} numReviews={totalReviews} />}
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <SideContent name={festival_name} festival={true} />
+                    <SideContent
+                        name={festival_name} festival={true}
+                        linkPairs={[[websiteLink, "images/web_icon.pic.jpg"],[instaLink, "images/instagram.png.webp"], [ticketLink, "images/ticketmaster_icon.png"]]}
+                    />
                 </Grid>
             </Grid>
         </Grid>

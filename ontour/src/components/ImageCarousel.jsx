@@ -9,7 +9,9 @@ import { Polaroid } from "./Polaroid";
 import { AddMediaButton } from "./Buttons";
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
+
 import {supabase} from "../components/supabaseClient"
+
 
 import artist_styles from "../Styles/artist_styles";
 const carousel_styles = artist_styles.carousel;
@@ -171,6 +173,7 @@ const ImageCarousel = (props) => {
                                                 loading={PolaroidLoading}
                                             />
                                         </Slide>
+
                                     );
                                 }
                                

@@ -57,6 +57,8 @@ function Venue() {
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [showResults, setShowResults] = useState(false);
   const [verified, setVerified] = useState(false);
+  const [websiteLink, setWebsiteLink] = useState("");
+  const [instaLink, setInstaLink] = useState("");
 
   const searchReviews = (searchTerm) => {
     const options = {
@@ -94,6 +96,8 @@ function Venue() {
       setVenueImage(imageUrls);
       setVenueIdNumber(venueIDGlobal);
       setVerified(venueData.data[0]["verified"]);
+      setWebsiteLink(venueData.data[0]["website_link"]);
+      setInstaLink(venueData.data[0]["instagram_link"]);
 
       const venueGalleryData = await supabase
         .from("venue_carousel_images")
@@ -264,7 +268,7 @@ function Venue() {
           <SideContent
             name={venue_name}
             venue={true}
-            linkPairs={[[ticketLink, "images/ticketmaster_icon.png"]]}
+            linkPairs={[[websiteLink, "images/web_icon.pic.jpg"],[instaLink, "images/instagram.png.webp"], [ticketLink, "images/ticketmaster_icon.png"]]}
           />
         </Grid>
       </Grid>
