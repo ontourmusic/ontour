@@ -23,9 +23,9 @@ const styles = artist_styles.header;
 const verified = artist_styles.verifiedButton;
 
 function ChildModal(props) {
-  console.log("childmodal props: ", props);
+  // console.log("childmodal props: ", props);
   useEffect(() => {
-    console.log(props.imageData);
+    // console.log(props.imageData);
   }, [props.imageData]);
 
   return (
@@ -84,7 +84,7 @@ function ArtistHeader(props) {
   const totalReviewTextRef = useRef(null);
 
   const handleResize = () => {
-    console.log("Resize event triggered");
+    // console.log("Resize event triggered");
     if (starBoxRef.current) {
       const starBoxHeight = starBoxRef.current.offsetHeight;
       const starBoxWidth = starBoxRef.current.offsetWidth;
@@ -112,7 +112,7 @@ function ArtistHeader(props) {
   };
 
   const handleImageClick = async (image) => {
-    console.log(props);
+    // console.log(props);
     var urlTag = image.target.tagName == "IMG" ? "image_url" : "video_url";
     const source = image.target.dataset.src1
       ? image.target.dataset.src1
@@ -181,10 +181,10 @@ function ArtistHeader(props) {
       setImageLoad(true);
       setImages(props.images);
       setVideos(props.videos);
-      console.log("setting images");
-      console.log(props.images);
+      // console.log("setting images");
+      // console.log(props.images);
     }
-    console.log("adding event listener for resize");
+    // console.log("adding event listener for resize");
     window.addEventListener("resize", handleResize);
   }, [props.images]);
 
@@ -221,7 +221,8 @@ function ArtistHeader(props) {
 
           <h1 style={artist_styles.header.ArtistName} class="fw-bold">
             {props.name}{" "}
-            {props.isVenue == 1 && props.verified && (
+            {/* deleted "props.isVenue == 1 &&" here */}
+            { props.verified && (
               <img src="images/verifiedBadge.png" style={verified}></img>
             )}
             <br></br>

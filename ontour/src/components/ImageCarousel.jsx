@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import PropTypes from "prop-types";
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
 import "pure-react-carousel/dist/react-carousel.es.css";
@@ -7,9 +7,11 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import '../Styles/carousel.css';
 import { Polaroid } from "./Polaroid";
 import { AddMediaButton } from "./Buttons";
-import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
+
+import {supabase} from "../components/supabaseClient"
+
 
 import artist_styles from "../Styles/artist_styles";
 const carousel_styles = artist_styles.carousel;
@@ -20,9 +22,32 @@ const carousel_styles = artist_styles.carousel;
 images: array of image urls
 */
 const ImageCarousel = (props) => {
-    const [images, setImages] = useState([]);
-    const [videos,setVideos] = useState([])
-    const [imageLoad, setImageLoad] = useState(false);
+    //Handle image loading
+    const cleanedImageArray = props.images.filter(Boolean);
+    const imageUrlsLength = cleanedImageArray.length;
+
+    const cleandVideoArray = props.videos.filter(Boolean);
+    const videoUrlsLength = cleandVideoArray.length;
+
+    const [PolaroidLoading, setPolaroidLoading] = useState(true);
+    const loadedCountRef = useRef(0);
+    
+    // Start loading when imageUrls and videoUrls change
+    useEffect(() => {
+        setPolaroidLoading(true); 
+        loadedCountRef.current = 0; 
+    }, [JSON.stringify(props.images.concat(props.videos))]);
+
+    const handleImageLoad = () => {
+        loadedCountRef.current += 1;
+        if (loadedCountRef.current === (imageUrlsLength+videoUrlsLength)) {
+            setPolaroidLoading(false);
+        }
+    };
+
+    // const [images, setImages] = useState([]);
+    // const [videos,setVideos] = useState([])
+    // const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
     const [tempImg, setTemp] = useState('');
     const [open, setOpen] = React.useState(false);
@@ -30,17 +55,9 @@ const ImageCarousel = (props) => {
     const [imageData, setImageData] = useState([]);
     const [imageId, setImageId] = useState([]);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
-    // console.warn(props,"deepanshu")
     const handleImageClick = async (e, index) => {
-        console.log("video dataset attribute", e.target.dataset.src1);
-        console.log("handleImageClick: ", e.target.src);
-        console.log("Clicked image index:", index);
-        console.log("Images in handleClick", props.images)
         const source = e.target.dataset.src1 ? e.target.dataset.src1 : e.target.src;
         var urlTag = e.target.tagName === 'IMG' ? "image_url" : "video_url"; 
-        console.log("Sources: ", source);
-        console.log("urlTag: ", urlTag);
         let table = '';
         if (props.isVenue) {
             table = 'venue_carousel_images';
@@ -66,24 +83,12 @@ const ImageCarousel = (props) => {
                 setImageData(data)
             }
         }
-        console.log('imageID:', imageId)
         setImageId(imageId)
         setTemp(source); // Assuming you use this for something specific in your modal
         setCurrentImageIndex(index);
-        console.log("Setting currentImageIndex to:", index);
         setOpen(true);
     };
     
-    useEffect(() => {
-        if (props.images.length > 0) {
-            setImageLoad(true);
-            setImages(props.images);
-        }
-        if (props.videos.length > 0) {
-           
-            setVideos(props.videos);
-        }
-    }, [props.images,props.videos]);
 
     return (
         <>
@@ -122,36 +127,41 @@ const ImageCarousel = (props) => {
                     })}                    
                 </Slider> */}
                 <Slider>                                         
-                    {!!images.length && images.map((image, index) => {
-                        // console.log(image,"image")
-                        if(image){
-                            return (
-                                <Slide key={index} style={carousel_styles.slide}> 
-                                    <Polaroid
-                                        onPress={(e) => handleImageClick(e, index)}
-                                        imageUrl={image}
-                                    />
-                                </Slide>
-                            );
-                        }
-                        
-                    })}
-                        {!!videos.length && videos.map((video, index) => {
-                        // console.log(video,"video")
-                        if(video){
-                            return (
-                                <Slide style={carousel_styles.slide}> 
-                                    <Polaroid
-                                        key={index}
-                                        onPress={handleImageClick}
-                                        videoUrl={video}
+                            {!!props.images.length && props.images.map((image, index) => {
+                                if(image){
+                                    return (
+                                        <Slide style={carousel_styles.slide}
+                                          key={index}
+                                         > 
+                                            <Polaroid
+                                                key={index}
+                                                onPress={(e) => handleImageClick(e, index)}
+                                                imageUrl={image}
+                                                loadFinished={handleImageLoad}
+                                                loading={PolaroidLoading}
+                                            />
+                                        </Slide>
 
-                                    />
-                                    </Slide>
-                            );
-                        }
-                        
-                    })}
+                                    );
+                                }
+                               
+                            })}
+                             {!!props.videos.length && props.videos.map((video, index) => {
+                                if(video){
+                                    return (
+                                        <Slide style={carousel_styles.slide}> 
+                                            <Polaroid
+                                                key={index}
+                                                onPress={handleImageClick}
+                                                videoUrl={video}
+                                                loadFinished={handleImageLoad}
+                                                loading={PolaroidLoading}
+                                            />
+                                            </Slide>
+                                    );
+                                }
+                               
+                            })}
                     
                 </Slider>
                 {open && 
@@ -179,7 +189,7 @@ const ImageCarousel = (props) => {
     )
 };
 
-export default ImageCarousel;
+export default React.memo(ImageCarousel);
 
 ImageCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
