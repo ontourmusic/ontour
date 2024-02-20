@@ -111,7 +111,7 @@ function Artist() {
             setImageArray(imageArrayTmp);
             setVideoArray(videoArray);
 
-            setVerified(artistData.data[0]["verified"]);
+            setVerified(artistData["verified"]);
             
             const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
 
