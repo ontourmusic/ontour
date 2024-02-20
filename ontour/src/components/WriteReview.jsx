@@ -201,7 +201,7 @@ const WriteReview = (props) => {
                                             <option value="extend">Select an Older Event</option> : <></>
                                     }
                                     {
-                                        <option key="others" value="others">Others</option>
+                                        <option key="others" value="others">Other</option>
                                     }
 
                                 </Form.Select> </>}
