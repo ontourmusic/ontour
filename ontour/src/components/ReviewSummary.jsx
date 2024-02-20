@@ -29,30 +29,33 @@ const ReviewSummary = ({ allReviews }) => {
     }, [allReviews]);
 
     return (
-        <Grid container spacing={1} >
-            <Grid item xs={12} md={4} style={artist_styles.review_display.summary.leftContainer}>
-                <h4 style={{ textAlign: "start" }}>
-                    Overall Rating
-                </h4>
-                <Rating
-                    name="text-feedback"
-                    value={aggregateRating}
-                    // size="large"
-                    sx={{ fontSize: "3em" }}
-                    readOnly
-                    precision={0.1}
-                    emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
-                    style={artist_styles.review_display.summary.starBox}
-                />
-                <Typography variant="body2" color="text.secondary" textAlign={"start"}>
-                    {TotalReviews} {TotalReviews === 1 ? "review" : "reviews"}
-                </Typography>
+        <>
+            <Typography variant="h5" style={{ marginBottom: '2px', textAlign: 'left',fontWeight: 'bold',marginLeft: '12px' }}>
+                Review
+            </Typography>
+            <Grid container spacing={1} >
+                <Grid item xs={12} md={4} style={artist_styles.review_display.summary.leftContainer}>
+                    <Typography variant="h6" textAlign={"start"} marginLeft={'12px'}>
+                        Overall Rating
+                    </Typography>
+                    <Rating
+                        name="text-feedback"
+                        value={aggregateRating}
+                        sx={{ fontSize: "3em" }}
+                        readOnly
+                        precision={0.1}
+                        emptyIcon={<StarBorderOutlinedIcon style={{ opacity: 1 }} fontSize="inherit" />}
+                        style={artist_styles.review_display.summary.starBox}
+                    />
+                    <Typography variant="body2" color="text.secondary" textAlign={"start"}>
+                        {TotalReviews} {TotalReviews === 1 ? "review" : "reviews"}
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                    <ReviewProgressBars ReviewValueArray={reviewValueArray} TotalReviews={TotalReviews} />
+                </Grid>
             </Grid>
-            <Grid item xs={12} md={8}>
-                <ReviewProgressBars ReviewValueArray={reviewValueArray} TotalReviews={TotalReviews} />
-            </Grid>
-        </Grid>
-
+        </>
     )
 }
 
