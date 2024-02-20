@@ -53,42 +53,74 @@ const ImageCarousel = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
-    const [imageId, setImageId] = useState([]);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const handleImageClick = async (e, index) => {
-        const source = e.target.dataset.src1 ? e.target.dataset.src1 : e.target.src;
-        var urlTag = e.target.tagName === 'IMG' ? "image_url" : "video_url"; 
-        let table = '';
+    const handleImageClick = async (e) => {
+        // console.log("video dataset attribute",e.target.dataset.src1)
+        // console.log("handleImageClick: ", e.target.src);
+        // console.log(e.target)
+        const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
+        var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
         if (props.isVenue) {
-            table = 'venue_carousel_images';
-        } else if (props.isFestival) {
-            table = 'festival_carousel_images';
-        } else {
-            table = 'artist_images';
-        }
-
-        for(let i=0; i<props.images.length; i++){
             const { data, error } = await supabase
-            .from(table)
-            .select('*')
-            .eq(urlTag, props.images[i])
-            .single();
-    
+                .from('venue_carousel_images')
+                .select('*')
+                .eq(urlTag, source)
+                .single()
+
             if (error) {
-                console.error(error);
-                return;
+                console.error(error)
+                return null
             }
-            imageId.push(data.id)
-            if(source == props.images[i]){
-                setImageData(data)
-            }
+            setImageData(data);
+            console.log("image_id: ", data.id)
+            setOpen(true);
+            setTemp(source);
+            setModel(true);
+
         }
-        setImageId(imageId)
-        setTemp(source); // Assuming you use this for something specific in your modal
-        setCurrentImageIndex(index);
+        else if(props.isFestival){
+            const { data, error } = await supabase
+            .from('festival_carousel_images')
+            .select('*')
+            .eq(urlTag, source)
+            .single()
+
+        if (error) {
+            console.error(error)
+            return null
+        }
+        setImageData(data);
+        console.log("image_id: ", data.id)
         setOpen(true);
-    };
-    
+        setTemp(source);
+        setModel(true);
+        }
+        else {
+            const { data, error } = await supabase
+                .from('artist_images')
+                .select('*')
+                .eq(urlTag, source)
+                .single()
+
+            if (error) {
+                console.error(error)
+                return null
+            }
+            setImageData(data);
+            setOpen(true);
+            setTemp(source);
+            setModel(true);
+        }
+    }
+    // useEffect(() => {
+    //     if (props.images.length > 0) {
+    //         // setImageLoad(true);
+    //         // setImages(props.images);
+    //     }
+    //     if (props.videos.length > 0) {
+           
+    //         setVideos(props.videos);
+    //     }
+    // }, [props.images,props.videos]);
 
     return (
         <>
@@ -131,11 +163,11 @@ const ImageCarousel = (props) => {
                                 if(image){
                                     return (
                                         <Slide style={carousel_styles.slide}
-                                          key={index}
+                                         index={index}
                                          > 
                                             <Polaroid
                                                 key={index}
-                                                onPress={(e) => handleImageClick(e, index)}
+                                                onPress={handleImageClick}
                                                 imageUrl={image}
                                                 loadFinished={handleImageLoad}
                                                 loading={PolaroidLoading}
@@ -162,20 +194,17 @@ const ImageCarousel = (props) => {
                                 }
                                
                             })}
-                    
+                      
                 </Slider>
                 {open && 
                     <ImageModal 
                         handleClose={handleClose} 
-                        images={props.images}
-                        initialImageIndex={currentImageIndex} 
+                        image={tempImg} 
                         imageData={imageData}
                         isVenue={props.isVenue}
                         isFestival={props.isFestival}
-                        imageId = {imageId}
-
                     />
-                }
+                    }
                 <div className="controls">
                     <ButtonBack className="btn-arrow" style={{ color: "black" }}>
                         <FontAwesomeIcon icon={faAngleLeft} size="lg" />
@@ -195,6 +224,7 @@ ImageCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
+
     // you only need one of these two
     artistID: PropTypes.string,
     venueID: PropTypes.string,
