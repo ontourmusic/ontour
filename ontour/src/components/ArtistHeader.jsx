@@ -16,7 +16,8 @@ import { createClient } from "@supabase/supabase-js";
 import ImageModal from "./ImageModal";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faPlay } from "@fortawesome/free-solid-svg-icons";
+import ImageCrop from "./ImageCrop";
 const modal_styles = artist_styles.oldModal;
 const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
@@ -65,6 +66,7 @@ function ArtistHeader(props) {
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
   const [imageLoad, setImageLoad] = useState(false);
+  const [openCrop,setOpenCrop] = useState(false)
   const [isMobile, setIsMobile] = useState(
     window_breakpoints.md >= window.innerWidth
   );
@@ -175,7 +177,10 @@ function ArtistHeader(props) {
   const handleMouseLeave = () => {
     setHoveredIndex(null);
   };
-
+const handleCropImage = ()=>{
+     console.log(props.image);
+     setOpenCrop(true)
+}
   useEffect(() => {
     if (props.images.length > 0) {
       setImageLoad(true);
@@ -205,8 +210,13 @@ function ArtistHeader(props) {
         position: `relative`,
         display: `flex`,
         flexDirection: "column-reverse",
+        // backgroundAttachment: "fixed",
+        // backgroundPositionX: "center",
+        // backgroundPositionY: "center",
       }}
     >
+      <FontAwesomeIcon onClick={handleCropImage} icon={faPencil} size="xl" color="white"  style={{position:"absolute",top:"5%",right:"5%",cursor:"pointer"}}/>
+
       <Box
         style={{
           display: "flex",
@@ -381,6 +391,28 @@ function ArtistHeader(props) {
             )}
           </Box>
         </Modal>
+        {/* Crop Image Modal Starts here */}
+        <Modal
+          open={openCrop}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          // close={()=>{setOpenCrop(false)}}
+
+         >
+          <Box sx={{ ...modal_styles.container, overflowY: "auto",height:"100%",width:"100%" }}>
+            <Grid item xs={12} container spacing={2}>
+              <Grid item xs={12}>
+              <button onClick={()=>setOpenCrop(false)}>Close</button>
+              <ImageCrop originalImg={props.originalBannerImage} artistID={props.artistID}/>
+
+              </Grid>
+             
+            </Grid>
+           
+          </Box>
+     
+        </Modal>
+        {/* Crop Image Modal Ends here */}
       </Box>
     </div>
   );

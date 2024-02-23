@@ -62,6 +62,7 @@ function Artist() {
     const [merchLinkArray, setMerchLinkArray] = useState([]);
     const [merchTitleArray, setMerchTitleArray] = useState([]);
     const [promoImageArray, setPromoImageArray] = useState([]);
+    const [originalBannerImage,setOriginalBannerImg] = useState("");
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
@@ -96,9 +97,9 @@ function Artist() {
             setFilteredReviews(parseReviewData(reviewData));
 
             //Sets artist header image
-            const bannerImage = artistData["banner_image"];
+            const bannerImage = artistData["cropped_image"] || artistData["banner_image"];
             setArtistImage(bannerImage);
-
+            setOriginalBannerImg(artistData["banner_image"]);
             //log the artist name
             setFullName(artistData["name"]);
             setOnTour(artistData["on_tour"]);
@@ -287,7 +288,8 @@ function Artist() {
                     <ArtistNavigation />
                 </Grid>
                 <Grid item xs={12}>
-                    <ArtistHeader images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false}/>
+                    <ArtistHeader artistID={artistID} images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false} originalBannerImage={originalBannerImage}/>
+                    
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
