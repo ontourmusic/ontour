@@ -9,6 +9,11 @@ import "react-image-crop/dist/ReactCrop.css";
 import useDebounceEffect from "./useDebounceEffect";
 import { CanvasPreview } from "./CanvasPreview";
 import { createClient } from "@supabase/supabase-js";
+import { Spinner } from "react-bootstrap";
+import { Box, Icon } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { heightRatio, widthRatio } from "../constants/constants";
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   return centerCrop(
@@ -25,17 +30,39 @@ function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
     mediaHeight
   );
 }
-
+function centerAspectCrop1(mediaWidth, mediaHeight, aspect) {
+  return centerCrop(
+    makeAspectCrop(
+      {
+        unit: "%",
+        width: 90,
+      },
+      aspect,
+      mediaWidth,
+      mediaHeight
+    ),
+    mediaWidth,
+    mediaHeight
+  );
+}
 export default function ImageCrop(props) {
   // console.log(props.originalImg,"img")
-  
+
   const previewCanvasRef = useRef(null);
+  const previewCanvasRef1 = useRef(null);
   const imgRef = useRef(null);
+  const imgRef1 = useRef(null);
   const [crop, setCrop] = useState();
+  const [crop1, setCrop1] = useState();
   const [completedCrop, setCompletedCrop] = useState();
+  const [completedCrop1, setCompletedCrop1] = useState();
   const [scale, setScale] = useState(1);
+  const [scale1, setScale1] = useState(1);
   const [rotate, setRotate] = useState(0);
-  const [aspect, setAspect] = useState(3.7 / 1);
+  const [rotate1, setRotate1] = useState(0);
+  const [aspect, setAspect] = useState(widthRatio / heightRatio);
+  const [aspect1, setAspect1] = useState(widthRatio / heightRatio);
+  const [status, setStatus] = useState(false);
   const supabase = createClient(
     "https://zouczoaamusrlkkuoppu.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
@@ -61,14 +88,23 @@ export default function ImageCrop(props) {
       setCrop(centerAspectCrop(width, height, aspect));
     }
   }
+  function onImageLoad1(e) {
+    if (aspect1) {
+      const { width, height } = e.currentTarget;
+      setCrop1(centerAspectCrop1(width, height, aspect1));
+    }
+  }
 
   async function onDownloadCropClick() {
     const image = imgRef.current;
-    console.log(imgRef.current.src, imgRef.current.type, "image in download");
+    console.log(image, completedCrop);
+    // console.log(imgRef.current.src, imgRef.current.type, "image in download");
     if (!image || !completedCrop) {
       throw new Error("Image or crop data is missing");
     }
-
+    // if (!image || !completedCrop1) {
+    //   throw new Error("Image or crop data is missing");
+    // }
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
 
@@ -96,8 +132,10 @@ export default function ImageCrop(props) {
       offscreenCanvas.toBlob(async function (blob1) {
         console.log(blob1.type, "blob1");
         const fileType = blob1.type;
-        const timestamp = Date.now();
-        const fileName = `${props.artistID}-${timestamp}.${fileType.split("/")[1]}`;
+        const fileName = `${props.artistID}-${Date.now()}.${
+          fileType.split("/")[1]
+        }`;
+        setStatus(true);
         const res = await supabase.storage
           .from("crop-images")
           .upload(fileName, blob1);
@@ -109,9 +147,20 @@ export default function ImageCrop(props) {
               cropped_image: `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/crop-images/${fileName}`,
             })
             .eq("artist_id", props.artistID);
+          if (!error) {
+            props.changeBannerImage(
+              `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/crop-images/${fileName}`
+            );
+            setStatus(false);
+            props.setOpenCropModal(false);
+            alert("Banner Image Updated Successfully");
+          }
         }
       });
     } catch (error) {
+      setStatus(false);
+      props.setOpenCropModal(false);
+      alert("Could not update banner Image");
       console.log(error);
     }
   }
@@ -138,112 +187,211 @@ export default function ImageCrop(props) {
     100,
     [completedCrop, scale, rotate]
   );
+  useDebounceEffect(
+    async () => {
+      if (
+        completedCrop1 &&
+        completedCrop1.width &&
+        completedCrop1.height &&
+        imgRef1.current &&
+        previewCanvasRef1.current
+      ) {
+        console.log(completedCrop1);
+        console.log(previewCanvasRef1.current);
+        CanvasPreview(
+          imgRef1.current,
+          previewCanvasRef1.current,
+          completedCrop1,
+          scale1,
+          rotate1
+        );
+      }
+    },
+    100,
+
+    [completedCrop1, scale, rotate]
+  );
   function handleToggleAspectClick() {
     if (aspect) {
       setAspect(undefined);
     } else {
-      setAspect(16 / 9);
+      setAspect(widthRatio / heightRatio);
 
       if (imgRef.current) {
         const { width, height } = imgRef.current;
-        const newCrop = centerAspectCrop(width, height, 16 / 9);
+        const newCrop = centerAspectCrop(
+          width,
+          height,
+          widthRatio / heightRatio
+        );
         setCrop(newCrop);
         setCompletedCrop(convertToPixelCrop(newCrop, width, height));
+      }
+    }
+    if (aspect1) {
+      setAspect1(undefined);
+    } else {
+      setAspect1(widthRatio / heightRatio);
+
+      if (imgRef1.current) {
+        const { width, height } = imgRef1.current;
+        const newCrop = centerAspectCrop1(
+          width,
+          height,
+          widthRatio / heightRatio
+        );
+        setCrop1(newCrop);
+        setCompletedCrop1(convertToPixelCrop(newCrop, width, height));
       }
     }
   }
 
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
+    <>
+      <Box
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "100vw",
+          height: "100vh",
+          // backgroundColor: "yellow",
+          backgroundColor: "white",
+          padding: "10px",
         }}
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
+        // position={"relative"}
+        // justifyContent={"space-between"}
       >
-        <input type="file" accept="image/*" onChange={onSelectFile} />
-        <div>
-          <label htmlFor="scale-input">Scale: </label>
-          <input
-            id="scale-input"
-            type="range"
-            step="0.01"
-            value={scale}
-            disabled={!imgSrc}
-            onChange={(e) => setScale(Number(e.target.value))}
-          />
-        </div>
-        <div>
-          <label htmlFor="rotate-input">Rotate: </label>
-          <input
-            id="rotate-input"
-            type="range"
-            value={rotate}
-            disabled={!imgSrc}
-            onChange={(e) =>
-              setRotate(Math.min(180, Math.max(-180, Number(e.target.value))))
-            }
-          />
-        </div>
-        <div>
-          <button onClick={handleToggleAspectClick}>
-            Toggle aspect {aspect ? "off" : "on"}
-          </button>
-        </div>
-        <div>
-          <button onClick={onDownloadCropClick}>Submit Cropped Image</button>
-        </div>
-      </div>
-      
-
-     
-      {!!imgSrc && (
-        <ReactCrop
-          crop={crop}
-          onChange={(_, percentCrop) => setCrop(percentCrop)}
-          onComplete={(c) => setCompletedCrop(c)}
-          aspect={aspect}
-          minHeight={100}
-          minWidth={100}
-          style={{ width: "50v", height: "50%" }}
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+            paddingRight: "10px",
+            // backgroundColor : "red"
+          }}
         >
-          <img
-            
-
-            // crossorigin="anonymous"
-            crossOrigin="anonymous"
-            ref={imgRef}
-            alt="Crop me"
-            src={imgSrc}
-            style={{ transform: `scale(${scale}) rotate(${rotate}deg)`,objectFit:'contain',height:'50%',width:'50%' }}
-            onLoad={onImageLoad}
-          />
-        </ReactCrop>
-      )}
-       
-      {!!completedCrop && (
-        <>
-          <div style={{}}>
-            <canvas
-              ref={previewCanvasRef}
-              style={{
-                border: "1px solid black",
-                objectFit: "contain",
-                width: completedCrop.width,
-                height: completedCrop.height,
-              }}
+          {/* <div> */}
+          <input type="file" accept="image/*" onChange={onSelectFile} />
+          {/* <label htmlFor="rotate-input">Rotate: </label> */}
+          {/* <input
+                  id="rotate-input"
+                  type="range"
+                  value={rotate}
+                  disabled={!imgSrc}
+                  onChange={(e) =>
+                    setRotate(
+                      Math.min(180, Math.max(-180, Number(e.target.value)))
+                    )
+                  }
+                />
+          <label htmlFor="scale-input">Scale: </label>
+                <input
+                  id="scale-input"
+                  type="range"
+                  step="0.01"
+                  value={scale}
+                  disabled={!imgSrc}
+                  onChange={(e) => setScale(Number(e.target.value))}
+                /> */}
+          {!!status ? (
+            <Spinner animation="border" variant="secondary" size="xl" />
+          ) : (
+            <button className="btn btn-dark" onClick={onDownloadCropClick}>
+              Submit Cropped Image
+            </button>
+          )}
+          {/* </div> */}
+          <div style={{ display: "flex", alignItems: "center",backgroundColor:"black",paddingLeft:"10px",paddingRight:"10px",marginLeft:"10px" }}>
+            <FontAwesomeIcon
+              cursor={"pointer"}
+              size="lg"
+              icon={faXmark}
+              color="white"
+              onClick={() => props.setOpenCropModal(false)}
             />
           </div>
-          <div>
-            {/* <button onClick={onDownloadCropClick}>Download Crop</button> */}
-            {/* <div style={{ fontSize: 12, color: '#666' }}>
-              If you get a security error when downloading try opening the
-              Preview in a new tab (icon near top right).
-            </div> */}
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            // height: "50vh",
+            // width: "100vw",
+            // backgroundColor: "blue",
+          }}
+        >
+          {!!imgSrc && (
+            <ReactCrop
+              crop={crop}
+              onChange={(_, percentCrop) => setCrop(percentCrop)}
+              onComplete={(c) => setCompletedCrop(c)}
+              aspect={aspect}
+              locked={true}
+              keepSelection={true}
+              maxHeight={1000}
+              minWidth={1920}
+              minHeight={1000}
+              maxWidth={1920}
+              style={{ backgroundColor: "green" }}
+            >
+              <img
+                crossOrigin="anonymous"
+                ref={imgRef}
+                src={imgSrc}
+                style={{
+                  height: "auto",
+                  width: "100vw",
+                  objectFit: "fill",
+                  transform: `scale(${scale}) rotate(${rotate}deg)`,
+                }}
+                onLoad={onImageLoad}
+              />
+            </ReactCrop>
+          )}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              // backgroundColor: "blue",
+              height: "50vh",
+              width: "50vw",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            {/* {!!completedCrop && (
+              <div
+                style={{
+                  // width: "50vw",
+                  // height: "50vh",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <canvas
+                
+                  ref={previewCanvasRef}
+                  style={{
+                    border: "1px solid black",
+                    objectFit: "contain",
+                    width: completedCrop.width,
+                    height: completedCrop.height,
+                  }}
+                />
+              </div>
+            )} */}
           </div>
-        </>
-      )}
-    </div>
+        </div>
+      </Box>
+    </>
   );
 }

@@ -63,9 +63,12 @@ function Artist() {
     const [merchTitleArray, setMerchTitleArray] = useState([]);
     const [promoImageArray, setPromoImageArray] = useState([]);
     const [originalBannerImage,setOriginalBannerImg] = useState("");
+    const [adminLoggedIn, setAdminLoggedIn] = useState(false);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
-
+    const handleAdminLoggedIn = () => {
+        setAdminLoggedIn(true);
+    }
     const searchReviews = (searchTerm) => {
         const options = {
             keys: ["review", "event"],
@@ -187,7 +190,9 @@ function Artist() {
             console.log('Webpage error. Please reload the page.');
         }
     }
-
+    const changeBannerImage = (image)=>{
+        setArtistImage(image);
+    }
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
@@ -285,11 +290,10 @@ function Artist() {
             </Helmet>
             <Grid container spacing={0}>
                 <Grid item xs={12}>
-                    <ArtistNavigation />
+                    <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn}/>
                 </Grid>
                 <Grid item xs={12}>
-                    <ArtistHeader artistID={artistID} images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false} originalBannerImage={originalBannerImage}/>
-                    
+                    <ArtistHeader  adminLoggedIn={adminLoggedIn} changeBannerImage={changeBannerImage} artistID={artistID} images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false} originalBannerImage={originalBannerImage}/>
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>

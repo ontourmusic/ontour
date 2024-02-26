@@ -62,11 +62,11 @@ import mixpanel from "mixpanel-browser";
 
 function App() {
   mixpanel.init('046ea653daecc890e2168c762151eb85', {debug: true, track_pageview: true, persistence: 'localStorage'});
-  const btnClick = () => {
-    mixpanel.track('btn Clicked',{
-      'name': 'deepanshu'
-    });
-  }
+  // const btnClick = () => {
+  //   mixpanel.track('btn Clicked',{
+  //     'name': 'deepanshu'
+  //   });
+  // }
   return (
 
     // <MixpanelProvider config={MIXPANEL_CONFIG} token={MIXPANEL_TOKEN}>

@@ -215,8 +215,10 @@ const handleCropImage = ()=>{
         // backgroundPositionY: "center",
       }}
     >
+      {
+        props.adminLoggedIn &&
       <FontAwesomeIcon onClick={handleCropImage} icon={faPencil} size="xl" color="white"  style={{position:"absolute",top:"5%",right:"5%",cursor:"pointer"}}/>
-
+      }
       <Box
         style={{
           display: "flex",
@@ -396,23 +398,9 @@ const handleCropImage = ()=>{
           open={openCrop}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
-          // close={()=>{setOpenCrop(false)}}
-
          >
-          <Box sx={{ ...modal_styles.container, overflowY: "auto",height:"100%",width:"100%" }}>
-            <Grid item xs={12} container spacing={2}>
-              <Grid item xs={12}>
-              <button onClick={()=>setOpenCrop(false)}>Close</button>
-              <ImageCrop originalImg={props.originalBannerImage} artistID={props.artistID}/>
-
-              </Grid>
-             
-            </Grid>
-           
-          </Box>
-     
+              <ImageCrop setOpenCropModal={setOpenCrop} changeBannerImage={props.changeBannerImage} originalImg={props.originalBannerImage} artistID={props.artistID}/>
         </Modal>
-        {/* Crop Image Modal Ends here */}
       </Box>
     </div>
   );
