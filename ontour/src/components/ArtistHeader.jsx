@@ -216,7 +216,7 @@ const handleCropImage = ()=>{
       }}
     >
       {
-        props.adminLoggedIn &&
+        // props.adminLoggedIn &&
       <FontAwesomeIcon onClick={handleCropImage} icon={faPencil} size="xl" color="white"  style={{position:"absolute",top:"5%",right:"5%",cursor:"pointer"}}/>
       }
       <Box
