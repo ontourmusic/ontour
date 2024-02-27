@@ -14,63 +14,85 @@ const CommentBox = (props) => {
   const disabled = !name || !comment;
   const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
-  
-  
+  console.log(props,"comments")
   useEffect(() => {
-    const fetchArtistName = async () => {
-      let response, error;
-      if (props.isVenue) {
-          ({ data: response, error } = await supabase
-              .from('venues')
-              .select('*')
-              .eq('venue_id', props.imageData.venue_id)
-              .single());
-      } else if (props.isFestival) {
-          ({ data: response, error } = await supabase
-              .from('festivals')
-              .select('*')
-              .eq('id', props.imageData.festival_id)
-              .single());
-      } else {
-          ({ data: response, error } = await supabase
-              .from('artists')
-              .select('*')
-              .eq('artist_id', props.imageData.artist_id)
-              .single());
-      }
-
-      if (!error && response) {
-          setArtistName(response.name);
-      } else {
-          console.error(error);
-      }
-    };
-
-    const fetchComments = async () => {
-        const tableName = props.isVenue ? 'venue_comments' : 'artist_comments';
-        const { data: commentsData, error } = await supabase
-            .from(tableName)
-            .select('name, comment, date')
-            .eq('image_id', props.imageId)
-            .order('date', { ascending: false });
-
-        if (!error) {
-            setComments(commentsData);
-        } else {
-            console.error('Error fetching comments:', error);
-            setComments([]);
-        }
-    };
-
-    // Resetting the states to ensure clean slate before fetching new data
+    // reset states
     setName('');
     setComment('');
-    // Fetch the name and comments whenever imageData changes
+    setComments([]);
+
+    const fetchArtistName = async () => {
+      if(props.isVenue){
+        const { data, error } = await supabase
+        .from('venues')
+        .select('*')
+        .eq('venue_id', props.imageData.venue_id)
+        .single();
+        if (error) {
+            console.error(error);
+            return null;
+        }
+        setArtistName(data.name);
+    }
+    else if(props.isFestival){
+      const { data, error } = await supabase
+      .from('festivals')
+      .select('*')
+      .eq('id', props.imageData.festival_id)
+      .single();
+      if (error) {
+          console.error(error);
+          return null;
+      }
+      setArtistName(data.name);
+    }else{
+      const { data, error } = await supabase
+      .from('artists')
+      .select('*')
+      .eq('artist_id', props.imageData.artist_id)
+      .single();
+      if (error) {
+          console.error(error);
+          return null;
+      }
+      setArtistName(data.name);
+    }
+      }
+      
     fetchArtistName();
-    fetchComments();
-  }, [props.imageData, props.isVenue, props.isFestival, supabase]); // Dependencies array to trigger re-fetch
 
-
+    const currentDate = new Date();
+    const day = currentDate.getDate().toString().padStart(2, '0');
+    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = currentDate.getFullYear().toString();
+    const formattedDate = `${month}/${day}/${year}`;
+    setDate(formattedDate);
+    if (props.isVenue) {
+      const fetchComments = async () => {
+        const { data, error } = await supabase
+          .from('venue_comments')
+          .select('name, comment, date')
+          .eq('image_id', props.imageData.id)
+          .order('date');
+        if (error) console.log('Error fetching comments:', error.message);
+        else setComments(data);
+      };
+      fetchComments();
+    }
+    else {
+      const fetchComments = async () => {
+        const { data, error } = await supabase
+          .from('artist_comments')
+          .select('name, comment, date')
+          .eq('image_id', props.imageData.id)
+          .order('date');
+          console.log(data);
+        if (error) console.log('Error fetching comments:', error.message);
+        else setComments(data);
+      };
+      fetchComments();
+    }
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -190,6 +212,5 @@ export default CommentBox;
 CommentBox.propTypes = {
   imageData: PropTypes.object.isRequired,
   isVenue: PropTypes.bool.isRequired,
-  textColor: PropTypes.string.isRequired,
-  imageId: PropTypes.number.isRequired  
+  textColor: PropTypes.string.isRequired
 };
