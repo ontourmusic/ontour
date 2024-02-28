@@ -24,12 +24,7 @@ const carousel_styles = artist_styles.carousel;
 images: array of image urls
 */
 const MerchCarousel = (props) => {
-    const [images, setImages] = useState([]);
-    const [prices, setPrices] = useState([]);
-    const [titles, setTitles] = useState([]);
     const [fullMerchArray, setFullMerchArray] = useState([]);
-    const [storeLinks, setStoreLinks] = useState([]);
-    const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
     const [tempImg, setTemp] = useState('');
     const [open, setOpen] = React.useState(false);
@@ -38,91 +33,86 @@ const MerchCarousel = (props) => {
     // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
   
-    const handleImageClick = async (e) => {
-        console.log("handleImageClick: ", e.target.src);
+    // const handleImageClick = async (e) => {
+    //     console.log("handleImageClick: ", e.target.src);
 
-        if (props.isVenue) {
-            const { data, error } = await supabase
-                .from('venue_carousel_images')
-                .select('id')
-                .eq('image_url', e.target.src)
-                .single()
+    //     if (props.isVenue) {
+    //         const { data, error } = await supabase
+    //             .from('venue_carousel_images')
+    //             .select('id')
+    //             .eq('image_url', e.target.src)
+    //             .single()
 
-            if (error) {
-                console.error(error)
-                return null
-            }
-            setImageData(data);
-            console.log("image_id: ", data.id)
-            setOpen(true);
-            setTemp(e.target.src);
-            setModel(true);
+    //         if (error) {
+    //             console.error(error)
+    //             return null
+    //         }
+    //         setImageData(data);
+    //         console.log("image_id: ", data.id)
+    //         setOpen(true);
+    //         setTemp(e.target.src);
+    //         setModel(true);
 
-        }
-        else {
-            const { data, error } = await supabase
-                .from('merch_images')
-                .select('*')
-                .eq('image_url', e.target.src)
-                .single()
+    //     }
+    //     else {
+    //         const { data, error } = await supabase
+    //             .from('merch_images')
+    //             .select('*')
+    //             .eq('image_url', e.target.src)
+    //             .single()
 
-            if (error) {
-                console.error(error)
-                return null
-            }
-            setImageData(data);
-           // setOpen(true);
-            //setTemp(e.target.src);
-            // setModel(true);
+    //         if (error) {
+    //             console.error(error)
+    //             return null
+    //         }
+    //         setImageData(data);
+    //        // setOpen(true);
+    //         //setTemp(e.target.src);
+    //         // setModel(true);
 
-            //get price data
-            const { data2, error2 } = await supabase
-                .from('merch_images')
-                .select('*')
-                .eq('price', e.target.src)
-                .single()
+    //         //get price data
+    //         const { data2, error2 } = await supabase
+    //             .from('merch_images')
+    //             .select('*')
+    //             .eq('price', e.target.src)
+    //             .single()
 
-            if (error2) {
-                console.error(error2)
-                return null
-            }
+    //         if (error2) {
+    //             console.error(error2)
+    //             return null
+    //         }
             
-            setPrices(data2);
+    //         setPrices(data2);
 
-            //get store link data
-            const { data3, error3 } = await supabase
-                .from('merch_images')
-                .select('*')
-                .eq('store_link', e.target.src)
-                .single()
+    //         //get store link data
+    //         const { data3, error3 } = await supabase
+    //             .from('merch_images')
+    //             .select('*')
+    //             .eq('store_link', e.target.src)
+    //             .single()
 
-            if (error3) {
-                console.error(error3)
-                return null
-            }
-            setStoreLinks(data3);
-            //set titles
-            const { data4, error4 } = await supabase
-                .from('merch_images')
-                .select('*')
-                .eq('title', e.target.src)
-                .single()
+    //         if (error3) {
+    //             console.error(error3)
+    //             return null
+    //         }
+    //         setStoreLinks(data3);
+    //         //set titles
+    //         const { data4, error4 } = await supabase
+    //             .from('merch_images')
+    //             .select('*')
+    //             .eq('title', e.target.src)
+    //             .single()
 
-            if (error4) {
-                console.error(error4)
-                return null
-            }
-            setTitles(data4);
-        }
-    }
+    //         if (error4) {
+    //             console.error(error4)
+    //             return null
+    //         }
+    //         setTitles(data4);
+    //     }
+    // }
 
     useEffect(() => {
         if (props.images.length > 0) {
-            setImageLoad(true);
-            setImages(props.images);
-            setPrices(props.prices);
-            setStoreLinks(props.links);
-            setTitles(props.titles);
             var merchArray = [];
             for (var i = 0; i < props.images.length; i++) {
                 merchArray.push([props.images[i], props.prices[i], props.links[i], props.titles[i]]);
