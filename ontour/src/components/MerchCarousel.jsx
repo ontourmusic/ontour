@@ -124,11 +124,9 @@ const MerchCarousel = (props) => {
             setStoreLinks(props.links);
             setTitles(props.titles);
             var merchArray = [];
-            for (var i = 0; i < images.length; i++) {
-                merchArray.push([images[i], prices[i], storeLinks[i], titles[i]]);
+            for (var i = 0; i < props.images.length; i++) {
+                merchArray.push([props.images[i], props.prices[i], props.links[i], props.titles[i]]);
             }
-            console.log("test " + merchArray.length);
-            console.log(merchArray);
             setFullMerchArray(merchArray);
         }
     }, [props.images, props.links, props.prices, props.titles]);
@@ -182,7 +180,9 @@ const MerchCarousel = (props) => {
                 <Slider style={carousel_styles.slider}>
                     {fullMerchArray.map((merchObj, index) => {
                         return (
-                            <Slide index={index}
+                            <Slide 
+                                key = {index}
+                                index={index}
                                 style={carousel_styles.slide}
                             >
                                 <div>
@@ -228,7 +228,7 @@ export default MerchCarousel;
 MerchCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
     links: PropTypes.arrayOf(PropTypes.string),
-    prices: PropTypes.arrayOf(PropTypes.string),
+    prices: PropTypes.arrayOf(PropTypes.number),
     titles: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,

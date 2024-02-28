@@ -284,7 +284,7 @@ function ArtistHeader(props) {
               {images.map((image, index) => {
                 if (image) {
                   return (
-                    <Grid item xs={12} md={4} lg={3}>
+                    <Grid item xs={12} md={4} lg={3} key = {index}>
                       <div
                         // onClick={() => {handleTileClick()}}
                         style={header_styles.imageTile.container}
