@@ -10,6 +10,7 @@ import { UnhelpfulButton } from "./Buttons";
 import artist_styles from "../Styles/artist_styles";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TextField, Button } from "@mui/material";
+import {supabase} from "./supabaseClient";
 
 const review_styles = artist_styles.review_display.review;
 
@@ -27,7 +28,7 @@ export default function Review(props) {
     const [newResponse, setNewResponse] = useState("");
     const reviewTable = props.reviewTable;
     //maybe set props to pass the artist ID or the permissions
-    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+    // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
 
     const handleHelpful = event => {
@@ -218,7 +219,7 @@ export default function Review(props) {
                 <>  
                     <div>
                     {props.response && (
-                        <div>
+                        <div style = {{marginLeft:"20px", textAlign:"left", }} >
                         <p className="response-title">Response from the Artist:</p> {/* Updated class name */}
                         <p className="artist-response">{props.response}</p> {/* Updated class name */}
                         </div>

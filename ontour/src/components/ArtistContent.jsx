@@ -38,7 +38,9 @@ const ArtistContent = (props) => {
                     count={review.likeCount}
                     likedUsers={review.likedUsers}
                     dislikedUsers={review.dislikedUsers} 
-                    reviewTable={props.reviewTable}/>
+                    reviewTable={props.reviewTable}
+                    response = {review.artist_response}
+                    />
                 })}
             </>
         )
