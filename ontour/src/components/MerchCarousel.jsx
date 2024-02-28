@@ -12,6 +12,7 @@ import { Typography } from "@mui/material";
 import MerchModal from "./MerchModal";
 import '../index.css';
 import {Button} from '@mui/material';
+import {supabase} from "./supabaseClient";
 
 
 import artist_styles from "../Styles/artist_styles";
@@ -34,7 +35,7 @@ const MerchCarousel = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
-    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+    // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
   
     const handleImageClick = async (e) => {

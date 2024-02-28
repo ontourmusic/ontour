@@ -9,7 +9,7 @@ import {createClient} from '@supabase/supabase-js'
 import common_styles from "../Styles/common_styles";
 
 import {useAuth0} from "@auth0/auth0-react";
-
+import {supabase} from "./supabaseClient";
 import {Typography} from "@mui/material";
 
 const window_breakpoints = common_styles.window_breakpoints;
@@ -27,7 +27,7 @@ const WriteReview = (props) => {
     const [maxEventCount, setMaxEventCount] = useState(10);
     const [dateList, setDateList] = useState([]);
     const [venueList, setVenueList] = useState([]);
-    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+    // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     const [customEventEnabled, setCustomEventEnabled] = useState(false);
     const {user, isAuthenticated, isLoading} = useAuth0();
     // console.log(props.artistId)
