@@ -100,7 +100,9 @@ function Artist() {
             setFilteredReviews(parseReviewData(reviewData));
 
             //Sets artist header image
-            const bannerImage = artistData["cropped_image"] || artistData["banner_image"];
+            
+            let bannerImage = artistData["cropped_image"] || artistData["banner_image"];
+            bannerImage+="?dts=" + new Date().getTime();
             setArtistImage(bannerImage);
             setOriginalBannerImg(artistData["banner_image"]);
             //log the artist name
@@ -190,8 +192,10 @@ function Artist() {
             console.log('Webpage error. Please reload the page.');
         }
     }
-    const changeBannerImage = (image)=>{
-        setArtistImage(image);
+    const changeBannerImage = (image,orgImg)=>{
+        console.log(orgImg,image);
+        setArtistImage(image+"?timestamp=" + new Date().getTime());
+        orgImg != "" && setOriginalBannerImg(orgImg+"?timestamp=" + new Date().getTime());
     }
     //performs the search when the page loads
     useEffect(() => {

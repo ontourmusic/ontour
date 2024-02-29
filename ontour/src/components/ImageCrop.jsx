@@ -14,6 +14,7 @@ import { Box, Icon } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { heightRatio, widthRatio } from "../constants/constants";
+import { base64ImgToBlob } from "../common_functions/common_functions";
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   return centerCrop(
@@ -47,7 +48,7 @@ function centerAspectCrop1(mediaWidth, mediaHeight, aspect) {
 }
 export default function ImageCrop(props) {
   // console.log(props.originalImg,"img")
-
+  const [browseImg, setBrowseImg] = useState(false);
   const previewCanvasRef = useRef(null);
   const previewCanvasRef1 = useRef(null);
   const imgRef = useRef(null);
@@ -75,9 +76,10 @@ export default function ImageCrop(props) {
     if (e.target.files && e.target.files.length > 0) {
       setCrop(undefined);
       const reader = new FileReader();
-      reader.addEventListener("load", () =>
-        setImgSrc(reader.result ? reader.result.toString() : "")
-      );
+      reader.addEventListener("load", () => {
+        setImgSrc(reader.result ? reader.result.toString() : "");
+        setBrowseImg(true);
+      });
       reader.readAsDataURL(e.target.files[0]);
     }
   }
@@ -88,16 +90,46 @@ export default function ImageCrop(props) {
       setCrop(centerAspectCrop(width, height, aspect));
     }
   }
-  function onImageLoad1(e) {
-    if (aspect1) {
-      const { width, height } = e.currentTarget;
-      setCrop1(centerAspectCrop1(width, height, aspect1));
+  async function storeBrowseImg() {
+    try {
+      setStatus(true);
+      console.log(imgSrc, "imgSrc");
+      console.log(base64ImgToBlob(imgSrc), "blob");
+      const blobImg = base64ImgToBlob(imgSrc);
+      const fileType = blobImg.type;
+      console.log(fileType, "fileType");
+      const fileName = `${props.artistID}-banner-original.${
+        fileType.split("/")[1]
+      }`;
+      console.log(fileName, "fileName");
+      const res = await supabase.storage
+        .from("new-banner-image")
+        .upload(fileName, blobImg,{upsert:true});
+      console.log(res, "response");
+      if (res) {
+        const { error } = await supabase
+          .from("artists")
+          .update({
+            banner_image: `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/new-banner-image/${fileName}`,
+          })
+          .eq("artist_id", props.artistID);
+        if (!error) {
+         console.log("new banner image added")
+         return `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/new-banner-image/${fileName}`;
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
-
   async function onDownloadCropClick() {
     const image = imgRef.current;
     console.log(image, completedCrop);
+    let newOrgImg = "";
+    if(browseImg){
+      newOrgImg = await storeBrowseImg();
+    } 
+    // return;
     // console.log(imgRef.current.src, imgRef.current.type, "image in download");
     if (!image || !completedCrop) {
       throw new Error("Image or crop data is missing");
@@ -132,13 +164,13 @@ export default function ImageCrop(props) {
       offscreenCanvas.toBlob(async function (blob1) {
         console.log(blob1.type, "blob1");
         const fileType = blob1.type;
-        const fileName = `${props.artistID}-${Date.now()}.${
+        const fileName = `${props.artistID}-banner-crop.${
           fileType.split("/")[1]
         }`;
         setStatus(true);
         const res = await supabase.storage
           .from("crop-images")
-          .upload(fileName, blob1);
+          .upload(fileName, blob1,{upsert:true});
         console.log(res, "response");
         if (res) {
           const { error } = await supabase
@@ -149,7 +181,7 @@ export default function ImageCrop(props) {
             .eq("artist_id", props.artistID);
           if (!error) {
             props.changeBannerImage(
-              `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/crop-images/${fileName}`
+              `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/crop-images/${fileName}`,newOrgImg
             );
             setStatus(false);
             props.setOpenCropModal(false);
@@ -187,64 +219,8 @@ export default function ImageCrop(props) {
     100,
     [completedCrop, scale, rotate]
   );
-  useDebounceEffect(
-    async () => {
-      if (
-        completedCrop1 &&
-        completedCrop1.width &&
-        completedCrop1.height &&
-        imgRef1.current &&
-        previewCanvasRef1.current
-      ) {
-        console.log(completedCrop1);
-        console.log(previewCanvasRef1.current);
-        CanvasPreview(
-          imgRef1.current,
-          previewCanvasRef1.current,
-          completedCrop1,
-          scale1,
-          rotate1
-        );
-      }
-    },
-    100,
-
-    [completedCrop1, scale, rotate]
-  );
-  function handleToggleAspectClick() {
-    if (aspect) {
-      setAspect(undefined);
-    } else {
-      setAspect(widthRatio / heightRatio);
-
-      if (imgRef.current) {
-        const { width, height } = imgRef.current;
-        const newCrop = centerAspectCrop(
-          width,
-          height,
-          widthRatio / heightRatio
-        );
-        setCrop(newCrop);
-        setCompletedCrop(convertToPixelCrop(newCrop, width, height));
-      }
-    }
-    if (aspect1) {
-      setAspect1(undefined);
-    } else {
-      setAspect1(widthRatio / heightRatio);
-
-      if (imgRef1.current) {
-        const { width, height } = imgRef1.current;
-        const newCrop = centerAspectCrop1(
-          width,
-          height,
-          widthRatio / heightRatio
-        );
-        setCrop1(newCrop);
-        setCompletedCrop1(convertToPixelCrop(newCrop, width, height));
-      }
-    }
-  }
+  
+  
 
   return (
     <>
@@ -306,13 +282,25 @@ export default function ImageCrop(props) {
             </button>
           )}
           {/* </div> */}
-          <div style={{ display: "flex", alignItems: "center",backgroundColor:"black",paddingLeft:"10px",paddingRight:"10px",marginLeft:"10px" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              backgroundColor: "black",
+              paddingLeft: "10px",
+              paddingRight: "10px",
+              marginLeft: "10px",
+            }}
+          >
             <FontAwesomeIcon
               cursor={"pointer"}
               size="lg"
               icon={faXmark}
               color="white"
-              onClick={() => props.setOpenCropModal(false)}
+              onClick={() => {
+                props.setOpenCropModal(false);
+                setBrowseImg(false);
+              }}
             />
           </div>
         </div>
@@ -340,16 +328,16 @@ export default function ImageCrop(props) {
               minWidth={1920}
               minHeight={1000}
               maxWidth={1920}
-              style={{ backgroundColor: "green" }}
+              // style={{ backgroundColor: "green" }}
             >
               <img
                 crossOrigin="anonymous"
                 ref={imgRef}
                 src={imgSrc}
                 style={{
-                  height: "auto",
+                  height: "90vh",
                   width: "100vw",
-                  objectFit: "fill",
+                  objectFit: "contain",
                   transform: `scale(${scale}) rotate(${rotate}deg)`,
                 }}
                 onLoad={onImageLoad}
