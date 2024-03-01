@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ReactCrop, {
   centerCrop,
   makeAspectCrop,
@@ -13,8 +13,9 @@ import { Spinner } from "react-bootstrap";
 import { Box, Icon } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { heightRatio, widthRatio } from "../constants/constants";
+import { edgeFunctionImgUrl, heightRatio, widthRatio } from "../constants/constants";
 import { base64ImgToBlob } from "../common_functions/common_functions";
+import axios from "axios";
 
 function centerAspectCrop(mediaWidth, mediaHeight, aspect) {
   return centerCrop(
@@ -69,9 +70,11 @@ export default function ImageCrop(props) {
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
   );
 
-  const [imgSrc, setImgSrc] = useState(
-    `https://digportfolio.com/cropimage/proxy.php?url=${props.originalImg}`
-  );
+  const [imgSrc, setImgSrc] = useState(edgeFunctionImgUrl+((props.artistID && `?artistId=${props.artistID}`)||(props.venueID&&`?venueId=${props.venueID}`)||(props.festivalID&&`?festivalId=${props.festivalID}`)));
+  // console.log(imgSrc, "imgSrc");
+  const tableName = (props.artistID && "artists") || (props.venueID && "venues") || (props.festivalID && "festivals");
+  const id =  props.artistID|| props.venueID || props.festivalID  ;
+  const columnName = (props.artistID && "artist_id") || (props.venueID && "venue_id") || (props.festivalID && "id");
   function onSelectFile(e) {
     if (e.target.files && e.target.files.length > 0) {
       setCrop(undefined);
@@ -98,7 +101,7 @@ export default function ImageCrop(props) {
       const blobImg = base64ImgToBlob(imgSrc);
       const fileType = blobImg.type;
       console.log(fileType, "fileType");
-      const fileName = `${props.artistID}-banner-original.${
+      const fileName = `${id}-${tableName}-banner-original.${
         fileType.split("/")[1]
       }`;
       console.log(fileName, "fileName");
@@ -108,11 +111,11 @@ export default function ImageCrop(props) {
       console.log(res, "response");
       if (res) {
         const { error } = await supabase
-          .from("artists")
+          .from(tableName)
           .update({
             banner_image: `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/new-banner-image/${fileName}`,
           })
-          .eq("artist_id", props.artistID);
+          .eq(columnName, id);
         if (!error) {
          console.log("new banner image added")
          return `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/new-banner-image/${fileName}`;
@@ -164,7 +167,10 @@ export default function ImageCrop(props) {
       offscreenCanvas.toBlob(async function (blob1) {
         console.log(blob1.type, "blob1");
         const fileType = blob1.type;
-        const fileName = `${props.artistID}-banner-crop.${
+        // const fileName = `${props.artistID}-banner-crop.${
+        //   fileType.split("/")[1]
+        // }`;
+        const fileName = `${id}-${tableName}-banner-crop.${
           fileType.split("/")[1]
         }`;
         setStatus(true);
@@ -174,11 +180,11 @@ export default function ImageCrop(props) {
         console.log(res, "response");
         if (res) {
           const { error } = await supabase
-            .from("artists")
+            .from(tableName)
             .update({
               cropped_image: `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/crop-images/${fileName}`,
             })
-            .eq("artist_id", props.artistID);
+            .eq(columnName,id);
           if (!error) {
             props.changeBannerImage(
               `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/crop-images/${fileName}`,newOrgImg
@@ -336,7 +342,7 @@ export default function ImageCrop(props) {
                 src={imgSrc}
                 style={{
                   height: "90vh",
-                  width: "100vw",
+                  width: "auto",
                   objectFit: "contain",
                   transform: `scale(${scale}) rotate(${rotate}deg)`,
                 }}

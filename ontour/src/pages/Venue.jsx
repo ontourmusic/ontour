@@ -56,7 +56,11 @@ function Venue() {
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [showResults, setShowResults] = useState(false);
   const [verified, setVerified] = useState(false);
-
+  const [adminLoggedIn, setAdminLoggedIn] = useState(false);
+  const [originalBannerImage,setOriginalBannerImg] = useState("");
+  const handleAdminLoggedIn = () => {
+    setAdminLoggedIn(true);
+}
   const searchReviews = (searchTerm) => {
     const options = {
       keys: ["review", "event"],
@@ -93,7 +97,10 @@ function Venue() {
       setVenueImage(imageUrls);
       setVenueIdNumber(venueIDGlobal);
       setVerified(venueData.data[0]["verified"]);
-
+      let bannerImage = venueData.data[0].cropped_image || venueData.data[0].banner_image;
+      bannerImage+="?dts=" + new Date().getTime();
+      setVenueImage(bannerImage);
+      setOriginalBannerImg(venueData.data[0].banner_image);
       const venueGalleryData = await supabase
         .from("venue_carousel_images")
         .select("*")
@@ -208,11 +215,15 @@ function Venue() {
     setFilteredReviews(tempArray);
     forceUpdate();
   };
-
+  const changeBannerImage = (image,orgImg)=>{
+    console.log(orgImg,image);
+    setVenueImage(image+"?timestamp=" + new Date().getTime());
+    orgImg != "" && setOriginalBannerImg(orgImg+"?timestamp=" + new Date().getTime());
+}
   return (
     <Grid container spacing={0}>
       <Grid item xs={12}>
-        <ArtistNavigation />
+        <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn}/>
       </Grid>
       <Grid item xs={12}>
         <ArtistHeader
@@ -225,6 +236,10 @@ function Venue() {
           onTour={false}
           verified={verified}
           images={imageArray}
+          adminLoggedIn={adminLoggedIn} 
+          venueID={venueIDGlobal}
+          changeBannerImage={changeBannerImage}
+          originalBannerImage={originalBannerImage}
         />
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>

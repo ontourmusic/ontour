@@ -399,7 +399,7 @@ const handleCropImage = ()=>{
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
          >
-              <ImageCrop setOpenCropModal={setOpenCrop} changeBannerImage={props.changeBannerImage} originalImg={props.originalBannerImage} artistID={props.artistID}/>
+              <ImageCrop setOpenCropModal={setOpenCrop} changeBannerImage={props.changeBannerImage} originalImg={props.originalBannerImage} artistID={props.artistID} venueID={props.venueID} festivalID={props.festivalID}/>
         </Modal>
       </Box>
     </div>
