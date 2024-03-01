@@ -15,13 +15,12 @@ function ProfilePage() {
 
     useEffect(() => {
         if (isAuthenticated && user && user.email) {
-                setUserEmail(user.email);
-                if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].username) {
-                    setOfficialProfileName(user['https://tourscout.com/app_metadata'].username);
-                }
+            setUserEmail(user.email);
+            setOfficialProfileName(user.username);
         }
         console.log(user);
     }, [user, isAuthenticated]);
+
 
     return (
         <>

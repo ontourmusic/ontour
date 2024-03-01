@@ -25,11 +25,22 @@ const WriteReview = (props) => {
     const [canSubmit, setCanSubmit] = useState(true);
     const [captchaVerified, setCaptcha] = useState(false);
     const [maxEventCount, setMaxEventCount] = useState(10);
-    const [dateList, setDateList] = useState([]);
-    const [venueList, setVenueList] = useState([]);
+
+    //-------------------Dates-------------------
+    const [dateList, setDateList] = useState([]); //keeps all the dates
+    const [dateList_display, setDateList_display] = useState([]); //dates that will be displayed
+
+    //-------------------Venues-------------------
+    const [venueList, setVenueList] = useState([]); //keeps all the venues
+    const [venueList_display, setVenueList_display] = useState([]); //venues that will be displayed
+
+    //-------------------Form refresh-------------------
+    const [refreshKey, setRefreshKey] = useState(0);
+
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     const [customEventEnabled, setCustomEventEnabled] = useState(false);
     const {user, isAuthenticated, isLoading} = useAuth0();
+
     // console.log(props.artistId)
     // only set is used
     const [artistId, setArtistId] = useState(0);
@@ -53,6 +64,7 @@ const WriteReview = (props) => {
         postData();
     }
 
+
     useEffect(() => {
         GetPastReviews();
     }, [maxEventCount, props.artistId]);
@@ -60,10 +72,17 @@ const WriteReview = (props) => {
     const GetPastReviews = async () => {
         try {
             const artist = await supabase.from('artists').select('*').eq('artist_id', props.artistId);
+
+            //populates dateList
             const dates = artist["data"][0]["show_date"];
             setDateList(dates);
+            setDateList_display(dates.slice(0, 10)); //display the first 10 dates
+
+            //populates venueList
             const venues = artist["data"][0]["show_venue"];
             setVenueList(venues);
+            setVenueList_display(venues.slice(0, 10)); //display the first 10 venues
+
         } catch (err) {
             console.log('API Error');
         }
@@ -138,14 +157,17 @@ const WriteReview = (props) => {
 
     const handleFormChange = (event) => {
         const {value} = event.target;
-        if (event.target.value == "extend") {
-            setMaxEventCount(maxEventCount + 10);
+        if (value === "extend") {
+            setVenueList_display(venueList);
+            setDateList_display(dateList);
         } else if (value === "others") {
             setCustomEventEnabled(true);
         } else {
             setEvent(event.target.value);
+            setCustomEventEnabled(false);
         }
     }
+
 
     const handleEventNameChange = (event) => {
         setEvent(event.target.value);
@@ -175,12 +197,26 @@ const WriteReview = (props) => {
             <form id="clear" onSubmit={handleWriteReview}>
                 <div class="row top">
 
-                    {isAuthenticated ? <></> :
+
+                    {isAuthenticated ? ( //if user is logged in, display their username
+                        <div class="col">
+                            <input
+                                type="text"
+                                className="form-control shadow-none"
+                                value={user.username} //replace with username
+                                placeholder="Name"
+                                disabled={true} //disable user input
+                                style={{backgroundColor: "#e9ecef"}}
+                                required
+                            />
+                        </div>
+                    ) : (   //if user is not logged in allow for name input
                         <div class="col">
                             <input type="text" class="form-control shadow-none" onChange={handleNameChange}
                                    value={unparsedName} placeholder={"Name"} required/>
                         </div>
-                    }
+                    )}
+
 
                 </div>
                 <div class="row bottom">
@@ -190,15 +226,14 @@ const WriteReview = (props) => {
                                 <Form.Select aria-label="Default select example" required onChange={handleFormChange}>
                                     <option value="" selected>Select an event</option>
                                     {
-                                        dateList.map((date, index) => (
-                                            <option value={`${date} • ${venueList[index]} `}>
-                                                {date} • {venueList[index]}
+                                        dateList_display.map((date, index) => (
+                                            <option value={`${date} • ${venueList_display[index]} `}>
+                                                {date} • {venueList_display[index]}
                                             </option>
                                         ))
                                     }
                                     {
-                                        maxEventCount < 20 ?
-                                            <option value="extend">Select an Older Event</option> : <></>
+                                        <option value="extend">Select an Older Event</option>
                                     }
                                     {
                                         <option key="others" value="others">Other</option>
