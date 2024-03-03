@@ -4,7 +4,7 @@
 
 //import { Handler, serve } from "https://deno.land/std@0.131.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
-
+require('dotenv').config();
 console.log("Hello from Functions!")
 export const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -55,6 +55,7 @@ Deno.serve(async (req) => {
     console.log("valueId to search:", valueId);
 
       const supabaseClient = createClient(
+      
       // Supabase API URL - env var exported by default.
       'https://zouczoaamusrlkkuoppu.supabase.co',
       // Supabase API ANON KEY - env var exported by default.

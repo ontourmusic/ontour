@@ -5,7 +5,7 @@ import ReactCrop, {
   convertToPixelCrop,
 } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-
+import 'dotenv/config'
 import useDebounceEffect from "./useDebounceEffect";
 import { CanvasPreview } from "./CanvasPreview";
 import { createClient } from "@supabase/supabase-js";
@@ -225,7 +225,9 @@ export default function ImageCrop(props) {
     100,
     [completedCrop, scale, rotate]
   );
-  
+  useEffect(() => {
+    console.log(process.env, "env");
+  })
   
 
   return (

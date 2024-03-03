@@ -8,10 +8,11 @@ import ReactGA from 'react-ga4';
 import { Auth0Provider } from "@auth0/auth0-react";
 
 import {LoadScript} from '@react-google-maps/api';
-
+import 'dotenv/config'
 
 
 ReactGA.initialize("G-BE8WDNBGS7");
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
