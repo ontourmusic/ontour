@@ -14,6 +14,7 @@ import { Grid } from "@mui/material";
 import header_styles from "../Styles/header_styles";
 import { createClient } from "@supabase/supabase-js";
 import ImageModal from "./ImageModal";
+import {supabase} from "./supabaseClient";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPlay } from "@fortawesome/free-solid-svg-icons";
@@ -24,9 +25,9 @@ const styles = artist_styles.header;
 const verified = artist_styles.verifiedButton;
 
 function ChildModal(props) {
-  console.log("childmodal props: ", props);
+  // console.log("childmodal props: ", props);
   useEffect(() => {
-    console.log(props.imageData);
+    // console.log(props.imageData);
   }, [props.imageData]);
 
   return (
@@ -77,16 +78,16 @@ function ArtistHeader(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageData, setImageData] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const supabase = createClient(
-    "https://zouczoaamusrlkkuoppu.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
-  );
+  // const supabase = createClient(
+  //   "https://zouczoaamusrlkkuoppu.supabase.co",
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
+  // );
 
   const starBoxRef = useRef(null);
   const totalReviewTextRef = useRef(null);
 
   const handleResize = () => {
-    console.log("Resize event triggered");
+    // console.log("Resize event triggered");
     if (starBoxRef.current) {
       const starBoxHeight = starBoxRef.current.offsetHeight;
       const starBoxWidth = starBoxRef.current.offsetWidth;
@@ -114,7 +115,7 @@ function ArtistHeader(props) {
   };
 
   const handleImageClick = async (image) => {
-    console.log(props);
+    // console.log(props);
     var urlTag = image.target.tagName == "IMG" ? "image_url" : "video_url";
     const source = image.target.dataset.src1
       ? image.target.dataset.src1
@@ -186,10 +187,10 @@ const handleCropImage = ()=>{
       setImageLoad(true);
       setImages(props.images);
       setVideos(props.videos);
-      console.log("setting images");
-      console.log(props.images);
+      // console.log("setting images");
+      // console.log(props.images);
     }
-    console.log("adding event listener for resize");
+    // console.log("adding event listener for resize");
     window.addEventListener("resize", handleResize);
   }, [props.images]);
 
@@ -233,7 +234,8 @@ const handleCropImage = ()=>{
 
           <h1 style={artist_styles.header.ArtistName} class="fw-bold">
             {props.name}{" "}
-            {props.isVenue == 1 && props.verified && (
+            {/* deleted "props.isVenue == 1 &&" here */}
+            { props.verified && (
               <img src="images/verifiedBadge.png" style={verified}></img>
             )}
             <br></br>
@@ -294,7 +296,7 @@ const handleCropImage = ()=>{
               {images.map((image, index) => {
                 if (image) {
                   return (
-                    <Grid item xs={12} md={4} lg={3}>
+                    <Grid item xs={12} md={4} lg={3} key = {index}>
                       <div
                         // onClick={() => {handleTileClick()}}
                         style={header_styles.imageTile.container}

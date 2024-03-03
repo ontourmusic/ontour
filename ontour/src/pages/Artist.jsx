@@ -13,10 +13,9 @@ import ArtistNavigation from "../ArtistNavigation"
 
 import artist_styles from "../Styles/artist_styles";
 
-import { createClient } from '@supabase/supabase-js';
 import common_styles from "../Styles/common_styles";
 import Fuse from 'fuse.js'
-
+import { useAuth0 } from "@auth0/auth0-react";
 
 // Testing
 import { Grid } from "@mui/material";
@@ -40,6 +39,8 @@ function Artist() {
     //     artistIdNumber: 0,
     // });
     console.log("Artist reload triggered")
+    const { user, isAuthenticated } = useAuth0();
+    
 
     const [fullName, setFullName] = useState("");
     const [allReviews, setAllReviews] = useState([]);
@@ -69,6 +70,8 @@ function Artist() {
     const handleAdminLoggedIn = () => {
         setAdminLoggedIn(true);
     }
+    const [verified, setVerified] = useState(true);
+
     const searchReviews = (searchTerm) => {
         const options = {
             keys: ["review", "event"],
@@ -111,10 +114,10 @@ function Artist() {
 
             const imageGallerySupabase = await supabase.from('artist_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
-            var imageArray = [];
+            var imageArrayTmp = [];
             //loop through the data and push the images into the array
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
-                imageArray.push(imageGallerySupabase.data[i].image_url);
+                imageArrayTmp.push(imageGallerySupabase.data[i].image_url);
             }
           
             var videoArray = []
@@ -123,8 +126,10 @@ function Artist() {
                 videoArray.push(imageGallerySupabase.data[i].video_url);
             }
             //set the image array to the state
-            setImageArray(imageArray);
+            setImageArray(imageArrayTmp);
             setVideoArray(videoArray);
+
+            setVerified(artistData["verified"]);
             
             const merchGallerySupabase = await supabase.from('merch_images').select('*').eq('artist_id', artistID);
 
@@ -216,7 +221,8 @@ function Artist() {
                 "eventDate": reviewData[i].eventDate,                                // review date
                 "likeCount": reviewData[i].likeCount,                                // review like count
                 "likedUsers": reviewData[i].likedUsers,                              // review liked users
-                "dislikedUsers": reviewData[i].dislikedUsers                         // review disliked users
+                "dislikedUsers": reviewData[i].dislikedUsers,                         // review disliked users
+                "artist_response": reviewData[i].artist_response                      // artist response
             });
             cumulativeRating += reviewData[i].rating;
         }
@@ -296,6 +302,7 @@ function Artist() {
                 <Grid item xs={12}>
                     <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn}/>
                 </Grid>
+                
                 <Grid item xs={12}>
                     <ArtistHeader  adminLoggedIn={adminLoggedIn} changeBannerImage={changeBannerImage} artistID={artistID} images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false} originalBannerImage={originalBannerImage}/>
                 </Grid>
@@ -304,7 +311,7 @@ function Artist() {
                       {
                             // always show image carousel with promo if the curr user/artist is on their own page
                             // show image carousel to all other users if there are promo images to show
-                            (currArtistID === artistID || promoImageArray.length > 0) && <>
+                            ((currArtistID === artistID || promoImageArray.length > 0) ||(isAuthenticated && user && user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id == artistID))&& <>
                                 <ImageCarousel artistID={artistID} images={promoImageArray} videos={[]} isPromo={true} currArtistID={currArtistID}
                                 slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                             </>
@@ -334,7 +341,7 @@ function Artist() {
                         {fullName !== "" && <WriteReview artistId={artistID} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <SideContent name={fullName} linkPairs={[[spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />
+                        <SideContent name={fullName} linkPairs={[[websiteLink, "images/web_icon.pic.jpg"], [spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>

@@ -16,6 +16,7 @@ import { createClient } from "@supabase/supabase-js";
 import ImageCarousel from "../components/ImageCarousel";
 import Fuse from "fuse.js";
 import common_styles from "../Styles/common_styles";
+import { Helmet } from "react-helmet";
 
 const window_breakpoints = common_styles.window_breakpoints;
 
@@ -61,6 +62,9 @@ function Venue() {
   const handleAdminLoggedIn = () => {
     setAdminLoggedIn(true);
 }
+  const [websiteLink, setWebsiteLink] = useState("");
+  const [instaLink, setInstaLink] = useState("");
+
   const searchReviews = (searchTerm) => {
     const options = {
       keys: ["review", "event"],
@@ -101,6 +105,9 @@ function Venue() {
       bannerImage+="?dts=" + new Date().getTime();
       setVenueImage(bannerImage);
       setOriginalBannerImg(venueData.data[0].banner_image);
+      setWebsiteLink(venueData.data[0]["website_link"]);
+      setInstaLink(venueData.data[0]["instagram_link"]);
+
       const venueGalleryData = await supabase
         .from("venue_carousel_images")
         .select("*")
@@ -221,6 +228,10 @@ function Venue() {
     orgImg != "" && setOriginalBannerImg(orgImg+"?timestamp=" + new Date().getTime());
 }
   return (
+    <>
+    <Helmet>
+      <title>{venueName}</title>
+    </Helmet>
     <Grid container spacing={0}>
       <Grid item xs={12}>
         <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn}/>
@@ -274,7 +285,7 @@ function Venue() {
           <SideContent
             name={venue_name}
             venue={true}
-            linkPairs={[[ticketLink, "images/ticketmaster_icon.png"]]}
+            linkPairs={[[websiteLink, "images/web_icon.pic.jpg"],[instaLink, "images/instagram.png.webp"], [ticketLink, "images/ticketmaster_icon.png"]]}
           />
         </Grid>
       </Grid>
@@ -283,6 +294,7 @@ function Venue() {
         <Footer />
       </Grid>
     </Grid>
+    </>
   );
 }
 export default Venue;

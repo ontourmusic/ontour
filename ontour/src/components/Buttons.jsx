@@ -12,12 +12,16 @@ import { createClient } from "@supabase/supabase-js";
 import artist_styles from "../Styles/artist_styles";
 import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
+import Reaptcha from "reaptcha";
+import common_styles from "../Styles/common_styles";
+import {supabase} from "./supabaseClient";
 
+const window_breakpoints = common_styles.window_breakpoints;
 const two_column_button_style = button_style.two_column_button;
-const supabase = createClient(
-  "https://zouczoaamusrlkkuoppu.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
-);
+// const supabase = createClient(
+//   "https://zouczoaamusrlkkuoppu.supabase.co",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
+// );
 const modal_styles = artist_styles.mediaUploadModal;
 
 const TwoColumnButton = (props) => {
@@ -44,11 +48,13 @@ const AddMediaButton = (props) => {
   const venueID = props.venueID;
   const festivalId = props.festivalID;
   const [sizeError, setSizeError] = useState("");
+  const [isSubmitClick, setIsSubmitClicked] = useState(false);
+  const [videoFileType, setVideoFileType] = useState(null);
+  const [captchaVerified, setCaptcha] = useState(false);
 
-  const [submitClick,setSubmitClicked] = useState(false)
-  const [videoFileType,setVideoFileType] = useState(null);
+  const [submitClick, setSubmitClicked] = useState(false);
   // console.log(festivalId,"deep",props)
- 
+
   const handleClose = () => {
     setOpen(false);
     setImage(null);
@@ -71,6 +77,12 @@ const AddMediaButton = (props) => {
     const imageurl = URL.createObjectURL(file);
     image.setAttribute("src", imageurl.toString());
   };
+
+  const onVerify = (recaptchaResponse) => {
+    console.log(recaptchaResponse);
+    setCaptcha(true);
+  };
+
   function isVideoPlayable(url) {
     // return true
     // console.log()
@@ -181,7 +193,7 @@ const AddMediaButton = (props) => {
 
   const postBoth = async (mediaFile, videoFile) => {
     try {
-      setSubmitClicked(true);
+      setIsSubmitClicked(true);
 
       const processFile = async (file, folder) => {
         const blob = new Blob([file], { type: file.type });
@@ -225,6 +237,25 @@ const AddMediaButton = (props) => {
             description: description,
           },
         ]);
+      } else if(props.isPromo){
+        await supabase
+          .from("promo_images")
+          .insert([
+            {
+              image_url: publicURLMedia,
+              artist_id: artistID,
+              description: description,
+            },
+          ]);
+        await supabase
+        .from("promo_images")
+        .insert([
+          {
+            video_url: publicURLVideo,
+            artist_id: artistID,
+            description: description,
+          },
+        ]);
       } else {
         const [eventDate, event] = eventName.split(" • ");
         await supabase.from("artist_images").insert([
@@ -240,7 +271,7 @@ const AddMediaButton = (props) => {
       }
 
       console.log("Files uploaded successfully!");
-      setSubmitClicked(false);
+      setIsSubmitClicked(false);
       alert("Files uploaded successfully!");
       window.location.reload();
     } catch (error) {
@@ -251,7 +282,7 @@ const AddMediaButton = (props) => {
   const post = async (mediaFile) => {
     // console.log(mediaFile,mediaFile.length);
     console.log(mediaFile.type, "media");
-    setSubmitClicked(true);
+    setIsSubmitClicked(true);
     const blob = new Blob([mediaFile], { type: mediaFile.type });
     const timestamp = Date.now();
     const fileName = `${artistID}-${timestamp}.${mediaFile.type.split("/")[1]}`;
@@ -267,7 +298,7 @@ const AddMediaButton = (props) => {
       return;
     } else {
       console.log("File uploaded successfully!");
-      setSubmitClicked(false);
+      setIsSubmitClicked(false);
       alert("File uploaded successfully!");
       // uploaded = true
     }
@@ -292,7 +323,18 @@ const AddMediaButton = (props) => {
           description: description,
         },
       ]);
-    } else {
+    }else if(props.isPromo){
+      await supabase
+        .from("promo_images")
+        .insert([
+          {
+            [mediaUrl]: publicURL,
+            artist_id: artistID,
+            description: description,
+          },
+        ]);
+    } 
+    else {
       var eventDate = eventName.split(" • ")[0];
       var event = eventName.split(" • ")[1];
       const { data, insertError } = await supabase
@@ -742,7 +784,7 @@ const AddMediaButton = (props) => {
           </div>
           {/* {uploaded && <span>Successfully uploaded</span>} */}
           <div style={modal_styles.formItem}>
-            {submitClick && (
+            {isSubmitClick && (
               <div
                 style={{
                   position: "absolute",
@@ -779,13 +821,33 @@ const AddMediaButton = (props) => {
             }}
           >
             {!sizeError && (
-              <Button
-                style={{ marginRight: "10" }}
-                variant="contained"
-                onClick={!sizeError && postData}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 10,
+                  margin: 10,
+                }}
               >
-                Submit
-              </Button>
+                <Reaptcha
+                  size={
+                    window.innerWidth < window_breakpoints.md
+                      ? "compact"
+                      : "normal"
+                  }
+                  sitekey="6LefzYUkAAAAAGRZShYPyFleVLHh_aJFZ97xHsyI"
+                  onVerify={onVerify}
+                />
+                <Button
+                  disabled={!captchaVerified}
+                  variant="contained"
+                  onClick={!sizeError && postData}
+                >
+                  Submit
+                </Button>
+              </div>
             )}
             {/* <Button variant="contained" onClick={handleClear}>
                             Clear

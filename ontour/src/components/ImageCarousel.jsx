@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import PropTypes from "prop-types";
 import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup } from 'pure-react-carousel';
 import "pure-react-carousel/dist/react-carousel.es.css";
@@ -7,9 +7,11 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import '../Styles/carousel.css';
 import { Polaroid } from "./Polaroid";
 import { AddMediaButton } from "./Buttons";
-import { createClient } from '@supabase/supabase-js'
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
+import { useAuth0 } from "@auth0/auth0-react";
+import {supabase} from "../components/supabaseClient"
+
 import mixpanel from "mixpanel-browser";
 import artist_styles from "../Styles/artist_styles";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -22,9 +24,34 @@ images: array of image urls
 */
 const ImageCarousel = (props) => {
     const {user, isAuthenticated } = useAuth0();
-    const [images, setImages] = useState([]);
-    const [videos,setVideos] = useState([])
-    const [imageLoad, setImageLoad] = useState(false);
+    const { user, isAuthenticated } = useAuth0();
+
+    //Handle image loading
+    const cleanedImageArray = props.images.filter(Boolean);
+    const imageUrlsLength = cleanedImageArray.length;
+
+    const cleandVideoArray = props.videos.filter(Boolean);
+    const videoUrlsLength = cleandVideoArray.length;
+
+    const [PolaroidLoading, setPolaroidLoading] = useState(true);
+    const loadedCountRef = useRef(0);
+    
+    // Start loading when imageUrls and videoUrls change
+    useEffect(() => {
+        setPolaroidLoading(true); 
+        loadedCountRef.current = 0; 
+    }, [JSON.stringify(props.images.concat(props.videos))]);
+
+    const handleImageLoad = () => {
+        loadedCountRef.current += 1;
+        if (loadedCountRef.current === (imageUrlsLength+videoUrlsLength)) {
+            setPolaroidLoading(false);
+        }
+    };
+
+    // const [images, setImages] = useState([]);
+    // const [videos,setVideos] = useState([])
+    // const [imageLoad, setImageLoad] = useState(false);
     const [model, setModel] = useState(false);
     const [tempImg, setTemp] = useState('')
     const [open, setOpen] = React.useState(false);
@@ -35,9 +62,9 @@ const ImageCarousel = (props) => {
 
     // console.warn(props,"deepanshu")
     const handleImageClick = async (e) => {
-        console.log("video dataset attribute",e.target.dataset.src1)
-        console.log("handleImageClick: ", e.target.src);
-        console.log(e.target)
+        // console.log("video dataset attribute",e.target.dataset.src1)
+        // console.log("handleImageClick: ", e.target.src);
+        // console.log(e.target)
         
         const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
         var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
@@ -102,25 +129,18 @@ const ImageCarousel = (props) => {
             setOpen(true);
             setTemp(source);
             setModel(true);
-            mixpanel.track(urlTag=='image_url'?`imageClicked_${props.artistID}`:`videoClicked_${props.artistID}`,{
-                'url': `${source}`,
-                [urlTag=='image_url'?`image_id`:`video_id`] : `${data.id}`,
-                'user_email' : user?`${user.email}`:`guest`,
-
-              });
         }
     }
-    useEffect(() => {
-        if (props.images.length > 0) {
-            setImageLoad(true);
-            setImages(props.images);
-        }
-        if (props.videos.length > 0) {
+    // useEffect(() => {
+    //     if (props.images.length > 0) {
+    //         // setImageLoad(true);
+    //         // setImages(props.images);
+    //     }
+    //     if (props.videos.length > 0) {
            
-            setVideos(props.videos);
-        }
-    }, [props.images,props.videos]);
-
+    //         setVideos(props.videos);
+    //     }
+    // }, [props.images,props.videos]);
     return (
         <>
             <div style={carousel_styles.titleBar}>
@@ -128,7 +148,11 @@ const ImageCarousel = (props) => {
                     marginRight: "15px",
                 }}>Captured Moments</Typography>
                {
-                !props.isPromo && <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
+                props.isPromo ? 
+                (isAuthenticated && user && user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id == props.artistID) ? 
+                    <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} isPromo = {props.isPromo}/> : <></>
+                :
+                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
                } 
             </div>
             <CarouselProvider
@@ -158,24 +182,26 @@ const ImageCarousel = (props) => {
                     })}                    
                 </Slider> */}
                 <Slider>                                         
-                            {!!images.length && images.map((image, index) => {
-                                // console.log(image,"image")
+                            {!!props.images.length && props.images.map((image, index) => {
                                 if(image){
                                     return (
-                                        <Slide style={carousel_styles.slide}> 
+                                        <Slide style={carousel_styles.slide}
+                                         index={index}
+                                         > 
                                             <Polaroid
                                                 key={index}
                                                 onPress={handleImageClick}
                                                 imageUrl={image}
-                                                 
+                                                loadFinished={handleImageLoad}
+                                                loading={PolaroidLoading}
                                             />
                                         </Slide>
+
                                     );
                                 }
                                
                             })}
-                             {!!videos.length && videos.map((video, index) => {
-                                // console.log(video,"video")
+                             {!!props.videos.length && props.videos.map((video, index) => {
                                 if(video){
                                     return (
                                         <Slide style={carousel_styles.slide}> 
@@ -183,7 +209,8 @@ const ImageCarousel = (props) => {
                                                 key={index}
                                                 onPress={handleImageClick}
                                                 videoUrl={video}
-    
+                                                loadFinished={handleImageLoad}
+                                                loading={PolaroidLoading}
                                             />
                                             </Slide>
                                     );
@@ -216,7 +243,7 @@ const ImageCarousel = (props) => {
     )
 };
 
-export default ImageCarousel;
+export default React.memo(ImageCarousel);
 
 ImageCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
