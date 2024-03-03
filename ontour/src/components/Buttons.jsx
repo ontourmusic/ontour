@@ -52,6 +52,9 @@ const AddMediaButton = (props) => {
   const [captchaVerified, setCaptcha] = useState(false);
   console.log(festivalId, "deep", props);
 
+  const [eventDate, setEventDate] = useState("");
+
+
   const [submitClick, setSubmitClicked] = useState(false);
   // console.log(festivalId,"deep",props)
 
@@ -238,13 +241,13 @@ const AddMediaButton = (props) => {
           },
         ]);
       } else {
-        const [eventDate, event] = eventName.split(" • ");
+        //const [eventDate, event] = eventName.split(" • ");
         await supabase.from("artist_images").insert([
           {
             image_url: publicURLMedia,
             artist_id: artistID,
-            event,
-            eventDate,
+            event: eventName,
+            eventDate: eventDate,
             description,
             video_url: publicURLVideo,
           },
@@ -752,6 +755,26 @@ const AddMediaButton = (props) => {
               </>
             )}
           </div>
+          <div style={modal_styles.formItem}>
+            <input
+              type="text"
+              className="form-control shadow-none"
+              value={eventName}
+              onChange={(e) => setEvent(e.target.value)}
+              placeholder="Enter event name..."
+              required
+            />
+          </div>
+          <div style={modal_styles.formItem}>
+            <input
+              type="date"
+              className="form-control shadow-none"
+              value={eventDate}
+              onChange={(e) => setEventDate(e.target.value)}
+              required
+            />
+          </div>
+
           {/* {uploaded && <span>Successfully uploaded</span>} */}
           <div style={modal_styles.formItem}>
             {isSubmitClick && (
