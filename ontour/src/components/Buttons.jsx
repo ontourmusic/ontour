@@ -308,15 +308,15 @@ const AddMediaButton = (props) => {
         },
       ]);
     } else {
-      var eventDate = eventName.split(" • ")[0];
-      var event = eventName.split(" • ")[1];
+      // var eventDate = eventName.split(" • ")[0];
+      // var event = eventName.split(" • ")[1];
       const { data, insertError } = await supabase
         .from("artist_images")
         .insert([
           {
             [mediaUrl]: publicURL,
             artist_id: artistID,
-            event: event,
+            event: eventName,
             eventDate: eventDate,
             description: description,
           },
