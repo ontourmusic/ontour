@@ -14,7 +14,7 @@ import artist_styles from "../Styles/artist_styles";
 
 import common_styles from "../Styles/common_styles";
 import Fuse from 'fuse.js'
-
+import { useAuth0 } from "@auth0/auth0-react";
 
 // Testing
 import { Grid } from "@mui/material";
@@ -28,8 +28,8 @@ function Artist() {
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
     const [currArtistID, setArtistID] = useState("");
-
-
+    const { user, isAuthenticated } = useAuth0();
+    
 
     const [fullName, setFullName] = useState("");
     const [allReviews, setAllReviews] = useState([]);
@@ -199,7 +199,8 @@ function Artist() {
                 "eventDate": reviewData[i].eventDate,                                // review date
                 "likeCount": reviewData[i].likeCount,                                // review like count
                 "likedUsers": reviewData[i].likedUsers,                              // review liked users
-                "dislikedUsers": reviewData[i].dislikedUsers                         // review disliked users
+                "dislikedUsers": reviewData[i].dislikedUsers,                         // review disliked users
+                "artist_response": reviewData[i].artist_response                      // artist response
             });
             cumulativeRating += reviewData[i].rating;
         }
@@ -288,7 +289,7 @@ function Artist() {
                       {
                             // always show image carousel with promo if the curr user/artist is on their own page
                             // show image carousel to all other users if there are promo images to show
-                            (currArtistID === artistID || promoImageArray.length > 0) && <>
+                            ((currArtistID === artistID || promoImageArray.length > 0) ||(isAuthenticated && user && user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id == artistID))&& <>
                                 <ImageCarousel artistID={artistID} images={promoImageArray} videos={[]} isPromo={true} currArtistID={currArtistID}
                                 slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                             </>

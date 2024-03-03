@@ -9,7 +9,7 @@ import { Polaroid } from "./Polaroid";
 import { AddMediaButton } from "./Buttons";
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import {supabase} from "../components/supabaseClient"
 
 
@@ -22,6 +22,8 @@ const carousel_styles = artist_styles.carousel;
 images: array of image urls
 */
 const ImageCarousel = (props) => {
+    const { user, isAuthenticated } = useAuth0();
+
     //Handle image loading
     const cleanedImageArray = props.images.filter(Boolean);
     const imageUrlsLength = cleanedImageArray.length;
@@ -121,7 +123,6 @@ const ImageCarousel = (props) => {
     //         setVideos(props.videos);
     //     }
     // }, [props.images,props.videos]);
-
     return (
         <>
             <div style={carousel_styles.titleBar}>
@@ -129,7 +130,11 @@ const ImageCarousel = (props) => {
                     marginRight: "15px",
                 }}>Captured Moments</Typography>
                {
-                !props.isPromo && <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
+                props.isPromo ? 
+                (isAuthenticated && user && user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id == props.artistID) ? 
+                    <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} isPromo = {props.isPromo}/> : <></>
+                :
+                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
                } 
             </div>
             <CarouselProvider

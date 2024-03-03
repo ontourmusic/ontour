@@ -14,13 +14,14 @@ import Form from "react-bootstrap/Form";
 import Spinner from "react-bootstrap/Spinner";
 import Reaptcha from "reaptcha";
 import common_styles from "../Styles/common_styles";
+import {supabase} from "./supabaseClient";
 
 const window_breakpoints = common_styles.window_breakpoints;
 const two_column_button_style = button_style.two_column_button;
-const supabase = createClient(
-  "https://zouczoaamusrlkkuoppu.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
-);
+// const supabase = createClient(
+//   "https://zouczoaamusrlkkuoppu.supabase.co",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
+// );
 const modal_styles = artist_styles.mediaUploadModal;
 
 const TwoColumnButton = (props) => {
@@ -50,7 +51,6 @@ const AddMediaButton = (props) => {
   const [isSubmitClick, setIsSubmitClicked] = useState(false);
   const [videoFileType, setVideoFileType] = useState(null);
   const [captchaVerified, setCaptcha] = useState(false);
-  console.log(festivalId, "deep", props);
 
   const [submitClick, setSubmitClicked] = useState(false);
   // console.log(festivalId,"deep",props)
@@ -237,6 +237,25 @@ const AddMediaButton = (props) => {
             description: description,
           },
         ]);
+      } else if(props.isPromo){
+        await supabase
+          .from("promo_images")
+          .insert([
+            {
+              image_url: publicURLMedia,
+              artist_id: artistID,
+              description: description,
+            },
+          ]);
+        await supabase
+        .from("promo_images")
+        .insert([
+          {
+            video_url: publicURLVideo,
+            artist_id: artistID,
+            description: description,
+          },
+        ]);
       } else {
         const [eventDate, event] = eventName.split(" • ");
         await supabase.from("artist_images").insert([
@@ -304,7 +323,18 @@ const AddMediaButton = (props) => {
           description: description,
         },
       ]);
-    } else {
+    }else if(props.isPromo){
+      await supabase
+        .from("promo_images")
+        .insert([
+          {
+            [mediaUrl]: publicURL,
+            artist_id: artistID,
+            description: description,
+          },
+        ]);
+    } 
+    else {
       var eventDate = eventName.split(" • ")[0];
       var event = eventName.split(" • ")[1];
       const { data, insertError } = await supabase
