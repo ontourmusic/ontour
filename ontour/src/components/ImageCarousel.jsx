@@ -11,10 +11,10 @@ import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
 import { useAuth0 } from "@auth0/auth0-react";
 import {supabase} from "../components/supabaseClient"
-
+import { createClient } from "@supabase/supabase-js";
 import mixpanel from "mixpanel-browser";
 import artist_styles from "../Styles/artist_styles";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 const carousel_styles = artist_styles.carousel;
 
 
@@ -24,7 +24,7 @@ images: array of image urls
 */
 const ImageCarousel = (props) => {
     const {user, isAuthenticated } = useAuth0();
-    const { user, isAuthenticated } = useAuth0();
+    // const { user, isAuthenticated } = useAuth0();
 
     //Handle image loading
     const cleanedImageArray = props.images.filter(Boolean);
