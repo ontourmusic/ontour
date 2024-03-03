@@ -9,7 +9,7 @@ import { Polaroid } from "./Polaroid";
 import { AddMediaButton } from "./Buttons";
 import { Typography } from "@mui/material";
 import ImageModal from "./ImageModal";
-
+import { useAuth0 } from "@auth0/auth0-react";
 import {supabase} from "../components/supabaseClient"
 
 
@@ -22,6 +22,8 @@ const carousel_styles = artist_styles.carousel;
 images: array of image urls
 */
 const ImageCarousel = (props) => {
+    const { user, isAuthenticated } = useAuth0();
+
     //Handle image loading
     const cleanedImageArray = props.images.filter(Boolean);
     const imageUrlsLength = cleanedImageArray.length;
@@ -53,43 +55,74 @@ const ImageCarousel = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
-    const [imageId, setImageId] = useState([]);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const handleImageClick = async (e, index) => {
-        const source = e.target.dataset.src1 ? e.target.dataset.src1 : e.target.src;
-        var urlTag = e.target.tagName === 'IMG' ? "image_url" : "video_url"; 
-        let table = '';
+    const handleImageClick = async (e) => {
+        // console.log("video dataset attribute",e.target.dataset.src1)
+        // console.log("handleImageClick: ", e.target.src);
+        // console.log(e.target)
+        const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
+        var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
         if (props.isVenue) {
-            table = 'venue_carousel_images';
-        } else if (props.isFestival) {
-            table = 'festival_carousel_images';
-        } else {
-            table = 'artist_images';
-        }
-
-        for(let i=0; i<props.images.length; i++){
             const { data, error } = await supabase
-            .from(table)
-            .select('*')
-            .eq(urlTag, props.images[i])
-            .single();
-    
-            if (error) {
-                console.error(error);
-                return;
-            }
-            imageId.push(data.id)
-            if(source == props.images[i]){
-                setImageData(data)
-            }
-        }
-        setImageId(imageId)
-        setTemp(source); // Assuming you use this for something specific in your modal
-        setCurrentImageIndex(index);
-        setOpen(true);
-    };
-    
+                .from('venue_carousel_images')
+                .select('*')
+                .eq(urlTag, source)
+                .single()
 
+            if (error) {
+                console.error(error)
+                return null
+            }
+            setImageData(data);
+            console.log("image_id: ", data.id)
+            setOpen(true);
+            setTemp(source);
+            setModel(true);
+
+        }
+        else if(props.isFestival){
+            const { data, error } = await supabase
+            .from('festival_carousel_images')
+            .select('*')
+            .eq(urlTag, source)
+            .single()
+
+        if (error) {
+            console.error(error)
+            return null
+        }
+        setImageData(data);
+        console.log("image_id: ", data.id)
+        setOpen(true);
+        setTemp(source);
+        setModel(true);
+        }
+        else {
+            const { data, error } = await supabase
+                .from('artist_images')
+                .select('*')
+                .eq(urlTag, source)
+                .single()
+
+            if (error) {
+                console.error(error)
+                return null
+            }
+            setImageData(data);
+            setOpen(true);
+            setTemp(source);
+            setModel(true);
+        }
+    }
+    // useEffect(() => {
+    //     if (props.images.length > 0) {
+    //         // setImageLoad(true);
+    //         // setImages(props.images);
+    //     }
+    //     if (props.videos.length > 0) {
+           
+    //         setVideos(props.videos);
+    //     }
+    // }, [props.images,props.videos]);
     return (
         <>
             <div style={carousel_styles.titleBar}>
@@ -97,7 +130,11 @@ const ImageCarousel = (props) => {
                     marginRight: "15px",
                 }}>Captured Moments</Typography>
                {
-                !props.isPromo && <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
+                props.isPromo ? 
+                (isAuthenticated && user && user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id == props.artistID) ? 
+                    <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} isPromo = {props.isPromo}/> : <></>
+                :
+                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
                } 
             </div>
             <CarouselProvider
@@ -131,11 +168,11 @@ const ImageCarousel = (props) => {
                                 if(image){
                                     return (
                                         <Slide style={carousel_styles.slide}
-                                          key={index}
+                                         index={index}
                                          > 
                                             <Polaroid
                                                 key={index}
-                                                onPress={(e) => handleImageClick(e, index)}
+                                                onPress={handleImageClick}
                                                 imageUrl={image}
                                                 loadFinished={handleImageLoad}
                                                 loading={PolaroidLoading}
@@ -162,20 +199,17 @@ const ImageCarousel = (props) => {
                                 }
                                
                             })}
-                    
+                      
                 </Slider>
                 {open && 
                     <ImageModal 
                         handleClose={handleClose} 
-                        images={props.images}
-                        initialImageIndex={currentImageIndex} 
+                        image={tempImg} 
                         imageData={imageData}
                         isVenue={props.isVenue}
                         isFestival={props.isFestival}
-                        imageId = {imageId}
-
                     />
-                }
+                    }
                 <div className="controls">
                     <ButtonBack className="btn-arrow" style={{ color: "black" }}>
                         <FontAwesomeIcon icon={faAngleLeft} size="lg" />
@@ -195,6 +229,7 @@ ImageCarousel.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
     slideCount: PropTypes.number,
     isVenue: PropTypes.bool,
+
     // you only need one of these two
     artistID: PropTypes.string,
     venueID: PropTypes.string,

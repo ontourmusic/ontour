@@ -14,6 +14,7 @@ import { Grid } from "@mui/material";
 import header_styles from "../Styles/header_styles";
 import { createClient } from "@supabase/supabase-js";
 import ImageModal from "./ImageModal";
+import {supabase} from "./supabaseClient";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
@@ -75,10 +76,10 @@ function ArtistHeader(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageData, setImageData] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const supabase = createClient(
-    "https://zouczoaamusrlkkuoppu.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
-  );
+  // const supabase = createClient(
+  //   "https://zouczoaamusrlkkuoppu.supabase.co",
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
+  // );
 
   const starBoxRef = useRef(null);
   const totalReviewTextRef = useRef(null);
@@ -283,7 +284,7 @@ function ArtistHeader(props) {
               {images.map((image, index) => {
                 if (image) {
                   return (
-                    <Grid item xs={12} md={4} lg={3}>
+                    <Grid item xs={12} md={4} lg={3} key = {index}>
                       <div
                         // onClick={() => {handleTileClick()}}
                         style={header_styles.imageTile.container}
