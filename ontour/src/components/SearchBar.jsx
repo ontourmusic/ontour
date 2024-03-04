@@ -9,7 +9,7 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 import SearchBarItem from "./SearchBarItem";
 import { createClient } from '@supabase/supabase-js'
 import { ar } from "date-fns/locale";
-
+import {supabase} from "./supabaseClient";
 
 
 const styles = {
@@ -36,7 +36,7 @@ const SearchBar = React.memo( (props) => {
     const [festivalList, setFestivalList] = useState([]);
     
     
-    const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
+    // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
     const loadSearchItems = async () => {
         var artists = await supabase.from('artists').select('*');

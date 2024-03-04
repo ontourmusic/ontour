@@ -14,9 +14,11 @@ import { Grid } from "@mui/material";
 import header_styles from "../Styles/header_styles";
 import { createClient } from "@supabase/supabase-js";
 import ImageModal from "./ImageModal";
+import {supabase} from "./supabaseClient";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faPencil, faPlay } from "@fortawesome/free-solid-svg-icons";
+import ImageCrop from "./ImageCrop";
 const modal_styles = artist_styles.oldModal;
 const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
@@ -65,6 +67,7 @@ function ArtistHeader(props) {
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
   const [imageLoad, setImageLoad] = useState(false);
+  const [openCrop,setOpenCrop] = useState(false)
   const [isMobile, setIsMobile] = useState(
     window_breakpoints.md >= window.innerWidth
   );
@@ -75,10 +78,10 @@ function ArtistHeader(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageData, setImageData] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const supabase = createClient(
-    "https://zouczoaamusrlkkuoppu.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
-  );
+  // const supabase = createClient(
+  //   "https://zouczoaamusrlkkuoppu.supabase.co",
+  //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
+  // );
 
   const starBoxRef = useRef(null);
   const totalReviewTextRef = useRef(null);
@@ -175,7 +178,10 @@ function ArtistHeader(props) {
   const handleMouseLeave = () => {
     setHoveredIndex(null);
   };
-
+const handleCropImage = ()=>{
+     console.log(props.image);
+     setOpenCrop(true)
+}
   useEffect(() => {
     if (props.images.length > 0) {
       setImageLoad(true);
@@ -205,8 +211,15 @@ function ArtistHeader(props) {
         position: `relative`,
         display: `flex`,
         flexDirection: "column-reverse",
+        // backgroundAttachment: "fixed",
+        // backgroundPositionX: "center",
+        // backgroundPositionY: "center",
       }}
     >
+      {
+        props.adminLoggedIn &&
+      <FontAwesomeIcon onClick={handleCropImage} icon={faPencil} size="xl" color="white"  style={{position:"absolute",top:"5%",right:"5%",cursor:"pointer"}}/>
+      }
       <Box
         style={{
           display: "flex",
@@ -283,7 +296,7 @@ function ArtistHeader(props) {
               {images.map((image, index) => {
                 if (image) {
                   return (
-                    <Grid item xs={12} md={4} lg={3}>
+                    <Grid item xs={12} md={4} lg={3} key = {index}>
                       <div
                         // onClick={() => {handleTileClick()}}
                         style={header_styles.imageTile.container}
@@ -381,6 +394,14 @@ function ArtistHeader(props) {
               />
             )}
           </Box>
+        </Modal>
+        {/* Crop Image Modal Starts here */}
+        <Modal
+          open={openCrop}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+         >
+              <ImageCrop setOpenCropModal={setOpenCrop} changeBannerImage={props.changeBannerImage} originalImg={props.originalBannerImage} artistID={props.artistID} venueID={props.venueID} festivalID={props.festivalID}/>
         </Modal>
       </Box>
     </div>

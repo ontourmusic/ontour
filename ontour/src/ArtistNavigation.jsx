@@ -5,8 +5,9 @@ import SearchBar from "./components/SearchBar";
 import LoginButton from "./components/LoginButton";
 import LogoutButton from "./components/LogoutButton";
 import SettDashButton from "./components/SettDashbarButton";
+import { adminEmail } from './constants/constants';
 
-function Navigation() 
+function Navigation(props) 
 {
   const { user, isAuthenticated } = useAuth0();
   // const [artist_name, setName] = useState('')
@@ -30,6 +31,9 @@ function Navigation()
               if (user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/app_metadata'].username && user['https://tourscout.com/user_metadata'].artist_id) {
                   setUsername(user['https://tourscout.com/app_metadata'].username);
               }
+          if(adminEmail.includes(user.email)) {
+            props.handleAdminLoggedIn()
+          }   
       }
       console.log(user);
   }, [user, isAuthenticated]);
@@ -49,7 +53,7 @@ function Navigation()
         {
           isAuthenticated ? 
           <div>
-            <span style={{ color: 'white', marginRight: '10px'}}>Logged in as {username}</span>
+            <span style={{ color: 'white', marginRight: '10px'}}>Logged in as {user.username}</span>
             <SettDashButton></SettDashButton>
             <LogoutButton></LogoutButton>
           </div> :
