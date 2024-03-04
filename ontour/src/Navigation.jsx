@@ -24,21 +24,21 @@ const Navigation = () => {
     }, [user, isAuthenticated]);
 
 
-    return (
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <div className="container">
-                <a href="/">
-                    <img id="nav-logo" src="images/tourScoutBack.png" alt=""/>
-                </a>
-                {!isAuthenticated && <LoginButton></LoginButton>}
-                {isAuthenticated && <div>
-                    <span style={{color: 'white', marginRight: '10px'}}>Logged in as {username}</span>
-                    {!pathsToHideButton.includes(location.pathname) && <SettDashButton></SettDashButton>}
-                    <LogoutButton></LogoutButton>
-                </div>}
-            </div>
-        </nav>
-    );
+  return (
+    <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <div className="container">
+        <a href="/">
+          <img id="nav-logo" src= "images/tourScoutBack.png" alt=""/>
+        </a>
+        {!isAuthenticated && <LoginButton></LoginButton>}
+        {isAuthenticated && <div>
+          <span style={{ color: 'white', marginRight: '10px'}}>Logged in as {user.username}</span>
+          {!pathsToHideButton.includes(location.pathname) && <SettDashButton></SettDashButton>}
+          <LogoutButton></LogoutButton>
+        </div> }  
+      </div>
+    </nav>
+  );
 }
 
 export default Navigation;
