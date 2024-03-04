@@ -55,7 +55,7 @@ function Venue() {
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [showResults, setShowResults] = useState(false);
-  const [verified, setVerified] = useState(false);
+  const [verified, setVerified] = useState();
   const [websiteLink, setWebsiteLink] = useState("");
   const [instaLink, setInstaLink] = useState("");
 

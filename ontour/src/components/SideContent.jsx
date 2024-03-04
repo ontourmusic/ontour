@@ -36,10 +36,12 @@ const SideContent = ({name, linkPairs, venue, festival}) => {
                 {linkPairs && 
                 <div style={sidebar_styles.icon_container}>
                     {
-                            linkPairs.map((pair) => {
-                                    return <ExternalLink mediaLink={pair[0]} iconLink={pair[1]} />
+                            linkPairs.map((pair) => (
+                                <div style={{ width: 'calc(20% - 10px)' /* Adjust this value as needed */ }}>
+                                    <ExternalLink mediaLink={pair[0]} iconLink={pair[1]} isActive={!!pair[0]} />
+                                </div>
                             
-                        })
+                            ))
                     }
                 </div> }
                 {festival && <FestivalUpcomingSchedule name={name} />}
