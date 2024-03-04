@@ -386,6 +386,7 @@ const AddMediaButton = (props) => {
 
   const handleMediaButtonPress = () => {
     setSizeError("");
+    setCaptcha(false);
     setOpen(true);
   };
 
