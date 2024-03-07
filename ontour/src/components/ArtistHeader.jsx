@@ -19,6 +19,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPlay } from "@fortawesome/free-solid-svg-icons";
 import ImageCrop from "./ImageCrop";
+import mixpanel from "mixpanel-browser";
 const modal_styles = artist_styles.oldModal;
 const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
@@ -112,6 +113,11 @@ function ArtistHeader(props) {
   const handleAllPhotosClick = () => {
     setOpen(true);
     setModel(true);
+    mixpanel.track("tile_button_clicked",{
+      "entity_name" : props.name,
+      "entity_type" : ((props.isArtist && "artist") || props.isVenue && "venue") || (props.isFestival && "festival"),
+      "entity_id" : props.artistID || props.festivalID || props.venueID,
+    })
   };
 
   const handleImageClick = async (image) => {

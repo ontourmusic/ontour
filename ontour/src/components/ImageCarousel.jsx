@@ -14,6 +14,7 @@ import {supabase} from "../components/supabaseClient"
 import { createClient } from "@supabase/supabase-js";
 import mixpanel from "mixpanel-browser";
 import artist_styles from "../Styles/artist_styles";
+import { mixPanelId } from "../constants/constants";
 // import { useAuth0 } from "@auth0/auth0-react";
 const carousel_styles = artist_styles.carousel;
 
@@ -58,7 +59,7 @@ const ImageCarousel = (props) => {
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
-    mixpanel.init('046ea653daecc890e2168c762151eb85', {debug: true, track_pageview: true, persistence: 'localStorage'});
+    // mixpanel.init(mixPanelId, {debug: true, track_pageview: true, persistence: 'localStorage'});
 
     // console.warn(props,"deepanshu")
     const handleImageClick = async (e) => {
@@ -84,12 +85,17 @@ const ImageCarousel = (props) => {
             setOpen(true);
             setTemp(source);
             setModel(true);
-            mixpanel.track(urlTag=='image_url'?`venue_imageClicked`:`venue_videoClicked`,{
-                'url': `${source}`,
-                [urlTag=='image_url'?`image_id`:`video_id`] : `${data.id}`,
+            mixpanel.track("media_clicked",{
+                'media_type' : urlTag=='image_url'?"image":"video",
+                'media_id' : `${data.id}`,
+                'media_url': `${source}`,
+                'entity_type' : 'venue',
+                'entity_id' : `${props.venueID}`,
+                'entity_name' : `${props.venueName}`,
+                'mode' : 'carousel',
                 'user_email' : user?`${user.email}`:`guest`,
-                'venue_id' : props.venueID
-              });
+                [user && 'user_name'] : user && `${user.name}`
+            });
         }
         else if(props.isFestival){
             const { data, error } = await supabase
@@ -107,12 +113,16 @@ const ImageCarousel = (props) => {
         setOpen(true);
         setTemp(source);
         setModel(true);
-        mixpanel.track(urlTag=='image_url'?`festival_imageClicked`:`festival_videoClicked`,{
-            'url': `${source}`,
-            [urlTag=='image_url'?`image_id`:`video_id`] : `${data.id}`,
+        mixpanel.track("media_clicked",{
+            'media_type' : urlTag=='image_url'?"image":"video",
+            'media_id' : `${data.id}`,
+            'media_url': `${source}`,
+            'entity_type' : 'festival',
+            'entity_id' : `${props.festivalId}`,
+            'entity_name' : `${props.festivalName}`,
             'user_email' : user?`${user.email}`:`guest`,
-            'festival_id' : props.festivalId
-          });
+            [user && 'user_name'] : user && `${user.name}`
+        });
         }
         else {
             const { data, error } = await supabase
@@ -129,6 +139,16 @@ const ImageCarousel = (props) => {
             setOpen(true);
             setTemp(source);
             setModel(true);
+            mixpanel.track("media_clicked",{
+                'media_type' : urlTag=='image_url'?"image":"video",
+                'media_id' : `${data.id}`,
+                'media_url': `${source}`,
+                'entity_type' : 'artist',
+                'entity_id' : `${props.artistID}`,
+                'entity_name' : `${props.artistname}`,
+                'user_email' : user?`${user.email}`:`guest`,
+                [user && 'user_name'] : user && `${user.name}`
+            });
         }
     }
     // useEffect(() => {
@@ -150,9 +170,13 @@ const ImageCarousel = (props) => {
                {
                 props.isPromo ? 
                 (isAuthenticated && user && user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id == props.artistID) ? 
-                    <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} isPromo = {props.isPromo}/> : <></>
+                    <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} isPromo = {props.isPromo}  artistFname={props.artistname}
+                    venueName = {props.venueName}
+                    festivalName = {props.festivalName}/> : <></>
                 :
-                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival} />
+                <AddMediaButton artistID={props.artistID} isVenue={props.isVenue} venueID={props.venueID} festivalID={props.festivalId} isFestival={props.isFestival}  artistFname={props.artistname}
+                venueName = {props.venueName}
+                festivalName = {props.festivalName} />
                } 
             </div>
             <CarouselProvider
@@ -227,7 +251,9 @@ const ImageCarousel = (props) => {
                         isVenue={props.isVenue}
                         isFestival={props.isFestival}
                         user={user}
-                        // mixpanel = {mixpanel}
+                        artistFname={props.artistname}
+                        venueName = {props.venueName}
+                        festivalName = {props.festivalName}
                     />
                     }
                 <div className="controls">

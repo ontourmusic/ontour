@@ -15,6 +15,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Reaptcha from "reaptcha";
 import common_styles from "../Styles/common_styles";
 import {supabase} from "./supabaseClient";
+import mixpanel from "mixpanel-browser";
 
 const window_breakpoints = common_styles.window_breakpoints;
 const two_column_button_style = button_style.two_column_button;
@@ -65,6 +66,11 @@ const AddMediaButton = (props) => {
     setFile(null);
     setVideoFile(null);
     setDescription(null);
+    mixpanel.track("add_media_button_closed",{
+      "entity_id" : props.artistId || props.venueID || props.festivalID,
+      "entity_type" : ((props.isArtist && "artist") || props.isVenue && "venue") || (props.isFestival && "festival"),
+      "entity_name" : props.artistFname || props.venueName || props.festivalName 
+      })
   };
 
   const handleImageUpload = async (event) => {
@@ -421,6 +427,11 @@ const AddMediaButton = (props) => {
     setSizeError("");
     setCaptcha(false);
     setOpen(true);
+    mixpanel.track("add_media_button_opened",{
+    "entity_id" : props.artistId || props.venueID || props.festivalID,
+    "entity_type" : ((props.isArtist && "artist") || props.isVenue && "venue") || (props.isFestival && "festival"),
+    "entity_name" : props.artistFname || props.venueName || props.festivalName 
+    })
   };
 
   const handleFormChange = (event) => {

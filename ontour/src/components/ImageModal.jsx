@@ -6,10 +6,11 @@ import { Grid, Modal } from "@mui/material";
 import { useState, useEffect } from "react";
 import { GetAverageColor, getTextColor, rgbToHex } from "./ColorFunctions";
 import mixpanel from "mixpanel-browser";
+import { mixPanelId } from "../constants/constants";
 const modal_styles = artist_styles.modal;
 
 const ImageModal = (props) => {
-  mixpanel.init('046ea653daecc890e2168c762151eb85', {debug: true, track_pageview: true, persistence: 'localStorage'});
+  // mixpanel.init(mixPanelId, {debug: true, track_pageview: true, persistence: 'localStorage'});
   const [modalBackgroundColour, setModalBackgroundColour] = useState(
     "rgba(76, 78, 120, 0.9)"
   );
@@ -57,13 +58,18 @@ const ImageModal = (props) => {
   function sendDataToMixPanel(){
     if(x < Math.floor(video.currentTime.toFixed(2))){
       x =   Math.floor(video.currentTime.toFixed(2))
-      mixpanel.track(`videoPlayed_${props.imageData.artist_id?props.imageData.artist_id:(props.imageData.venue_id?"venue":"festival")}`,{
-         "play_time" : `${x} secs`,
-         "video_id" : props.imageData.id,
-         "video_url" : props.imageData.video_url,
-         "user_email" : props.user?`${props.user.email}`:'guest',
-         [!props.imageData.artist_id && (props.imageData.venue_id?"venue_id":"festival_id")] : props.imageData.venue_id?props.imageData.venue_id:props.imageData.festival_id
-      });
+      mixpanel.track(`video_played`,{
+        "play_time" : `${x} secs`,
+        "video_id" : props.imageData.id,
+        "video_url" : props.imageData.video_url,
+        "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
+        "entity_name" : props.artistFname || props.venueName|| props.festivalName,
+        "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
+        // "entity_type" : `${props.imageDataprops.imageData.venue_id?"venue":"festival"}`,
+        "user_email" : props.user?`${props.user.email}`:'guest',
+        [props.user && 'user_name'] : props.user && `${props.user.name}`,
+        
+     });
     }
 }
   video && video.addEventListener("pause",sendDataToMixPanel)

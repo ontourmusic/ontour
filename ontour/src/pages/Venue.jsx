@@ -261,6 +261,7 @@ function Venue() {
             slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3}
             isVenue={1}
             venueID={venueIDGlobal}
+            venueName={venue_name}
           />
           <ArtistContent
             allReviews={allReviews}
@@ -285,6 +286,7 @@ function Venue() {
           <SideContent
             name={venue_name}
             venue={true}
+            venueId={venueIDGlobal}
             linkPairs={[[websiteLink, "images/web_icon.pic.jpg"],[instaLink, "images/instagram.png.webp"], [ticketLink, "images/ticketmaster_icon.png"]]}
           />
         </Grid>

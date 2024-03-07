@@ -291,6 +291,7 @@ const changeBannerImage = (image,orgImg)=>{
             slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3}
             isFestival={1}
             festivalId={festivalIDGlobal}
+            festivalName={festival_name}
           />
           <ArtistContent
             allReviews={allReviews}
@@ -312,7 +313,7 @@ const changeBannerImage = (image,orgImg)=>{
           )}
         </Grid>
         <Grid item xs={12} md={4}>
-          <SideContent name={festival_name} festival={true} />
+          <SideContent festvalId={festivalIDGlobal} name={festival_name} festival={true} />
         </Grid>
       </Grid>
     </Grid>

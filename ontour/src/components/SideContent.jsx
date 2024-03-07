@@ -20,8 +20,8 @@ Props:
     venue: bool, true if venue
 */
 
-const SideContent = ({name, linkPairs, venue, festival}) => {
-    if(venue)
+const SideContent = (props) => {
+    if(props.venue)
     {
        // console.log("yes");
     }
@@ -33,18 +33,19 @@ const SideContent = ({name, linkPairs, venue, festival}) => {
         <div style={{ position: "sticky", top: "15px" }}>
             <Box sx={sidebar_styles.box}>
                 <WriteReviewButton />
-                {linkPairs && 
+     
+                {props.linkPairs && 
                 <div style={sidebar_styles.icon_container}>
                     {
-                            linkPairs.map((pair) => {
-                                    return <ExternalLink mediaLink={pair[0]} iconLink={pair[1]} />
+                            props.linkPairs.map((pair) => {
+                                    return <ExternalLink venueId={props.venueId} festivalId={props.festivalId} artistId={props.artistID} name={props.name} venue={props.venue}  festival={props.festival} artist={props.artist} mediaLink={pair[0]} iconLink={pair[1]} />
                             
                         })
                     }
                 </div> }
-                {festival && <FestivalUpcomingSchedule name={name} />}
-                {venue && <VenueUpcomingSchedule name={name} />}
-                {!venue && !festival && <UpcomingSchedule name={name} />}
+                {props.festival && <FestivalUpcomingSchedule name={props.name} />}
+                {props.venue && <VenueUpcomingSchedule name={props.name} />}
+                {!props.venue && !props.festival && <UpcomingSchedule name={props.name} />}
             </Box>
         </div>
     );
