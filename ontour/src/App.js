@@ -13,7 +13,7 @@ import ProfilePage from "./pages/ProfilePage";
 import FanAnalytics from "./pages/FanAnalytics";
 import Tours from "./pages/Tours";
 import ManageReviews from "./pages/ManageReviews";
-
+import mixpanel from "mixpanel-browser";
 // import {
 //   createBrowserRouter,
 //   createRoutesFromElements,
@@ -61,8 +61,17 @@ import ManageReviews from "./pages/ManageReviews";
 
 
 function App() {
+  mixpanel.init('046ea653daecc890e2168c762151eb85', {debug: true, track_pageview: true, persistence: 'localStorage'});
+  // const btnClick = () => {
+  //   mixpanel.track('btn Clicked',{
+  //     'name': 'deepanshu'
+  //   });
+  // }
   return (
+
+    // <MixpanelProvider config={MIXPANEL_CONFIG} token={MIXPANEL_TOKEN}>
     <ThemeProvider theme={OnTourTheme}>
+     {/* <button onClick={btnClick}>abc</button> */}
       <div className="App">
         <CssBaseline />
         <Router>
@@ -81,7 +90,9 @@ function App() {
         </Router>
         {/* <RouterProvider router={router} /> */}
       </div>
+      {/* </MixpanelProvider> */}
     </ThemeProvider>
+    // </MixpanelProvider>
   );
 }
 

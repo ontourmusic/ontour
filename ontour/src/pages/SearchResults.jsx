@@ -12,6 +12,7 @@ import Footer from "../components/Footer";
 import results_styles from "../Styles/results_styles";
 
 
+
 const SearchResults = () => {
     const [searchParams] = useSearchParams();
     const textSearched = searchParams.get("search");

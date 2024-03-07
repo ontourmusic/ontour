@@ -1,6 +1,7 @@
 import React, { useDebugValue } from "react";
 import "../index.css";
 import "react-multi-carousel/lib/styles.css";
+import mixpanel from "mixpanel-browser";
 import ArtistHeader from "../components/ArtistHeader";
 import WriteReview from "../components/WriteReview";
 import Footer from "../components/Footer";
@@ -12,10 +13,9 @@ import ArtistNavigation from "../ArtistNavigation"
 
 import artist_styles from "../Styles/artist_styles";
 
-import { createClient } from '@supabase/supabase-js';
 import common_styles from "../Styles/common_styles";
 import Fuse from 'fuse.js'
-
+import { useAuth0 } from "@auth0/auth0-react";
 
 // Testing
 import { Grid } from "@mui/material";
@@ -29,7 +29,8 @@ function Artist() {
     const artistID = searchParams.get("id");
     const artistName = searchParams.get("artist")
     const [currArtistID, setArtistID] = useState("");
-
+    mixpanel.init('046ea653daecc890e2168c762151eb85', {debug: true, track_pageview: true, persistence: 'localStorage'});
+    mixpanel.track_pageview({"page": "Artist Page", "artistID": artistID, "artistName": artistName});
     // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
     // const [artistData, setArtistData] = useState({
@@ -38,6 +39,8 @@ function Artist() {
     //     artistIdNumber: 0,
     // });
     console.log("Artist reload triggered")
+    const { user, isAuthenticated } = useAuth0();
+    
 
     const [fullName, setFullName] = useState("");
     const [allReviews, setAllReviews] = useState([]);
@@ -66,9 +69,14 @@ function Artist() {
     const [merchLinkArray, setMerchLinkArray] = useState([]);
     const [merchTitleArray, setMerchTitleArray] = useState([]);
     const [promoImageArray, setPromoImageArray] = useState([]);
+    const [originalBannerImage,setOriginalBannerImg] = useState("");
+    const [adminLoggedIn, setAdminLoggedIn] = useState(false);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
     const [verified, setVerified] = useState(false);
+    const handleAdminLoggedIn = () => {
+        setAdminLoggedIn(true);
+    }
 
     const searchReviews = (searchTerm) => {
         const options = {
@@ -101,19 +109,21 @@ function Artist() {
             setFilteredReviews(parseReviewData(reviewData));
 
             //Sets artist header image
-            const bannerImage = artistData["banner_image"];
+            
+            let bannerImage = artistData["cropped_image"] || artistData["banner_image"];
+            bannerImage+="?dts=" + new Date().getTime();
             setArtistImage(bannerImage);
-
+            setOriginalBannerImg(artistData["banner_image"]);
             //log the artist name
             setFullName(artistData["name"]);
             setOnTour(artistData["on_tour"]);
 
             const imageGallerySupabase = await supabase.from('artist_images').select('*').eq('artist_id', artistID);
             //initialize an array to hold the images
-            var imageArray = [];
+            var imageArrayTmp = [];
             //loop through the data and push the images into the array
             for (var i = 0; i < imageGallerySupabase.data.length; i++) {
-                imageArray.push(imageGallerySupabase.data[i].image_url);
+                imageArrayTmp.push(imageGallerySupabase.data[i].image_url);
             }
           
             var videoArray = []
@@ -122,7 +132,7 @@ function Artist() {
                 videoArray.push(imageGallerySupabase.data[i].video_url);
             }
             //set the image array to the state
-            setImageArray(imageArray);
+            setImageArray(imageArrayTmp);
             setVideoArray(videoArray);
 
             setVerified(artistData["verified"]);
@@ -199,7 +209,11 @@ function Artist() {
             console.log('Webpage error. Please reload the page.');
         }
     }
-
+    const changeBannerImage = (image,orgImg)=>{
+        console.log(orgImg,image);
+        setArtistImage(image+"?timestamp=" + new Date().getTime());
+        orgImg != "" && setOriginalBannerImg(orgImg+"?timestamp=" + new Date().getTime());
+    }
     //performs the search when the page loads
     useEffect(() => {
         performSearch();
@@ -219,7 +233,8 @@ function Artist() {
                 "eventDate": reviewData[i].eventDate,                                // review date
                 "likeCount": reviewData[i].likeCount,                                // review like count
                 "likedUsers": reviewData[i].likedUsers,                              // review liked users
-                "dislikedUsers": reviewData[i].dislikedUsers                         // review disliked users
+                "dislikedUsers": reviewData[i].dislikedUsers,                         // review disliked users
+                "artist_response": reviewData[i].artist_response                      // artist response
             });
             cumulativeRating += reviewData[i].rating;
         }
@@ -297,24 +312,25 @@ function Artist() {
             </Helmet>
             <Grid container spacing={0}>
                 <Grid item xs={12}>
-                    <ArtistNavigation />
+                    <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn}/>
                 </Grid>
+                
                 <Grid item xs={12}>
-                    <ArtistHeader images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} verified={verified} image={artistImage} isVenue={0} onTour={onTour}/>
+                    <ArtistHeader  adminLoggedIn={adminLoggedIn} changeBannerImage={changeBannerImage} artistID={artistID} images={imageArray} videos={videoArray} name={fullName} rating={aggregateRating} total={totalReviews} image={artistImage} isVenue={0} onTour={onTour} verified={false} originalBannerImage={originalBannerImage}/>
                 </Grid>
                 <Grid container spacing={1} style={artist_styles.grid.body_container}>
                     <Grid item xs={12} md={8}>
                       {
                             // always show image carousel with promo if the curr user/artist is on their own page
                             // show image carousel to all other users if there are promo images to show
-                            (currArtistID === artistID || promoImageArray.length > 0) && <>
+                            ((currArtistID === artistID || promoImageArray.length > 0) ||(isAuthenticated && user && user['https://tourscout.com/user_metadata'] && user['https://tourscout.com/user_metadata'].artist_id == artistID))&& <>
                                 <ImageCarousel artistID={artistID} images={promoImageArray} videos={[]} isPromo={true} currArtistID={currArtistID}
                                 slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} />
                             </>
                         }
                         {/* <ImageCarousel artistID={artistID} images={imageArray} 
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 3} /> */}
-                        <ImageCarousel artistID={artistID} images={imageArray} videos={videoArray}  
+                        <ImageCarousel artistName={artistName} artistID={artistID} images={imageArray} videos={videoArray}  
                             slideCount={window.innerWidth < common_styles.window_breakpoints.sm ? 1 : 4} />
                         {
                             (currArtistID === artistID || merchImgArray.length > 0) && <>
