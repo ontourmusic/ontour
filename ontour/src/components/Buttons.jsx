@@ -16,6 +16,7 @@ import Reaptcha from "reaptcha";
 import common_styles from "../Styles/common_styles";
 import {supabase} from "./supabaseClient";
 import mixpanel from "mixpanel-browser";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const window_breakpoints = common_styles.window_breakpoints;
 const two_column_button_style = button_style.two_column_button;
@@ -54,7 +55,7 @@ const AddMediaButton = (props) => {
   const [captchaVerified, setCaptcha] = useState(false);
 
   const [eventDate, setEventDate] = useState("");
-
+  const { user, isAuthenticated } = useAuth0();
 
   const [submitClick, setSubmitClicked] = useState(false);
   // console.log(festivalId,"deep",props)
@@ -69,7 +70,8 @@ const AddMediaButton = (props) => {
     mixpanel.track("add_media_button_closed",{
       "entity_id" : props.artistId || props.venueID || props.festivalID,
       "entity_type" : ((props.isArtist && "artist") || props.isVenue && "venue") || (props.isFestival && "festival"),
-      "entity_name" : props.artistFname || props.venueName || props.festivalName 
+      "entity_name" : props.artistFname || props.venueName || props.festivalName,
+      "user": isAuthenticated?user:'guest'
       })
   };
 
@@ -430,7 +432,8 @@ const AddMediaButton = (props) => {
     mixpanel.track("add_media_button_opened",{
     "entity_id" : props.artistId || props.venueID || props.festivalID,
     "entity_type" : ((props.isArtist && "artist") || props.isVenue && "venue") || (props.isFestival && "festival"),
-    "entity_name" : props.artistFname || props.venueName || props.festivalName 
+    "entity_name" : props.artistFname || props.venueName || props.festivalName,
+    "user": isAuthenticated?user:'guest' 
     })
   };
 

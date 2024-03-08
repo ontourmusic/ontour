@@ -93,8 +93,8 @@ const ImageCarousel = (props) => {
                 'entity_id' : `${props.venueID}`,
                 'entity_name' : `${props.venueName}`,
                 'mode' : 'carousel',
-                'user_email' : user?`${user.email}`:`guest`,
-                [user && 'user_name'] : user && `${user.name}`
+                'user' : isAuthenticated?user:'guest',
+                "mode" : "carousel"
             });
         }
         else if(props.isFestival){
@@ -120,8 +120,8 @@ const ImageCarousel = (props) => {
             'entity_type' : 'festival',
             'entity_id' : `${props.festivalId}`,
             'entity_name' : `${props.festivalName}`,
-            'user_email' : user?`${user.email}`:`guest`,
-            [user && 'user_name'] : user && `${user.name}`
+            'user' : isAuthenticated?user:'guest',
+            "mode" : "carousel"
         });
         }
         else {
@@ -146,8 +146,8 @@ const ImageCarousel = (props) => {
                 'entity_type' : 'artist',
                 'entity_id' : `${props.artistID}`,
                 'entity_name' : `${props.artistname}`,
-                'user_email' : user?`${user.email}`:`guest`,
-                [user && 'user_name'] : user && `${user.name}`
+                'user' : isAuthenticated?user:'guest',
+                "mode" : "carousel"
             });
         }
     }

@@ -2,8 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import '../index.css';
 import mixpanel from "mixpanel-browser";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function ExternalLink(props) {
+    const {user,isAuthenticated} = useAuth0();
     function handleClick() {
         let x = props.iconLink
         console.log("clicked",props.mediaLink,props.iconLink);
@@ -12,7 +14,9 @@ export default function ExternalLink(props) {
             "platform_type":x.substring(x.indexOf('/')+1,x.indexOf('.', x.indexOf('/'))),
             "entity_name":props.name,
             "entity_type":(props.venue && "venue" || props.festival && "festival" || props.artist && "artist"),
-            "entity_id": props.venueId || props.artistId || props.festivalId
+            "entity_id": props.venueId || props.artistId || props.festivalId,
+            "user" : isAuthenticated?user:'guest'
+
         })
     }
     if (!props.mediaLink || props.mediaLink=="") {

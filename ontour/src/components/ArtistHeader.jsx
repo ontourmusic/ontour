@@ -20,6 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil, faPlay } from "@fortawesome/free-solid-svg-icons";
 import ImageCrop from "./ImageCrop";
 import mixpanel from "mixpanel-browser";
+import { useAuth0 } from "@auth0/auth0-react";
 const modal_styles = artist_styles.oldModal;
 const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
@@ -79,6 +80,7 @@ function ArtistHeader(props) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageData, setImageData] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const { user, isAuthenticated } = useAuth0();
   // const supabase = createClient(
   //   "https://zouczoaamusrlkkuoppu.supabase.co",
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
@@ -117,11 +119,12 @@ function ArtistHeader(props) {
       "entity_name" : props.name,
       "entity_type" : ((props.isArtist && "artist") || props.isVenue && "venue") || (props.isFestival && "festival"),
       "entity_id" : props.artistID || props.festivalID || props.venueID,
+      "user" : isAuthenticated?user:'guest'
     })
   };
 
   const handleImageClick = async (image) => {
-    // console.log(props);
+    console.log("clicked");
     var urlTag = image.target.tagName == "IMG" ? "image_url" : "video_url";
     const source = image.target.dataset.src1
       ? image.target.dataset.src1
@@ -140,6 +143,16 @@ function ArtistHeader(props) {
       setImageData(data);
       setSelectedImage(source);
       setIsChildModalOpen(true);
+      mixpanel.track("media_clicked",{
+        'media_type' : urlTag=='image_url'?"image":"video",
+        'media_id' : `${data.id}`,
+        'media_url': `${source}`,
+        'entity_type' : 'venue',
+        'entity_id' : `${props.venueID}`,
+        'entity_name' : `${props.name}`,
+        'user' : isAuthenticated?user:'guest',
+        'mode' : 'tile_button',
+    });
     } else if (props.isFestival) {
       const { data, error } = await supabase
         .from("festival_carousel_images")
@@ -151,6 +164,16 @@ function ArtistHeader(props) {
         console.error(error);
         return null;
       }
+      mixpanel.track("media_clicked",{
+        'media_type' : urlTag=='image_url'?"image":"video",
+        'media_id' : `${data.id}`,
+        'media_url': `${source}`,
+        'entity_type' : 'festival',
+        'entity_id' : `${props.festivalId}`,
+        'entity_name' : `${props.name}`,
+         'user' : isAuthenticated?user:'guest',
+         "mode" : "tile_button"
+    });
       setImageData(data);
       setSelectedImage(source);
       setIsChildModalOpen(true);
@@ -165,6 +188,16 @@ function ArtistHeader(props) {
         console.error(error);
         return null;
       }
+      mixpanel.track("media_clicked",{
+        'media_type' : urlTag=='image_url'?"image":"video",
+        'media_id' : `${data.id}`,
+        'media_url': `${source}`,
+        'entity_type' : 'artist',
+        'entity_id' : `${props.artistID}`,
+        'entity_name' : `${props.name}`,
+        "user" : isAuthenticated?user:'guest',
+        "mode" : "tile_button"
+    });
       setImageData(data);
       setSelectedImage(source);
       setIsChildModalOpen(true);

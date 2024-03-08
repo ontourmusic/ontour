@@ -65,9 +65,7 @@ const ImageModal = (props) => {
         "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
         "entity_name" : props.artistFname || props.venueName|| props.festivalName,
         "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
-        // "entity_type" : `${props.imageDataprops.imageData.venue_id?"venue":"festival"}`,
-        "user_email" : props.user?`${props.user.email}`:'guest',
-        [props.user && 'user_name'] : props.user && `${props.user.name}`,
+        "user" : props.user?props.user:'guest'
         
      });
     }
