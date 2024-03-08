@@ -31,11 +31,11 @@ function Artist() {
   const artistName = searchParams.get("artist");
   const [currArtistID, setArtistID] = useState("");
   // mixpanel.init(mixPanelId, {debug: true, track_pageview: true, persistence: 'localStorage'});
-  mixpanel.track_pageview({
-    page: "Artist Page",
-    artistID: artistID,
-    artistName: artistName,
-  });
+  // mixpanel.track_pageview({
+  //   page: "Artist Page",
+  //   artistID: artistID,
+  //   artistName: artistName,
+  // });
   // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo')
 
   // const [artistData, setArtistData] = useState({
@@ -78,6 +78,7 @@ function Artist() {
   const [verified, setVerified] = useState(true);
 
   const searchReviews = (searchTerm) => {
+
     const options = {
       keys: ["review", "event"],
       minMatchCharLength: 3,
@@ -89,6 +90,17 @@ function Artist() {
         return result.item;
       })
     );
+    console.log(searchTerm);
+    if(searchTerm != ""){
+      mixpanel.track("review_filter_search_value",{
+        'entity_id' : artistID,
+        'entity_name' : artistName,
+        'entity_type' : 'artist',
+        'search_value' : searchTerm,
+        'user' : isAuthenticated ? user : 'guest'
+      })
+    }
+  
     setShowResults(true);
   };
 
@@ -261,9 +273,17 @@ function Artist() {
   const ratingFilter = (event) => {
     var tempArray = allReviews;
     if (event.target.value > 0) {
+      // console.log(event.target.value,"rating filter");
       tempArray = tempArray.filter((review) => {
         return review.rating == event.target.value;
       });
+      mixpanel.track("review_filter_rating_value",{
+        'entity_id' : artistID,
+        'entity_name' : artistName,
+        'entity_type' : 'artist',
+        'rating_value' : event.target.value,
+        'user' : isAuthenticated ? user : 'guest'
+      })
     }
     setFilteredReviews(tempArray);
     forceUpdate();
@@ -271,6 +291,7 @@ function Artist() {
 
   const formChange = (event) => {
     //sort all reviews array by rating highest to lowest
+    var recomm = ['Newest First','Oldest First','Highest Rated','Lowest Rated'];
     var tempArray = allReviews;
     if (event.target.value == 3) {
       tempArray.sort(function (a, b) {
@@ -296,7 +317,14 @@ function Artist() {
         return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
       });
     }
-
+    // console.log(recomm[event.target.value-1],"reccomendation");
+    mixpanel.track("review_filter_recommendation_value",{
+      'entity_id' : artistID,
+      'entity_name' : artistName,
+      'entity_type' : 'artist',
+      'recommended_value' :recomm[event.target.value-1],
+      'user' : isAuthenticated ? user : 'guest'
+    })
     setFilteredReviews(tempArray);
     forceUpdate();
   };

@@ -11,6 +11,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import {Typography} from "@mui/material";
 import common_styles from "../Styles/common_styles";
 import Form from 'react-bootstrap/Form';
+import mixpanel from "mixpanel-browser";
 
 const window_breakpoints = common_styles.window_breakpoints;
 
@@ -96,6 +97,16 @@ const WriteVenueReview = (props) => {
     }
 
     const postData = async () => {
+        // var fname = parsedName[0];
+        // var lname = parsedName[1];
+
+        if (dateList) {
+            var date = eventName.split(" • ")[0];
+            var event = eventName.split(" • ")[1];
+        } else {
+            var date = eventDate;
+            var event = eventName;
+        }
         const {data2, error2} = await supabase
             .from('venues')
             .update({'review_count': props.numReviews + 1})
@@ -114,10 +125,22 @@ const WriteVenueReview = (props) => {
                     'review': description,
                     'name': postName,
                     'artist': artistName,
-                    'eventDate': eventDate
+                    'eventDate': date
                 }]
             );
-
+            if(!error){
+                console.log(rating,description,name,artistName,eventDate);
+                mixpanel.track("review_submitted",{
+                    'entity_id' : `${props.venueId}`,
+                    'entity_name' : props.name,
+                    'entity_type' : 'venue',
+                    'rating' : rating,
+                    // 'date' : date,
+                    'event' : event,
+                    'user' : isAuthenticated ? user : 'guest'
+                })
+             }
+             console.log("venue review form")
         window.location.reload();
     }
 

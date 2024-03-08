@@ -21,6 +21,7 @@ const ArtistContent = (props) => {
         props.onReviewSearch(searchTerm);
     }
     const inputChange = (event) => {
+        
         setSearchTerm(event.target.value);
     }
     function Items({ currentItems }) {

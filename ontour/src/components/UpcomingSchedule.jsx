@@ -105,7 +105,7 @@ export default function UpcomingSchedule(props) {
 
 
     return (
-        <Schedule eventArray={eventArray} />
+        <Schedule venueId={props.venueId} festivalId={props.festivalId} artistID={props.artistID} name={props.name} venue={props.venue}  festival={props.festival} artist={props.artist} eventArray={eventArray} />
     );
 }
 

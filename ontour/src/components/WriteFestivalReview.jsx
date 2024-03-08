@@ -8,6 +8,7 @@ import { createClient } from '@supabase/supabase-js'
 import common_styles from "../Styles/common_styles";
 import { useAuth0 } from "@auth0/auth0-react";
 import Form from 'react-bootstrap/Form';
+import mixpanel from "mixpanel-browser";
 const window_breakpoints = common_styles.window_breakpoints;
 
 const WriteFestivalReview = (props) => {
@@ -50,6 +51,13 @@ const WriteFestivalReview = (props) => {
     }
 
     const postData = async () => {
+        if (dateList) {
+            var date = eventName.split(" • ")[0];
+            // var event = eventName.split(" • ")[1];
+        } else {
+            var date = eventDate;
+            // var event = eventName;
+        }
         const { data2, error2 } = await supabase
             .from('festivals')
             .update({ 'review_count': props.numReviews + 1 })
@@ -63,9 +71,20 @@ const WriteFestivalReview = (props) => {
         const { data, error } = await supabase
             .from('festival_reviews')
             .insert(
-                [{ 'festival_id': props.festivalId, 'rating': rating, 'review': description, 'name': postName, 'eventDate': selectedShow }]
+                [{ 'festival_id': props.festivalId, 'rating': rating, 'review': description, 'name': postName, 'eventDate': date }]
             );
-        window.location.reload();
+            if(!error) {
+               mixpanel.track("review_submitted",{
+                    'entity_id' : `${props.festivalId}`,
+                    'entity_name' : props.name,
+                    'entity_type' : 'festival',
+                    'rating' : rating,
+                    // 'date' : date,
+                    'user' : isAuthenticated ? user : 'guest'
+                })
+            }
+            console.log(error,"error")
+        // window.location.reload();
     }
 
     const HandleDescription = event => {

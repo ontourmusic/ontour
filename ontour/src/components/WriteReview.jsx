@@ -11,6 +11,7 @@ import common_styles from "../Styles/common_styles";
 import {useAuth0} from "@auth0/auth0-react";
 import {supabase} from "./supabaseClient";
 import {Typography} from "@mui/material";
+import mixpanel from "mixpanel-browser";
 
 const window_breakpoints = common_styles.window_breakpoints;
 
@@ -124,7 +125,19 @@ const WriteReview = (props) => {
                     'eventDate': date
                 }]
             );
-
+        console.log(data,error);
+        if(!error){
+           mixpanel.track("review_submitted",{
+               'entity_id' : `${props.artistId}`,
+               'entity_name' : props.name,
+               'entity_type' : 'artist',
+               'name' : name,
+               'rating' : rating,
+               'date' : date,
+               'event' : event,
+               'user' : isAuthenticated ? user : 'guest'
+           })
+        }
 
         window.location.reload();
     }
@@ -285,6 +298,7 @@ const WriteReview = (props) => {
                     <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit"
                             disabled={!captchaVerified}>Submit
                     </button>
+                    
                 </div>
             </form>
             {!canSubmit &&

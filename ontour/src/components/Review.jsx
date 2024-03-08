@@ -139,6 +139,7 @@ export default function Review(props) {
 
     return (
         <div style={review_styles.item}>
+          
             <div class="d-flex bd-highlight">
                 <div class="p-1 bd-highlight"><AiOutlineUser size={23} /> </div>
                 <div class="p-1 bd-highlight"><h6 class="review-user">{props.user}</h6></div>
@@ -169,6 +170,7 @@ export default function Review(props) {
                     <small>{props.date} • {props.venue}</small>
                 </div>
             </div>
+            
             <div class="d-flex w-100 justify-content-start">
                 <p id="rating-text" style={{ whiteSpace: "pre-wrap" }} class="mb-2" align="left">{props.text}</p>
             </div>

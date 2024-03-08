@@ -3,9 +3,11 @@ import PropTypes from "prop-types";
 import '../index.css';
 import Show from "./Show";
 import { useState, useEffect } from "react";
+import mixpanel from "mixpanel-browser";
+import { useAuth0 } from "@auth0/auth0-react";
 
-const Schedule = ({ eventArray, darkMode, hideTitle, onHoveredIndexChange }) => {
-
+const Schedule = ({ eventArray, darkMode, hideTitle, onHoveredIndexChange,venueId ,festivalId, artistID ,name, venue, festival,artist }) => {
+    const {user,isAuthenticated} = useAuth0();
     const [hoveredItemIndex, setHoveredItemIndex] = useState(null);
     const handleItemHover = (venue) => {
         setHoveredItemIndex(venue);
@@ -23,6 +25,16 @@ const Schedule = ({ eventArray, darkMode, hideTitle, onHoveredIndexChange }) => 
         {
             onHoveredIndexChange(null);
         }
+    }
+    function sendDataToMixPanel(event){
+        mixpanel.track("ticket_link_clicked",{
+          "entity_id" : venueId || festivalId || artistID,
+          "entity_name" : name,
+          "entity_type" : ((venue && "venue") || (festival && "festival") || (artist && "artist")),
+          "event_description" : event,
+          'user' : isAuthenticated?user:'guest'
+        })
+        // console.log(event,venueId ,festivalId, artistID ,name, venue, festival,artist)
     }
     return (
         <div class="container shows"
@@ -47,7 +59,9 @@ const Schedule = ({ eventArray, darkMode, hideTitle, onHoveredIndexChange }) => 
                             target="_blank" 
                             rel="noopener noreferrer"
                             onMouseEnter={() => handleItemHover(eventArray[index].venue)}
-                            onMouseLeave={() => handleItemHoverOff()}>
+                            onMouseLeave={() => handleItemHoverOff()}
+                            onClick={()=>sendDataToMixPanel(eventArray[index])}
+                            >
                                 <Show
                                     time={eventArray[index].eventTime}
                                     isVenue={eventArray[index].isVenue}
@@ -59,6 +73,7 @@ const Schedule = ({ eventArray, darkMode, hideTitle, onHoveredIndexChange }) => 
                                     city={eventArray[index].city}
                                     state={eventArray[index].state}
                                 />
+                                
                             </a>
                         )
                     })
@@ -66,6 +81,7 @@ const Schedule = ({ eventArray, darkMode, hideTitle, onHoveredIndexChange }) => 
 
                 </div>
                 : <p style={{ marginTop: "30px" }}>No Upcoming Shows</p>}
+              
         </div>
     )
 }

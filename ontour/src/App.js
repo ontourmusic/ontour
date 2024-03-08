@@ -63,11 +63,7 @@ import { mixPanelId } from "./constants/constants";
 
 function App() {
   mixpanel.init(mixPanelId, {debug: true, track_pageview: true, persistence: 'localStorage'});
-  // const btnClick = () => {
-  //   mixpanel.track('btn Clicked',{
-  //     'name': 'deepanshu'
-  //   });
-  // }
+ 
   return (
 
     // <MixpanelProvider config={MIXPANEL_CONFIG} token={MIXPANEL_TOKEN}>
