@@ -56,7 +56,7 @@ function Venue() {
   const [, updateState] = React.useState();
   const forceUpdate = React.useCallback(() => updateState({}), []);
   const [showResults, setShowResults] = useState(false);
-  const [verified, setVerified] = useState(false);
+  const [verified, setVerified] = useState();
   const [adminLoggedIn, setAdminLoggedIn] = useState(false);
   const [originalBannerImage,setOriginalBannerImg] = useState("");
   const handleAdminLoggedIn = () => {

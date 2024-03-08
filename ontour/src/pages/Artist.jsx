@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useDebugValue } from "react";
 import "../index.css";
 import "react-multi-carousel/lib/styles.css";
 import mixpanel from "mixpanel-browser";
@@ -52,6 +52,12 @@ function Artist() {
     const [spotifyLink, setSpotifyLink] = useState("");
     // const [ticketLink, setTicketLink] = useState("");
     const [instaLink, setInstaLink] = useState("");
+    const [utubeLink, setUtubelink] = useState("");
+    const [tiktokLink, setTiktokLink] = useState("");
+    const [cameoLink, setCLink] = useState("");
+    const [patreonLink, setPLink] = useState("");
+    const [googleplayLink, setggPlayLink] = useState("");
+    const [appleplayLink, setappleplayLink] = useState("");
     const [twitterLink, setTwitterLink] = useState("");
     const [websiteLink, setWebsiteLink] = useState("");
     const [imageArray, setImageArray] = useState([]);
@@ -67,10 +73,10 @@ function Artist() {
     const [adminLoggedIn, setAdminLoggedIn] = useState(false);
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
+    const [verified, setVerified] = useState(false);
     const handleAdminLoggedIn = () => {
         setAdminLoggedIn(true);
     }
-    const [verified, setVerified] = useState(true);
 
     const searchReviews = (searchTerm) => {
         const options = {
@@ -188,6 +194,12 @@ function Artist() {
             setTwitterLink(artistData["twitter_link"]);
             setSpotifyLink(artistData["spotify_link"]);
             setWebsiteLink(artistData["website_link"]);
+            setUtubelink(artistData["youtube_link"]);
+            setTiktokLink(artistData["tiktok_link"]);
+            setCLink(artistData["cameo_link"]);
+            setPLink(artistData["patreon_link"]);
+            setggPlayLink(artistData["ggPlay_link"]);
+            setappleplayLink(artistData["applePlay_link"]);
            // const tmArtist = await fetch(`https://app.ticketmaster.com/discovery/v2/attractions.json?apikey=NwphXHPsTvSzPp0XwvUNdp3vyzE3vEww&classificationName=music&keyword=${artistName}`, { mode: 'cors' });
            // const tmData = await tmArtist.json();
             //var tickets = tmData._embedded.attractions[0].url;
@@ -341,7 +353,19 @@ function Artist() {
                         {fullName !== "" && <WriteReview artistId={artistID} name={fullName} numReviews={totalReviews}/>}
                     </Grid>
                     <Grid item xs={12} md={4}>
-                        <SideContent name={fullName} linkPairs={[[websiteLink, "images/web_icon.pic.jpg"], [spotifyLink, "images/spotify_icon.png"], [instaLink, "images/instagram.png.webp"], [twitterLink, "images/twitter.png"]]} />
+                        <SideContent name={fullName} linkPairs={[
+                            [spotifyLink, "images/spotify_icon.png", !spotifyLink],
+                            [googleplayLink, "images/googleplay.png", !googleplayLink],
+                            [appleplayLink, "images/appleplay.png", !appleplayLink],
+                            [websiteLink, "images/web_icon.pic.jpg", !websiteLink],
+                            [instaLink, "images/instagram.png.webp", !instaLink],
+                            [twitterLink, "images/twitter.png", !twitterLink],
+                            [utubeLink, "images/youtube.png", !utubeLink], 
+                            [tiktokLink, "images/tiktok.png", !tiktokLink],
+                            [cameoLink, "images/cameo.png", !cameoLink],
+                            [patreonLink, "images/patreon.png", !patreonLink]
+                        ]} 
+                        />
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>

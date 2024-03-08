@@ -407,6 +407,7 @@ h4 {
   padding-top: 5px;
   margin-bottom: 30px;
   color: white;
+  margin-left: -10px;
 }
 
 #write-sm{
@@ -766,4 +767,36 @@ select:invalid option:not(:disabled) {
 
 #stars {
   padding-top: 5px;
+}
+
+.social-media-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.social-media-icon.disabled-link .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.6); /* semi-transparent white */
+}
+
+.social-media-icon.disabled-link img {
+  filter: grayscale(100%);
+}
+
+.cross-symbol {
+  font-size: 20px; /* Adjust size as needed */
+  color: black; /* Adjust color as needed */
+  font-weight: bold;
+}
+
+.overlay img {
+  width: 50%;
+  height: 50%;
 }

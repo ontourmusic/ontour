@@ -17,9 +17,11 @@ const sidebar = {
   },
   icon_container: {
     display: "flex",
-    width: "100%",
-    justifyContent: "center",
-    flexDirection: "space-between",
+    width: "60%",
+    flexWrap: "wrap",
+    gap: "10px",
+    justifyContent: "flex-start",
+    // flexDirection: "space-between",
   },
   upcomingShows: {
     container: {},
