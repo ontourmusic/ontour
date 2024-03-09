@@ -377,6 +377,7 @@ function Artist() {
             onTour={onTour}
             verified={false}
             originalBannerImage={originalBannerImage}
+            user={user}
           />
         </Grid>
         <Grid container spacing={1} style={artist_styles.grid.body_container}>

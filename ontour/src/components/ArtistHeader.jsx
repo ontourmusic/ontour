@@ -27,7 +27,7 @@ const styles = artist_styles.header;
 const verified = artist_styles.verifiedButton;
 
 function ChildModal(props) {
-  // console.log("childmodal props: ", props);
+  console.log("childmodal props: ", props);
   useEffect(() => {
     // console.log(props.imageData);
   }, [props.imageData]);
@@ -40,6 +40,8 @@ function ChildModal(props) {
       image={props.image}
       isVenue={props.isVenue}
       isFestival={props.isFestival}
+      name={props.name}
+      mode="tile_button"
     />
   );
 }
@@ -143,16 +145,16 @@ function ArtistHeader(props) {
       setImageData(data);
       setSelectedImage(source);
       setIsChildModalOpen(true);
-      mixpanel.track("media_clicked",{
-        'media_type' : urlTag=='image_url'?"image":"video",
-        'media_id' : `${data.id}`,
-        'media_url': `${source}`,
-        'entity_type' : 'venue',
-        'entity_id' : `${props.venueID}`,
-        'entity_name' : `${props.name}`,
-        'user' : isAuthenticated?user:'guest',
-        'mode' : 'tile_button',
-    });
+    //   mixpanel.track("media_clicked",{
+    //     'media_type' : urlTag=='image_url'?"image":"video",
+    //     'media_id' : `${data.id}`,
+    //     'media_url': `${source}`,
+    //     'entity_type' : 'venue',
+    //     'entity_id' : `${props.venueID}`,
+    //     'entity_name' : `${props.name}`,
+    //     'user' : isAuthenticated?user:'guest',
+    //     'mode' : 'tile_button',
+    // });
     } else if (props.isFestival) {
       const { data, error } = await supabase
         .from("festival_carousel_images")
@@ -164,16 +166,16 @@ function ArtistHeader(props) {
         console.error(error);
         return null;
       }
-      mixpanel.track("media_clicked",{
-        'media_type' : urlTag=='image_url'?"image":"video",
-        'media_id' : `${data.id}`,
-        'media_url': `${source}`,
-        'entity_type' : 'festival',
-        'entity_id' : `${props.festivalId}`,
-        'entity_name' : `${props.name}`,
-         'user' : isAuthenticated?user:'guest',
-         "mode" : "tile_button"
-    });
+    //   mixpanel.track("media_clicked",{
+    //     'media_type' : urlTag=='image_url'?"image":"video",
+    //     'media_id' : `${data.id}`,
+    //     'media_url': `${source}`,
+    //     'entity_type' : 'festival',
+    //     'entity_id' : `${props.festivalId}`,
+    //     'entity_name' : `${props.name}`,
+    //      'user' : isAuthenticated?user:'guest',
+    //      "mode" : "tile_button"
+    // });
       setImageData(data);
       setSelectedImage(source);
       setIsChildModalOpen(true);
@@ -188,16 +190,16 @@ function ArtistHeader(props) {
         console.error(error);
         return null;
       }
-      mixpanel.track("media_clicked",{
-        'media_type' : urlTag=='image_url'?"image":"video",
-        'media_id' : `${data.id}`,
-        'media_url': `${source}`,
-        'entity_type' : 'artist',
-        'entity_id' : `${props.artistID}`,
-        'entity_name' : `${props.name}`,
-        "user" : isAuthenticated?user:'guest',
-        "mode" : "tile_button"
-    });
+    //   mixpanel.track("media_clicked",{
+    //     'media_type' : urlTag=='image_url'?"image":"video",
+    //     'media_id' : `${data.id}`,
+    //     'media_url': `${source}`,
+    //     'entity_type' : 'artist',
+    //     'entity_id' : `${props.artistID}`,
+    //     'entity_name' : `${props.name}`,
+    //     "user" : isAuthenticated?user:'guest',
+    //     "mode" : "tile_button"
+    // });
       setImageData(data);
       setSelectedImage(source);
       setIsChildModalOpen(true);
@@ -430,6 +432,8 @@ const handleCropImage = ()=>{
                 onClose={handleCloseChildModal}
                 isVenue={props.isVenue}
                 isFestival={props.isFestival}
+                name={props.name}
+                user={props.user}
               />
             )}
           </Box>

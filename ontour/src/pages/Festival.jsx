@@ -301,6 +301,7 @@ const changeBannerImage = (image,orgImg)=>{
           festivalID={festivalIDGlobal}
           changeBannerImage={changeBannerImage}
           originalBannerImage={originalBannerImage}
+          user={isAuthenticated ? user : 'guest'}
         />
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>

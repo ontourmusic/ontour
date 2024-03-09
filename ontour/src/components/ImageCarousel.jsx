@@ -85,17 +85,17 @@ const ImageCarousel = (props) => {
             setOpen(true);
             setTemp(source);
             setModel(true);
-            mixpanel.track("media_clicked",{
-                'media_type' : urlTag=='image_url'?"image":"video",
-                'media_id' : `${data.id}`,
-                'media_url': `${source}`,
-                'entity_type' : 'venue',
-                'entity_id' : `${props.venueID}`,
-                'entity_name' : `${props.venueName}`,
-                'mode' : 'carousel',
-                'user' : isAuthenticated?user:'guest',
-                "mode" : "carousel"
-            });
+            // mixpanel.track("media_clicked",{
+            //     'media_type' : urlTag=='image_url'?"image":"video",
+            //     'media_id' : `${data.id}`,
+            //     'media_url': `${source}`,
+            //     'entity_type' : 'venue',
+            //     'entity_id' : `${props.venueID}`,
+            //     'entity_name' : `${props.venueName}`,
+            //     'mode' : 'carousel',
+            //     'user' : isAuthenticated?user:'guest',
+            //     "mode" : "carousel"
+            // });
         }
         else if(props.isFestival){
             const { data, error } = await supabase
@@ -113,16 +113,16 @@ const ImageCarousel = (props) => {
         setOpen(true);
         setTemp(source);
         setModel(true);
-        mixpanel.track("media_clicked",{
-            'media_type' : urlTag=='image_url'?"image":"video",
-            'media_id' : `${data.id}`,
-            'media_url': `${source}`,
-            'entity_type' : 'festival',
-            'entity_id' : `${props.festivalId}`,
-            'entity_name' : `${props.festivalName}`,
-            'user' : isAuthenticated?user:'guest',
-            "mode" : "carousel"
-        });
+        // mixpanel.track("media_clicked",{
+        //     'media_type' : urlTag=='image_url'?"image":"video",
+        //     'media_id' : `${data.id}`,
+        //     'media_url': `${source}`,
+        //     'entity_type' : 'festival',
+        //     'entity_id' : `${props.festivalId}`,
+        //     'entity_name' : `${props.festivalName}`,
+        //     'user' : isAuthenticated?user:'guest',
+        //     "mode" : "carousel"
+        // });
         }
         else {
             const { data, error } = await supabase
@@ -139,16 +139,16 @@ const ImageCarousel = (props) => {
             setOpen(true);
             setTemp(source);
             setModel(true);
-            mixpanel.track("media_clicked",{
-                'media_type' : urlTag=='image_url'?"image":"video",
-                'media_id' : `${data.id}`,
-                'media_url': `${source}`,
-                'entity_type' : 'artist',
-                'entity_id' : `${props.artistID}`,
-                'entity_name' : `${props.artistname}`,
-                'user' : isAuthenticated?user:'guest',
-                "mode" : "carousel"
-            });
+            // mixpanel.track("media_clicked",{
+            //     'media_type' : urlTag=='image_url'?"image":"video",
+            //     'media_id' : `${data.id}`,
+            //     'media_url': `${source}`,
+            //     'entity_type' : 'artist',
+            //     'entity_id' : `${props.artistID}`,
+            //     'entity_name' : `${props.artistname}`,
+            //     'user' : isAuthenticated?user:'guest',
+            //     "mode" : "carousel"
+            // });
         }
     }
     // useEffect(() => {
@@ -254,6 +254,8 @@ const ImageCarousel = (props) => {
                         artistFname={props.artistname}
                         venueName = {props.venueName}
                         festivalName = {props.festivalName}
+                        mode = "carousel"
+
                     />
                     }
                 <div className="controls">

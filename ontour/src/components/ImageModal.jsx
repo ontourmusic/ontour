@@ -7,9 +7,11 @@ import { useState, useEffect } from "react";
 import { GetAverageColor, getTextColor, rgbToHex } from "./ColorFunctions";
 import mixpanel from "mixpanel-browser";
 import { mixPanelId } from "../constants/constants";
+import { useAuth0 } from "@auth0/auth0-react";
 const modal_styles = artist_styles.modal;
 
 const ImageModal = (props) => {
+  var c = 0
   // mixpanel.init(mixPanelId, {debug: true, track_pageview: true, persistence: 'localStorage'});
   const [modalBackgroundColour, setModalBackgroundColour] = useState(
     "rgba(76, 78, 120, 0.9)"
@@ -17,10 +19,12 @@ const ImageModal = (props) => {
   const [imageBackgroundColour, setImageBackgroundColour] = useState(
     "rgba(5, 2, 14, 1.0)"
   );
+  const {user,isAuthenticated} = useAuth0();
   const [textColor, setTextColor] = useState("white");
   const videoExtensions = ["mp4", "mkv", "x-m4v", "quicktime"];
-  
+  const [count, setCount] = useState(1);
   console.log(props,"modal")
+ 
   const handleAverageColorButton = (url) => {
     console.log("Average Color Button Clicked");
     const imageUrl =
@@ -43,13 +47,20 @@ const ImageModal = (props) => {
       .catch((error) => console.error("Error:", error));
   };
   useEffect(() => {
-    // handleAverageColorButton(props.image);
-    /*
-        options:
-        linear-gradient(110deg, #2d2d4e, 60%, #ccd0de)
-        linear-gradient(110deg, #4c4e78, 42%, #05020e)
-        */
-        console.log(props.image,"data")
+    
+    if(c == 0){
+      mixpanel.track("media_clicked", {
+        "media_id" : props.imageData.id,
+        "media_url" : props.imageData.video_url || props.imageData.image_url,
+        "media_type" : (props.imageData.video_url && "video") || (props.imageData.image_url && "image") || "image",
+        "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
+        "entity_name" : props.name ||props.artistFname || props.venueName|| props.festivalName,
+        "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
+        "user" : user?user:'guest',
+        "mode" : props.mode
+  })
+      c = c + 1
+    }
   }, []);
   console.log(props.image);
   let video = document.getElementById("video");
@@ -65,16 +76,30 @@ const ImageModal = (props) => {
         "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
         "entity_name" : props.artistFname || props.venueName|| props.festivalName,
         "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
-        "user" : props.user?props.user:'guest'
+        "user" : user?user:'guest'
         
      });
     }
 }
   video && video.addEventListener("pause",sendDataToMixPanel)
   video && closeBtn.addEventListener("click",sendDataToMixPanel)
-  
+//   function handlemixPanelMediaClicked(){
+
+//     mixpanel.track("media_clicked_modal", {
+//       "media_id" : props.imageData.id,
+//       "media_url" : props.imageData.video_url || props.imageData.image_url,
+//       "media_type" : (props.imageData.video_url && "video") || (props.imageData.image_url && "image") || "image",
+//       "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
+//       "entity_name" : props.artistFname || props.venueName|| props.festivalName,
+//       "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
+//       "user" : props.user?props.user:'guest',
+//       "mode" : props.mode
+// })
+//     return true
+//   }
   return (
     <Modal
+      
       open={true}
       onClose={props.handleClose}
       aria-labelledby="modal-modal-title"
@@ -117,7 +142,7 @@ const ImageModal = (props) => {
               id = "video"
             />
           ) : (
-            <img src={props.image} style={modal_styles.image} />
+            <img src={props.image} style={modal_styles.image}  />
           )}
         </Grid>
         <Grid

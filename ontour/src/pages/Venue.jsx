@@ -278,6 +278,7 @@ function Venue() {
           venueID={venueIDGlobal}
           changeBannerImage={changeBannerImage}
           originalBannerImage={originalBannerImage}
+          user={isAuthenticated ? user : "guest"}
         />
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
