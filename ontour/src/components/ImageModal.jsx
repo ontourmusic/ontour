@@ -67,6 +67,7 @@ const ImageModal = (props) => {
   let closeBtn = document.getElementById("modalCloseBtn");
   let x = 0;
   function sendDataToMixPanel(){
+    console.log("sendDataToMixPanel videoplayed")
     if(x < Math.floor(video.currentTime.toFixed(2))){
       x =   Math.floor(video.currentTime.toFixed(2))
       mixpanel.track(`video_played`,{
@@ -81,22 +82,16 @@ const ImageModal = (props) => {
      });
     }
 }
-  video && video.addEventListener("pause",sendDataToMixPanel)
-  video && closeBtn.addEventListener("click",sendDataToMixPanel)
-//   function handlemixPanelMediaClicked(){
+// const handleVideoPause = () => {
+//   sendDataToMixPanel();
+// }
 
-//     mixpanel.track("media_clicked_modal", {
-//       "media_id" : props.imageData.id,
-//       "media_url" : props.imageData.video_url || props.imageData.image_url,
-//       "media_type" : (props.imageData.video_url && "video") || (props.imageData.image_url && "image") || "image",
-//       "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
-//       "entity_name" : props.artistFname || props.venueName|| props.festivalName,
-//       "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
-//       "user" : props.user?props.user:'guest',
-//       "mode" : props.mode
-// })
-//     return true
-//   }
+// const handleCloseButtonClick = () => {
+//   sendDataToMixPanel();
+// }
+  if(video){video.addEventListener("pause",sendDataToMixPanel)}
+  if(video)closeBtn.addEventListener("click",sendDataToMixPanel)
+
   return (
     <Modal
       

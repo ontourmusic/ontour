@@ -61,18 +61,20 @@ const AddMediaButton = (props) => {
   // console.log(festivalId,"deep",props)
 
   const handleClose = () => {
+    console.log("closed")
+    mixpanel.track("add_media_button_closed",{
+      "entity_id" : props.artistID || props.venueID || props.festivalID,
+      "entity_type" :  (props.isVenue && "venue") || (props.isFestival && "festival") || ("artist") ,
+      "entity_name" : props.artistFname || props.venueName || props.festivalName,
+      "user": isAuthenticated?user:'guest'
+      })
     setOpen(false);
     setImage(null);
     setVideo(null);
     setFile(null);
     setVideoFile(null);
     setDescription(null);
-    mixpanel.track("add_media_button_closed",{
-      "entity_id" : props.artistId || props.venueID || props.festivalID,
-      "entity_type" : ((props.isArtist && "artist") || props.isVenue && "venue") || (props.isFestival && "festival"),
-      "entity_name" : props.artistFname || props.venueName || props.festivalName,
-      "user": isAuthenticated?user:'guest'
-      })
+   
   };
 
   const handleImageUpload = async (event) => {
@@ -280,7 +282,7 @@ const AddMediaButton = (props) => {
           },
         ]);
       }
-
+      
       console.log("Files uploaded successfully!");
       setIsSubmitClicked(false);
       alert("Files uploaded successfully!");
@@ -430,8 +432,8 @@ const AddMediaButton = (props) => {
     setCaptcha(false);
     setOpen(true);
     mixpanel.track("add_media_button_opened",{
-    "entity_id" : props.artistId || props.venueID || props.festivalID,
-    "entity_type" : ((props.isArtist && "artist") || props.isVenue && "venue") || (props.isFestival && "festival"),
+    "entity_id" : props.artistID || props.venueID || props.festivalID,
+    "entity_type" :  (props.isVenue && "venue") || (props.isFestival && "festival") ||  "artist",
     "entity_name" : props.artistFname || props.venueName || props.festivalName,
     "user": isAuthenticated?user:'guest' 
     })
@@ -493,7 +495,7 @@ const AddMediaButton = (props) => {
               cursor: "pointer",
               fontWeight: "bold",
             }}
-            onClick={handleClose}
+            // onClick={handleClose}
           >
             <button
               onClick={handleClose}
