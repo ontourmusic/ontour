@@ -12,6 +12,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import {supabase} from "./supabaseClient";
 import {Typography} from "@mui/material";
 import mixpanel from "mixpanel-browser";
+import { Spinner } from "react-bootstrap";
 
 const window_breakpoints = common_styles.window_breakpoints;
 
@@ -41,7 +42,7 @@ const WriteReview = (props) => {
     //const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     const [customEventEnabled, setCustomEventEnabled] = useState(false);
     const {user, isAuthenticated, isLoading} = useAuth0();
-
+    const [isSubmitClick, setIsSubmitClicked] = useState(false);
     // console.log(props.artistId)
     // only set is used
     const [artistId, setArtistId] = useState(0);
@@ -54,6 +55,7 @@ const WriteReview = (props) => {
 
     const handleWriteReview = event => {
         event.preventDefault();
+        setIsSubmitClicked(true);
         if (!rating) {
             setCanSubmit(false);
             return false;
@@ -298,6 +300,9 @@ const WriteReview = (props) => {
                     <button id="reviewbutton" class="btn btn-dark fw-bold" type="submit"
                             disabled={!captchaVerified}>Submit
                     </button>
+                    {
+                     isSubmitClick &&  <Spinner id="spinner" animation="border" variant="secondary" hidden={!captchaVerified}/>
+                    }
                     
                 </div>
             </form>
