@@ -8,13 +8,14 @@ export default function ExternalLink(props) {
     const {user,isAuthenticated} = useAuth0();
     function handleClick() {
         let x = props.iconLink
-        console.log("clicked",props.mediaLink,props.iconLink);
-        console.log("clicked",x.substring(x.indexOf('/')+1,x.indexOf('.', x.indexOf('/'))));
+        console.log(props,"props")
+        // console.log("clicked",props.mediaLink,props.iconLink);
+        // console.log("clicked",x.substring(x.indexOf('/')+1,x.indexOf('.', x.indexOf('/'))));
         mixpanel.track("social_media_icon_clicked", {
             "platform_type":x.substring(x.indexOf('/')+1,x.indexOf('.', x.indexOf('/'))),
             "entity_name":props.name,
             "entity_type":(props.venue && "venue" || props.festival && "festival" || props.artist && "artist"),
-            "entity_id": props.venueId || props.artistId || props.festivalId,
+            "entity_id": props.venueId || props.artistID || props.festivalId,
             "user" : isAuthenticated?user:'guest'
 
         })

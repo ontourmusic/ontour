@@ -10,6 +10,7 @@ import SearchBarItem from "./SearchBarItem";
 import { createClient } from '@supabase/supabase-js'
 import { ar } from "date-fns/locale";
 import {supabase} from "./supabaseClient";
+import mixpanel from "mixpanel-browser";
 
 
 const styles = {
@@ -87,6 +88,12 @@ const SearchBar = React.memo( (props) => {
 
     const onBlur = () => setHasFocus(false)
     const onFocus = () => {
+        mixpanel.track("searchbar_clicked",{
+           "entity_id" : props.artistID || props.venueID || props.festivalID,
+           "entity_name" : props.name,
+           "entity_type" : props.type,
+           "user" : props.user?props.user:"guest"
+        });
         setHasFocus(true);
         handleClear();
     }
@@ -185,6 +192,7 @@ const SearchBar = React.memo( (props) => {
 
     return (
         <div className={containerStyles}>
+       
             <Turnstone
                 ref={turnstoneRef}
                 id="fruitveg"
@@ -196,7 +204,7 @@ const SearchBar = React.memo( (props) => {
                 clearButton={true}
                 Clear={Clear}
                 // onBlur={onBlur}
-                // onFocus={onFocus}
+                onFocus={onFocus}
                 onEnter={searchNavigate}
                 onTab={searchNavigate}
                 Item={SearchBarItem}

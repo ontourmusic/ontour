@@ -65,22 +65,24 @@ const ImageModal = (props) => {
   console.log(props.image);
   let video = document.getElementById("video");
   let closeBtn = document.getElementById("modalCloseBtn");
-  let x = 0;
+  let counter = 0;
+  video && video.addEventListener("ended", () => {
+    counter = counter + 1;
+  })
   function sendDataToMixPanel(){
     console.log("sendDataToMixPanel videoplayed")
-    if(x < Math.floor(video.currentTime.toFixed(2))){
-      x =   Math.floor(video.currentTime.toFixed(2))
       mixpanel.track(`video_played`,{
-        "play_time" : `${x} secs`,
+        "play_time" : `${Math.floor(video.currentTime.toFixed(2))} secs`,
         "video_id" : props.imageData.id,
         "video_url" : props.imageData.video_url,
         "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
         "entity_name" : props.artistFname || props.venueName|| props.festivalName,
         "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
+        "replayed_sequence" : counter+1,
         "user" : user?user:'guest'
         
      });
-    }
+    // }
 }
 // const handleVideoPause = () => {
 //   sendDataToMixPanel();

@@ -48,7 +48,7 @@ function Navigation(props)
         </div>
         
         <div class="navsearch">
-          <SearchBar navbar={true}></SearchBar>
+          <SearchBar type={props.type} artistID={props.artistID} veneueID={props.venueID} festivalID={props.festivalID} name={props.name} user={user} navbar={true}></SearchBar>
         </div>
         {
           isAuthenticated ? 
@@ -57,7 +57,7 @@ function Navigation(props)
             <SettDashButton></SettDashButton>
             <LogoutButton></LogoutButton>
           </div> :
-          <LoginButton></LoginButton>
+          <LoginButton ></LoginButton>
         }
       </div>
     </nav>

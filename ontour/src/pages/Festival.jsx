@@ -282,7 +282,7 @@ const changeBannerImage = (image,orgImg)=>{
   return (
     <Grid container spacing={0}>
       <Grid item xs={12}>
-        <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn}/>
+        <ArtistNavigation name={festival_name} user={user}  festivalID={festivalIDGlobal} type="festival"  handleAdminLoggedIn={handleAdminLoggedIn}/>
       </Grid>
       <Grid item xs={12}>
         <ArtistHeader

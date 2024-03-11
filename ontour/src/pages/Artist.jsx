@@ -358,7 +358,7 @@ function Artist() {
       </Helmet>
       <Grid container spacing={0}>
         <Grid item xs={12}>
-          <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn} />
+          <ArtistNavigation artistID={artistID} name={fullName} type="artist" user={user} handleAdminLoggedIn={handleAdminLoggedIn} />
         </Grid>
 
         <Grid item xs={12}>
