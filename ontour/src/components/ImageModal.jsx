@@ -154,6 +154,8 @@ const ImageModal = (props) => {
             imageData={props.imageData}
             isVenue={props.isVenue}
             isFestival={props.isFestival}
+            user={user}
+            name={ props.name ||props.artistFname || props.venueName|| props.festivalName}
           />
         </Grid>
       </Grid>
