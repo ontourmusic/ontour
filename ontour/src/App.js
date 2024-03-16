@@ -15,6 +15,7 @@ import Tours from "./pages/Tours";
 import ManageReviews from "./pages/ManageReviews";
 import mixpanel from "mixpanel-browser";
 import { mixPanelId } from "./constants/constants";
+import ManageEvents from "./pages/ManageEvents";
 // import {
 //   createBrowserRouter,
 //   createRoutesFromElements,
@@ -83,6 +84,7 @@ function App() {
             <Route path="/fan-analytics" element={<FanAnalytics />} />
             <Route path="/tours" element={<Tours />} />
             <Route path="/manage-reviews" element={<ManageReviews/>} />
+            <Route path="/admin/manageevents" element={<ManageEvents />} />
           </Routes>
         </Router>
         {/* <RouterProvider router={router} /> */}
