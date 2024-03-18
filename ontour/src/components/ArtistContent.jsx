@@ -169,6 +169,7 @@ const ArtistContent = (props) => {
                     </div>
                 </div>
             }
+            
         </>
     )
 }

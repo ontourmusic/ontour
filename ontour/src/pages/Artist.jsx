@@ -24,6 +24,7 @@ import ArtistContent from "../components/ArtistContent";
 import ImageCarousel from "../components/ImageCarousel";
 import MerchCarousel from "../components/MerchCarousel";
 import { mixPanelId } from "../constants/constants";
+import ArtistEventReview from "../components/ArtistEventReview";
 
 function Artist() {
   const [searchParams] = useSearchParams();
@@ -449,6 +450,7 @@ function Artist() {
               onClearSearch={clearSearch}
               reviewTable={"artist_reviews"}
             />
+            <ArtistEventReview artistID={artistID}/>
             {fullName !== "" && (
               <WriteReview
                 artistId={artistID}

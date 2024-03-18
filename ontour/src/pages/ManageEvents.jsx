@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../components/supabaseClient";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const ManageEvents = () => {
   const [artist, setArtist] = useState(null);
@@ -9,6 +10,11 @@ const ManageEvents = () => {
   const [venueNames, setVenueNames] = useState([]);
   const [eventData, setEventData] = useState([]);
   const [editId, setEditId] = useState(null);
+  const [searchDate, setSearchDate] = useState(null);
+  const [searchArtist, setSearchArtist] = useState(null);
+  const [searchVenue, setSearchVenue] = useState(null);
+  const [searchData, setSearchData] = useState([]);
+  const [reset,setReset] = useState(false)
   const getArtistNames = async () => {
     try {
       const { data, error } = await supabase.from("artists").select("*");
@@ -71,28 +77,33 @@ const ManageEvents = () => {
     setArtist(artist);
     setVenue(venue);
     setDate(date);
-  }
-  const handleEditSubmit = async () => {
+  };
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
     if (!artist || !venue || !date) {
       alert("Please fill all the fields properly");
       return;
     }
     console.log(editId, artist, venue, date);
-    // try {
-    //   const { error } = await supabase
-    //     .from("artist_events")
-    //     .update({ artist_id: artist, venue_id: venue, date: date })
-    //     .eq("id", id);
-    //   if (!error) {
-    //     alert("Event updated successfully");
-    //     getEvents();
-    //     setDate(null);
-    //     setArtist(null);
-    //     setVenue(null);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const { error } = await supabase
+        .from("artist_events")
+        .update({ artist_id: artist, venue_id: venue, date: date })
+        .eq("id", editId);
+      if (!error) {
+        getEvents();
+        alert("Event updated successfully");
+
+        setDate(null);
+        setArtist(null);
+        setVenue(null);
+        setEditId(null);
+        // const modal =document.getElementById("exampleModal");
+        // modal.
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteEvent = async (id, artist, venue, date) => {
@@ -115,6 +126,47 @@ const ManageEvents = () => {
       }
     }
   };
+  const handleSearch = async (e) => {
+    e.preventDefault();
+
+    if (!searchArtist && !searchDate && !searchVenue) {
+      alert("Please select values to search");
+      return;
+    }
+    console.log(searchArtist, searchDate, searchVenue);
+    try {
+      let query = supabase
+        .from("artist_events")
+        .select(`id, artists(artist_id, name), venues(venue_id, name), date`);
+
+      if (searchDate) {
+        query = query.eq("date", searchDate);
+      }
+
+      if (searchArtist) {
+        query = query.eq("artist_id", searchArtist);
+      }
+
+      if (searchVenue) {
+        query = query.eq("venue_id", searchVenue);
+      }
+
+      const { data, error } = await query;
+      if (!error) {
+        console.log(data, "eventData");
+        setSearchData(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const resetSearch = () => {
+    setReset(true)
+    setSearchArtist(null);
+    setSearchDate(null);
+    setSearchVenue(null);
+    setSearchData([]);
+  }
   useEffect(() => {
     getArtistNames();
     getVenueNames();
@@ -130,6 +182,7 @@ const ManageEvents = () => {
             onChange={(e) => setDate(e.target.value)}
             className="form-control"
             type="date"
+            
           />
           <select
             onChange={(e) => setArtist(e.target.value)}
@@ -157,6 +210,43 @@ const ManageEvents = () => {
           </select>
           <button type="submit">Save</button>
         </form>
+        <form onSubmit={handleSearch} className="form-control d-flex">
+          <input
+            onChange={(e) => setSearchDate(e.target.value)}
+            className="form-control"
+            type="date"
+            // value={searchDate}
+            defaultValue={reset}
+          />
+          <select
+            onChange={(e) => setSearchVenue(e.target.value)}
+            className="form-select"
+            name="venue"
+            id=""
+            value={searchVenue}
+          >
+            <option selected={reset} value="false">Search venue</option>
+            {!!venueNames.length &&
+              venueNames.map((venue) => {
+                return <option value={venue.venue_id}>{venue.name}</option>;
+              })}
+          </select>
+          <select
+            onChange={(e) => setSearchArtist(e.target.value)}
+            className="form-select"
+            name="artist"
+            id=""
+          >
+            <option selected={reset} value="false">Search artist</option>
+            {!!artistNames.length &&
+              artistNames.map((artist) => {
+                return <option value={artist.artist_id}>{artist.name}</option>;
+              })}
+          </select>
+          <button type="submit">Search</button>
+          <button type="button" onClick={resetSearch}>Reset</button>
+        </form>
+
         <table class="table">
           <thead>
             <tr>
@@ -167,8 +257,8 @@ const ManageEvents = () => {
               <th scope="col">Action</th>
             </tr>
           </thead>
-          <tbody>
-            {!!eventData.length ? (
+          {/* <tbody>
+            {!!(eventData.length) ? (
               eventData.map((event) => {
                 return (
                   <tr>
@@ -182,7 +272,14 @@ const ManageEvents = () => {
                         class="btn btn-primary"
                         data-bs-toggle="modal"
                         data-bs-target="#exampleModal"
-                        onClick={() => editClicked(event.id, event.artists.artist_id, event.venues.venue_id, event.date)}
+                        onClick={() =>
+                          editClicked(
+                            event.id,
+                            event.artists.artist_id,
+                            event.venues.venue_id,
+                            event.date
+                          )
+                        }
                         className="btn btn-primary mx-5"
                       >
                         Edit
@@ -207,6 +304,52 @@ const ManageEvents = () => {
             ) : (
               <>Loading...</>
             )}
+          </tbody> */}
+          <tbody>
+            {(searchData.length ? searchData : eventData).map((event) => (
+              <tr key={event.id}>
+                <th scope="row">{event.id}</th>
+                <td>{event.date}</td>
+                <td>{event.artists.name}</td>
+                <td>{event.venues.name}</td>
+                <td>
+                  <button
+                    type="button"
+                    className="btn btn-primary mx-5"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    onClick={() =>
+                      editClicked(
+                        event.id,
+                        event.artists.artist_id,
+                        event.venues.venue_id,
+                        event.date
+                      )
+                    }
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() =>
+                      deleteEvent(
+                        event.id,
+                        event.artists.name,
+                        event.venues.name,
+                        event.date
+                      )
+                    }
+                    className="btn btn-danger mx-5"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {!searchData.length && !eventData.length && (
+              <tr>
+                <td colSpan="5">Loading...</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
@@ -229,10 +372,16 @@ const ManageEvents = () => {
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                onClick={() => {
+                  setDate(null);
+                  setArtist(null);
+                  setVenue(null);
+                  setEditId(null);
+                }}
               ></button>
             </div>
             <div class="modal-body">
-              <form  className="form-control d-flex">
+              <form onSubmit={handleEditSubmit} className="form-control d-flex">
                 <input
                   onChange={(e) => setDate(e.target.value)}
                   className="form-control"
@@ -245,11 +394,16 @@ const ManageEvents = () => {
                   name="artist"
                   id=""
                 >
-                  <option value="false">Select artist</option>
+                  <option  value="false">Select artist</option>
                   {!!artistNames.length &&
-                    artistNames.map((artist) => {
+                    artistNames.map((artists) => {
                       return (
-                        <option selected={artist.artist_id === artist} value={artist.artist_id}>{artist.name}</option>
+                        <option
+                          selected={artists.artist_id === artist}
+                          value={artists.artist_id}
+                        >
+                          {artists.name}
+                        </option>
                       );
                     })}
                 </select>
@@ -261,27 +415,21 @@ const ManageEvents = () => {
                 >
                   <option value="false">Select venue</option>
                   {!!venueNames.length &&
-                    venueNames.map((venue) => {
+                    venueNames.map((venues) => {
                       return (
-                        <option selected={venue.venue_id === venue}   value={venue.venue_id}>{venue.name}</option>
+                        <option
+                          selected={venues.venue_id === venue}
+                          value={venues.venue_id}
+                        >
+                          {venues.name}
+                        </option>
                       );
                     })}
                 </select>
                 <button type="submit">Save</button>
               </form>
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Edit
-              </button>
-            </div>
+            <div class="modal-footer"></div>
           </div>
         </div>
       </div>
