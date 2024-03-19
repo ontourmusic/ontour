@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+
+
+import React, { useEffect, useRef, useState } from "react";
 import { supabase } from "../components/supabaseClient";
-import { useAuth0 } from "@auth0/auth0-react";
+
 
 const ManageEvents = () => {
   const [artist, setArtist] = useState(null);
@@ -15,9 +17,11 @@ const ManageEvents = () => {
   const [searchVenue, setSearchVenue] = useState(null);
   const [searchData, setSearchData] = useState([]);
   const [reset,setReset] = useState(false)
+  const searchFormRef = useRef();
+  const formRef = useRef();
   const getArtistNames = async () => {
     try {
-      const { data, error } = await supabase.from("artists").select("*");
+      const { data, error } = await supabase.from("artists").select("*").order("name",{ascending: true});
       if (!error) {
         setArtistNames(data);
       }
@@ -28,7 +32,7 @@ const ManageEvents = () => {
   };
   const getVenueNames = async () => {
     try {
-      const { data, error } = await supabase.from("venues").select("*");
+      const { data, error } = await supabase.from("venues").select("*").order("name",{ascending: true});
       if (!error) {
         setVenueNames(data);
       }
@@ -49,6 +53,7 @@ const ManageEvents = () => {
       if (!error) {
         alert("Event saved successfully");
         getEvents();
+        formRef.current.reset();
         setDate(null);
         setArtist(null);
         setVenue(null);
@@ -93,7 +98,7 @@ const ManageEvents = () => {
       if (!error) {
         getEvents();
         alert("Event updated successfully");
-
+        
         setDate(null);
         setArtist(null);
         setVenue(null);
@@ -161,6 +166,8 @@ const ManageEvents = () => {
     }
   };
   const resetSearch = () => {
+    console.log("reset")
+    searchFormRef.current.reset();
     setReset(true)
     setSearchArtist(null);
     setSearchDate(null);
@@ -174,10 +181,11 @@ const ManageEvents = () => {
   }, []);
 
   return (
+    <>
     <div>
       <h1>Manage Events</h1>
       <div className="container">
-        <form onSubmit={handleSubmit} className="form-control d-flex">
+        <form ref={formRef} onSubmit={handleSubmit} className="form-control d-flex">
           <input
             onChange={(e) => setDate(e.target.value)}
             className="form-control"
@@ -190,7 +198,7 @@ const ManageEvents = () => {
             name="artist"
             id=""
           >
-            <option value="false">Select artist</option>
+            <option selected={reset} value="false">Select artist</option>
             {!!artistNames.length &&
               artistNames.map((artist) => {
                 return <option value={artist.artist_id}>{artist.name}</option>;
@@ -202,7 +210,7 @@ const ManageEvents = () => {
             name="venue"
             id=""
           >
-            <option value="false">Select venue</option>
+            <option selected={reset} value="false">Select venue</option>
             {!!venueNames.length &&
               venueNames.map((venue) => {
                 return <option value={venue.venue_id}>{venue.name}</option>;
@@ -210,13 +218,13 @@ const ManageEvents = () => {
           </select>
           <button type="submit">Save</button>
         </form>
-        <form onSubmit={handleSearch} className="form-control d-flex">
+        <form ref={searchFormRef} onSubmit={handleSearch} className="form-control d-flex">
           <input
             onChange={(e) => setSearchDate(e.target.value)}
             className="form-control"
             type="date"
-            // value={searchDate}
-            defaultValue={reset}
+            value={searchDate}
+           
           />
           <select
             onChange={(e) => setSearchVenue(e.target.value)}
@@ -236,6 +244,7 @@ const ManageEvents = () => {
             className="form-select"
             name="artist"
             id=""
+            value={searchArtist}
           >
             <option selected={reset} value="false">Search artist</option>
             {!!artistNames.length &&
@@ -433,7 +442,11 @@ const ManageEvents = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div> 
+
+   
+    
+        </>           
   );
 };
 

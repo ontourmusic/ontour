@@ -58,6 +58,11 @@ const WriteReview = (props) => {
     event.preventDefault();
     console.log(rating, parsedName, description,eventSelect);
     // return
+    if(!rating || !parsedName || !description || !eventSelect){
+      alert("Please fill all fields properly")
+      return;
+    }
+    setIsSubmitClicked(true);
     const {data , error} = await supabase.from("artist_reviews").insert([
         {
         rating: rating,
@@ -67,7 +72,8 @@ const WriteReview = (props) => {
         }
     ])
     if(!error){
-        console.log("success")
+      window.location.reload();
+        // console.log("success")
     }
     // setIsSubmitClicked(true);
     // if (!rating) {
@@ -279,6 +285,14 @@ const WriteReview = (props) => {
         </div>
         <div class="row bottom">
           <div class="col">
+          <Form.Select onChange={(e)=>{setEventSelect(e.target.value)}} required className="form-select shadow-none">
+            <option value="false">Select an Event</option>
+            {
+                !!artistEvents.length && artistEvents.map((event) => (
+                    <option value={event.id}>{event.date} • {event.venues.name}</option>
+                ))
+            }
+          </Form.Select>
             {/* {dateList &&
                             <>
                                 <Form.Select aria-label="Default select example" required onChange={handleFormChange}>
@@ -321,14 +335,7 @@ const WriteReview = (props) => {
                             </div>
                         </div>
                     )} */}
-          <select onChange={(e)=>{setEventSelect(e.target.value)}}  className="form-select shadow-none">
-            <option value="false">Select an Event</option>
-            {
-                !!artistEvents.length && artistEvents.map((event) => (
-                    <option value={event.id}>{event.date} • {event.venues.name}</option>
-                ))
-            }
-          </select>
+         
         </div>
         <div class="row bottom">
           <div class="col">

@@ -15,6 +15,7 @@ import { createClient } from "@supabase/supabase-js";
 import mixpanel from "mixpanel-browser";
 import artist_styles from "../Styles/artist_styles";
 import { mixPanelId } from "../constants/constants";
+import ImageModal1 from "./ImageModal1";
 // import { useAuth0 } from "@auth0/auth0-react";
 const carousel_styles = artist_styles.carousel;
 
@@ -58,6 +59,7 @@ const ImageCarousel = (props) => {
     const [open, setOpen] = React.useState(false);
     const handleClose = () => setOpen(false); 
     const [imageData, setImageData] = useState([]);
+    const [newModalOpen, setNewModalOpen] = useState(false);
     const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
     // mixpanel.init(mixPanelId, {debug: true, track_pageview: true, persistence: 'localStorage'});
 
@@ -66,7 +68,7 @@ const ImageCarousel = (props) => {
         // console.log("video dataset attribute",e.target.dataset.src1)
         // console.log("handleImageClick: ", e.target.src);
         // console.log(e.target)
-        
+        setNewModalOpen(true);
         const source = e.target.dataset.src1?e.target.dataset.src1:e.target.src
         var urlTag = e.target.tagName == 'IMG'?"image_url":"video_url"
         if (props.isVenue) {
@@ -161,6 +163,9 @@ const ImageCarousel = (props) => {
     //         setVideos(props.videos);
     //     }
     // }, [props.images,props.videos]);
+    function handleClose1() {
+        setNewModalOpen(false);
+    }
     return (
         <>
             <div style={carousel_styles.titleBar}>
@@ -243,7 +248,8 @@ const ImageCarousel = (props) => {
                             })}
                       
                 </Slider>
-                {open && 
+                {open &&  
+                
                     <ImageModal 
                         handleClose={handleClose} 
                         image={tempImg} 
@@ -255,9 +261,9 @@ const ImageCarousel = (props) => {
                         venueName = {props.venueName}
                         festivalName = {props.festivalName}
                         mode = "carousel"
-
                     />
-                    }
+                        }
+                {/* {newModalOpen && <ImageModal1 images={props.images} videos={props.videos} handleClose1={handleClose1}  />} */}
                 <div className="controls">
                     <ButtonBack className="btn-arrow" style={{ color: "black" }}>
                         <FontAwesomeIcon icon={faAngleLeft} size="lg" />

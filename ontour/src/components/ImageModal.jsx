@@ -128,7 +128,9 @@ const ImageModal = (props) => {
               X
             </button>
           </div>
+          
         <Grid item xs={12} md={8} style={modal_styles.imageContainer}>
+          
           {videoExtensions.some((ext) => props.image.includes(ext)) ? (
             <video
               playsInline

@@ -16,6 +16,7 @@ import ManageReviews from "./pages/ManageReviews";
 import mixpanel from "mixpanel-browser";
 import { mixPanelId } from "./constants/constants";
 import ManageEvents from "./pages/ManageEvents";
+import { useAuth0 } from "@auth0/auth0-react";
 // import {
 //   createBrowserRouter,
 //   createRoutesFromElements,
@@ -64,7 +65,7 @@ import ManageEvents from "./pages/ManageEvents";
 
 function App() {
   mixpanel.init(mixPanelId, {debug: true, track_pageview: true, persistence: 'localStorage'});
- 
+  const {user,isAuthenticated} = useAuth0(); 
   return (
 
     // <MixpanelProvider config={MIXPANEL_CONFIG} token={MIXPANEL_TOKEN}>
@@ -84,7 +85,9 @@ function App() {
             <Route path="/fan-analytics" element={<FanAnalytics />} />
             <Route path="/tours" element={<Tours />} />
             <Route path="/manage-reviews" element={<ManageReviews/>} />
+            {/* <Route path="/admin/manageevents" element={!user ? <>You are not authorised to access this route</> :<ManageEvents />} /> */}
             <Route path="/admin/manageevents" element={<ManageEvents />} />
+            <Route path="*" element={<>Page not found</>}/>
           </Routes>
         </Router>
         {/* <RouterProvider router={router} /> */}

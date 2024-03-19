@@ -31,11 +31,12 @@ const ArtistEventReview = ({ artistID }) => {
   }, [artistID]);
   return (
     <div>
+      <h1>Test event reviews</h1>
       {!!data.length ? (
         data.map(
           (e) =>
             e.artist_events && (
-              <div style={artist_styles.review_display.review}>
+              <div style={artist_styles.review_display.review.item}>
                 <div class="d-flex bd-highlight">
                   <div class="p-1 bd-highlight">
                     <AiOutlineUser size={23} />{" "}
