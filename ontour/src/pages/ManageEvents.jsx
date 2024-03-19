@@ -15,6 +15,7 @@ const ManageEvents = () => {
   const [searchVenue, setSearchVenue] = useState(null);
   const [searchData, setSearchData] = useState([]);
   const [reset,setReset] = useState(false)
+  const closeModalRef = useRef();
   const searchFormRef = useRef();
   const formRef = useRef();
   const getArtistNames = async () => {
@@ -96,13 +97,10 @@ const ManageEvents = () => {
       if (!error) {
         getEvents();
         alert("Event updated successfully");
-        
         setDate(null);
         setArtist(null);
         setVenue(null);
         setEditId(null);
-        // const modal =document.getElementById("exampleModal");
-        // modal.
       }
     } catch (error) {
       console.log(error);
@@ -361,6 +359,8 @@ const ManageEvents = () => {
         </table>
       </div>
 
+  
+
       <div
         class="modal fade"
         id="exampleModal"
@@ -375,6 +375,7 @@ const ManageEvents = () => {
                 Edit Event
               </h1>
               <button
+              ref={closeModalRef}
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
@@ -401,7 +402,7 @@ const ManageEvents = () => {
                   name="artist"
                   id=""
                 >
-                  <option  value="false">Select artist</option>
+                  
                   {!!artistNames.length &&
                     artistNames.map((artists) => {
                       return (
@@ -420,7 +421,7 @@ const ManageEvents = () => {
                   name="venue"
                   id=""
                 >
-                  <option value="false">Select venue</option>
+                 
                   {!!venueNames.length &&
                     venueNames.map((venues) => {
                       return (
@@ -440,6 +441,7 @@ const ManageEvents = () => {
           </div>
         </div>
       </div>
+    
     </div> 
 
    
