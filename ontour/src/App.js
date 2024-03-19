@@ -86,7 +86,7 @@ function App() {
             <Route path="/tours" element={<Tours />} />
             <Route path="/manage-reviews" element={<ManageReviews/>} />
             {/* <Route path="/admin/manageevents" element={!user ? <>You are not authorised to access this route</> :<ManageEvents />} /> */}
-            <Route path="/admin/manageevents" element={<ManageEvents />} />
+            <Route path="/adminmanageevents" element={<ManageEvents />} />
             <Route path="*" element={<>Page not found</>}/>
           </Routes>
         </Router>
