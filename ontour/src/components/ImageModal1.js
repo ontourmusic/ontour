@@ -22,6 +22,20 @@ const ImageModal1 = (props) => {
         "rgba(5, 2, 14, 1.0)"
       );
       const [textColor, setTextColor] = useState("white");
+      useEffect(() => {
+        let backBtn = document.getElementById("backbtn");
+        console.log(backBtn)
+        document.addEventListener('keydown', (event) => {
+          console.log(event) 
+          if (event.key === 'ArrowLeft' ) {
+            backBtn.click()
+            console.log('Button clicked by pressing Enter!');
+          }
+        });
+      },[])
+      
+
+
       console.log(props)
   return (
     <Modal
@@ -86,8 +100,9 @@ const ImageModal1 = (props) => {
                   
                 </Slider>
                 <div className="controls">
-                    <ButtonBack className="btn-arrow" style={{  color: "white" }}>
-                        <FontAwesomeIcon icon={faAngleLeft} size="lg" />
+                    <button id="backbtn">back</button>
+                    <ButtonBack  className="btn-arrow" style={{  color: "white" }}>
+                        <FontAwesomeIcon  icon={faAngleLeft} size="lg" />
                     </ButtonBack>
                     <DotGroup className="dot-group" />
                     <ButtonNext className="btn-arrow" style={{ color: "white" }}>
