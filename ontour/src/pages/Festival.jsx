@@ -252,6 +252,10 @@ const changeBannerImage = (image,orgImg)=>{
   };
 
   return (
+    <>
+    <Helmet>
+      <title>{festival_name}</title>
+    </Helmet>
     <Grid container spacing={0}>
       <Grid item xs={12}>
         <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn}/>
@@ -316,6 +320,7 @@ const changeBannerImage = (image,orgImg)=>{
         </Grid>
       </Grid>
     </Grid>
+    </>
   );
 };
 
