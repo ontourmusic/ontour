@@ -44,6 +44,7 @@
     "react-router": "^6.4.0",
     "react-router-dom": "^6.4.0",
     "react-scripts": "^2.1.8",
+    "react-select": "^5.8.0",
     "reaptcha": "^1.12.1",
     "styled-components": "^5.3.8",
     "turnstone": "^2.2.0",

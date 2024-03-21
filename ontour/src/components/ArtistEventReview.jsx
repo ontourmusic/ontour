@@ -13,7 +13,7 @@ const ArtistEventReview = ({ artistID }) => {
       const { data, error } = await supabase
         .from("artist_reviews")
         .select(
-          "rating,review,name,artist_events(artists(name,artist_id),venues(name,venue_id),date)"
+          "rating,review,name,artist_events(artists(name,artist_id),venues(name,venue_id,published),date)"
         )
         // .eq("artist_events_id","not",null)
         .eq("artist_events.artist_id", artistID);
@@ -27,7 +27,7 @@ const ArtistEventReview = ({ artistID }) => {
   };
   useEffect(() => {
     getEventReviews();
-    console.log("data");
+    // console.log("data");
   }, [artistID]);
   return (
     <div>
@@ -63,10 +63,16 @@ const ArtistEventReview = ({ artistID }) => {
                       {e.artist_events.date} •{" "}
                       <small
                         style={{ cursor: "pointer" }}
-                        onClick={() =>
-                          navigate(
-                            `/venue?venue=${e.artist_events.venues.name}&id=${e.artist_events.venues.venue_id}`
-                          )
+                        onClick={() =>{
+                          console.log(e.artist_events.venues.published)  
+                        if(e.artist_events.venues.published){
+                            navigate(`/venue?venue=${e.artist_events.venues.name}&id=${e.artist_events.venues.venue_id}`)
+                          }  
+                          // navigate(
+                          //   `/venue?venue=${e.artist_events.venues.name}&id=${e.artist_events.venues.venue_id}`
+                          // )
+                        }
+                        
                         }
                       >
                         {e.artist_events.venues.name}

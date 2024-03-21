@@ -36,7 +36,7 @@ const ImageModal1 = (props) => {
       
 
 
-      console.log(props)
+      // console.log(props)
   return (
     <Modal
       

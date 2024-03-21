@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { supabase } from "../components/supabaseClient";
-
-
+import AddNewVenue from "../components/AddNewVenue";
+import Select from "react-select";
+import AsyncSelect from "react-select/async"
+import { RiDeleteBinFill, RiEditFill } from "react-icons/ri";
 const ManageEvents = () => {
   const [artist, setArtist] = useState(null);
   const [venue, setVenue] = useState(null);
@@ -9,22 +11,29 @@ const ManageEvents = () => {
   const [artistNames, setArtistNames] = useState([]);
   const [venueNames, setVenueNames] = useState([]);
   const [eventData, setEventData] = useState([]);
+  const [selectDropdownSearch, setSelectDropdownSearch] = useState(null);
   const [editId, setEditId] = useState(null);
   const [searchDate, setSearchDate] = useState(null);
   const [searchArtist, setSearchArtist] = useState(null);
   const [searchVenue, setSearchVenue] = useState(null);
   const [searchData, setSearchData] = useState([]);
+  const [openVenue,setOpenVenue] = useState(false)
   const [reset,setReset] = useState(false)
   const closeModalRef = useRef();
   const searchFormRef = useRef();
   const formRef = useRef();
+  let artistData = [];
+  let venueData = [];
   const getArtistNames = async () => {
     try {
       const { data, error } = await supabase.from("artists").select("*").order("name",{ascending: true});
       if (!error) {
-        setArtistNames(data);
+        // setArtistNames(data);
+        for(let i=0;i<data.length;i++){
+          artistData.push({value:data[i].artist_id,label:data[i].name})
       }
-      // console.log();
+      setArtistNames(artistData);
+    }
     } catch (error) {
       console.log(error);
     }
@@ -33,7 +42,10 @@ const ManageEvents = () => {
     try {
       const { data, error } = await supabase.from("venues").select("*").order("name",{ascending: true});
       if (!error) {
-        setVenueNames(data);
+        for(let i=0;i<data.length;i++){
+          venueData.push({value:data[i].venue_id,label:data[i].name})
+      }
+        setVenueNames(venueData);
       }
     } catch (error) {
       console.log(error);
@@ -41,6 +53,7 @@ const ManageEvents = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(artist, venue, date);
     if (!artist || !venue || !date) {
       alert("Please fill all the fields properly");
       return;
@@ -182,38 +195,47 @@ const ManageEvents = () => {
       <h1>Manage Events</h1>
       <div className="container">
         <form ref={formRef} onSubmit={handleSubmit} className="form-control d-flex">
+          {/* <fieldset> */}
+            {/* <legend>Add Event:</legend> */}
           <input
             onChange={(e) => setDate(e.target.value)}
             className="form-control"
             type="date"
-            
           />
-          <select
+          <Select placeholder="Select Artist" options={artistNames} className = "form-control" onChange={(e)=>{setArtist(e.value)}}/>
+          {/* <input type="text"  onChange={(e) => setSelectDropdownSearch(e.target.value)}/> */}
+          {/* <select
             onChange={(e) => setArtist(e.target.value)}
             className="form-select"
             name="artist"
             id=""
           >
+
             <option selected={reset} value="false">Select artist</option>
             {!!artistNames.length &&
               artistNames.map((artist) => {
-                return <option value={artist.artist_id}>{artist.name}</option>;
+                return <option selected={selectDropdownSearch === artist.name}  value={artist.artist_id}>{artist.name}</option>;
               })}
-          </select>
-          <select
+          </select> */}
+           <Select placeholder="Select Venue" options={venueNames} className = "form-control" onChange={(e)=>{setVenue(e.value)}}/>
+          {/* <select
             onChange={(e) => setVenue(e.target.value)}
             className="form-select"
             name="venue"
             id=""
           >
+          
             <option selected={reset} value="false">Select venue</option>
             {!!venueNames.length &&
               venueNames.map((venue) => {
                 return <option value={venue.venue_id}>{venue.name}</option>;
               })}
-          </select>
-          <button type="submit">Save</button>
+          </select> */}
+          <button className="btn btn-sm btn-info" type="submit">Save</button>
+          <button onClick={()=>setOpenVenue(true)} type="button" className="btn btn-sm btn-warning">Add Venue</button>
+          {/* </fieldset> */}
         </form>
+       
         <form ref={searchFormRef} onSubmit={handleSearch} className="form-control d-flex">
           <input
             onChange={(e) => setSearchDate(e.target.value)}
@@ -222,7 +244,8 @@ const ManageEvents = () => {
             value={searchDate}
            
           />
-          <select
+           <Select placeholder="Select Venue" options={venueNames} className = "form-control" onChange={(e)=>{setSearchVenue(e.value)}}/>
+          {/* <select
             onChange={(e) => setSearchVenue(e.target.value)}
             className="form-select"
             name="venue"
@@ -234,8 +257,9 @@ const ManageEvents = () => {
               venueNames.map((venue) => {
                 return <option value={venue.venue_id}>{venue.name}</option>;
               })}
-          </select>
-          <select
+          </select> */}
+          <Select placeholder="Search Artist" options={artistNames} className = "form-control" onChange={(e)=>{setSearchArtist(e.value)}}/>
+          {/* <select
             onChange={(e) => setSearchArtist(e.target.value)}
             className="form-select"
             name="artist"
@@ -247,11 +271,11 @@ const ManageEvents = () => {
               artistNames.map((artist) => {
                 return <option value={artist.artist_id}>{artist.name}</option>;
               })}
-          </select>
+          </select> */}
           <button type="submit">Search</button>
           <button type="button" onClick={resetSearch}>Reset</button>
         </form>
-
+       {openVenue && <AddNewVenue getVenueNames={getVenueNames} setOpenVenue={setOpenVenue}/>}
         <table class="table">
           <thead>
             <tr>
@@ -318,9 +342,9 @@ const ManageEvents = () => {
                 <td>{event.artists.name}</td>
                 <td>{event.venues.name}</td>
                 <td>
-                  <button
+                  <RiEditFill
                     type="button"
-                    className="btn btn-primary mx-5"
+                    className=" mx-5 text-warning"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                     onClick={() =>
@@ -333,8 +357,9 @@ const ManageEvents = () => {
                     }
                   >
                     Edit
-                  </button>
-                  <button
+                  </RiEditFill>
+                  <RiDeleteBinFill
+                  className="mx-5 text-danger"
                     onClick={() =>
                       deleteEvent(
                         event.id,
@@ -343,10 +368,10 @@ const ManageEvents = () => {
                         event.date
                       )
                     }
-                    className="btn btn-danger mx-5"
+                    // className="btn btn-danger mx-5"
                   >
                     Delete
-                  </button>
+                  </RiDeleteBinFill>
                 </td>
               </tr>
             ))}

@@ -248,7 +248,7 @@ const ImageCarousel = (props) => {
                             })}
                       
                 </Slider>
-                {open &&  
+                {/* {open && 
                 
                     <ImageModal 
                         handleClose={handleClose} 
@@ -262,8 +262,8 @@ const ImageCarousel = (props) => {
                         festivalName = {props.festivalName}
                         mode = "carousel"
                     />
-                        }
-                {/* {newModalOpen && <ImageModal1 images={props.images} videos={props.videos} handleClose1={handleClose1}  />} */}
+                }     */}
+                {newModalOpen && <ImageModal1 images={props.images} videos={props.videos} handleClose1={handleClose1}  />}
                 <div className="controls">
                     <ButtonBack  className="btn-arrow" style={{ color: "black" }}>
                         <FontAwesomeIcon icon={faAngleLeft} size="lg" />
