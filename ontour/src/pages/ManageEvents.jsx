@@ -343,6 +343,7 @@ const ManageEvents = () => {
                 <td>{event.venues.name}</td>
                 <td>
                   <RiEditFill
+                    size={25}
                     type="button"
                     className=" mx-5 text-warning"
                     data-bs-toggle="modal"
@@ -359,6 +360,7 @@ const ManageEvents = () => {
                     Edit
                   </RiEditFill>
                   <RiDeleteBinFill
+                  size={25}
                   className="mx-5 text-danger"
                     onClick={() =>
                       deleteEvent(
@@ -421,7 +423,8 @@ const ManageEvents = () => {
                   type="date"
                   value={date}
                 />
-                <select
+              <Select placeholder="Select Artist" options={artistNames} className = "form-control" onChange={(e)=>{setArtist(e.value)}}/>
+                {/* <select
                   onChange={(e) => setArtist(e.target.value)}
                   className="form-select"
                   name="artist"
@@ -439,8 +442,9 @@ const ManageEvents = () => {
                         </option>
                       );
                     })}
-                </select>
-                <select
+                </select> */}
+                <Select placeholder="Select Venue" options={venueNames} className = "form-control" onChange={(e)=>{setVenue(e.value)}}/>
+                {/* <select
                   onChange={(e) => setVenue(e.target.value)}
                   className="form-select"
                   name="venue"
@@ -458,7 +462,7 @@ const ManageEvents = () => {
                         </option>
                       );
                     })}
-                </select>
+                </select> */}
                 <button type="submit">Save</button>
               </form>
             </div>
