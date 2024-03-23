@@ -264,7 +264,8 @@ const ImageCarousel = (props) => {
                     />
                 }     */}
                 {newModalOpen && <ImageModal1 
-                artistID={props.artistID} images={props.images} videos={props.videos} handleClose1={handleClose1}  />}
+                artistname={props.artistname}
+                artistID={props.artistID} images={props.images} videos={props.videos} handleClose1={handleClose1} media={props.images.concat(props.videos)}  />}
                 <div className="controls">
                     <ButtonBack  className="btn-arrow" style={{ color: "black" }}>
                         <FontAwesomeIcon icon={faAngleLeft} size="lg" />

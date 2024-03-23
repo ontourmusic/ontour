@@ -18,8 +18,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 // import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext, DotGroup, Image } from 'pure-react-carousel';
 import { Polaroid } from './Polaroid';
 import { supabase } from './supabaseClient';
+import Button from '@mui/material/Button';
 import { error } from 'jquery';
 import CommentBox1 from './CommentBox1';
+import { isImageUrl, isVideoUrl } from "../common_functions/common_functions";
 const modal_styles = artist_styles.modal;
 const ImageModal1 = (props) => {
   const [modalBackgroundColour, setModalBackgroundColour] = useState(
@@ -38,7 +40,13 @@ const ImageModal1 = (props) => {
 
   };
   const [textColor, setTextColor] = useState("white");
-  const [comments, setComments] = useState([])
+  const [showForm, setShowForm] = useState(false);
+  const [formOpened, setFormOpened] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [name, setName] = useState('');
+  const [comment, setComment] = useState('');
+  const [date, setDate] = useState('');
+  const disabled = !name || !comment;
   const fetchComments = async () => {
     console.log("fetching comments")
     try {
@@ -63,6 +71,53 @@ const ImageModal1 = (props) => {
     }
 
   }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setComments([...comments, { name, comment, date: date }]);
+    setName(comments.name);
+    setComment(comments.comment);
+    postData();
+  };
+
+  const postData = async () => {
+    let tableName = 'artist_comments';
+    if (props.isVenue) {
+      tableName = 'venue_comments';
+    }
+    const { data, error } = await supabase
+      .from(tableName)
+      .insert(
+        [{ 'name': name, 'comment': comment, 'date': date, 'image_id': props.imageData.id }]
+      );
+    if(!error){
+      // sendDataToMixPanel('post_comment_button_clicked')
+    }
+    setName('');
+    setComment('');
+  }
+  function sendDataToMixPanel(eventName){
+    mixpanel.track(eventName, {
+      "media_id" : props.imageData.id,
+      "media_url" : props.imageData.video_url || props.imageData.image_url,
+      "media_type" : (props.imageData.video_url && "video") || (props.imageData.image_url && "image") || "image",
+      "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
+      "entity_name" : props.name ,
+      "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
+      "user" : props.user?props.user:'guest',
+    });
+  }
+  const handleCommentButtonClick = () => {
+    console.log('handleCommentButtonClick',props.imageData,props.isVenue,props.isFestival);
+  //  sendDataToMixPanel('write_comment_button_clicked')
+    setShowForm(true);
+    setFormOpened(true);
+  }
+
+  const cancelComment = () => {
+    // sendDataToMixPanel('cancel_comment_button_clicked')
+    setShowForm(false);
+    setFormOpened(false);
+  }
 
   useEffect(() => {
     fetchComments()
@@ -81,34 +136,11 @@ const ImageModal1 = (props) => {
       // style={artist_styles.modal.container}
       style={{ height: "100%", width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}
     >
-
-      {/* <Grid
-        style={{ position: 'relative' }}
-        container
-        columnSpacing={0}
-        rowSpacing={{ xs: 1, md: 0 }}
-        sx={{
-          ...modal_styles.gridContainer,
-          p: { xs: 1, md: 2, lg: 3 },
-          background: `linear-gradient(110deg, ${modalBackgroundColour}, 45%, ${imageBackgroundColour})`,
-          "&:focus": {
-            outline: "none",
-          },
-        }}
-      > */}
-      {/* <div style={{ position: "absolute", right: 10, height: '2rem' }}>
-          <button
-            id="modalCloseBtn"
-            onClick={props.handleClose1}
-            style={{ float: "right" }}
-            className="btn btn-light"
-          >
-            X
-          </button>
-        </div> */}
       <div className='content' style={{
         background: "rgb(9,0,36)",
-        background: `linear-gradient(160deg, rgba(9,0,36,1) 63%, rgba(9,9,121,1) 91%, rgba(0,212,255,1) 100%)`, height: "80%", width: "80%", position: "relative"
+        background: `linear-gradient(160deg, rgba(9,0,36,1) 63%, rgba(9,9,121,1) 91%, rgba(0,212,255,1) 100%)`, height: "90%", width: "90%", position: "relative",
+        padding: "30px 10px 30px 10px",
+
       }}>
         <div style={{ position: "absolute", top: 10, right: 10, height: '2rem', zIndex: "1000" }}>
           <button
@@ -120,43 +152,105 @@ const ImageModal1 = (props) => {
             X
           </button>
         </div>
-        <Slider  {...settings}>
+
+        <Slider className=""  {...settings}>
 
           {
-            props.images.map((image) => {
-
-
+            props.media.map((image, index) => {
+                    
+              if(image != null){  
               return (
-                <div>
-                  <img width="100%" height="500" style={{ objectFit: "contain" }} src={image} alt='xyz' />
-                  {
-                    !!comments.length && comments.map((comment, index) => {
-                      return (
-                        <>
+                <>
+               
+                <div key={index} className="d-flex flex-row ">
+                  {!isVideoUrl(image)?
+                  <img  width="1000" height="600" style={{ objectFit: "fill" }} src={image} alt='xyz' />
+                  :< video  playsInline
+                  preload="metadata"
+                  controls
+                  src={image + "#t=0.2"} 
+                  id = "video"
+                  width="1000" height="600" />
+              }
+                  <div>
+                    <h2 style={{ fontWeight: 'bold', color: "white" }}>Photos of {props.artistname}</h2>
+                    {!formOpened && (
+                      <div style={{ textAlign: 'center' }}>
+                        <Button variant="outlined" onClick={handleCommentButtonClick}>Write a comment</Button>
+                      </div>
+                    )}
+                    {showForm && (
+                      <form onSubmit={handleSubmit}>
+                        <div class="mb-3">
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="name"
+                            value={name}
+                            placeholder='Name'
+                            onChange={(event) => setName(event.target.value)}
+                          />
+                        </div>
+                        <div class="mb-3">
+                          <textarea
+                            class="form-control"
+                            id="comment"
+                            value={comment}
+                            onChange={(event) => setComment(event.target.value)}
+                            maxLength={200}
+                            placeholder='Comment'>
+                          </textarea>
+                        </div>
+                        <Button
+                          variant="outlined"
+                          type='submit'
+                          style={{
+                            color: disabled ? props.textColor : "blue",
+                            borderColor: disabled ? props.textColor : "blue",
+                            marginRight: '10px'
+                          }}
+                          disabled={disabled}
+                          >
+                          Post
+                        </Button>
+                        <Button variant="outlined" onClick={cancelComment}>Cancel</Button>
+                      </form>
+                    )}
+                    <div style={{ maxHeight: '300px', overflowY: 'auto', color: "black" }}>
+                      {
+                        !!comments.length && comments.map((comment, index) => {
+                          return (
+                            <>
 
-                          {comment.artist_images.image_url === image &&
-                            <div style={{ backgroundColor: "white", border: "1px solid black", padding: "10px", borderRadius: "10px" }}>Comment-:{comment.comment}
-                            Date-:{comment.date}
-                            Name-:{comment.name}
-                            </div>
+                              {comment.artist_images.image_url === image &&
+                                <div key={index}>
+                                  <div class="card" style={{ margin: '10px' }}>
+                                    <div class="card-body">
+                                      <p class="card-text" style={{ display: 'inline-block', fontWeight: 'bold' }}>
+                                        {comment.name}
+                                      </p>
+                                      <p class="card-text" style={{ display: 'inline-block', fontWeight: 'normal' }}>
+                                        {` \u00A0`}• {comment.date}
+                                      </p>
+                                      <p class="card-text">{comment.comment}</p>
+                                    </div>
+                                  </div>
+                                </div>
 
 
-                          }
-                        </>
-                      )
-                    })
-                  }
+                              }
+                            </>
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
                 </div>
-              )
+           
+            </> )}
             })
           }
-          {/* // props.images.map((image,index) => {
-                //   return (
-                //     <div key={index}>
-                //       <img width="100" height="100"  src={image} alt='xyz' />
-                //     </div>
-                //   )
-                // }) */}
+         
 
 
         </Slider>
