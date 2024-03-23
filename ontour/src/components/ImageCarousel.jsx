@@ -263,7 +263,8 @@ const ImageCarousel = (props) => {
                         mode = "carousel"
                     />
                 }     */}
-                {newModalOpen && <ImageModal1 images={props.images} videos={props.videos} handleClose1={handleClose1}  />}
+                {newModalOpen && <ImageModal1 
+                artistID={props.artistID} images={props.images} videos={props.videos} handleClose1={handleClose1}  />}
                 <div className="controls">
                     <ButtonBack  className="btn-arrow" style={{ color: "black" }}>
                         <FontAwesomeIcon icon={faAngleLeft} size="lg" />
