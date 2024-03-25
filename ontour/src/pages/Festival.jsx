@@ -97,7 +97,7 @@ const changeBannerImage = (image,orgImg)=>{
       }
       var videoArray = [];
       for (var i = 0; i < festivalGalleryData.data.length; i++) {
-        console.log(festivalGalleryData.data[i].video_url);
+        // console.log(festivalGalleryData.data[i].video_url);
         videoArray.push(festivalGalleryData.data[i].video_url);
       }
       setFestivalImages(imageGallery);
@@ -138,11 +138,11 @@ const changeBannerImage = (image,orgImg)=>{
                       "role"
                     ] == "HeadlineAct"
                   ) {
-                    console.log(
-                      data["_embedded"]["items"][i]["_embedded"]["categories"][
-                        j
-                      ]["name"]
-                    );
+                    // console.log(
+                    //   data["_embedded"]["items"][i]["_embedded"]["categories"][
+                    //     j
+                    //   ]["name"]
+                    // );
                     var headliner =
                       data["_embedded"]["items"][i]["_embedded"]["categories"][
                         j
@@ -155,11 +155,11 @@ const changeBannerImage = (image,orgImg)=>{
                       "role"
                     ] == "StandardAct"
                   ) {
-                    console.log(
-                      data["_embedded"]["items"][i]["_embedded"]["categories"][
-                        j
-                      ]["name"]
-                    );
+                    // console.log(
+                    //   data["_embedded"]["items"][i]["_embedded"]["categories"][
+                    //     j
+                    //   ]["name"]
+                    // );
                     var standardAct =
                       data["_embedded"]["items"][i]["_embedded"]["categories"][
                         j
