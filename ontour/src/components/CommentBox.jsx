@@ -13,9 +13,7 @@ const CommentBox = (props) => {
   const [formOpened, setFormOpened] = useState(false);
   const [artistName, setArtistName] = useState('');
   const disabled = !name || !comment;
-  // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
-  console.log(props,"comments")
   useEffect(() => {
     // reset states
     setName('');
@@ -80,6 +78,18 @@ const CommentBox = (props) => {
       };
       fetchComments();
     }
+    else if(props.isFestival){
+      const fetchComments = async () => {
+        const { data, error } = await supabase
+          .from('festival_comments')
+          .select('name, comment, date')
+          .eq('image_id', props.imageData.id)
+          .order('date');
+        if (error) console.log('Error fetching comments:', error.message);
+        else setComments(data);
+      };
+      fetchComments();
+    }
     else {
       const fetchComments = async () => {
         const { data, error } = await supabase
@@ -87,7 +97,6 @@ const CommentBox = (props) => {
           .select('name, comment, date')
           .eq('image_id', props.imageData.id)
           .order('date');
-          console.log(data);
         if (error) console.log('Error fetching comments:', error.message);
         else setComments(data);
       };
@@ -107,6 +116,9 @@ const CommentBox = (props) => {
     let tableName = 'artist_comments';
     if (props.isVenue) {
       tableName = 'venue_comments';
+    }
+    else if (props.isFestival) {
+      tableName = 'festival_comments';
     }
     const { data, error } = await supabase
       .from(tableName)

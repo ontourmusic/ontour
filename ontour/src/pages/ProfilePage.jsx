@@ -24,7 +24,9 @@ function ProfilePage() {
 
     return (
         <>
-            <Helmet></Helmet>
+            <Helmet>
+                <title>User Settings</title>
+            </Helmet>
             {/* <Grid container spacing={1} justifyContent="center" alignItems="center"> */}
             <Grid container sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                 <Grid item xs={12}>
