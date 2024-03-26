@@ -22,6 +22,7 @@ const ManageEvents = () => {
   const closeModalRef = useRef();
   const searchFormRef = useRef();
   const formRef = useRef();
+  const selectRef = useRef();
   let artistData = [];
   let venueData = [];
   const getArtistNames = async () => {
@@ -66,6 +67,7 @@ const ManageEvents = () => {
         alert("Event saved successfully");
         getEvents();
         formRef.current.reset();
+        // selectRef.clearValue();
         setDate(null);
         setArtist(null);
         setVenue(null);
@@ -202,7 +204,7 @@ const ManageEvents = () => {
             className="form-control"
             type="date"
           />
-          <Select placeholder="Select Artist" options={artistNames} className = "form-control" onChange={(e)=>{setArtist(e.value)}}/>
+          <Select placeholder="Select Artist" ref={selectRef}  options={artistNames} className = "form-control" onChange={(e)=>{setArtist(e.value)}}/>
           {/* <input type="text"  onChange={(e) => setSelectDropdownSearch(e.target.value)}/> */}
           {/* <select
             onChange={(e) => setArtist(e.target.value)}

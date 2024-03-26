@@ -146,6 +146,7 @@ function Artist() {
         .from("artist_images")
         .select("*")
         .eq("artist_id", artistID);
+        console.log(imageGallerySupabase,"images");
       //initialize an array to hold the images
       var imageArrayTmp = [];
       //loop through the data and push the images into the array
