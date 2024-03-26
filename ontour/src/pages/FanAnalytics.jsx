@@ -1,11 +1,13 @@
 import React from 'react';
-
+import parse from "html-react-parser"
+import { html } from '../html';
 const FanAnalytics = () => {
     return (
-      <div>
-        <h1>Under Construction</h1>
-        <p>This page is currently under construction. Please check back later.</p>
-      </div>
+     
+        <iframe style={{width:"90vw",height:"110vh",overflow:"hidden",scrollbarWidth:"none",}}  src="https://mixpanel.com/p/HNrJzwXEDnxmUipwP1Gmfw" frameborder="0"></iframe>
+      
+      
+
     );
 };
   

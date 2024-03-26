@@ -1,20 +1,28 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import React, { useState, useEffect } from 'react';
+
+import React, { useState, useEffect, useRef } from 'react';
 import Slider from "react-slick";
 import PropTypes from "prop-types";
-import { Modal, Button, Row, Col } from "react-bootstrap";
+import { Modal, Button, Row, Col, Alert } from "react-bootstrap";
 import { supabase } from './supabaseClient';
 import { isVideoUrl } from "../common_functions/common_functions";
-
+import { RiArrowLeftCircleLine, RiArrowRightCircleFill, RiArrowRightCircleLine } from "react-icons/ri";
+import axios from "axios";
+import  parse from 'html-react-parser';
+import { html } from "../html";
+import Alerts from "./Alert";
+// import parse from "html-react-parser"
 const ImageModal1 = (props) => {
   const [showForm, setShowForm] = useState(false);
   const [formOpened, setFormOpened] = useState(false);
   const [comments, setComments] = useState([]);
   const [name, setName] = useState('');
   const [comment, setComment] = useState('');
+  const [mediaData,setMediaData] = useState([]);
+  const [mediaId,setMediaId] = useState(null);
   const disabled = !name || !comment;
-
+ 
   const fetchComments = async () => {
     try {
       const { data, error } = await supabase
@@ -36,19 +44,32 @@ const ImageModal1 = (props) => {
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setComments([...comments, { name, comment, date: new Date().toISOString() }]);
-    setName('');
-    setComment('');
-    postData();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // console.log(event)
+    let formData = new FormData(e.target);
+    let formDataObject = Object.fromEntries(formData.entries());
+    console.log(formDataObject)
+    try {
+      const {data,error} = await supabase
+      .from("artist_comments")
+      .insert([{ 'name': formDataObject.name, 'comment': formDataObject.comment, 'date': new Date().toISOString(), 'image_id': formDataObject.mediaid }]);
+      if(!error){
+        alert("Comment Saved Successfully")
+        fetchComments()
+        setFormOpened(false);
+        setShowForm(false);
+      }
+    } catch (error) {
+      
+    }
   };
 
   const postData = async () => {
     let tableName = 'artist_comments';
-    if (props.isVenue) {
-      tableName = 'venue_comments';
-    }
+    // if (props.isVenue) {
+    //   tableName = 'venue_comments';
+    // }
     const { data, error } = await supabase
       .from(tableName)
       .insert([{ 'name': name, 'comment': comment, 'date': new Date().toISOString(), 'image_id': props.imageData.id }]);
@@ -66,20 +87,63 @@ const ImageModal1 = (props) => {
     setShowForm(false);
     setFormOpened(false);
   };
+  const fetchMediaData = async () => {
+    try {
+      const { data, error } = await supabase.from('artist_images').select('*').eq('artist_id', props.artistID);
+      if(!error){
+        // console.log(data,"mediaData")
+        setMediaData(data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const sliderRef = useRef(null);
 
   useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.keyCode === 37) {
+        // Left arrow key
+        sliderRef.current.slickPrev();
+      } else if (event.keyCode === 39) {
+        // Right arrow key
+        sliderRef.current.slickNext();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+  // console.log(mediaId,"media id")
+  useEffect(() => {
+    fetchMediaData()
     fetchComments();
   }, [props.artistID]);
-
+  useEffect(() => {
+    
+  },[])
+  async function x(){
+    const res = await axios.get("https://mixpanel.com/p/HNrJzwXEDnxmUipwP1Gmfw")
+    console.log(await res.text())
+  }
+  useEffect(()=>{
+    // x();
+  },[])
+  // console.log(props.mediaIndex,"data")
   const settings = {
     infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: false,
     dots: true,
+    initialSlide: 1,
+
   };
-console.log(props.mediaData,"data")
+// console.log(props.mediaData,"data")
   return (
     <Modal
       show={true}
@@ -91,20 +155,26 @@ console.log(props.mediaData,"data")
     >
       <Modal.Header closeButton>
         <Modal.Title>Photos of {props.artistname}</Modal.Title>
+       {/* {parse(html)} */}
       </Modal.Header>
+      <Alerts message="Comments"/>
       <Modal.Body >
-        <Slider {...settings}>
-          {props.media.map((mediaItem, index) => {
+        <div className="d-flex justify-content-between  w-100 p-2 bg-light">
+        <RiArrowLeftCircleLine  style={{cursor:"pointer",}}  onClick={() =>{sliderRef.current.slickPrev() }} size={40}/>
+        <RiArrowRightCircleLine  style={{cursor:"pointer",}}  onClick={() => sliderRef.current.slickNext()} size={40}/>
+        </div>
+        <Slider ref={sliderRef} {...settings}>
+          {props.mediaData.map((mediaItem, index) => {
            if(mediaItem != null){  
            return (
-               <>
-            <div key={index}>
+            <>
+            <div style={{maxHeight:"600px"}} key={index}>
               <Row>
                 <Col xs={12} lg={8}>
                   <div className="media-container">
-                    {!isVideoUrl(mediaItem) ?
-                      <img width="100%" style={{ maxWidth: "1000px", objectFit: "fill" }} src={mediaItem} alt='xyz' />
-                      : <video playsInline preload="metadata" controls src={mediaItem + "#t=0.2"} width="100%" height="auto" />
+                    {!isVideoUrl(mediaItem.image_url || mediaItem.video_url) ?
+                      <img width="100%" height="50%" style={{ maxWidth: "1000px",maxHeight:"300px", objectFit: "fill" }} src={mediaItem.image_url} alt='xyz' />
+                      : <video playsInline preload="metadata" controls src={mediaItem.video_url + "#t=0.2"} width="100%" style={{maxHeight:"300px"}} />
                     }
                   </div>
                 </Col>
@@ -123,13 +193,16 @@ console.log(props.mediaData,"data")
                             className="form-control"
                             value={name}
                             placeholder='Name'
+                            name = "name"
                             onChange={(event) => setName(event.target.value)}
                           />
+                          <input type="hidden" name="mediaid"  value={mediaItem.id}/>
                         </div>
                         <div className="mb-3">
                           <textarea
                             className="form-control"
                             value={comment}
+                            name="comment"
                             onChange={(event) => setComment(event.target.value)}
                             maxLength={200}
                             placeholder='Comment'>
@@ -141,24 +214,22 @@ console.log(props.mediaData,"data")
                     }
                     <div className="mt-3 comments-list" style={{ maxHeight: '300px', overflowY: 'auto', color: "black" }}>
                      {
-                        !!comments.length && comments.map((comment, index) => {
+                        !!comments.length ? comments.map((comment, index) => {
                           return (
                             <>
 
-                             {comment.artist_images.image_url === mediaItem &&
+                             {comment.artist_images.image_url === mediaItem.image_url &&
                                <div key={index} className="card mb-3">
                           <div className="card-body">
-                            <p className="card-text" style={{ fontWeight: 'bold' }}>{comment.name}</p>
-                            <p className="card-text" style={{ fontWeight: 'normal' }}>{` \u00A0`}• {comment.date}</p>
+                            <span className="card-text" style={{ fontWeight: 'bold' }}>{comment.name}</span>
+                            <span className="card-text" style={{ fontWeight: 'normal' }}>• {comment.date}</span>
                             <p className="card-text">{comment.comment}</p>
                           </div>
                         </div>
-
-
-                              }
+                        }
                           </>
                           )
-                        })
+                        }):<>Loading Comments...</>
                       } 
                       {/* {comments.map((comment, index) => (
                         return <>
@@ -181,8 +252,11 @@ console.log(props.mediaData,"data")
             </div>
             </>
           )}})}
+          
         </Slider>
+       
       </Modal.Body>
+     
     </Modal>
   );
 };
