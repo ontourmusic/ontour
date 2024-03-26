@@ -1008,18 +1008,18 @@ const HelpfulButton = (props) => {
     <div class="d-flex w-100 justify-content-start pb-1">
       <button
         onClick={props.onPress}
-        style={{ backgroundColor: props.isHelpfulActive ? "" : "#e7e8e8" }}
+        style={{ backgroundColor: !props.isHelpfulActive ? "" : "#e7e8e8" }}
         id="helpful-button"
         type="button"
         class="btn btn-outline-light align-self-center"
-        disabled={!props.isUnhelpfulActive}
+        // disabled={!props.isUnhelpfulActive}
       >
         <div class="row">
           <div class="col-1">
             <img
               id="helpful-icon"
               src={
-                props.isHelpfulActive
+                !props.isHelpfulActive
                   ? "../../images/helpful.png"
                   : "../../images/helpful_selected.png"
               }
@@ -1037,18 +1037,18 @@ const UnhelpfulButton = (props) => {
     <div class="d-flex w-100 justify-content-start pb-1">
       <button
         onClick={props.onPress}
-        style={{ backgroundColor: props.isUnhelpfulActive ? "" : "#e7e8e8" }}
+        style={{ backgroundColor: !props.isUnhelpfulActive ? "" : "#e7e8e8" }}
         id="helpful-button"
         type="button"
         class="btn btn-outline-light align-self-center"
-        disabled={!props.isHelpfulActive}
+        // disabled={!props.isHelpfulActive}
       >
         <div class="row">
           <div class="col-1">
             <img
               id="helpful-icon"
               src={
-                props.isUnhelpfulActive
+                !props.isUnhelpfulActive
                   ? "../../images/unhelpful.png"
                   : "../../images/unhelpful_selected.png"
               }
