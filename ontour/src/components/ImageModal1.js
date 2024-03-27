@@ -12,6 +12,8 @@ import axios from "axios";
 import  parse from 'html-react-parser';
 import { html } from "../html";
 import Alerts from "./Alert";
+import mixpanel from "mixpanel-browser";
+import { useAuth0 } from "@auth0/auth0-react";
 // import parse from "html-react-parser"
 const ImageModal1 = (props) => {
   const [showForm, setShowForm] = useState(false);
@@ -20,10 +22,9 @@ const ImageModal1 = (props) => {
   const [name, setName] = useState('');
   const [comment, setComment] = useState('');
   const [mediaData,setMediaData] = useState([]);
-  const [mediaId,setMediaId] = useState(null);
-  const [currIndex,setCurrentIndex] = useState(0);
+  const {user,isAuthenticated} = useAuth0();
   const disabled = !name || !comment;
- 
+  var c = 0
   const fetchComments = async () => {
     try {
       const { data, error } = await supabase
@@ -66,14 +67,31 @@ const ImageModal1 = (props) => {
     }
   };
 
- 
+  function sendDataToMixPanel(eventName,id,url,type){
+    mixpanel.track(eventName, {
+      "media_id" : id,
+      "media_url" : url,
+      "media_type" : type,
+      "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
+      "entity_name" : props.name ||props.artistFname || props.venueName|| props.festivalName,
+      "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
+      "user" : props.user?props.user:'guest',
+    });
+  }
 
-  const handleCommentButtonClick = () => {
+  function handleCommentButtonClick (mediaItem){
+    // console.log(mediaItem,"mediaitem")
+    let url = !isVideoUrl(mediaItem.image_url || mediaItem.video_url)?mediaItem.image_url:mediaItem.video_url
+    let type = !isVideoUrl(mediaItem.image_url || mediaItem.video_url)?"image":"video"
+    sendDataToMixPanel('write_comment_button_clicked',mediaItem.id,url,type)
     setShowForm(true);
     setFormOpened(true);
   };
 
-  const cancelComment = () => {
+  function cancelComment (mediaItem){
+    let url = !isVideoUrl(mediaItem.image_url || mediaItem.video_url)?mediaItem.image_url:mediaItem.video_url
+    let type = !isVideoUrl(mediaItem.image_url || mediaItem.video_url)?"image":"video"
+    sendDataToMixPanel('cancel_comment_button_clicked',mediaItem.id,url,type)
     setShowForm(false);
     setFormOpened(false);
   };
@@ -113,19 +131,29 @@ const ImageModal1 = (props) => {
     fetchComments();
   }, [props.artistID]);
   useEffect(() => {
-    // Find the index of the slide that matches the condition
     let defaultSlideIndex = props.mediaData.findIndex(mediaItem => mediaItem.image_url === props.mediaUrl || mediaItem.video_url === props.mediaUrl);
-    // defaultSlideIndex =  props.mediaData.findIndex(mediaItem => mediaItem.video_url === props.mediaUrl );
-    // If a matching slide is found, set it as the default slide
     if (defaultSlideIndex !== -1 && sliderRef.current) {
       sliderRef.current.slickGoTo(defaultSlideIndex);
     }
   }, [props.mediaData, props.mediaUrl]);
   useEffect(() => {
-    console.log('%cYour message here', 'background: black; color: white;');
-  },[])
+    
+    if(c == 0){
+      mixpanel.track("media_clicked", {
+        "media_id" : props.imageData.id,
+        "media_url" : props.imageData.video_url || props.imageData.image_url,
+        "media_type" : (props.imageData.video_url && "video") || (props.imageData.image_url && "image") || "image",
+        "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
+        "entity_name" : props.name ||props.artistFname || props.venueName|| props.festivalName,
+        "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
+        "user" : user?user:'guest',
+        "mode" : props.mode
+  })
+      c = c + 1
+    }
+  }, []);
   
-  // console.log(props.mediaIndex,"data")
+ 
   const settings = {
     infinite: false,
     speed: 500,
@@ -176,7 +204,7 @@ const ImageModal1 = (props) => {
                   <div className="comments-container">
                     {!formOpened &&
                       <div className="text-center">
-                        <Button variant="outline-primary" onClick={handleCommentButtonClick}>Write a comment</Button>
+                        <Button variant="outline-primary" onClick={()=>{handleCommentButtonClick(mediaItem)}}>Write a comment</Button>
                       </div>
                     }
                     {showForm &&
@@ -203,7 +231,7 @@ const ImageModal1 = (props) => {
                           </textarea>
                         </div>
                         <Button variant="outline-primary" type='submit' disabled={disabled}>Post</Button>{' '}
-                        <Button variant="outline-secondary" onClick={cancelComment}>Cancel</Button>
+                        <Button variant="outline-secondary" onClick={() => {cancelComment(mediaItem)}}>Cancel</Button>
                       </form>
                     }
                     <div className="mt-3 comments-list" style={{ maxHeight: '300px', overflowY: 'auto', color: "black" }}>

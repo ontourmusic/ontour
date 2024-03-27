@@ -42,7 +42,7 @@ const ImageCarousel = (props) => {
 
   const [PolaroidLoading, setPolaroidLoading] = useState(true);
   const loadedCountRef = useRef(0);
-  const [mediaIndex,setMediaIndex] = useState(0)
+  const [mediaIndex, setMediaIndex] = useState(0);
   // Start loading when imageUrls and videoUrls change
   useEffect(() => {
     setPolaroidLoading(true);
@@ -65,7 +65,7 @@ const ImageCarousel = (props) => {
   const handleClose = () => setOpen(false);
   const [imageData, setImageData] = useState([]);
   const [newModalOpen, setNewModalOpen] = useState(false);
-  const [mediaData,setMediaData] = useState([]);
+  const [mediaData, setMediaData] = useState([]);
   const supabase = createClient(
     "https://zouczoaamusrlkkuoppu.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
@@ -73,10 +73,10 @@ const ImageCarousel = (props) => {
   // mixpanel.init(mixPanelId, {debug: true, track_pageview: true, persistence: 'localStorage'});
 
   // console.warn(props,"deepanshu")
-  const handleImageClick = async (e , index) => {
+  const handleImageClick = async (e, index) => {
     // console.log("video dataset attribute",e.target.dataset.src1)
     // console.log("handleImageClick: ", e.target.src);
-    console.log(e.target.src,"target")
+    console.log(e.target.src, "target");
     setTemp(e.target.src);
     // setMediaIndex(index)
     setNewModalOpen(true);
@@ -164,18 +164,21 @@ const ImageCarousel = (props) => {
   };
   const fetchMediaData = async () => {
     try {
-      const { data, error } = await supabase.from('artist_images').select('*').eq('artist_id', props.artistID);
-      if(!error){
+      const { data, error } = await supabase
+        .from("artist_images")
+        .select("*")
+        .eq("artist_id", props.artistID);
+      if (!error) {
         // console.log(data,"mediaData")
-        setMediaData(data)
+        setMediaData(data);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   useEffect(() => {
-      fetchMediaData()
-  },[props.artistID])
+    fetchMediaData();
+  }, [props.artistID]);
   // useEffect(() => {
   //     if (props.images.length > 0) {
   //         // setImageLoad(true);
@@ -316,12 +319,20 @@ const ImageCarousel = (props) => {
             artistname={props.artistname}
             artistID={props.artistID}
             images={props.images}
+            imageData={imageData}
             videos={props.videos}
             handleClose1={handleClose1}
             media={props.images.concat(props.videos)}
-            mediaData = {mediaData}
-            mediaIndex = {mediaIndex}
+            mediaData={mediaData}
+            mediaIndex={mediaIndex}
             mediaUrl={tempImg}
+            isVenue={props.isVenue}
+            isFestival={props.isFestival}
+            user={user}
+            artistFname={props.artistname}
+            venueName={props.venueName}
+            festivalName={props.festivalName}
+            mode="carousel"
           />
         )}
         <div className="controls">
