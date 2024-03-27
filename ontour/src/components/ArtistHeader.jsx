@@ -220,9 +220,8 @@ function ArtistHeader(props) {
           {props.isVenue == 0 && props.onTour && <OnTourButton></OnTourButton>}
 
           <h1 style={artist_styles.header.ArtistName} class="fw-bold">
-            {props.name}{" "}
-            {/* deleted "props.isVenue == 1 &&" here */}
-            { props.verified && (
+            {props.name} {/* deleted "props.isVenue == 1 &&" here */}
+            {props.verified && (
               <img src="images/verifiedBadge.png" style={verified}></img>
             )}
             <br></br>
