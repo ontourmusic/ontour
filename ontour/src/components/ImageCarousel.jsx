@@ -76,8 +76,9 @@ const ImageCarousel = (props) => {
   const handleImageClick = async (e , index) => {
     // console.log("video dataset attribute",e.target.dataset.src1)
     // console.log("handleImageClick: ", e.target.src);
-    // console.log(e.target)
-    setMediaIndex(index)
+    console.log(e.target.src,"target")
+    setTemp(e.target.src);
+    // setMediaIndex(index)
     setNewModalOpen(true);
     const source = e.target.dataset.src1 ? e.target.dataset.src1 : e.target.src;
     var urlTag = e.target.tagName == "IMG" ? "image_url" : "video_url";
@@ -267,6 +268,7 @@ const ImageCarousel = (props) => {
                 return (
                   <Slide style={carousel_styles.slide} index={index}>
                     <Polaroid
+                      data-id={index}
                       key={index}
                       onPress={handleImageClick}
                       imageUrl={image}
@@ -319,6 +321,7 @@ const ImageCarousel = (props) => {
             media={props.images.concat(props.videos)}
             mediaData = {mediaData}
             mediaIndex = {mediaIndex}
+            mediaUrl={tempImg}
           />
         )}
         <div className="controls">

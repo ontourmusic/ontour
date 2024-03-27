@@ -21,6 +21,7 @@ const ImageModal1 = (props) => {
   const [comment, setComment] = useState('');
   const [mediaData,setMediaData] = useState([]);
   const [mediaId,setMediaId] = useState(null);
+  const [currIndex,setCurrentIndex] = useState(0);
   const disabled = !name || !comment;
  
   const fetchComments = async () => {
@@ -123,15 +124,16 @@ const ImageModal1 = (props) => {
     fetchComments();
   }, [props.artistID]);
   useEffect(() => {
-    
-  },[])
-  async function x(){
-    const res = await axios.get("https://mixpanel.com/p/HNrJzwXEDnxmUipwP1Gmfw")
-    console.log(await res.text())
-  }
-  useEffect(()=>{
-    // x();
-  },[])
+    // Find the index of the slide that matches the condition
+    const defaultSlideIndex = props.mediaData.findIndex(mediaItem => mediaItem.image_url === props.mediaUrl);
+
+    // If a matching slide is found, set it as the default slide
+    if (defaultSlideIndex !== -1 && sliderRef.current) {
+      sliderRef.current.slickGoTo(defaultSlideIndex);
+    }
+  }, [props.mediaData, props.mediaUrl]);
+  
+  
   // console.log(props.mediaIndex,"data")
   const settings = {
     infinite: false,
@@ -140,7 +142,7 @@ const ImageModal1 = (props) => {
     slidesToScroll: 1,
     arrows: false,
     dots: true,
-    initialSlide: 1,
+   
 
   };
 // console.log(props.mediaData,"data")
@@ -157,7 +159,7 @@ const ImageModal1 = (props) => {
         <Modal.Title>Photos of {props.artistname}</Modal.Title>
        {/* {parse(html)} */}
       </Modal.Header>
-      <Alerts message="Comments"/>
+      {/* <Alerts message="Comments"/> */}
       <Modal.Body >
         <div className="d-flex justify-content-between  w-100 p-2 bg-light">
         <RiArrowLeftCircleLine  style={{cursor:"pointer",}}  onClick={() =>{sliderRef.current.slickPrev() }} size={40}/>
@@ -165,10 +167,15 @@ const ImageModal1 = (props) => {
         </div>
         <Slider ref={sliderRef} {...settings}>
           {props.mediaData.map((mediaItem, index) => {
-           if(mediaItem != null){  
+           if(mediaItem != null){
+            // console.log(mediaItem,"mediaItem")  
+            if(mediaItem.image_url == props.mediaUrl){
+              console.log("test",index)
+              // setCurrentIndex(index)
+            }
            return (
             <>
-            <div style={{maxHeight:"600px"}} key={index}>
+            <div  style={{maxHeight:"600px"}} key={index}>
               <Row>
                 <Col xs={12} lg={8}>
                   <div className="media-container">
@@ -251,8 +258,9 @@ const ImageModal1 = (props) => {
               </Row>
             </div>
             </>
+
           )}})}
-          
+       
         </Slider>
        
       </Modal.Body>
