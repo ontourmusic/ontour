@@ -9,8 +9,8 @@ import { supabase } from './supabaseClient';
 import { isVideoUrl } from "../common_functions/common_functions";
 import { RiArrowLeftCircleLine, RiArrowRightCircleFill, RiArrowRightCircleLine } from "react-icons/ri";
 import axios from "axios";
-import  parse from 'html-react-parser';
-import { html } from "../html";
+
+
 import Alerts from "./Alert";
 import mixpanel from "mixpanel-browser";
 import { useAuth0 } from "@auth0/auth0-react";

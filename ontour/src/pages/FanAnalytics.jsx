@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import parse from "html-react-parser"
-import { html } from '../html';
+
+
 import { mixPanelReportUrl } from '../constants/constants';
 const FanAnalytics = () => {
     const [html,setHtml] = useState(null)
