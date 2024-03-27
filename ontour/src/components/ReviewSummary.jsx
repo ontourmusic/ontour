@@ -16,21 +16,16 @@ const ReviewSummary = ({ allReviews }) => {
   useEffect(() => {
     let tempArray = [0, 0, 0, 0, 0, 0];
     let tempTotal = 0;
+    let tempTotalRating = 0;
     allReviews.forEach((review) => {
       // index 1 is the rating
-      tempArray[review.rating]++;
+      tempArray[Math.round(review.rating)]++;
       tempTotal++;
+      tempTotalRating += review.rating;
     });
     setTotalReviews(tempTotal);
     setReviewValueArray(tempArray);
-    setAggregateRating(
-      (tempArray[1] +
-        tempArray[2] * 2 +
-        tempArray[3] * 3 +
-        tempArray[4] * 4 +
-        tempArray[5] * 5) /
-        tempTotal
-    );
+    setAggregateRating(tempTotalRating / tempTotal);
   }, [allReviews]);
 
   return (
@@ -86,7 +81,7 @@ const ReviewProgressBars = ({ ReviewValueArray, TotalReviews }) => {
           <Grid container spacing={0} style={{ marginBottom: 7 }}>
             <Grid item xs={2}>
               <Typography variant="body2" color="text.secondary">
-                {star} star{star > 1 ? "s" : " "}
+                {star - 0.5}/{star} star{star > 1 ? "s" : " "}
               </Typography>
             </Grid>
             <Grid item xs={10}>

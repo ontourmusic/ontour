@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import "../index.css";
-import { RiStarFill } from "react-icons/ri";
+import { RiStarFill, RiStarHalfFill } from "react-icons/ri";
 import { AiOutlineUser } from "react-icons/ai";
 import { useState } from "react";
 import { HelpfulButton } from "./Buttons";
@@ -181,12 +181,28 @@ export default function Review(props) {
         <br></br>
       </div>
       <div>
-        <div class="d-flex bd-highlight mb-2">
-          {[...Array(props.rating)].map((star) => {
-            return <RiStarFill className="star" color={"#faaf00"} size={20} />;
-          })}
-          {[...Array(5 - props.rating)].map((star) => {
-            return <RiStarFill className="star" color={"#bdbdbd"} size={20} />;
+        <div className="d-flex bd-highlight mb-2">
+          {[...Array(5)].map((_, index) => {
+            const ratingIndex = index + 1;
+            if (ratingIndex <= Math.floor(props.rating)) {
+              // Full star
+              return (
+                <RiStarFill className="star" color={"#faaf00"} size={20} />
+              );
+            } else if (
+              ratingIndex - 1 < props.rating &&
+              ratingIndex > props.rating
+            ) {
+              // Half star, assuming you have a way to render it, e.g., a half-filled star icon
+              return (
+                <RiStarHalfFill className="star" color={"#faaf00"} size={20} />
+              );
+            } else {
+              // Empty star
+              return (
+                <RiStarFill className="star" color={"#bdbdbd"} size={20} />
+              );
+            }
           })}
         </div>
         <div align="left" class="d-flex bd-highlight mb-2">
@@ -296,16 +312,17 @@ export default function Review(props) {
         </>
       ) : (
         <>
-          {" "}
-          <div className="mr-3">
-            <HelpfulButton onPress={handleNotLogin} />
+          <div className="d-flex justify-content-start">
+            <div className="mr-3">
+              <HelpfulButton onPress={handleNotLogin} />
+            </div>
+            <span className="count" style={{ margin: "10px" }}>
+              {count}
+            </span>
+            <div>
+              <UnhelpfulButton onPress={handleNotLogin} />
+            </div>
           </div>
-          <span className="count" style={{ margin: "10px" }}>
-            {count}
-          </span>
-          <div>
-            <UnhelpfulButton onPress={handleNotLogin} />
-          </div>{" "}
         </>
       )}
     </div>
