@@ -40,8 +40,8 @@ const SearchBar = React.memo( (props) => {
     // const supabase = createClient('https://zouczoaamusrlkkuoppu.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo');
 
     const loadSearchItems = async () => {
-        var artists = await supabase.from('artists').select('*');
-        var venues = await supabase.from('venues').select('*');
+        var artists = await supabase.from('artists').select('*').filter('published', 'eq', true);
+        var venues = await supabase.from('venues').select('*').filter('published', 'eq', true);
         var festivals = await supabase.from('festivals').select('*');
 
         var artistsList = artists["data"];
