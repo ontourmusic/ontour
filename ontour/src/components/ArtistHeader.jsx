@@ -21,28 +21,46 @@ import { faPencil, faPlay } from "@fortawesome/free-solid-svg-icons";
 import ImageCrop from "./ImageCrop";
 import mixpanel from "mixpanel-browser";
 import { useAuth0 } from "@auth0/auth0-react";
+import ImageModal1 from "./ImageModal1";
 const modal_styles = artist_styles.oldModal;
 const window_breakpoints = common_styles.window_breakpoints;
 const styles = artist_styles.header;
 const verified = artist_styles.verifiedButton;
 
-function ChildModal(props) {
+function   ChildModal(props) {
   console.log("childmodal props: ", props);
-  useEffect(() => {
-    // console.log(props.imageData);
-  }, [props.imageData]);
-
   return (
-    <ImageModal
-      open={props.open}
-      handleClose={props.onClose}
-      imageData={props.imageData}
-      image={props.image}
-      isVenue={props.isVenue}
-      isFestival={props.isFestival}
-      name={props.name}
-      mode="tile_button"
-    />
+    <>
+     {/* <ImageModal1
+            // artistname={props.artistname}
+            // artistID={props.artistID}
+            // images={props.images}
+            imageData={props.imageData}
+            videos={props.videos}
+            handleClose1={handleClose1}
+            media={props.images.concat(props.videos)}
+            mediaData={mediaData}
+            mediaIndex={mediaIndex}
+            mediaUrl={tempImg}
+            isVenue={props.isVenue}
+            isFestival={props.isFestival}
+            user={user}
+            artistFname={props.artistname}
+            venueName={props.venueName}
+            festivalName={props.festivalName}
+            mode="tile_button"
+          /> */}
+    </>
+    // <ImageModal
+    //   open={props.open}
+    //   handleClose={props.onClose}
+    //   imageData={props.imageData}
+    //   image={props.image}
+    //   isVenue={props.isVenue}
+    //   isFestival={props.isFestival}
+    //   name={props.name}
+    //   mode="tile_button"
+    // />
   );
 }
 
@@ -83,6 +101,13 @@ function ArtistHeader(props) {
   const [imageData, setImageData] = useState([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const { user, isAuthenticated } = useAuth0();
+  const [newModalOpen, setNewModalOpen] = useState(false);
+  const [tempImg, setTemp] = useState("");
+  const [mediaData, setMediaData] = useState([]);
+  const [mediaIndex, setMediaIndex] = useState(0);
+  function handleClose1() {
+    setNewModalOpen(false);
+  }
   // const supabase = createClient(
   //   "https://zouczoaamusrlkkuoppu.supabase.co",
   //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpvdWN6b2FhbXVzcmxra3VvcHB1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY3ODE1ODUyMSwiZXhwIjoxOTkzNzM0NTIxfQ.LTuL_u0tzmsj8Zf9m6JXN4JivwLq1aRXvU2YN-nDLCo"
@@ -127,83 +152,87 @@ function ArtistHeader(props) {
 
   const handleImageClick = async (image) => {
     console.log("clicked");
-    var urlTag = image.target.tagName == "IMG" ? "image_url" : "video_url";
-    const source = image.target.dataset.src1
-      ? image.target.dataset.src1
-      : image.target.src;
-    if (props.isVenue) {
-      const { data, error } = await supabase
-        .from("venue_carousel_images")
-        .select("*")
-        .eq(urlTag, source)
-        .single();
+    
+    setTemp(image.target.src);
+    setNewModalOpen(true);
+    // handleClose()
+    // var urlTag = image.target.tagName == "IMG" ? "image_url" : "video_url";
+    // const source = image.target.dataset.src1
+    //   ? image.target.dataset.src1
+    //   : image.target.src;
+    // if (props.isVenue) {
+    //   const { data, error } = await supabase
+    //     .from("venue_carousel_images")
+    //     .select("*")
+    //     .eq(urlTag, source)
+    //     .single();
 
-      if (error) {
-        console.error(error);
-        return null;
-      }
-      setImageData(data);
-      setSelectedImage(source);
-      setIsChildModalOpen(true);
-    //   mixpanel.track("media_clicked",{
-    //     'media_type' : urlTag=='image_url'?"image":"video",
-    //     'media_id' : `${data.id}`,
-    //     'media_url': `${source}`,
-    //     'entity_type' : 'venue',
-    //     'entity_id' : `${props.venueID}`,
-    //     'entity_name' : `${props.name}`,
-    //     'user' : isAuthenticated?user:'guest',
-    //     'mode' : 'tile_button',
-    // });
-    } else if (props.isFestival) {
-      const { data, error } = await supabase
-        .from("festival_carousel_images")
-        .select("*")
-        .eq(urlTag, source)
-        .single();
+    //   if (error) {
+    //     console.error(error);
+    //     return null;
+    //   }
+    //   setImageData(data);
+    //   setSelectedImage(source);
+    //   setIsChildModalOpen(true);
+    // //   mixpanel.track("media_clicked",{
+    // //     'media_type' : urlTag=='image_url'?"image":"video",
+    // //     'media_id' : `${data.id}`,
+    // //     'media_url': `${source}`,
+    // //     'entity_type' : 'venue',
+    // //     'entity_id' : `${props.venueID}`,
+    // //     'entity_name' : `${props.name}`,
+    // //     'user' : isAuthenticated?user:'guest',
+    // //     'mode' : 'tile_button',
+    // // });
+    // } else if (props.isFestival) {
+    //   const { data, error } = await supabase
+    //     .from("festival_carousel_images")
+    //     .select("*")
+    //     .eq(urlTag, source)
+    //     .single();
 
-      if (error) {
-        console.error(error);
-        return null;
-      }
-    //   mixpanel.track("media_clicked",{
-    //     'media_type' : urlTag=='image_url'?"image":"video",
-    //     'media_id' : `${data.id}`,
-    //     'media_url': `${source}`,
-    //     'entity_type' : 'festival',
-    //     'entity_id' : `${props.festivalId}`,
-    //     'entity_name' : `${props.name}`,
-    //      'user' : isAuthenticated?user:'guest',
-    //      "mode" : "tile_button"
-    // });
-      setImageData(data);
-      setSelectedImage(source);
-      setIsChildModalOpen(true);
-    } else {
-      const { data, error } = await supabase
-        .from("artist_images")
-        .select("*")
-        .eq(urlTag, source)
-        .single();
+    //   if (error) {
+    //     console.error(error);
+    //     return null;
+    //   }
+    // //   mixpanel.track("media_clicked",{
+    // //     'media_type' : urlTag=='image_url'?"image":"video",
+    // //     'media_id' : `${data.id}`,
+    // //     'media_url': `${source}`,
+    // //     'entity_type' : 'festival',
+    // //     'entity_id' : `${props.festivalId}`,
+    // //     'entity_name' : `${props.name}`,
+    // //      'user' : isAuthenticated?user:'guest',
+    // //      "mode" : "tile_button"
+    // // });
+    //   setImageData(data);
+    //   setSelectedImage(source);
+    //   setIsChildModalOpen(true);
+    // } else {
+    //   const { data, error } = await supabase
+    //     .from("artist_images")
+    //     .select("*")
+    //     .eq(urlTag, source)
+    //     .single();
 
-      if (error) {
-        console.error(error);
-        return null;
-      }
-    //   mixpanel.track("media_clicked",{
-    //     'media_type' : urlTag=='image_url'?"image":"video",
-    //     'media_id' : `${data.id}`,
-    //     'media_url': `${source}`,
-    //     'entity_type' : 'artist',
-    //     'entity_id' : `${props.artistID}`,
-    //     'entity_name' : `${props.name}`,
-    //     "user" : isAuthenticated?user:'guest',
-    //     "mode" : "tile_button"
-    // });
-      setImageData(data);
-      setSelectedImage(source);
-      setIsChildModalOpen(true);
-    }
+    //   if (error) {
+    //     console.error(error);
+    //     return null;
+    //   }
+    // //   mixpanel.track("media_clicked",{
+    // //     'media_type' : urlTag=='image_url'?"image":"video",
+    // //     'media_id' : `${data.id}`,
+    // //     'media_url': `${source}`,
+    // //     'entity_type' : 'artist',
+    // //     'entity_id' : `${props.artistID}`,
+    // //     'entity_name' : `${props.name}`,
+    // //     "user" : isAuthenticated?user:'guest',
+    // //     "mode" : "tile_button"
+    // // });
+    //   setImageData(data);
+    //   setSelectedImage(source);
+    //   setIsChildModalOpen(true);
+    // }
   };
 
   const handleCloseChildModal = () => {
@@ -234,7 +263,23 @@ const handleCropImage = ()=>{
     // console.log("adding event listener for resize");
     window.addEventListener("resize", handleResize);
   }, [props.images]);
-
+  const fetchMediaData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("artist_images")
+        .select("*")
+        .eq("artist_id", props.artistID);
+      if (!error) {
+        // console.log(data,"mediaData")
+        setMediaData(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchMediaData();
+  }, [props.artistID]);
   return (
     <div
       style={{
@@ -424,7 +469,29 @@ const handleCropImage = ()=>{
                   }
                 })}
             </Grid>
-            {selectedImage && (
+            {
+              newModalOpen && <ImageModal1 
+              artistname={props.artistname}
+            artistID={props.artistID}
+            images={props.images}
+            imageData={imageData}
+            videos={props.videos}
+            handleClose1={handleClose1}
+            media={props.images.concat(props.videos)}
+            mediaData={mediaData}
+            mediaIndex={mediaIndex}
+            mediaUrl={tempImg}
+            isVenue={props.isVenue}
+            isFestival={props.isFestival}
+            user={props.user}
+            artistFname={props.artistname}
+            venueName={props.venueName}
+            festivalName={props.festivalName}
+            mode="tile_button"
+              
+              />
+            }
+            {/* {selectedImage && (
               <ChildModal
                 image={selectedImage}
                 open={isChildModalOpen}
@@ -435,7 +502,7 @@ const handleCropImage = ()=>{
                 name={props.name}
                 user={props.user}
               />
-            )}
+            )} */}
           </Box>
         </Modal>
         {/* Crop Image Modal Starts here */}

@@ -113,9 +113,11 @@ const ImageModal1 = (props) => {
       if (event.keyCode === 37) {
         // Left arrow key
         sliderRef.current.slickPrev();
+        console.log(sliderRef);
       } else if (event.keyCode === 39) {
         // Right arrow key
         sliderRef.current.slickNext();
+        console.log(sliderRef);
       }
     };
 
@@ -152,8 +154,17 @@ const ImageModal1 = (props) => {
       c = c + 1
     }
   }, []);
-  
- 
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+
+useEffect(() => {
+  const handleResize = () => {
+    setIsLargeScreen(window.innerWidth >= 992); 
+  };
+  handleResize();
+  window.addEventListener('resize', handleResize);
+  return () => window.removeEventListener('resize', handleResize);
+}, []);
+ console.log("data")
   const settings = {
     infinite: false,
     speed: 500,
@@ -161,7 +172,7 @@ const ImageModal1 = (props) => {
     slidesToScroll: 1,
     arrows: false,
     dots: true,
-   
+    draggable:isLargeScreen ? false : true
 
   };
 // console.log(props.mediaData,"data")
@@ -172,7 +183,7 @@ const ImageModal1 = (props) => {
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
-      
+      style={{zIndex: 9999}}
     >
       <Modal.Header closeButton>
         <Modal.Title>Photos of {props.artistname}</Modal.Title>
@@ -195,7 +206,7 @@ const ImageModal1 = (props) => {
                 <Col xs={12} lg={8}>
                   <div className="media-container">
                     {!isVideoUrl(mediaItem.image_url || mediaItem.video_url) ?
-                      <img width="100%" height="50%" style={{ maxWidth: "1000px",maxHeight:"300px", objectFit: "fill" }} src={mediaItem.image_url} alt='xyz' />
+                      <img  style={{ width: "100%", height: "auto",maxHeight:"300px", objectFit: "contain" }} src={mediaItem.image_url} alt='xyz' />
                       : <video playsInline preload="metadata" controls src={mediaItem.video_url + "#t=0.2"} width="100%" style={{maxHeight:"300px"}} />
                     }
                   </div>
