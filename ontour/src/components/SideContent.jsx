@@ -20,6 +20,7 @@ Props:
     venue: bool, true if venue
 */
 
+
 const SideContent = (props) => {
   if (props.venue) {
     // console.log("yes");
@@ -36,6 +37,7 @@ const SideContent = (props) => {
                   venue={props.venue}
                   festival={props.festival}
                   artist={props.artist} />
+
 
         {props.linkPairs && (
           <div style={sidebar_styles.icon_container}>

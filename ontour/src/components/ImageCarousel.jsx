@@ -56,6 +56,7 @@ const ImageCarousel = (props) => {
     }
   };
 
+
   // const [images, setImages] = useState([]);
   // const [videos,setVideos] = useState([])
   // const [imageLoad, setImageLoad] = useState(false);
@@ -89,6 +90,7 @@ const ImageCarousel = (props) => {
         .eq(urlTag, source)
         .single();
 
+
       if (error) {
         console.error(error);
         return null;
@@ -116,6 +118,7 @@ const ImageCarousel = (props) => {
         .eq(urlTag, source)
         .single();
 
+
       if (error) {
         console.error(error);
         return null;
@@ -142,6 +145,7 @@ const ImageCarousel = (props) => {
         .eq(urlTag, source)
         .single();
 
+
       if (error) {
         console.error(error);
         return null;
@@ -161,6 +165,7 @@ const ImageCarousel = (props) => {
       //     "mode" : "carousel"
       // });
     }
+
   };
   const fetchMediaData = async () => {
     try {
@@ -249,6 +254,7 @@ const ImageCarousel = (props) => {
         style={carousel_styles.container}
       >
         {/* <Slider>
+
                     {images.map((image, index) => {
                         console.log(image,"image")
                         return (

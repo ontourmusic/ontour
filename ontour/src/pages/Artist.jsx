@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useDebugValue } from "react";
 import "../index.css";
 import "react-multi-carousel/lib/styles.css";
 import mixpanel from "mixpanel-browser";
@@ -77,6 +77,7 @@ function Artist() {
     setAdminLoggedIn(true);
   };
   const [verified, setVerified] = useState(true);
+
 
   const searchReviews = (searchTerm) => {
 
@@ -223,6 +224,7 @@ function Artist() {
             setSpotifyLink(spotify);
 
             setSpotifyLink(spotify); **/
+
       // const getArtistSupabase = await supabase.from('artists').select('*').eq('artist_id', currArtistID);
       // const artistData = getArtistSupabase["data"][0];
       setInstaLink(artistData["instagram_link"]);
@@ -235,6 +237,7 @@ function Artist() {
       // setTicketLink(tickets);
     } catch {
       console.log("Webpage error. Please reload the page.");
+
     }
   };
   const changeBannerImage = (image, orgImg) => {
@@ -440,6 +443,7 @@ function Artist() {
               </>
             )}
 
+
             <ArtistContent
               allReviews={allReviews}
               filteredReviews={filteredReviews}
@@ -481,5 +485,6 @@ function Artist() {
       </Grid>
     </>
   );
+
 }
 export default Artist;
