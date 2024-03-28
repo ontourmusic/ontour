@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { createClient } from '@supabase/supabase-js';
 import {supabase} from "../components/supabaseClient"
+import mixpanel from 'mixpanel-browser';
 
 const CommentBox = (props) => {
   const [name, setName] = useState('');
@@ -125,16 +126,32 @@ const CommentBox = (props) => {
       .insert(
         [{ 'name': name, 'comment': comment, 'date': date, 'image_id': props.imageData.id }]
       );
+    if(!error){
+      sendDataToMixPanel('post_comment_button_clicked')
+    }
     setName('');
     setComment('');
   }
-
+  function sendDataToMixPanel(eventName){
+    mixpanel.track(eventName, {
+      "media_id" : props.imageData.id,
+      "media_url" : props.imageData.video_url || props.imageData.image_url,
+      "media_type" : (props.imageData.video_url && "video") || (props.imageData.image_url && "image") || "image",
+      "entity_id" : props.imageData.artist_id || props.imageData.venue_id || props.imageData.festival_id,
+      "entity_name" : props.name ,
+      "entity_type" : `${(props.imageData.artist_id && "artist") || (props.imageData.venue_id && "venue") || (props.imageData.festival_id && "festival")}`,
+      "user" : props.user?props.user:'guest',
+    });
+  }
   const handleCommentButtonClick = () => {
+    console.log('handleCommentButtonClick',props.imageData,props.isVenue,props.isFestival);
+   sendDataToMixPanel('write_comment_button_clicked')
     setShowForm(true);
     setFormOpened(true);
   }
 
   const cancelComment = () => {
+    sendDataToMixPanel('cancel_comment_button_clicked')
     setShowForm(false);
     setFormOpened(false);
   }

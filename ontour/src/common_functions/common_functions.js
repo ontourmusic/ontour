@@ -8,4 +8,10 @@ export function base64ImgToBlob(base64String) {
     const blob = new Blob([buffer], { type: contentType });
     return blob;
   }
-  
+export function isImageUrl(url) {
+    return /\.(jpg|jpeg|png|gif|bmp|svg|tiff|ico)$/i.test(url);
+}
+
+export function isVideoUrl(url) {
+    return /\.(mp4|ogg|webm|mov|avi|wmv|flv|mkv|mpeg|3gp|quicktime)$/i.test(url);
+}

@@ -17,6 +17,8 @@ import ImageCarousel from "../components/ImageCarousel";
 import Fuse from "fuse.js";
 import common_styles from "../Styles/common_styles";
 import { Helmet } from "react-helmet";
+import { useAuth0 } from "@auth0/auth0-react";
+import mixpanel from "mixpanel-browser";
 
 const window_breakpoints = common_styles.window_breakpoints;
 
@@ -64,7 +66,7 @@ function Venue() {
 }
   const [websiteLink, setWebsiteLink] = useState("");
   const [instaLink, setInstaLink] = useState("");
-
+  const { user, isAuthenticated } = useAuth0();
   const searchReviews = (searchTerm) => {
     const options = {
       keys: ["review", "event"],
@@ -77,6 +79,16 @@ function Venue() {
         return result.item;
       })
     );
+    if(searchTerm != ""){
+      mixpanel.track("review_filter_search_value",{
+        'entity_id' : venueIDGlobal,
+        'entity_name' : venueName,
+        'entity_type' : 'venue',
+        'search_value' : searchTerm,
+        'user' : isAuthenticated ? user : 'guest'
+      })
+    }
+   
     setShowResults(true);
   };
 
@@ -188,12 +200,20 @@ function Venue() {
         (review) => review.rating == event.target.value
       );
     }
+    mixpanel.track("review_filter_rating_value",{
+      'entity_id' : venueIDGlobal,
+      'entity_name' : venueName,
+      'entity_type' : 'venue',
+      'rating_value' : event.target.value,
+      'user' : isAuthenticated ? user : 'guest'
+    })
     setFilteredReviews(tempArray);
     forceUpdate();
   };
 
   const formChange = (event) => {
     //sort all reviews array by rating highest to lowest
+    var recomm = ['Newest First','Oldest First','Highest Rated','Lowest Rated'];
     var tempArray = allReviews;
     if (event.target.value == 3) {
       tempArray.sort(function (a, b) {
@@ -219,6 +239,13 @@ function Venue() {
         return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
       });
     }
+    mixpanel.track("review_filter_recommendation_value",{
+      'entity_id' : venueIDGlobal,
+      'entity_name' : venueName,
+      'entity_type' : 'venue',
+      'recommended_value' :recomm[event.target.value-1],
+      'user' : isAuthenticated ? user : 'guest'
+    })
     setFilteredReviews(tempArray);
     forceUpdate();
   };
@@ -234,7 +261,7 @@ function Venue() {
     </Helmet>
     <Grid container spacing={0}>
       <Grid item xs={12}>
-        <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn}/>
+        <ArtistNavigation venueID={venueIDGlobal} user={user} type="venue" name={venue_name} handleAdminLoggedIn={handleAdminLoggedIn}/>
       </Grid>
       <Grid item xs={12}>
         <ArtistHeader
@@ -251,6 +278,7 @@ function Venue() {
           venueID={venueIDGlobal}
           changeBannerImage={changeBannerImage}
           originalBannerImage={originalBannerImage}
+          user={isAuthenticated ? user : "guest"}
         />
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
@@ -261,6 +289,7 @@ function Venue() {
             slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3}
             isVenue={1}
             venueID={venueIDGlobal}
+            venueName={venue_name}
           />
           <ArtistContent
             allReviews={allReviews}
@@ -285,6 +314,7 @@ function Venue() {
           <SideContent
             name={venue_name}
             venue={true}
+            venueId={venueIDGlobal}
             linkPairs={[[websiteLink, "images/web_icon.pic.jpg"],[instaLink, "images/instagram.png.webp"], [ticketLink, "images/ticketmaster_icon.png"]]}
           />
         </Grid>

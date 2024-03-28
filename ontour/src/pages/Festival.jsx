@@ -16,6 +16,8 @@ import SideContent from "../components/SideContent";
 import WriteFestivalReview from "../components/WriteFestivalReview";
 import DisplayHeadliners from "../components/DisplayHeadliners";
 import { Helmet } from "react-helmet";
+import { useAuth0 } from "@auth0/auth0-react";
+import mixpanel from "mixpanel-browser";
 
 const Festival = (props) => {
   const [searchParams] = useSearchParams();
@@ -42,6 +44,7 @@ const Festival = (props) => {
   const [standardActs, setStandardActs] = useState([]);
   const [adminLoggedIn, setAdminLoggedIn] = useState(false);
   const [originalBannerImage,setOriginalBannerImg] = useState("");
+  const { user, isAuthenticated } = useAuth0();
   const window_breakpoints = common_styles.window_breakpoints;
   const handleAdminLoggedIn = () => {
     setAdminLoggedIn(true);
@@ -63,6 +66,16 @@ const changeBannerImage = (image,orgImg)=>{
         return result.item;
       })
     );
+    if(searchTerm != ""){
+      mixpanel.track("review_filter_search_value",{
+        'entity_id' : festivalIDGlobal,
+        'entity_name' : festival_name,
+        'entity_type' : 'festival',
+        'search_value' : searchTerm,
+        'user' : isAuthenticated ? user : 'guest'
+      })
+    }
+   
     setShowResults(true);
   };
 
@@ -217,12 +230,20 @@ const changeBannerImage = (image,orgImg)=>{
         (review) => review.rating == event.target.value
       );
     }
+    mixpanel.track("review_filter_rating_value",{
+      'entity_id' : festivalIDGlobal,
+      'entity_name' : festival_name,
+      'entity_type' : 'festival',
+      'rating_value' : event.target.value,
+      'user' : isAuthenticated ? user : 'guest'
+    })
     setFilteredReviews(tempArray);
     forceUpdate();
   };
 
   const formChange = (event) => {
     //sort all reviews array by rating highest to lowest
+    var recomm = ['Newest First','Oldest First','Highest Rated','Lowest Rated'];
     var tempArray = allReviews;
     if (event.target.value == 3) {
       tempArray.sort(function (a, b) {
@@ -247,6 +268,13 @@ const changeBannerImage = (image,orgImg)=>{
         return new Date(a.eventDate) < new Date(b.eventDate) ? 1 : -1;
       });
     }
+    mixpanel.track("review_filter_recommendation_value",{
+      'entity_id' : festivalIDGlobal,
+      'entity_name' : festival_name,
+      'entity_type' : 'festival',
+      'recommended_value' :recomm[event.target.value-1],
+      'user' : isAuthenticated ? user : 'guest'
+    })
     setFilteredReviews(tempArray);
     forceUpdate();
   };
@@ -258,7 +286,7 @@ const changeBannerImage = (image,orgImg)=>{
     </Helmet>
     <Grid container spacing={0}>
       <Grid item xs={12}>
-        <ArtistNavigation handleAdminLoggedIn={handleAdminLoggedIn}/>
+        <ArtistNavigation name={festival_name} user={user}  festivalID={festivalIDGlobal} type="festival"  handleAdminLoggedIn={handleAdminLoggedIn}/>
       </Grid>
       <Grid item xs={12}>
         <ArtistHeader
@@ -277,6 +305,7 @@ const changeBannerImage = (image,orgImg)=>{
           festivalID={festivalIDGlobal}
           changeBannerImage={changeBannerImage}
           originalBannerImage={originalBannerImage}
+          user={isAuthenticated ? user : 'guest'}
         />
       </Grid>
       <Grid container spacing={1} style={artist_styles.grid.body_container}>
@@ -295,6 +324,7 @@ const changeBannerImage = (image,orgImg)=>{
             slideCount={window.innerWidth < window_breakpoints.sm ? 1 : 3}
             isFestival={1}
             festivalId={festivalIDGlobal}
+            festivalName={festival_name}
           />
           <ArtistContent
             allReviews={allReviews}
@@ -316,7 +346,7 @@ const changeBannerImage = (image,orgImg)=>{
           )}
         </Grid>
         <Grid item xs={12} md={4}>
-          <SideContent name={festival_name} festival={true} />
+          <SideContent festvalId={festivalIDGlobal} name={festival_name} festival={true} />
         </Grid>
       </Grid>
     </Grid>

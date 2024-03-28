@@ -40,7 +40,10 @@ function Navigation(props)
 
   return (
     <nav id="artist-nav" className="navbar navbar-expand navbar-dark bg-dark">
-      <div className="container d-flex flex-row justify-content-between">
+
+            
+      <div className="container d-flex flex-row justify-content-between align-items-center">
+      {isAuthenticated && adminEmail.includes(user.email) && <p style={{color: 'white', marginRight: '10px', marginTop:'20px',alignItems: 'center'}}>Super Admin</p>}
         <div>
           <a href="/">
             <img id="nav-logo" src= "images/tourScoutBack.png" alt=""/>
@@ -48,7 +51,7 @@ function Navigation(props)
         </div>
         
         <div class="navsearch">
-          <SearchBar navbar={true}></SearchBar>
+          <SearchBar type={props.type} artistID={props.artistID} veneueID={props.venueID} festivalID={props.festivalID} name={props.name} user={user} navbar={true}></SearchBar>
         </div>
         {
           isAuthenticated ? 
@@ -57,7 +60,7 @@ function Navigation(props)
             <SettDashButton></SettDashButton>
             <LogoutButton></LogoutButton>
           </div> :
-          <LoginButton></LoginButton>
+          <LoginButton ></LoginButton>
         }
       </div>
     </nav>

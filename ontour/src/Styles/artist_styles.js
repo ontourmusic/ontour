@@ -94,6 +94,13 @@ const modal = {
     borderRadius: "10px",
     objectFit: "contain",
   },
+  image1: {
+    width: "100%",
+    height: "100%",
+    borderRadius: "10px",
+    objectFit: "contain",
+    backgroundColor:"red"
+  },
 };
 
 const oldModal = {

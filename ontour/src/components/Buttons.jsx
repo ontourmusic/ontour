@@ -15,6 +15,9 @@ import Spinner from "react-bootstrap/Spinner";
 import Reaptcha from "reaptcha";
 import common_styles from "../Styles/common_styles";
 import {supabase} from "./supabaseClient";
+import mixpanel from "mixpanel-browser";
+import { useAuth0 } from "@auth0/auth0-react";
+import { error } from "jquery";
 
 const window_breakpoints = common_styles.window_breakpoints;
 const two_column_button_style = button_style.two_column_button;
@@ -53,18 +56,26 @@ const AddMediaButton = (props) => {
   const [captchaVerified, setCaptcha] = useState(false);
 
   const [eventDate, setEventDate] = useState("");
-
+  const { user, isAuthenticated } = useAuth0();
 
   const [submitClick, setSubmitClicked] = useState(false);
   // console.log(festivalId,"deep",props)
 
   const handleClose = () => {
+    console.log("closed")
+    mixpanel.track("add_media_button_closed",{
+      "entity_id" : props.artistID || props.venueID || props.festivalID,
+      "entity_type" :  (props.isVenue && "venue") || (props.isFestival && "festival") || ("artist") ,
+      "entity_name" : props.artistFname || props.venueName || props.festivalName,
+      "user": isAuthenticated?user:'guest'
+      })
     setOpen(false);
     setImage(null);
     setVideo(null);
     setFile(null);
     setVideoFile(null);
     setDescription(null);
+   
   };
 
   const handleImageUpload = async (event) => {
@@ -222,7 +233,7 @@ const AddMediaButton = (props) => {
       const publicURLVideo = `https://zouczoaamusrlkkuoppu.supabase.co/storage/v1/object/public/user-videos/${videoResult.fileName}`;
 
       if (props.isVenue) {
-        await supabase.from("venue_carousel_images").insert([
+        const { data, error} = await supabase.from("venue_carousel_images").insert([
           {
             image_url: publicURLMedia,
             venue_id: venueID,
@@ -230,9 +241,12 @@ const AddMediaButton = (props) => {
             description: description,
           },
         ]);
+        if(!error){
+          sendDataToMixPanel({type:"image",url:publicURLMedia},{type:"video",url:publicURLVideo});
+        }
         console.log("abcdefgh");
       } else if (props.isFestival) {
-        await supabase.from("festival_carousel_images").insert([
+        const { data, error} = await supabase.from("festival_carousel_images").insert([
           {
             image_url: publicURLMedia,
             festival_id: festivalId,
@@ -240,6 +254,9 @@ const AddMediaButton = (props) => {
             description: description,
           },
         ]);
+        if(!error){
+          sendDataToMixPanel({type:"image",url:publicURLMedia},{type:"video",url:publicURLVideo});
+        }
       } else if(props.isPromo){
         await supabase
           .from("promo_images")
@@ -261,7 +278,7 @@ const AddMediaButton = (props) => {
         ]);
       } else {
         //const [eventDate, event] = eventName.split(" • ");
-        await supabase.from("artist_images").insert([
+        const { data, error } = await supabase.from("artist_images").insert([
           {
             image_url: publicURLMedia,
             artist_id: artistID,
@@ -271,8 +288,11 @@ const AddMediaButton = (props) => {
             video_url: publicURLVideo,
           },
         ]);
+        if(!error){
+          sendDataToMixPanel({type:"image",url:publicURLMedia},{type:"video",url:publicURLVideo});
+        }
       }
-
+      
       console.log("Files uploaded successfully!");
       setIsSubmitClicked(false);
       alert("Files uploaded successfully!");
@@ -284,7 +304,7 @@ const AddMediaButton = (props) => {
 
   const post = async (mediaFile) => {
     // console.log(mediaFile,mediaFile.length);
-    console.log(mediaFile.type, "media");
+    // console.log(mediaFile.type, "media");
     setIsSubmitClicked(true);
     const blob = new Blob([mediaFile], { type: mediaFile.type });
     const timestamp = Date.now();
@@ -300,7 +320,7 @@ const AddMediaButton = (props) => {
       console.error(error);
       return;
     } else {
-      console.log("File uploaded successfully!");
+      // console.log("File uploaded successfully!");
       setIsSubmitClicked(false);
       alert("File uploaded successfully!");
       // uploaded = true
@@ -318,16 +338,22 @@ const AddMediaButton = (props) => {
             description: description,
           },
         ]);
+        if(!insertError){
+          sendDataToMixPanel({type:mediaFile.type.includes("image")?"image":"video",url:mediaUrl},false);
+        }
     } else if (props.isFestival) {
-      await supabase.from("festival_carousel_images").insert([
+      const { data, insertError } =await supabase.from("festival_carousel_images").insert([
         {
           [mediaUrl]: publicURL,
           festival_id: festivalId,
           description: description,
         },
       ]);
+      if(!insertError){
+        sendDataToMixPanel({type:mediaFile.type.includes("image")?"image":"video",url:mediaUrl},false);
+      }
     }else if(props.isPromo){
-      await supabase
+      const { data, insertError } = await supabase
         .from("promo_images")
         .insert([
           {
@@ -336,6 +362,7 @@ const AddMediaButton = (props) => {
             description: description,
           },
         ]);
+       
     } 
     else {
       // var eventDate = eventName.split(" • ")[0];
@@ -351,6 +378,9 @@ const AddMediaButton = (props) => {
             description: description,
           },
         ]);
+        if(!insertError){
+          sendDataToMixPanel({type:mediaFile.type.includes("image")?"image":"video",url:publicURL},false);
+        }
     }
     window.location.reload();
   };
@@ -364,7 +394,17 @@ const AddMediaButton = (props) => {
       post(videoFile);
     }
   };
+  function sendDataToMixPanel(file1,file2){
+        mixpanel.track('media_submitted', {
+          "entity_id" : props.artistID || props.venueID || props.festivalID,
+          "entity_type" :  (props.isVenue && "venue") || (props.isFestival && "festival") ||  "artist",
+          "entity_name" : props.artistFname || props.venueName || props.festivalName,
+          [file1.type == 'image' ? 'image_url' : 'video_url']: file1.url,
+          [file2 && (file2.type == 'image' ? 'image_url' : 'video_url')]: file2.url,
+          "user": isAuthenticated?user:'guest'
 
+        })
+  }
   const GetPastReviews = async () => {
     let artistName;
     const { data, error } = await supabase
@@ -421,6 +461,12 @@ const AddMediaButton = (props) => {
     setSizeError("");
     setCaptcha(false);
     setOpen(true);
+    mixpanel.track("add_media_button_opened",{
+    "entity_id" : props.artistID || props.venueID || props.festivalID,
+    "entity_type" :  (props.isVenue && "venue") || (props.isFestival && "festival") ||  "artist",
+    "entity_name" : props.artistFname || props.venueName || props.festivalName,
+    "user": isAuthenticated?user:'guest' 
+    })
   };
 
   const handleFormChange = (event) => {
@@ -479,7 +525,7 @@ const AddMediaButton = (props) => {
               cursor: "pointer",
               fontWeight: "bold",
             }}
-            onClick={handleClose}
+            // onClick={handleClose}
           >
             <button
               onClick={handleClose}

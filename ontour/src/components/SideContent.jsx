@@ -20,45 +20,86 @@ Props:
     venue: bool, true if venue
 */
 
-const SideContent = ({name, linkPairs, venue, festival}) => {
-    if(venue)
-    {
-       // console.log("yes");
-    }
-    else
-    {
-       // console.log("no");
-    }
-    return (
-        <div style={{ position: "sticky", top: "15px" }}>
-            <Box sx={sidebar_styles.box}>
-                <WriteReviewButton />
-                {linkPairs && 
-                <div style={sidebar_styles.icon_container}>
-                    {
-                            linkPairs.map((pair) => (
-                                <div style={{ width: 'calc(20% - 10px)' /* Adjust this value as needed */ }}>
-                                    <ExternalLink mediaLink={pair[0]} iconLink={pair[1]} isActive={!!pair[0]} />
-                                </div>
-                            
-                            ))
-                    }
-                </div> }
-                {festival && <FestivalUpcomingSchedule name={name} />}
-                {venue && <VenueUpcomingSchedule name={name} />}
-                {!venue && !festival && <UpcomingSchedule name={name} />}
-            </Box>
-        </div>
-    );
-}
+
+const SideContent = (props) => {
+  if (props.venue) {
+    // console.log("yes");
+  } else {
+    // console.log("no");
+  }
+  return (
+    <div style={{ position: "sticky", top: "15px" }}>
+      <Box sx={sidebar_styles.box}>
+        <WriteReviewButton venueId={props.venueId}
+                  festivalId={props.festivalId}
+                  artistID={props.artistID}
+                  name={props.name}
+                  venue={props.venue}
+                  festival={props.festival}
+                  artist={props.artist} />
 
 
+        {props.linkPairs && (
+          <div style={sidebar_styles.icon_container}>
+            {props.linkPairs.map((pair) => {
+              return (
+                <ExternalLink
+                  venueId={props.venueId}
+                  festivalId={props.festivalId}
+                  artistID={props.artistID}
+                  name={props.name}
+                  venue={props.venue}
+                  festival={props.festival}
+                  artist={props.artist}
+                  mediaLink={pair[0]}
+                  iconLink={pair[1]}
+                />
+              );
+            })}
+          </div>
+        )}
+
+        {props.festival && (
+          <FestivalUpcomingSchedule
+            venueId={props.venueId}
+            festivalId={props.festivalId}
+            artistID={props.artistID}
+            name={props.name}
+            venue={props.venue}
+            festival={props.festival}
+            artist={props.artist}
+          />
+        )}
+        {props.venue && (
+          <VenueUpcomingSchedule
+            venueId={props.venueId}
+            festivalId={props.festivalId}
+            artistID={props.artistID}
+            name={props.name}
+            venue={props.venue}
+            festival={props.festival}
+            artist={props.artist}
+          />
+        )}
+        {!props.venue && !props.festival && (
+          <UpcomingSchedule venueId={props.venueId}
+          festivalId={props.festivalId}
+          artistID={props.artistID}
+          
+          venue={props.venue}
+          festival={props.festival}
+          artist={props.artist} name={props.name} />
+        )}
+      </Box>
+    </div>
+  );
+};
 
 export default SideContent;
 
 SideContent.propTypes = {
-    name: PropTypes.string.isRequired,
-    linkPairs: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
-    festival: PropTypes.bool,
-    venue: PropTypes.bool
+  name: PropTypes.string.isRequired,
+  linkPairs: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
+  festival: PropTypes.bool,
+  venue: PropTypes.bool,
 };

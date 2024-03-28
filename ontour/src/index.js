@@ -17,7 +17,7 @@ ReactGA.initialize("G-BE8WDNBGS7");
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     
     <Auth0Provider 
       domain="dev-uujtiin6xxo47cy3.us.auth0.com"
@@ -33,7 +33,7 @@ root.render(
    
     </Auth0Provider>
    
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
