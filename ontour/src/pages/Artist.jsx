@@ -116,7 +116,8 @@ function Artist() {
       const getArtistSupabase = await supabase
         .from("artists")
         .select("*")
-        .eq("artist_id", artistID);
+        .eq("artist_id", artistID)
+        .filter('published', 'eq', true);
       //Queries artist database with artistID passed by search bar
       const artistData = getArtistSupabase["data"][0];
 
